@@ -1,0 +1,25 @@
+:root {
+    --primary: #E8BA73;
+    --primary-title-text: #FFF;
+    --primary-subtitle-text: #FFF;
+    --primary-body-text: #76746C;
+    --primary-small-text: #E8BA73;
+    --error-small-text: #C75350;
+    --button-simple-text: #000;
+    --button-solid-text: #FFF;
+    --primary-element-bg-color: #FFF;
+    --highlite-element: #4d4d4d;
+
+    --main-bg-color: #0E0F0F;
+}
+
+html {
+    text-align: center;
+    background-color: var(--main-bg-color);
+    width: 100%;
+}
+
+iframe {
+    border-width: 0;
+    border-style: none;
+}

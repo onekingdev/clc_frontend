@@ -1,0 +1,23 @@
+.libraryHeaderItemWrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.libraryTextWrapper {
+    text-align: left;
+    margin-left: 60px;
+    margin-top: 33px;
+}
+
+.libraryImageWrapper {
+    position: absolute;
+    top: 0;
+    z-index: -1;
+}
+
+.libraryContentContainer {
+    height: 80vh;
+    overflow-y: scroll;
+    overflow-x: hidden;
+}

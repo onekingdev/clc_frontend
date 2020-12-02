@@ -1,0 +1,29 @@
+.mediaCardContainer {
+    max-width: 284px;
+    height: 281px;
+    border-radius: 16px;
+    background: radial-gradient(99.31% 94.34% at 49.88% -2.58%, rgba(232, 186, 115, 0.15) 0%, rgba(232, 186, 115, 0) 72.18%), #15171A;
+    padding: 20px;
+    cursor: pointer;
+}
+
+.mediaCardTextWrapper {
+    text-align: left;
+}
+
+.mediaCardImageCover {
+    width: 276px;
+    height: 154px;
+    background-color: rgba(0,0,0,0.3);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+}
+
+.mediaCardBannerWrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 24px;
+}

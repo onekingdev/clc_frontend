@@ -1,0 +1,22 @@
+.pathsHeaderItemWrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.pathsTextWrapper {
+    text-align: left;
+    margin-left: 60px;
+    margin-top: 33px;
+}
+
+.pathsImageWrapper {
+    position: absolute;
+    top: 0;
+    z-index: -1;
+}
+
+.pathsContentContainer {
+    height: 80vh;
+    overflow-y: scroll;
+}

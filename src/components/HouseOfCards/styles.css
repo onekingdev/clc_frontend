@@ -1,0 +1,13 @@
+.houseOfCardsContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.houseOfCardsEmpty {
+    width: 54px;
+    height: 76px;
+    background-color: #15171A;
+    border-radius: 8px;
+    margin-right: 8px;
+}

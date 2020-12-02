@@ -1,0 +1,45 @@
+.textInputContainer {
+    display: flex;
+    align-items: center;
+}
+
+.textInputLabelWrapper {
+    margin-right: 10px;
+}
+
+.textInputError {
+    width: 100%;
+    padding: 12px 10px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #1d1f2e;
+    border-radius: 5px;
+    box-sizing: border-box;
+    background-color: var(--primary-element-bg-color);
+    color: var(--error-small-text);
+    box-shadow: 0 0 10px var(--error-small-text);
+}
+
+.textInput, select {
+    width: 100%;
+    padding: 12px 10px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #1d1f2e;
+    border-radius: 5px;
+    box-sizing: border-box;
+    background-color: var(--primary-element-bg-color);
+
+}
+
+.textInput:focus {
+    outline: none !important;
+    border-color: var(--primary);
+    box-shadow: 0 0 10px var(--primary);
+}
+
+.textInputError:focus {
+    outline: none !important;
+    border-color: var(--primary);
+    box-shadow: 0 0 10px var(--primary);
+}

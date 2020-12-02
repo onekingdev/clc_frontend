@@ -1,0 +1,127 @@
+.gameContentContainer {
+    height: 80vh;
+    overflow-y: scroll;
+}
+
+.gamePlayerWrapper {
+    width: 100%;
+}
+
+.gameFooterContainer {
+    display: flex;
+    justify-content: center;
+    margin-top: 80px;
+}
+
+.gameWrapper {
+    display: flex;
+    justify-content: space-around;
+}
+
+.gamePokerTableContainer {
+    position: relative;
+    margin-top: 60px;
+    padding: 40px;
+}
+
+.gameHouseOfCardsWrapper {
+    margin: 0;
+    position: absolute;
+    top: 160px;
+    left: 20px;
+    right: 0;
+    bottom: 0;
+}
+
+.gamePokerPlayerWrapper {
+    list-style: none;
+    margin: 0;
+    overflow-y: scroll;
+    position: absolute;
+}
+
+.gameP1 {
+    top: 0;
+    left: 0;
+    right: 362px;
+    bottom: 0;
+}
+
+.gameP2 {
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+}
+
+.gameP3 {
+    top: 0;
+    left: 362px;
+    right: 0;
+    bottom: 0;
+}
+
+.gameP4 {
+    top: 94px;
+    left: 546px;
+    right: -115px;
+    bottom: 0;
+}
+
+.gameP5 {
+    top: 224px;
+    left: 546px;
+    right: -115px;
+    bottom: 0;
+}
+
+.gameP6 {
+    display: grid;
+    top: 237px;
+    left: 362px;
+    right: 0;
+    bottom: -100px;
+}
+
+.gameP7 {
+    display: grid;
+    top: 237px;
+    left: 0;
+    right: 0;
+    bottom: -100px;
+}
+
+.gameP8 {
+    display: grid;
+    top: 237px;
+    left: 0;
+    right: 362px;
+    bottom: -100px;
+}
+
+.gameP9 {
+    top: 94px;
+    left: -51px;
+    right: 595px;
+    bottom: 0;
+}
+
+.gameP10 {
+    top: 224px;
+    left: -51px;
+    right: 595px;
+    bottom: 0;
+}
+
+.gamePotWrapper {
+    width: 145px;
+    height: 26px;
+    border-radius: 8px;
+    background-color: #1B1B1C;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    bottom: 135px;
+    left: 321px;
+}

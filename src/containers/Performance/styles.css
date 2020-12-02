@@ -1,0 +1,21 @@
+.performanceContentContainer {
+    height: 80vh;
+    overflow-y: scroll;
+}
+
+.performanceTextWrapper {
+    text-align: left;
+    margin-bottom: 32px;
+}
+
+.performanceTablesWrapper {
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.performanceGraphWrapper {
+    margin-top: 72px;
+    margin-bottom: 72px;
+    display: flex;
+    justify-content: space-around;
+}

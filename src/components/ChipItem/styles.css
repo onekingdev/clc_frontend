@@ -1,0 +1,14 @@
+.chipItemContainer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.cashTopImageWrapper {
+    margin-bottom: -15px;
+    margin-left: 5px;
+}
+
+.cashBottomImageWrapper {
+    margin-top: -15px;
+}

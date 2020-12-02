@@ -1,0 +1,15 @@
+.bannerFooterWrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.bannerFooterMiddleWrapper {
+    width: 150px;
+    border-top-width: 0;
+    border-bottom-width: 0;
+    border-left-width: 1px;
+    border-right-width: 1px;
+    border-style: solid;
+    border-color: #FFF;
+}

@@ -1,0 +1,91 @@
+.pokerPlayerMPWrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #1B1B1C;
+    width: 94px;
+    height: 31px;
+    border-radius: 8px;
+}
+
+.pokerPlayerItemsWrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-left: 1px;
+    position: relative;
+}
+
+.pokerChips {
+    position: absolute;
+}
+
+.chipP1 {
+    top: 130px;
+    left: 0;
+    right: 0;
+    bottom: 0;
+}
+
+.chipP2 {
+    top: 130px;
+    left: 0;
+    right: 0;
+    bottom: 0;
+}
+
+.chipP3 {
+    top: 130px;
+    left: 0;
+    right: 0;
+    bottom: 0;
+}
+
+.chipP4 {
+    top: 40px;
+    left: 0;
+    right: 140px;
+    bottom: 0;
+}
+
+.chipP5 {
+    top: 50px;
+    left: -150px;
+    right: 0;
+    bottom: 0;
+}
+
+.chipP6 {
+    top: 68px;
+    left: 0;
+    right: 0;
+    bottom: 0;
+}
+
+.chipP7 {
+    top: 68px;
+    left: 0;
+    right: 0;
+    bottom: 0;
+}
+
+.chipP8 {
+    top: 68px;
+    left: 0;
+    right: 0;
+    bottom: 0;
+}
+
+.chipP9 {
+    top: 80px;
+    left: 167px;
+    right: 0;
+    bottom: 0;
+}
+
+.chipP10 {
+    top: 40px;
+    left: 160px;
+    right: 0;
+    bottom: 0;
+}

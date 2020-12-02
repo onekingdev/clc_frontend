@@ -1,0 +1,46 @@
+.sideBarItemContainer {
+    display: grid;
+    width: 50px;
+}
+
+.sideBarItemIconContainer {
+    width: 48px;
+    height: 48px;
+    border: 1px solid #505050;
+    border-radius: 16px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 16px;
+}
+
+.sideBarItemContainer:hover {
+    cursor: pointer;
+}
+
+.sideBarItemTextWrapper {
+    width: 60px;
+    height: 48px;
+    display: flex;
+    justify-content: center;
+    margin-left: -5px;
+}
+
+.sideBarItemHamburgerWrapper {
+    display: block;
+}
+
+.sideBarItemHamburgerItemWrapper {
+    margin-top: -10px;
+    margin-bottom: -2px;
+}
+
+.sideBarItemPerformanceWrapper {
+    margin-left: -10px;
+    margin-bottom: 5px;
+}
+
+.sideBarItemVideoWrapper {
+    display: flex;
+    align-items: center;
+}

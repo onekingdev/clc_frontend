@@ -1,0 +1,33 @@
+.tabsContainer {
+    display: flex;
+    align-items: center;
+    border-bottom-width: 1px;
+    border-bottom-color: #505050;
+    border-bottom-style: solid;
+    margin-bottom: 40px;
+    margin-left: 10%;
+    margin-right: 10%;
+}
+
+.tabWrapper {
+    cursor: pointer;
+}
+
+.tabWrapper:hover {
+    background-color: var(--highlite-element);
+    border-radius: 5px;
+}
+
+.tabTextWrapper {
+    margin-top: 15px;
+    margin-bottom: 20px;
+    margin-right: 40px;
+    margin-left: 40px;
+}
+
+.tabUnderline {
+    border-bottom-width: 2px;
+    border-bottom-color: var(--primary);
+    border-bottom-style: solid;
+    width: 100%;
+}

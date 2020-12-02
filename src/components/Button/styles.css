@@ -1,0 +1,53 @@
+.buttonContainer {
+    background-color: var(--primary-element-bg-color);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 30px 50px rgba(0,0,0,0.25), 0 0 50px rgba(0,0,0,0.1) inset;
+}
+
+.buttonGlowingContainer {
+    background-color: var(--primary);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 25px 50px rgba(232,186,115,0.25), 0 0 50px rgba(232,186,115,0.1) inset;
+}
+
+.buttonContainer:hover {
+    cursor: pointer;
+    background-color: var(--primary);
+}
+
+.buttonGlowingContainer:hover {
+    cursor: pointer;
+    background-color: var(--primary);
+}
+
+/* ripple */
+.ripple {
+    position: relative;
+    overflow: hidden;
+}
+.ripple .rippleContainer {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+}
+.ripple .rippleContainer span {
+    transform: scale(0);
+    border-radius: 100%;
+    position: absolute;
+    opacity: 0.75;
+    background-color: #ffffff;
+    animation: ripple 850ms;
+}
+
+@keyframes ripple {
+    to {
+        opacity: 0;
+        transform: scale(2);
+    }
+}

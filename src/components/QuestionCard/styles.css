@@ -1,0 +1,32 @@
+.questionCardContainer {
+    width: 330px;
+    height: 680px;
+    border-radius: 16px;
+    background: radial-gradient(99.31% 94.34% at 49.88% -2.58%, rgba(232, 186, 115, 0.15) 0%, rgba(232, 186, 115, 0) 72.18%), #15171A;
+    padding: 45px;
+}
+
+.questionCardTextWrapper {
+    text-align: left;
+}
+
+.questionCardFooterWrapper {
+    text-align: left;
+    margin-top: 24px;
+    border-top-width: 1px;
+    border-top-style: solid;
+    border-top-color: #505050;
+}
+
+.questionCardIconWrapper {
+    width: 32px;
+    height: 32px;
+    border-radius: 100px;
+}
+
+.questionCardFooterHeaderWrapper {
+    margin-top: 24px;
+    margin-bottom: 21px;
+    display: flex;
+    align-items: center;
+}

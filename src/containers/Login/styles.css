@@ -1,0 +1,44 @@
+.loginContainer {
+    display: flex;
+}
+
+.formContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    width: 480px;
+    background: radial-gradient(99.31% 94.34% at 49.88% -2.58%, rgba(232, 186, 115, 0.15) 0%, rgba(232, 186, 115, 0) 72.18%), #15171A;
+}
+
+.loginInputWrapper {
+    width: 342px;
+}
+
+.loginVideoContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 70%;
+}
+
+.loginAvatarWrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 100px;
+}
+
+@media (max-width: 900px) {
+    .loginContainer {
+        display: block;
+    }
+
+    .formContainer {
+        width: 100%;
+    }
+
+    .loginVideoContainer {
+        width: 100%;
+    }
+}

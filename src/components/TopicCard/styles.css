@@ -1,0 +1,54 @@
+.topicCardContainer {
+    cursor: pointer;
+}
+
+.topicCardBottomWrapper {
+    width: 257px;
+    height: 197px;
+    border-radius: 16px;
+    background: radial-gradient(99.31% 94.34% at 49.88% -2.58%, rgba(232, 186, 115, 0.15) 0%, rgba(232, 186, 115, 0) 72.18%), #15171A;
+    padding: 20px;
+}
+
+.topicCardBanner {
+    margin-bottom: -80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.topicCardTextWrapper {
+    text-align: left;
+}
+
+.topicCardImageCover {
+    width: 220px;
+    height: 102px;
+    border-radius: 100px;
+    background-color: rgba(0,0,0,0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    margin-left: 0;
+}
+
+.topicCardPlayCircle {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: var(--primary);
+    border-radius: 100px;
+    width: 60px;
+    height: 60px;
+}
+
+.topicCardCheckCircle {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #759A47;
+    border-radius: 100px;
+    width: 40px;
+    height: 40px;
+}
