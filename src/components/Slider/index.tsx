@@ -4,21 +4,23 @@ import {Fade} from 'react-awesome-reveal';
 import Button from "../Button";
 
 interface ISlider {
-    content: any[]
+    content: any[],
+    show: number
 }
 
 const Slider: React.FC<ISlider> = ({
-   content
+    content,
+    show
 }) => {
     const [selectedIndex, setSelectedIndex] = useState(0);
 
-    const dotNum = content.length / 4;
+    const dotNum = content.length / show;
 
     const renderContent = (index: number) => {
-        let showFrom = index * 4;
+        let showFrom = index * show;
         let display = [];
 
-        for (let i: number = showFrom; i < showFrom + 4; i++) {
+        for (let i: number = showFrom; i < showFrom + show; i++) {
             display.push(
                 <Fade key={i} duration={3000} triggerOnce style={{margin: 10}}>
                     {content[i]}

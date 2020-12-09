@@ -29,7 +29,7 @@ const TabNavigation: React.FC<ITabNavigation> = ({
     return (
         <div className="tabsContainer">
             {tabs.map((item, index) =>
-                <div className="tabWrapper" onClick={() => callback(index)}>
+                <div key={index} className="tabWrapper" onClick={() => callback(index)}>
                     <div className="tabTextWrapper">
                         <BodyText
                             bold

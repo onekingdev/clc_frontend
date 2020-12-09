@@ -8,12 +8,76 @@
     border-radius: 8px;
 }
 
+.pokerPlayerMPWrapperInverted {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #FFF;
+    width: 94px;
+    height: 31px;
+    border-radius: 8px;
+}
+
 .pokerPlayerItemsWrapper {
     display: flex;
     justify-content: center;
     align-items: center;
     margin-left: 1px;
     position: relative;
+}
+
+.gameChipBBWrapper1 {
+    top: -20px;
+    right: 0;
+    left: 0;
+}
+
+.gameChipBBWrapper2 {
+    top: -20px;
+    right: 0;
+    left: 0;
+}
+
+.gameChipBBWrapper3 {
+    top: -20px;
+    right: 0;
+    left: 0;
+}
+
+.gameChipBBWrapper4 {
+    top: 20px;
+    right: 0;
+    left: 0;
+}
+
+.gameChipBBWrapper5 {
+    top: 20px;
+    right: 0;
+    left: 0;
+}
+
+.gameChipBBWrapper6 {
+    top: 20px;
+    right: 0;
+    left: 0;
+}
+
+.gameChipBBWrapper7 {
+    top: 20px;
+    right: 0;
+    left: 0;
+}
+
+.gameChipBBWrapper8 {
+    top: 20px;
+    right: 0;
+    left: 0;
+}
+
+.gameChipBBWrapper9 {
+    top: 20px;
+    right: 0;
+    left: 0;
 }
 
 .pokerChips {
@@ -44,48 +108,57 @@
 .chipP4 {
     top: 40px;
     left: 0;
-    right: 140px;
+    right: 180px;
     bottom: 0;
 }
 
 .chipP5 {
-    top: 50px;
-    left: -150px;
+    top: 30px;
+    left: -180px;
     right: 0;
     bottom: 0;
 }
 
 .chipP6 {
-    top: 68px;
+    top: 40px;
     left: 0;
     right: 0;
     bottom: 0;
 }
 
 .chipP7 {
-    top: 68px;
+    top: 40px;
     left: 0;
     right: 0;
     bottom: 0;
 }
 
 .chipP8 {
-    top: 68px;
-    left: 0;
+    top: 40px;
+    left: 160px;
     right: 0;
     bottom: 0;
 }
 
 .chipP9 {
-    top: 80px;
-    left: 167px;
+    top: 30px;
+    left: 160px;
     right: 0;
     bottom: 0;
 }
 
-.chipP10 {
-    top: 40px;
-    left: 160px;
-    right: 0;
-    bottom: 0;
+.dealerChipBottomLeft {
+    padding-right: 100px;
+}
+
+.dealerChipTopLeft {
+    padding-right: 100px;
+}
+
+.dealerChipTopRight {
+    padding-left: 100px;
+}
+
+.dealerChipBottomRight {
+    padding-left: 100px;
 }

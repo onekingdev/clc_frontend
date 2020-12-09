@@ -1,26 +1,34 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useRef} from 'react';
 import './styles.css';
 // @ts-ignore
 import Modal from 'react-awesome-modal';
-import {sidebarItems} from '../../helpers/constants';
-import Header from "../../components/Header";
-import SidebarItem from "../../components/SidebarItem";
-import ChipItem from "../../components/ChipItem";
-import Avatar from "../../components/Avatar";
+import {header, sidebarItems} from '../../helpers/constants';
 import Sidebar from "../../components/Sidebar";
 import Banner from '../../components/Banner';
 import Slider from '../../components/Slider';
 import SmallText from '../../components/SmallText';
 import libraryBg from '../../assets/images/libraryBg.png';
 import MediaCard from '../../components/MediaCard';
-import Logo from '../../assets/images/clai-logo.png';
 import Image1 from '../../assets/images/image1.png';
 import Image2 from '../../assets/images/image2.png';
 import Image3 from '../../assets/images/image3.png';
 
 function Library() {
+    const scrollRef: any = useRef(null);
     const [slider, setSlider] = useState(true);
     const [showModal, setShowModal] = useState(false);
+    const [width, setWidth]   = useState(window.innerWidth);
+    const [scrollTop, setScrollTop] = useState(0);
+
+    // adjust dimensions
+    useEffect(() => {
+        window.addEventListener("resize", updateDimensions);
+        return () => window.removeEventListener("resize", updateDimensions);
+    }, [width]);
+
+    const updateDimensions = () => {
+        setWidth(window.innerWidth);
+    }
 
     const usage = [
         <MediaCard
@@ -140,36 +148,19 @@ function Library() {
    ];
 
     return (
-        <div>
+        <div className="container">
             <Sidebar title="MENU" items={sidebarItems} upperButtons={[]} reverse={!slider} closeButton={() => setSlider(false)}/>
-            <Header
-                left={
-                    <div style={{marginLeft: 60}}>
-                        <SidebarItem icon="hamburger" onClick={() => setSlider(true)}/>
-                    </div>
-                }
-                middle={
-                    <div className="libraryHeaderItemWrapper">
-                        <img src={Logo} width={210} height={58}/>
-                    </div>
-                }
-                right={
-                    <div className="libraryHeaderItemWrapper">
-                        <div style={{marginRight: 39}}>
-                            <ChipItem icon="chip" quantity={25} size="small"/>
-                        </div>
-                        <div style={{marginRight: 54}}>
-                            <ChipItem icon="cash" quantity={3} size="small"/>
-                        </div>
-                        <Avatar
-                            size="medium"
-                            image=""
-                            text="Chance Franci"
-                            rank={1}/>
-                    </div>
-                }
-            />
-            <div className="libraryContentContainer" onClick={() => setSlider(false)}>
+            {header(setSlider, scrollTop)}
+            <div
+                ref={scrollRef}
+                className="libraryContentContainer"
+                onScroll={() => {
+                    const scrollY = window.scrollY //Don't get confused by what's scrolling - It's not the window
+                    const scrollTop = scrollRef.current.scrollTop
+                    console.log(`onScroll, window.scrollY: ${scrollY} myRef.scrollTop: ${scrollTop}`)
+                    setScrollTop(scrollTop);
+                }}
+                onClick={() => setSlider(false)}>
                 <Banner topText="Lesson library" title="Video Library"/>
                 <div className="libraryImageWrapper">
                     <img src={libraryBg} width="90%"/>
@@ -181,16 +172,16 @@ function Library() {
                             {' CHIP LEADER AI'}
                         </SmallText>
                     </div>
-                    <Slider content={usage}/>
+                    <Slider content={usage} show={width < 650 ? 1 : width < 950 ? 2 : width < 1300 ? 3 : width < 1650 ? 4 : width < 2000 ? 5 : 6}/>
                 </div>
-                <div>
+                <div className="bottomPadding">
                     <div className="libraryTextWrapper">
                         <SmallText color="#FFF">
                             <SmallText bold>FREQUENTLY</SmallText>
                             {' ASKED QUESTIONS'}
                         </SmallText>
                     </div>
-                    <Slider content={fqa}/>
+                    <Slider content={fqa} show={width < 650 ? 1 : width < 950 ? 2 : width < 1300 ? 3 : width < 1650 ? 4 : width < 2000 ? 5 : 6}/>
                 </div>
             </div>
             <Modal visible={showModal} width="750" height="450" effect="fadeInUp" onClickAway={() => setShowModal(false)}>

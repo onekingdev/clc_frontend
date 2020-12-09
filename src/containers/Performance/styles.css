@@ -1,21 +1,65 @@
 .performanceContentContainer {
-    height: 80vh;
-    overflow-y: scroll;
+    padding-top: 30px;
+    height: 100vh;
+    overflow-y: auto;
 }
 
 .performanceTextWrapper {
     text-align: left;
     margin-bottom: 32px;
+    margin-left: 60px;
 }
 
 .performanceTablesWrapper {
     display: flex;
-    justify-content: space-evenly;
+    justify-content: space-between;
 }
 
 .performanceGraphWrapper {
     margin-top: 72px;
     margin-bottom: 72px;
     display: flex;
-    justify-content: space-around;
+    justify-content: space-between;
+}
+
+.graphWrapper {
+    margin-left: 60px;
+}
+
+.dataTableWrapper {
+    margin-left: 60px;
+    margin-right: 60px;
+}
+
+@media (max-width: 1090px) {
+    .performanceTablesWrapper {
+        display: block;
+    }
+
+    .performanceTextWrapper {
+          margin-top: 20px;
+      }
+
+    .performanceGraphWrapper {
+        margin-top: 20px;
+    }
+}
+
+@media (max-width: 540px) {
+    .performanceTextWrapper {
+        margin-left: 5px;
+    }
+
+    .performanceGraphWrapper {
+        margin-left: 5px;
+    }
+
+    .dataTableWrapper {
+        margin-left: 5px;
+        margin-right: 0;
+    }
+
+    .graphWrapper {
+        margin-left: 5px;
+    }
 }

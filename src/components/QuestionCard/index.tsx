@@ -3,7 +3,6 @@ import './styles.css';
 import SmallText from "../SmallText";
 import SubtitleText from "../SubtitleText";
 import BodyText from "../BodyText";
-import Button from "../Button";
 import TitleText from "../TitleText";
 
 interface IQuestionCard {
@@ -12,20 +11,22 @@ interface IQuestionCard {
     description: string,
     options: any[],
     footerText: string,
-    status: number // 0 = not answered, 1 = correct, 2 = wrong
+    status: number, // 0 = not answered, 1 = correct, 2 = wrong
 }
 
 const QuestionCard: React.FC<IQuestionCard> = ({
-    headerText,
-    questionNumber,
-    description,
-    options,
-    footerText,
-    status
-}) =>  {
+                                                   headerText,
+                                                   questionNumber,
+                                                   description,
+                                                   options,
+                                                   footerText,
+                                                   status
+                                               }) => {
+
     return (
         <div className="questionCardContainer">
-            <div className="questionCardTextWrapper" style={{marginBottom: 8}}>
+            <div className="questionCardTextWrapper"
+                 style={{marginBottom: 8, display: 'flex', justifyContent: 'space-between'}}>
                 <SmallText>{headerText}</SmallText>
             </div>
             <div className="questionCardTextWrapper" style={{marginBottom: 16}}>

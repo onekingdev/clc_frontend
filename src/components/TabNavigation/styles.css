@@ -31,3 +31,10 @@
     border-bottom-style: solid;
     width: 100%;
 }
+
+@media (max-width: 600px) {
+    .tabTextWrapper {
+        margin-right: 0;
+        margin-left: 13px;
+    }
+}

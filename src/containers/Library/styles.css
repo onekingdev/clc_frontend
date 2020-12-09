@@ -1,9 +1,3 @@
-.libraryHeaderItemWrapper {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
 .libraryTextWrapper {
     text-align: left;
     margin-left: 60px;
@@ -17,7 +11,8 @@
 }
 
 .libraryContentContainer {
-    height: 80vh;
-    overflow-y: scroll;
+    padding-top: 30px;
+    height: 100vh;
+    overflow-y: auto;
     overflow-x: hidden;
 }

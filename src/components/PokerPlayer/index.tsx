@@ -38,7 +38,7 @@ import ten_hearts from '../../assets/images/cards/10_hearts.png';
 import ten_spades from '../../assets/images/cards/10_spades.png';
 import a_clubs from '../../assets/images/cards/A_clubs.png';
 import a_diamonds from '../../assets/images/cards/A_diamonds.png';
-import a_hearts from '../../assets/images/cards/A__hearts.png';
+import a_hearts from '../../assets/images/cards/A_hearts.png';
 import a_spades from '../../assets/images/cards/A_spades.png';
 import k_clubs from '../../assets/images/cards/K_clubs.png';
 import k_diamonds from '../../assets/images/cards/K_diamonds.png';
@@ -50,7 +50,9 @@ import q_hearts from '../../assets/images/cards/Q_hearts.png';
 import q_spades from '../../assets/images/cards/Q_spades.png';
 import cardBack from '../../assets/images/cards/Cardback Default.png';
 import chip from '../../assets/images/chip.png';
+import dealer_chip from '../../assets/images/dealer-chip.png';
 import BodyText from "../BodyText";
+import SmallText from "../SmallText";
 
 interface IPokerPlayer {
     player: number,
@@ -58,7 +60,8 @@ interface IPokerPlayer {
     mp: number,
     chips: number,
     chipPos: string,
-    turn: boolean
+    turn: boolean,
+    dealer: boolean
 }
 
 const PokerPlayer: React.FC<IPokerPlayer> = ({
@@ -67,7 +70,8 @@ const PokerPlayer: React.FC<IPokerPlayer> = ({
     mp,
     chips,
     chipPos,
-    turn
+    turn,
+    dealer
  }) => {
 
     const renderCard = (value: string) => {
@@ -174,21 +178,9 @@ const PokerPlayer: React.FC<IPokerPlayer> = ({
     const renderChips = (quantity: number) => {
         let array = []
         for (let i: number = 0; i < quantity; i++) {
-            if (i < 6) {
+            if (i < 3) {
                 array.push(
-                    <div style={chipPos === 'right' || chipPos === 'bottom' ? {marginBottom: -25} : {marginBottom: -25}}>
-                        <img src={chip} width={20} height={20}/>
-                    </div>
-                )
-            } else if (i < 11) {
-                array.push(
-                    <div style={chipPos === 'right' || chipPos === 'bottom' ? {marginBottom: -25, marginRight: 60} : {marginBottom: -25, marginRight: 60}}>
-                        <img src={chip} width={20} height={20}/>
-                    </div>
-                )
-            } else  if (i < 15) {
-                array.push(
-                    <div style={chipPos === 'right' || chipPos === 'bottom' ? {marginBottom: -25, marginLeft: 30} : {marginBottom: -25, marginLeft: 25}}>
+                    <div style={{marginBottom: i === 0 ? -16 : -25, marginLeft: i === 2 ? 12 : 0}}>
                         <img src={chip} width={20} height={20}/>
                     </div>
                 )
@@ -203,12 +195,21 @@ const PokerPlayer: React.FC<IPokerPlayer> = ({
                 {chipPos === 'left' || chipPos === 'top' ?
                     <div className={`pokerChips chipP${player}`}>
                         {renderChips(chips)}
+                        <div className={`pokerChips gameChipBBWrapper${player}`}>
+                            <SmallText color="#FFF">Raise <SmallText color="#FFF" bold>10 BB </SmallText></SmallText>
+                        </div>
                     </div>
                     : null}
+                {dealer && player > 4 && player < 8 ?
+                    <img src={dealer_chip} width={16} height={16} className="dealerChipTopLeft"/>
+                    : dealer && player === 9 ?
+                        <img src={dealer_chip} width={16} height={16} className="dealerChipTopRight"/>
+                        : <img src={dealer_chip} width={16} height={16} className="dealerChipTopLeft" style={{visibility: 'hidden'}}/>
+                }
                 <div className="pokerPlayerItemsWrapper">
                     {cards.length > 0 ?
-                        cards.map(card =>
-                            <div className="pokerPlayerItemsWrapper">
+                        cards.map((card, index) =>
+                            <div key={index} className="pokerPlayerItemsWrapper">
                                 <img src={!card.show ? cardBack : renderCard(`${card.value}_${card.type}`)} width={40}
                                      height={56}/>
                             </div>
@@ -217,26 +218,37 @@ const PokerPlayer: React.FC<IPokerPlayer> = ({
                 <div className="pokerPlayerItemsWrapper"
                 style={
                     turn ? {
+                        width: 94,
+                        left: 10,
                         borderRadius: 10,
                         borderColor: 'var(--primary)',
                         boxShadow: '0 0 10px var(--primary)'
                     } : {}
                 }
                 >
-                    <div className="pokerPlayerMPWrapper">
+                    <div className={dealer ? 'pokerPlayerMPWrapperInverted' : 'pokerPlayerMPWrapper'}>
                         <div style={{marginRight: 9}}>
-                            <BodyText color="#FFF">MP</BodyText>
+                            <BodyText color={dealer ? '#1B1B1C' : '#FFF'}>MP</BodyText>
                         </div>
                         <div>
-                            <BodyText color="#FFF" bold>{`${mp} BB`}</BodyText>
+                            <BodyText color={dealer ? '#1B1B1C' : '#FFF'} bold>{`${mp} BB`}</BodyText>
                         </div>
                     </div>
                 </div>
                 {chipPos === 'right' || chipPos === 'bottom' ?
                     <div className={`pokerChips chipP${player}`}>
                         {renderChips(chips)}
+                        <div className={`pokerChips gameChipBBWrapper${player}`}>
+                            <SmallText color="#FFF">Raise <SmallText color="#FFF" bold>10 BB </SmallText></SmallText>
+                        </div>
                     </div>
                     : null}
+                {dealer && player < 5 ?
+                    <img src={dealer_chip} width={16} height={16} className="dealerChipBottomLeft"/>
+                    : dealer && player === 8 ?
+                        <img src={dealer_chip} width={16} height={16} className="dealerChipBottomRight"/>
+                        : <img src={dealer_chip} width={16} height={16} className="dealerChipBottomRight" style={{visibility: 'hidden'}}/>
+                }
             </div>
         </div>
     );

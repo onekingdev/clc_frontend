@@ -1,10 +1,15 @@
 .gameContentContainer {
     height: 80vh;
-    overflow-y: scroll;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+.gameContentContainer::-webkit-scrollbar {
+    display: none;
 }
 
 .gamePlayerWrapper {
-    width: 100%;
+    width: 90%;
 }
 
 .gameFooterContainer {
@@ -15,12 +20,12 @@
 
 .gameWrapper {
     display: flex;
-    justify-content: space-around;
+    justify-content: center;
+    margin-top: 60px;
 }
 
 .gamePokerTableContainer {
     position: relative;
-    margin-top: 60px;
     padding: 40px;
 }
 
@@ -36,26 +41,26 @@
 .gamePokerPlayerWrapper {
     list-style: none;
     margin: 0;
-    overflow-y: scroll;
+    overflow-y: auto;
     position: absolute;
 }
 
 .gameP1 {
-    top: 0;
+    top: -20px;
     left: 0;
     right: 362px;
     bottom: 0;
 }
 
 .gameP2 {
-    top: 0;
+    top: -20px;
     left: 0;
     right: 0;
     bottom: 0;
 }
 
 .gameP3 {
-    top: 0;
+    top: -20px;
     left: 362px;
     right: 0;
     bottom: 0;
@@ -87,26 +92,18 @@
     display: grid;
     top: 237px;
     left: 0;
-    right: 0;
-    bottom: -100px;
-}
-
-.gameP8 {
-    display: grid;
-    top: 237px;
-    left: 0;
     right: 362px;
     bottom: -100px;
 }
 
-.gameP9 {
+.gameP8 {
     top: 94px;
     left: -51px;
     right: 595px;
     bottom: 0;
 }
 
-.gameP10 {
+.gameP9 {
     top: 224px;
     left: -51px;
     right: 595px;
@@ -122,6 +119,29 @@
     align-items: center;
     justify-content: center;
     position: absolute;
-    bottom: 135px;
+    bottom: 108px;
     left: 321px;
 }
+
+.gameQuestionWrapper {
+    margin-left: 60px;
+    z-index: 1;
+}
+
+@media (max-width: 900px) {
+    .gameWrapper {
+        margin-top: 0;
+    }
+}
+
+/*@media (max-width: 540px) {
+    .gameContainer {
+        transform: rotate(-90deg);
+        transform-origin: left top;
+        width: 100vh;
+        position: absolute;
+        top: 100%;
+        left: -50px;
+        overflow-y: auto;
+    }
+}*/

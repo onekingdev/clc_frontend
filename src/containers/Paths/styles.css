@@ -1,9 +1,3 @@
-.pathsHeaderItemWrapper {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
 .pathsTextWrapper {
     text-align: left;
     margin-left: 60px;
@@ -17,6 +11,7 @@
 }
 
 .pathsContentContainer {
-    height: 80vh;
-    overflow-y: scroll;
+    height: 100vh;
+    overflow-y: auto;
+    padding-top: 30px;
 }

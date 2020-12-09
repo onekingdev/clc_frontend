@@ -38,7 +38,7 @@ import ten_hearts from '../../assets/images/cards/10_hearts.png';
 import ten_spades from '../../assets/images/cards/10_spades.png';
 import a_clubs from '../../assets/images/cards/A_clubs.png';
 import a_diamonds from '../../assets/images/cards/A_diamonds.png';
-import a_hearts from '../../assets/images/cards/A__hearts.png';
+import a_hearts from '../../assets/images/cards/A_hearts.png';
 import a_spades from '../../assets/images/cards/A_spades.png';
 import k_clubs from '../../assets/images/cards/K_clubs.png';
 import k_diamonds from '../../assets/images/cards/K_diamonds.png';
@@ -161,8 +161,8 @@ const HouseOfCards: React.FC<IHouseOfCards> = ({
     return (
         <div className="houseOfCardsContainer">
             {cards.length > 0 ?
-                cards.map(card =>
-                    <div className="houseOfCardsEmpty">
+                cards.map((card, index) =>
+                    <div key={index} className="houseOfCardsEmpty">
                         {card.show ?<img src={renderCard(`${card.value}_${card.type}`)} width={54}
                               height={76}/> : null}
                     </div>

@@ -7,20 +7,22 @@ import ChipItem from "../ChipItem";
 interface IDataTable {
     data: any[],
     personalData: any,
-    type: string
+    type: string,
+    width?: number
 }
 
 const DataTable: React.FC<IDataTable> = ({
     data,
     type,
-    personalData
+    personalData,
+    width
 }) =>  {
     return (
-        <div className="dataTableContainer">
-            <div style={{height: 200, overflowY: 'scroll', paddingTop: 20}}>
+        <div className="dataTableContainer" style={width ? {width} : {}}>
+            <div className="dataTableDataWrapper">
             {data.length > 0 ?
-                data.map((item) =>
-                    <div className="dataTableRow">
+                data.map((item, index) =>
+                    <div key={index} className="dataTableRow">
                         <div className="dataTableLeftColumn">
                             <BodyText>Rank {item.rank}</BodyText>
                         </div>

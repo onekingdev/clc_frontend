@@ -1,10 +1,6 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useRef} from 'react';
 import './styles.css';
-import {sidebarItems} from '../../helpers/constants';
-import Header from "../../components/Header";
-import SidebarItem from "../../components/SidebarItem";
-import ChipItem from "../../components/ChipItem";
-import Avatar from "../../components/Avatar";
+import {header, sidebarItems} from '../../helpers/constants';
 import Sidebar from "../../components/Sidebar";
 import Banner from "../../components/Banner";
 import SmallText from "../../components/SmallText";
@@ -12,7 +8,6 @@ import performanceBg from "../../assets/images/performanceBg.png";
 import TabNavigation from "../../components/TabNavigation";
 import DataTable from "../../components/DataTable";
 import Graph from "../../components/Graph";
-import Logo from "../../assets/images/clai-logo.png";
 
 const dataTable = [
     {
@@ -82,40 +77,36 @@ const graphData = [
 ];
 
 function Performance() {
+    const scrollRef: any = useRef(null);
     const [slider, setSlider] = useState(true);
+    const [width, setWidth]   = useState(window.innerWidth);
+    const [scrollTop, setScrollTop] = useState(0);
+
+    // adjust dimensions
+    useEffect(() => {
+        window.addEventListener("resize", updateDimensions);
+        return () => window.removeEventListener("resize", updateDimensions);
+    }, [width]);
+
+    const updateDimensions = () => {
+        setWidth(window.innerWidth);
+    }
 
     return (
-        <div>
+        <div className="container">
             <Sidebar title="MENU" items={sidebarItems} upperButtons={[]} reverse={!slider}
                      closeButton={() => setSlider(false)}/>
-            <Header
-                left={
-                    <div style={{marginLeft: 60}}>
-                        <SidebarItem icon="hamburger" onClick={() => setSlider(true)}/>
-                    </div>
-                }
-                middle={
-                    <div className="libraryHeaderItemWrapper">
-                        <img src={Logo} width={210} height={58}/>
-                    </div>
-                }
-                right={
-                    <div className="libraryHeaderItemWrapper">
-                        <div style={{marginRight: 39}}>
-                            <ChipItem icon="chip" quantity={25} size="small"/>
-                        </div>
-                        <div style={{marginRight: 54}}>
-                            <ChipItem icon="cash" quantity={3} size="small"/>
-                        </div>
-                        <Avatar
-                            size="medium"
-                            image=""
-                            text="Chance Franci"
-                            rank={1}/>
-                    </div>
-                }
-            />
-            <div className="performanceContentContainer" onClick={() => setSlider(false)}>
+            {header(setSlider, scrollTop)}
+            <div
+                ref={scrollRef}
+                className="performanceContentContainer"
+                onScroll={() => {
+                    const scrollY = window.scrollY //Don't get confused by what's scrolling - It's not the window
+                    const scrollTop = scrollRef.current.scrollTop
+                    console.log(`onScroll, window.scrollY: ${scrollY} myRef.scrollTop: ${scrollTop}`)
+                    setScrollTop(scrollTop);
+                }}
+                onClick={() => setSlider(false)}>
                 <Banner topText="Track your progress" title="My Preformance" footerValues={[12, 25, 3]}/>
                 <div className="pathsImageWrapper">
                     <img src={performanceBg} width="90%"/>
@@ -125,42 +116,50 @@ function Performance() {
                                    callback={() => {
                                    }}/>
                     <div className="performanceTablesWrapper">
-                        <div style={{width: '40%'}}>
+                        <div style={{width: '50%'}}>
                             <div className="performanceTextWrapper">
                                 <SmallText color="#FFF">
                                     <SmallText bold>CORRECT</SmallText>
                                     {' ANSWERS'}
                                 </SmallText>
                             </div>
-                            <DataTable
-                                data={dataTable}
-                                type="chips"
-                                personalData={{
-                                    image: '',
-                                    rank: 2000,
-                                    chips: 3000,
-                                    correctAnswers: 2000
-                                }}/>
+                            <div className="dataTableWrapper">
+                                <DataTable
+                                    data={dataTable}
+                                    type="chips"
+                                    personalData={{
+                                        image: '',
+                                        rank: 2000,
+                                        chips: 3000,
+                                        correctAnswers: 2000
+                                    }}
+                                    width={width < 1090 ? width - 120 : undefined}
+                                />
+                            </div>
                         </div>
-                        <div style={{width: '40%'}}>
+                        <div style={{width: '50%'}}>
                             <div className="performanceTextWrapper">
                                 <SmallText color="#FFF">
                                     <SmallText bold>CHIPS</SmallText>
                                     {' EARNED'}
                                 </SmallText>
                             </div>
-                            <DataTable
-                                data={dataTable}
-                                type="correct"
-                                personalData={{
-                                    image: '',
-                                    rank: 2000,
-                                    chips: 3000,
-                                    correctAnswers: 2000
-                                }}/>
+                            <div className="dataTableWrapper">
+                                <DataTable
+                                    data={dataTable}
+                                    type="correct"
+                                    personalData={{
+                                        image: '',
+                                        rank: 2000,
+                                        chips: 3000,
+                                        correctAnswers: 2000
+                                    }}
+                                    width={width < 1090 ? width - 120 : undefined}
+                                />
+                            </div>
                         </div>
                     </div>
-                    <div className="performanceGraphWrapper">
+                    <div className="performanceGraphWrapper bottomPadding">
                         <div>
                             <div className="performanceTextWrapper">
                                 <SmallText color="#FFF">
@@ -168,7 +167,9 @@ function Performance() {
                                     {' LAST 7 DAYS'}
                                 </SmallText>
                             </div>
-                            <Graph data={graphData} width={1240}/>
+                            <div className="graphWrapper">
+                                <Graph data={graphData} width={(width - 120) < 350 ? 350 :  width - 120}/>
+                            </div>
                         </div>
                     </div>
                 </div>

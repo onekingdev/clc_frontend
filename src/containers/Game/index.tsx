@@ -1,25 +1,20 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useRef} from 'react';
 import './styles.css';
-import {sidebarItems} from '../../helpers/constants';
+import {header, sidebarItems} from '../../helpers/constants';
 import Sidebar from '../../components/Sidebar';
-import Header from '../../components/Header';
-import SidebarItem from '../../components/SidebarItem';
-import Avatar from '../../components/Avatar';
-import ChipItem from '../../components/ChipItem';
 import Table from '../../assets/images/table.png';
 import Player from "../../components/Player";
 import HouseOfCards from "../../components/HouseOfCards";
 import PokerPlayer from "../../components/PokerPlayer";
 import QuestionCard from "../../components/QuestionCard";
 import Button from "../../components/Button";
-import Logo from "../../assets/images/clai-logo.png";
 import SmallText from "../../components/SmallText";
 
 const players = [
     {
         player: 1,
         cardOne: {value: 'a', type: 'spades', show: true},
-        cardTwo: {value: 'two', type: 'hearts', show: false}
+        cardTwo: {value: 'two', type: 'hearts', show: true}
     },
     {
         player: 2,
@@ -60,16 +55,24 @@ const players = [
         player: 9,
         cardOne: {value: 'ten', type: 'spades', show: true},
         cardTwo: {value: 'two', type: 'hearts', show: false}
-    },
-    {
-        player: 10,
-        cardOne: {value: 'two', type: 'hearts', show: true},
-        cardTwo: {value: 'five', type: 'clubs', show: false}
     }
 ]
 
 function Game() {
+    const scrollRef: any = useRef(null);
     const [slider, setSlider] = useState(true);
+    const [width, setWidth]   = useState(window.innerWidth);
+    const [scrollTop, setScrollTop] = useState(0);
+
+    // adjust dimensions
+    useEffect(() => {
+        window.addEventListener("resize", updateDimensions);
+        return () => window.removeEventListener("resize", updateDimensions);
+    }, [width]);
+
+    const updateDimensions = () => {
+        setWidth(window.innerWidth);
+    }
 
     const QuestionBoxOptions = [
         <Button onClick={() => {}} width={343} height={47} text="Fold" answer="A."/>,
@@ -91,50 +94,35 @@ function Game() {
     }
 
     return (
-        <div>
+        <div className="gameContainer">
             <Sidebar title="MENU" items={sidebarItems} upperButtons={[]} reverse={!slider}
                      closeButton={() => setSlider(false)}/>
-            <Header
-                left={
-                    <div style={{marginLeft: 60}}>
-                        <SidebarItem icon="hamburger" onClick={() => setSlider(true)}/>
-                    </div>
-                }
-                middle={
-                    <div className="libraryHeaderItemWrapper">
-                        <img src={Logo} width={210} height={58}/>
-                    </div>
-                }
-                right={
-                    <div className="libraryHeaderItemWrapper">
-                        <div style={{marginRight: 39}}>
-                            <ChipItem icon="chip" quantity={25} size="small"/>
-                        </div>
-                        <div style={{marginRight: 54}}>
-                            <ChipItem icon="cash" quantity={3} size="small"/>
-                        </div>
-                        <Avatar
-                            size="medium"
-                            image=""
-                            text="Chance Franci"
-                            rank={1}/>
-                    </div>
-                }
-            />
-            <div className="gameContentContainer" onClick={() => setSlider(false)}>
-                <div className="gameWrapper">
+            {header(setSlider, scrollTop)}
+            <div
+                ref={scrollRef}
+                className="gameContentContainer"
+
+                onScroll={() => {
+                    const scrollY = window.scrollY //Don't get confused by what's scrolling - It's not the window
+                    const scrollTop = scrollRef.current.scrollTop
+                    console.log(`onScroll, window.scrollY: ${scrollY} myRef.scrollTop: ${scrollTop}`)
+                    setScrollTop(scrollTop);
+                }}
+                onClick={() => setSlider(false)}>
+                <div className="gameWrapper" style={width > 1300 ? {} : {transform: `scale(${width/1300})`}}>
                     <div>
                         <div className="gamePokerTableContainer">
                             {players.length > 0 ?
                                 players.map((player, index) =>
-                                    <div className={`gamePokerPlayerWrapper gameP${player.player}`}>
+                                    <div key={index} className={`gamePokerPlayerWrapper gameP${player.player}`}>
                                         <PokerPlayer
                                             player={player.player}
                                             cards={[player.cardOne, player.cardTwo]}
                                             mp={Math.floor(Math.random() * (200 - 0)) + 0}
-                                            chips={Math.floor(Math.random() * (15 - 0)) + 0}
+                                            chips={Math.floor(Math.random() * (4 - 0)) + 0}
                                             chipPos={handleChipPos(player.player)}
-                                            turn={index === 0}
+                                            turn={index === 7}
+                                            dealer={index === 7}
                                         />
                                     </div>
                                 ) : null}
@@ -167,14 +155,16 @@ function Game() {
                             </div>
                         </div>
                     </div>
-                    <QuestionCard
-                        headerText="Post Flop Problems"
-                        questionNumber={24}
-                        description="Based on contextual information. What is the best decision?"
-                        options={QuestionBoxOptions}
-                        footerText="Mauris varius falis commodo impredit. crass faucibius egeases urnas, sed cursus massa cursus in. Ut aliquam loborus arcu. Fucsu id arcu eget nisi porta blandit etiam mollis massa et ipusm timndum"
-                        status={0}
-                    />
+                    <div className="gameQuestionWrapper">
+                        <QuestionCard
+                            headerText="Post Flop Problems"
+                            questionNumber={24}
+                            description="Based on contextual information. What is the best decision?"
+                            options={QuestionBoxOptions}
+                            footerText="Mauris varius falis commodo impredit. crass faucibius egeases urnas, sed cursus massa cursus in. Ut aliquam loborus arcu. Fucsu id arcu eget nisi porta blandit etiam mollis massa et ipusm timndum"
+                            status={2}
+                        />
+                    </div>
                 </div>
             </div>
         </div>

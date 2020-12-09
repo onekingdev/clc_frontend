@@ -1,6 +1,5 @@
 .headerContainer {
     margin-top: 30px;
-    margin-bottom: 30px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -13,5 +12,66 @@
 }
 
 .headerSectionContainer {
+    z-index: 1;
     width: 100%;
+}
+
+.headerSectionResponsive {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 200%;
+}
+
+.headerChipTicketWrapper {
+    display: flex;
+    align-items: center;
+}
+
+.headerItemWrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.headerChipWrapper {
+    margin-right: 39px;
+}
+
+.headerCashWrapper {
+    margin-right: 54px;
+}
+
+.headerBg {
+    background-color: #000;
+    width: 100%;
+    margin-left: -60px;
+    height: 122px;
+    position: absolute;
+    top: 0;
+}
+
+@media (max-width: 900px) {
+    .headerBg {
+        height: 220px;
+    }
+    .fadedScroller_fade {
+        margin-top: 220px;
+    }
+}
+
+@media (max-width: 515px) {
+    .headerChipTicketWrapper {
+        display: block;
+    }
+}
+
+@media (max-width: 450px) {
+    .headerChipWrapper {
+        margin-right: 19px;
+    }
+
+    .headerCashWrapper {
+        margin-right: 27px;
+    }
 }

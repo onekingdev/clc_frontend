@@ -250,42 +250,13 @@ function Components() {
                     status={0}
                 />
             </div>
-            <div>
-                <QuestionCard
-                    headerText="Post Flop Problems"
-                    questionNumber={24}
-                    description="Based on contextual information. What is the best decision?"
-                    options={QuestionBoxOptions}
-                    footerText="Mauris varius falis commodo impredit. crass faucibius egeases urnas, sed cursus massa cursus in. Ut aliquam loborus arcu. Fucsu id arcu eget nisi porta blandit etiam mollis massa et ipusm timndum"
-                    status={0}
-                />
-            </div>
-            <div>
-                <QuestionCard
-                    headerText="Post Flop Problems"
-                    questionNumber={24}
-                    description="Based on contextual information. What is the best decision?"
-                    options={QuestionBoxOptions}
-                    footerText="Mauris varius falis commodo impredit. crass faucibius egeases urnas, sed cursus massa cursus in. Ut aliquam loborus arcu. Fucsu id arcu eget nisi porta blandit etiam mollis massa et ipusm timndum"
-                    status={1}
-                />
-            </div>
-            <div>
-                <QuestionCard
-                    headerText="Post Flop Problems"
-                    questionNumber={24}
-                    description="Based on contextual information. What is the best decision?"
-                    options={QuestionBoxOptions}
-                    footerText="Mauris varius falis commodo impredit. crass faucibius egeases urnas, sed cursus massa cursus in. Ut aliquam loborus arcu. Fucsu id arcu eget nisi porta blandit etiam mollis massa et ipusm timndum"
-                    status={2}
-                />
-            </div>
+
             <TabNavigation selectedIndex={tabIndex} tabs={tabs} callback={(index) => setTabIndex(index)}/>
             <div style={{width: 700}}>
                 <Player play={false} replay={false} speed={1} volume={5} favorite={false} rewind={false} fastForward={false} callback={() => {}}/>
             </div>
             <div>
-                <Slider content={sliderContent} />
+                <Slider content={sliderContent} show={4}/>
             </div>
             <br/>
             <div>
@@ -318,6 +289,7 @@ function Components() {
                     chips={20}
                     chipPos="left"
                     turn={false}
+                    dealer={false}
                 />
             </div>
             <div style={{marginTop: 30, marginBottom: 30}}>

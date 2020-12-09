@@ -62,7 +62,7 @@ const Sidebar: React.FC<ISidebar> = ({
                 <div className="sideMenuBodyWrapper">
                     {items.length > 0 ?
                         items.map((item, index) =>
-                            <div>
+                            <div key={index}>
                                 {!(index % 2) ?
                                 <div style={{display: 'flex'}}>
                                     <div className="sideMenuItemWrapper" style={{borderRightWidth: 1, borderBottomWidth: index === items.length -2 ? 0 : 1}}>

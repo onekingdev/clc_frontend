@@ -1,20 +1,29 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useRef} from 'react';
 import './styles.css';
-import {sidebarItems} from '../../helpers/constants';
-import Header from "../../components/Header";
-import SidebarItem from "../../components/SidebarItem";
-import ChipItem from "../../components/ChipItem";
-import Avatar from "../../components/Avatar";
+import {header, sidebarItems} from '../../helpers/constants';
 import Sidebar from "../../components/Sidebar";
 import Banner from "../../components/Banner";
 import Slider from "../../components/Slider";
 import TopicCard from "../../components/TopicCard";
 import SmallText from "../../components/SmallText";
 import pathsBg from '../../assets/images/pathsBg.png';
-import Logo from "../../assets/images/clai-logo.png";
+import {Fade} from "react-awesome-reveal";
 
 function Paths() {
+    const scrollRef: any = useRef(null);
     const [slider, setSlider] = useState(true);
+    const [scrollTop, setScrollTop] = useState(0);
+    const [width, setWidth]   = useState(window.innerWidth);
+
+    // adjust dimensions
+    useEffect(() => {
+        window.addEventListener("resize", updateDimensions);
+        return () => window.removeEventListener("resize", updateDimensions);
+    }, [width]);
+
+    const updateDimensions = () => {
+        setWidth(window.innerWidth);
+    }
 
     const available = [
         <TopicCard
@@ -138,36 +147,19 @@ function Paths() {
     ];
 
     return (
-        <div>
+        <div className="container">
             <Sidebar title="MENU" items={sidebarItems} upperButtons={[]} reverse={!slider} closeButton={() => setSlider(false)}/>
-            <Header
-                left={
-                    <div style={{marginLeft: 60}}>
-                        <SidebarItem icon="hamburger" onClick={() => setSlider(true)}/>
-                    </div>
-                }
-                middle={
-                    <div className="pathsHeaderItemWrapper">
-                        <img src={Logo} width={210} height={58}/>
-                    </div>
-                }
-                right={
-                    <div className="pathsHeaderItemWrapper">
-                        <div style={{marginRight: 39}}>
-                            <ChipItem icon="chip" quantity={25} size="small"/>
-                        </div>
-                        <div style={{marginRight: 54}}>
-                            <ChipItem icon="cash" quantity={3} size="small"/>
-                        </div>
-                        <Avatar
-                            size="medium"
-                            image=""
-                            text="Chance Franci"
-                            rank={1}/>
-                    </div>
-                }
-            />
-            <div className="pathsContentContainer" onClick={() => setSlider(false)}>
+            {header(setSlider, scrollTop)}
+            <div
+                ref={scrollRef}
+                className="pathsContentContainer"
+                onClick={() => setSlider(false)}
+                onScroll={() => {
+                    const scrollY = window.scrollY //Don't get confused by what's scrolling - It's not the window
+                    const scrollTop = scrollRef.current.scrollTop
+                    console.log(`onScroll, window.scrollY: ${scrollY} myRef.scrollTop: ${scrollTop}`)
+                    setScrollTop(scrollTop);
+                }}>
                 <Banner topText="Lesson library" title="Pick your path"/>
                 <div className="pathsImageWrapper">
                     <img src={pathsBg} width="90%"/>
@@ -179,7 +171,7 @@ function Paths() {
                             {' AVAILABLE TOPICS'}
                         </SmallText>
                     </div>
-                    <Slider content={available}/>
+                    <Slider content={available} show={width < 650 ? 1 : width < 950 ? 2 : width < 1300 ? 3 : width < 1650 ? 4 : width < 2000 ? 5 : 6}/>
                 </div>
                 <div>
                     <div className="pathsTextWrapper">
@@ -188,16 +180,16 @@ function Paths() {
                             {' LOCKED TOPICS'}
                         </SmallText>
                     </div>
-                    <Slider content={locked}/>
+                    <Slider content={locked} show={width < 650 ? 1 : width < 950 ? 2 : width < 1300 ? 3 : width < 1650 ? 4 : width < 2000 ? 5 : 6}/>
                 </div>
-                <div>
+                <div className="bottomPadding">
                     <div className="pathsTextWrapper">
                         <SmallText color="#FFF">
                             <SmallText bold>{mastered.length}</SmallText>
                             {' MASTERED TOPICS'}
                         </SmallText>
                     </div>
-                    <Slider content={mastered}/>
+                    <Slider content={mastered} show={width < 650 ? 1 : width < 950 ? 2 : width < 1300 ? 3 : width < 1650 ? 4 : width < 2000 ? 5 : 6}/>
                 </div>
             </div>
         </div>
