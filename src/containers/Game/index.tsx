@@ -121,7 +121,7 @@ function Game() {
                                             mp={Math.floor(Math.random() * (200 - 0)) + 0}
                                             chips={Math.floor(Math.random() * (4 - 0)) + 0}
                                             chipPos={handleChipPos(player.player)}
-                                            turn={index === 7}
+                                            turn={index === 8}
                                             dealer={index === 7}
                                         />
                                     </div>

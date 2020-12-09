@@ -202,7 +202,7 @@ const PokerPlayer: React.FC<IPokerPlayer> = ({
                     : null}
                 {dealer && player > 4 && player < 8 ?
                     <img src={dealer_chip} width={16} height={16} className="dealerChipTopLeft"/>
-                    : dealer && player === 9 ?
+                    : dealer && player === 8 ?
                         <img src={dealer_chip} width={16} height={16} className="dealerChipTopRight"/>
                         : <img src={dealer_chip} width={16} height={16} className="dealerChipTopLeft" style={{visibility: 'hidden'}}/>
                 }
@@ -245,7 +245,7 @@ const PokerPlayer: React.FC<IPokerPlayer> = ({
                     : null}
                 {dealer && player < 5 ?
                     <img src={dealer_chip} width={16} height={16} className="dealerChipBottomLeft"/>
-                    : dealer && player === 8 ?
+                    : dealer && player === 9 ?
                         <img src={dealer_chip} width={16} height={16} className="dealerChipBottomRight"/>
                         : <img src={dealer_chip} width={16} height={16} className="dealerChipBottomRight" style={{visibility: 'hidden'}}/>
                 }
