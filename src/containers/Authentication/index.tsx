@@ -1,4 +1,7 @@
 import React, {useState, useEffect} from 'react';
+import * as ACTIONS from './store/actions';
+// @ts-ignore
+import {connect} from 'react-redux';
 import './styles.css';
 // @ts-ignore
 import Modal from 'react-awesome-modal';
@@ -15,16 +18,17 @@ import {
     emptyPasswordString,
     invalidEmailPasswordString
     // @ts-ignore
-} from '../../helpers/errorMsg';
+} from '../../helpers/constants';
 import SmallText from '../../components/SmallText';
 import SubtitleText from '../../components/SubtitleText';
 import Logo from '../../assets/images/clai-logo.png'
+import {IUser} from './interfaces';
+import {login} from "./store/actions";
 
-function Login() {
+function Login(props: any) {
     const [width, setWidth]   = useState(window.innerWidth);
     const [emailObj, setEmailObj] = useState({email: '', error: false});
     const [passwordObj, setPasswordObj] = useState({password: '', error: false});
-    const [showPassword, setShowPassword] = useState(false);
     const [showRegisterModal, setShowRegisterModal] = useState(false);
     const [showEmailModal, setShowEmailModal] = useState(false);
     const [showErrorMsg, setShowErrorMsg] = useState('');
@@ -45,6 +49,12 @@ function Login() {
         }
     }, [emailObj, passwordObj])
 
+    useEffect(() => {
+        if (props.messageCode) {
+            alert(props.messageCode)
+        }
+    }, [props.messageCode])
+
     const handleSubmit = () => {
         if (emailObj.email === '') {
             setEmailObj({email: emailObj.email, error: true});
@@ -56,7 +66,11 @@ function Login() {
             setPasswordObj({password: passwordObj.password, error: true});
             setShowErrorMsg(emptyPasswordString);
         } else {
-            setShowErrorMsg(invalidEmailPasswordString);
+            const request = {
+                email: emailObj.email,
+                password: passwordObj.password
+            }
+            login(request);
         }
     }
 
@@ -93,7 +107,7 @@ function Login() {
                                 value={passwordObj.password}
                                 placeholder="Password"
                                 onChange={(event) => setPasswordObj({password: event.target.value, error: false})}
-                                password={!showPassword}
+                                password={true}
                                 error={passwordObj.error}
                             />
                             <div style={{marginTop: 20}}>
@@ -127,4 +141,17 @@ function Login() {
     )
 }
 
-export default Login;
+const mapStateToProps = (state: any) => {
+    return {
+        isAuthenticating: state.authState.isAuthenticating,
+        messageCode: state.authState.messageCode
+    };
+}
+
+const bindActions = (dispatch: any) => {
+    return {
+        login: (data: IUser) => dispatch(ACTIONS.login(data))
+    };
+};
+
+export default connect(mapStateToProps, bindActions)(Login);

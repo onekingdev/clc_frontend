@@ -1,8 +1,10 @@
 import React, {useState, useEffect, useRef} from 'react';
+// @ts-ignore
+import {connect} from 'react-redux';
 import './styles.css';
 // @ts-ignore
 import Modal from 'react-awesome-modal';
-import {header, sidebarItems} from '../../helpers/constants';
+import {header, sidebarItems} from '../../helpers/builders';
 import Sidebar from "../../components/Sidebar";
 import Banner from '../../components/Banner';
 import Slider from '../../components/Slider';
@@ -12,6 +14,8 @@ import MediaCard from '../../components/MediaCard';
 import Image1 from '../../assets/images/image1.png';
 import Image2 from '../../assets/images/image2.png';
 import Image3 from '../../assets/images/image3.png';
+import {IUser} from "../Authentication/interfaces";
+import * as ACTIONS from "../Authentication/store/actions";
 
 function Library() {
     const scrollRef: any = useRef(null);
@@ -19,6 +23,10 @@ function Library() {
     const [showModal, setShowModal] = useState(false);
     const [width, setWidth]   = useState(window.innerWidth);
     const [scrollTop, setScrollTop] = useState(0);
+
+    useEffect(() => {
+
+    }, []);
 
     // adjust dimensions
     useEffect(() => {
@@ -193,4 +201,16 @@ function Library() {
     );
 }
 
-export default Library;
+const mapStateToProps = (state: any) => {
+    return {
+        libraryLists: state.libraryState.libraryLists
+    };
+}
+
+const bindActions = (dispatch: any) => {
+    return {
+
+    };
+};
+
+export default connect(mapStateToProps, bindActions)(Library);

@@ -1,6 +1,8 @@
 import React, {useState, useEffect, useRef} from 'react';
+// @ts-ignore
+import {connect} from 'react-redux';
 import './styles.css';
-import {header, sidebarItems} from '../../helpers/constants';
+import {header, sidebarItems} from '../../helpers/builders';
 import Sidebar from "../../components/Sidebar";
 import Banner from "../../components/Banner";
 import SmallText from "../../components/SmallText";
@@ -178,4 +180,17 @@ function Performance() {
     );
 }
 
-export default Performance;
+const mapStateToProps = (state: any) => {
+    return {
+        graphData: state.performanceState.graphData,
+        tableData: state.performanceState.tableData
+    };
+}
+
+const bindActions = (dispatch: any) => {
+    return {
+
+    };
+};
+
+export default connect(mapStateToProps, bindActions)(Performance);

@@ -1,6 +1,8 @@
 import React, {useState, useEffect, useRef} from 'react';
+// @ts-ignore
+import {connect} from 'react-redux';
 import './styles.css';
-import {header, sidebarItems} from '../../helpers/constants';
+import {header, sidebarItems} from '../../helpers/builders';
 import Sidebar from '../../components/Sidebar';
 import Table from '../../assets/images/table.png';
 import Player from "../../components/Player";
@@ -171,4 +173,18 @@ function Game() {
     );
 }
 
-export default Game;
+const mapStateToProps = (state: any) => {
+    return {
+        players: state.gameState.players,
+        flop: state.gameState.flop,
+        questions: state.gameState.questions
+    };
+}
+
+const bindActions = (dispatch: any) => {
+    return {
+
+    };
+};
+
+export default connect(mapStateToProps, bindActions)(Game);

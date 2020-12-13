@@ -1,4 +1,6 @@
 import React, {useEffect, useState} from 'react';
+// @ts-ignore
+import {connect} from 'react-redux';
 import './styles.css';
 import {validateEmail} from '../../../helpers/validations';
 import TextInput from '../../../components/TextInput';
@@ -14,9 +16,12 @@ import {
     emptyUserName,
     passwordsDoNotMatch
     // @ts-ignore
-} from '../../../helpers/errorMsg';
+} from '../../../helpers/constants';
 import {Simulate} from "react-dom/test-utils";
 import SmallText from "../../../components/SmallText";
+import {IUser} from "../interfaces";
+import * as ACTIONS from "../store/actions";
+import {register} from "../store/actions";
 
 interface IRegisterModal {
     reset: boolean
@@ -76,7 +81,16 @@ const RegisterModal: React.FC<IRegisterModal> = ({
             setEmailObj({email: emailObj.email, error: true});
             setShowErrorMsg(invalidEmailString);
         } else {
-            setShowErrorMsg(notFoundEmailString);
+            // setShowErrorMsg(notFoundEmailString);
+
+            const request = {
+                activationCode: activationCodeObj.activationCode,
+                username: usernameObj.username,
+                password: passwordObj.password,
+                email: emailObj.email
+            }
+
+            register(request);
         }
     }
 
@@ -139,4 +153,17 @@ const RegisterModal: React.FC<IRegisterModal> = ({
     );
 }
 
-export default RegisterModal;
+const mapStateToProps = (state: any) => {
+    return {
+        isAuthenticating: state.authState.isAuthenticating,
+        messageCode: state.authState.messageCode
+    };
+}
+
+const bindActions = (dispatch: any) => {
+    return {
+        register: (data: IUser) => dispatch(ACTIONS.register(data))
+    };
+};
+
+export default connect(mapStateToProps, bindActions)(RegisterModal);

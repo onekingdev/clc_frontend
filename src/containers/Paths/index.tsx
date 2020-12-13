@@ -1,13 +1,14 @@
 import React, {useState, useEffect, useRef} from 'react';
+// @ts-ignore
+import {connect} from 'react-redux';
 import './styles.css';
-import {header, sidebarItems} from '../../helpers/constants';
+import {header, sidebarItems} from '../../helpers/builders';
 import Sidebar from "../../components/Sidebar";
 import Banner from "../../components/Banner";
 import Slider from "../../components/Slider";
 import TopicCard from "../../components/TopicCard";
 import SmallText from "../../components/SmallText";
 import pathsBg from '../../assets/images/pathsBg.png';
-import {Fade} from "react-awesome-reveal";
 
 function Paths() {
     const scrollRef: any = useRef(null);
@@ -196,4 +197,16 @@ function Paths() {
     );
 }
 
-export default Paths;
+const mapStateToProps = (state: any) => {
+    return {
+        pathsList: state.pathsState.pathsList
+    };
+}
+
+const bindActions = (dispatch: any) => {
+    return {
+
+    };
+};
+
+export default connect(mapStateToProps, bindActions)(Paths);

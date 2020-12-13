@@ -1,4 +1,6 @@
 import React, {useEffect, useState} from 'react';
+// @ts-ignore
+import {connect} from 'react-redux';
 import './styles.css';
 import {validateEmail} from '../../../helpers/validations';
 import TextInput from '../../../components/TextInput';
@@ -10,7 +12,10 @@ import {
     invalidEmailString,
     notFoundEmailString
     // @ts-ignore
-} from '../../../helpers/errorMsg';
+} from '../../../helpers/constants';
+import {IUser} from "../interfaces";
+import * as ACTIONS from "../store/actions";
+import {emailReset} from "../store/actions";
 
 interface IEmailResetModal {
     reset: boolean
@@ -44,7 +49,12 @@ const EmailResetModal: React.FC<IEmailResetModal> = ({
             setEmailObj({email: emailObj.email, error: true});
             setShowErrorMsg(invalidEmailString);
         } else {
-            setShowErrorMsg(notFoundEmailString);
+            // setShowErrorMsg(notFoundEmailString);
+            const request = {
+                email: emailObj.email
+            }
+
+            emailReset(request);
         }
     }
 
@@ -70,4 +80,17 @@ const EmailResetModal: React.FC<IEmailResetModal> = ({
     );
 }
 
-export default EmailResetModal;
+const mapStateToProps = (state: any) => {
+    return {
+        isAuthenticating: state.authState.isAuthenticating,
+        messageCode: state.authState.messageCode
+    };
+}
+
+const bindActions = (dispatch: any) => {
+    return {
+        emailReset: (data: IUser) => dispatch(ACTIONS.emailReset(data))
+    };
+};
+
+export default connect(mapStateToProps, bindActions)(EmailResetModal);

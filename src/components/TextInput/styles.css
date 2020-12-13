@@ -29,8 +29,9 @@
     border-radius: 5px;
     box-sizing: border-box;
     background-color: var(--primary-element-bg-color);
-
+    color: var(--primary-body-text);
 }
+
 
 .textInput:focus {
     outline: none !important;
@@ -42,4 +43,12 @@
     outline: none !important;
     border-color: var(--primary);
     box-shadow: 0 0 10px var(--primary);
+}
+
+.textInputEyeWrapper {
+    margin-top: -15px;
+    margin-left: -30px;
+    position: relative;
+    cursor: pointer;
+
 }
