@@ -6,6 +6,7 @@ import './styles.css';
 // @ts-ignore
 import Modal from 'react-awesome-modal';
 import {validateEmail} from '../../helpers/validations';
+import {formatMessageCode} from '../../helpers/formatter';
 import {Fade} from 'react-awesome-reveal';
 import TextInput from '../../components/TextInput';
 import Button from '../../components/Button';
@@ -15,17 +16,18 @@ import RegisterModal from './RegisterModal';
 import {
     emptyEmailString,
     invalidEmailString,
-    emptyPasswordString,
-    invalidEmailPasswordString
+    emptyPasswordString
     // @ts-ignore
 } from '../../helpers/constants';
 import SmallText from '../../components/SmallText';
 import SubtitleText from '../../components/SubtitleText';
 import Logo from '../../assets/images/clai-logo.png'
 import {IUser} from './interfaces';
-import {login} from "./store/actions";
+// @ts-ignore
+import {useHistory} from 'react-router-dom';
 
 function Login(props: any) {
+    const history = useHistory();
     const [width, setWidth]   = useState(window.innerWidth);
     const [emailObj, setEmailObj] = useState({email: '', error: false});
     const [passwordObj, setPasswordObj] = useState({password: '', error: false});
@@ -51,7 +53,9 @@ function Login(props: any) {
 
     useEffect(() => {
         if (props.messageCode) {
-            alert(props.messageCode)
+            setShowErrorMsg(formatMessageCode(props.messageCode))
+        } else {
+            setShowErrorMsg('');
         }
     }, [props.messageCode])
 
@@ -70,7 +74,11 @@ function Login(props: any) {
                 email: emailObj.email,
                 password: passwordObj.password
             }
-            login(request);
+            props.login(request, (success: boolean) => {
+                if (success) {
+                    history.push(`/library`);
+                }
+            });
         }
     }
 
@@ -111,7 +119,7 @@ function Login(props: any) {
                                 error={passwordObj.error}
                             />
                             <div style={{marginTop: 20}}>
-                                <Button onClick={() => handleSubmit()} width={342} height={55} text="Login" glow/>
+                                <Button loading={props.isFetchingAuthentication} onClick={() => handleSubmit()} width={342} height={55} text="Login" glow/>
                             </div>
                         </form>
                         <div style={{marginTop: 64, cursor: 'pointer', textAlign: 'left'}} onClick={() => setShowEmailModal(true)}>
@@ -143,14 +151,15 @@ function Login(props: any) {
 
 const mapStateToProps = (state: any) => {
     return {
-        isAuthenticating: state.authState.isAuthenticating,
+        user: state.authState.user,
+        isFetchingAuthentication: state.authState.isFetchingAuthentication,
         messageCode: state.authState.messageCode
     };
 }
 
 const bindActions = (dispatch: any) => {
     return {
-        login: (data: IUser) => dispatch(ACTIONS.login(data))
+        login: (data: IUser, callback: (success: boolean) => void) => dispatch(ACTIONS.login(data, callback))
     };
 };
 

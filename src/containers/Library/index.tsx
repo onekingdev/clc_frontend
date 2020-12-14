@@ -16,6 +16,7 @@ import Image2 from '../../assets/images/image2.png';
 import Image3 from '../../assets/images/image3.png';
 import {IUser} from "../Authentication/interfaces";
 import * as ACTIONS from "../Authentication/store/actions";
+import Settings from "../Settings";
 
 function Library() {
     const scrollRef: any = useRef(null);
@@ -23,6 +24,7 @@ function Library() {
     const [showModal, setShowModal] = useState(false);
     const [width, setWidth]   = useState(window.innerWidth);
     const [scrollTop, setScrollTop] = useState(0);
+    const [showSettingsModal, setShowSettingsModal] = useState(false);
 
     useEffect(() => {
 
@@ -158,7 +160,7 @@ function Library() {
     return (
         <div className="container">
             <Sidebar title="MENU" items={sidebarItems} upperButtons={[]} reverse={!slider} closeButton={() => setSlider(false)}/>
-            {header(setSlider, scrollTop)}
+            {header(setSlider, scrollTop, setShowSettingsModal)}
             <div
                 ref={scrollRef}
                 className="libraryContentContainer"
@@ -196,6 +198,9 @@ function Library() {
                 <iframe width="750" height="450"
                         src="https://www.youtube.com/embed/zBajLyDcfWA?playlist=zBajLyDcfWA&autoplay=1&loop=1">
                 </iframe>
+            </Modal>
+            <Modal visible={showSettingsModal} width="450" effect="fadeInUp" onClickAway={() => setShowSettingsModal(false)}>
+                <Settings/>
             </Modal>
         </div>
     );

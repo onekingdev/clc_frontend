@@ -21,17 +21,26 @@ import {Simulate} from "react-dom/test-utils";
 import SmallText from "../../../components/SmallText";
 import {IUser} from "../interfaces";
 import * as ACTIONS from "../store/actions";
+import {formatMessageCode} from "../../../helpers/formatter";
+// @ts-ignore
+import {useHistory} from 'react-router-dom';
 
 interface IRegisterModal {
     reset: boolean,
-    register: (data: IUser) => void
+    register: (data: IUser, callback: (success: boolean) => void) => void,
+    clearAuthenticationData: () => void,
+    messageCode: number | string,
+    isFetchingAuthentication: boolean
 }
 
 const RegisterModal: React.FC<IRegisterModal> = ({
     reset,
-    register
+    register,
+    clearAuthenticationData,
+    messageCode,
+    isFetchingAuthentication
 }) =>  {
-
+    const history = useHistory();
     const [activationCodeObj, setActivationCodeObj] = useState({activationCode: '', error: false});
     const [usernameObj, setUsernameObj] = useState({username: '', error: false});
     const [passwordObj, setPasswordObj] = useState({password: '', error: false});
@@ -47,6 +56,7 @@ const RegisterModal: React.FC<IRegisterModal> = ({
             setVerifyPasswordObj({verifyPassword: '', error: false});
             setEmailObj({email: '', error: false});
             setShowErrorMsg('');
+            clearAuthenticationData();
         }
     }, [reset]);
 
@@ -60,6 +70,12 @@ const RegisterModal: React.FC<IRegisterModal> = ({
             setShowErrorMsg('');
         }
     }, [emailObj])
+
+    useEffect(() => {
+        if (messageCode) {
+            setShowErrorMsg(formatMessageCode(messageCode))
+        }
+    }, [messageCode])
 
     const handleSubmit = () => {
         if (activationCodeObj.activationCode === '') {
@@ -86,12 +102,16 @@ const RegisterModal: React.FC<IRegisterModal> = ({
 
             const request = {
                 activationCode: activationCodeObj.activationCode,
-                username: usernameObj.username,
+                userName: usernameObj.username,
                 password: passwordObj.password,
                 email: emailObj.email
             }
 
-            register(request);
+            register(request, (success) => {
+                if (success) {
+                    history.push(`/library`);
+                }
+            });
         }
     }
 
@@ -143,7 +163,7 @@ const RegisterModal: React.FC<IRegisterModal> = ({
                     />
                 </div>
                 <div style={{marginTop: 20}}>
-                    <Button onClick={() => handleSubmit()} width="100%" height={45} glow={true} text="Send"/>
+                    <Button loading={isFetchingAuthentication} onClick={() => handleSubmit()} width="100%" height={45} glow={true} text="Sign up"/>
                 </div>
                 <div style={{marginTop: 16, cursor: 'pointer', textAlign: 'left'}} onClick={() => {}}>
                     <SmallText color="#FFF" textDecoration="underline">By signing up you agree to our End User License Agreement</SmallText>
@@ -156,14 +176,15 @@ const RegisterModal: React.FC<IRegisterModal> = ({
 
 const mapStateToProps = (state: any) => {
     return {
-        isAuthenticating: state.authState.isAuthenticating,
+        isFetchingAuthentication: state.authState.isFetchingAuthentication,
         messageCode: state.authState.messageCode
     };
 }
 
 const bindActions = (dispatch: any) => {
     return {
-        register: (data: IUser) => dispatch(ACTIONS.register(data))
+        register: (data: IUser, callback: (success: boolean) => void) => dispatch(ACTIONS.register(data, callback)),
+        clearAuthenticationData: () => dispatch(ACTIONS.clearAuthenticationData())
     };
 };
 

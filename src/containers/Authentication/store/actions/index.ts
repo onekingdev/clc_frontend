@@ -1,6 +1,6 @@
 import * as TYPES from './types';
 import {app} from '../../../../services/firebase';
-import {apiCreateUser, apiValidateCode, apiRegisterEndpoint, apiEmailResetEndpoint} from '../../../../helpers/constants';
+import {apiCreateUser, apiValidateCode, getUserByEmail, apiEmailResetEndpoint} from '../../../../helpers/constants';
 import api from '../../../../services/apiMiddleware';
 import {IUser} from '../../interfaces';
 
@@ -10,7 +10,7 @@ export const clearAuthenticationData = () => {
     };
 };
 
-export const setAuthenticationCode = (data: number) => {
+export const setAuthenticationCode = (data: number | string) => {
     return {
         type: TYPES.SET_AUTHENTICATION_CODE,
         payload: data
@@ -31,72 +31,102 @@ export const setUserData = (data: IUser) => {
     };
 };
 
-export const login = (data: IUser) => async(
+export const login = (data: IUser, callback: (success: boolean) => void) => async(
     dispatch: (data: any) => void,
     getState: any,
 ) => {
     try {
-        dispatch(setIsFetchingAuthentication(true));
+        setTimeout(() => dispatch(setIsFetchingAuthentication(true)), 500);
         if (data.email && data.password) {
             await app
                 .auth()
                 .signInWithEmailAndPassword(data.email, data.password)
                 .then(async result => {
-                    const user = await api.post(apiCreateUser, data);
+                    const user = await api.post(getUserByEmail, data);
                     dispatch(setUserData(user))
-                });
+                    setTimeout(() => callback(true), 3000);
+                }).catch(e => dispatch(setAuthenticationCode(e.message)))
         }
     } catch (e) {
         dispatch(setAuthenticationCode(e))
+        setTimeout(() => callback(false), 3000);
     } finally {
-        dispatch(setIsFetchingAuthentication(false));
+        setTimeout(() => dispatch(setIsFetchingAuthentication(false)), 2000);
     }
 }
 
-export const register = (data: IUser) => async(
+export const register = (data: IUser, callback: (success: boolean) => void) => async(
     dispatch: (data: any) => void,
     getState: any,
 ) => {
+
     try {
-        dispatch(setIsFetchingAuthentication(true));
+        setTimeout(() => dispatch(setIsFetchingAuthentication(true)), 500);
 
         const code = await api.post(apiValidateCode, data);
 
-        // alert(JSON.stringify(code));
-        /*if (code && data.email && data.password) {
+        if (code.id && data.email && data.password) {
             await app
                 .auth()
                 .createUserWithEmailAndPassword(data.email, data.password)
                 .then(async result => {
-                    const user = await api(apiRegisterEndpoint, 'POST', data);
+                    const user = await api.post(apiCreateUser, data);
                     dispatch(setUserData(user))
-                })
-        }*/
+                    setTimeout(() => callback(true), 3000);
+                }).catch(e => dispatch(setAuthenticationCode(e.message)))
+        } else if (code.error) {
+            dispatch(setAuthenticationCode(code.error));
+            setTimeout(() => callback(false), 3000);
+        }
     } catch (e) {
-        dispatch(setAuthenticationCode(e))
+        dispatch(setAuthenticationCode(e));
     } finally {
-        dispatch(setIsFetchingAuthentication(false));
+        setTimeout(() => dispatch(setIsFetchingAuthentication(false)), 2000);
     }
 }
 
-export const emailReset = (data: IUser) => async(
+export const emailReset = (data: IUser, callback: (success: boolean) => void) => async(
     dispatch: (data: any) => void,
     getState: any,
 ) => {
     try {
-        dispatch(setIsFetchingAuthentication(true));
+        setTimeout(() => dispatch(setIsFetchingAuthentication(true)), 500);
         if (data.email) {
             await app
                 .auth()
                 .sendPasswordResetEmail(data.email)
                 .then(async result => {
-                    const code = await api.post(apiEmailResetEndpoint, data);
-                    dispatch(setUserData(code))
-                })
+                    // const code = await api.post(apiEmailResetEndpoint, data);
+                    // dispatch(setUserData(code))
+                    setTimeout(() => callback(true), 3000);
+                }).catch(e => dispatch(setAuthenticationCode(e.message)))
         }
     } catch (e) {
         dispatch(setAuthenticationCode(e))
+        setTimeout(() => callback(false), 3000);
     } finally {
-        dispatch(setIsFetchingAuthentication(false));
+        setTimeout(() => dispatch(setIsFetchingAuthentication(false)), 2000);
+    }
+}
+
+export const logout = (callback: (success: boolean) => void) => async(
+    dispatch: (data: any) => void,
+    getState: any,
+) => {
+    try {
+        setTimeout(() => dispatch(setIsFetchingAuthentication(true)), 500);
+        await app
+            .auth()
+            .signOut()
+            .then(async result => {
+                dispatch(clearAuthenticationData())
+                setTimeout(() => callback(true), 3000);
+            }).catch(e => dispatch(setAuthenticationCode(e.message)))
+
+    } catch (e) {
+        dispatch(setAuthenticationCode(e))
+        setTimeout(() => callback(false), 3000);
+    } finally {
+        setTimeout(() => dispatch(setIsFetchingAuthentication(false)), 2000);
     }
 }

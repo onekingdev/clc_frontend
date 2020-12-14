@@ -24,7 +24,7 @@ export const sidebarItems: any = [
     }}/>,
 ];
 
-export const header = (setSlider: (show: boolean) => void, scrolling: number) =>
+export const header = (setSlider: (show: boolean) => void, scrolling: number, setSettings: (show: boolean) => void) =>
     <Header
         scrolling={scrolling}
         left={
@@ -51,7 +51,9 @@ export const header = (setSlider: (show: boolean) => void, scrolling: number) =>
                     size="medium"
                     image=""
                     text="Chance Franci"
-                    rank={1}/>
+                    rank={1}
+                    onClick={() => setSettings(true)}
+                />
             </div>
         }
     />

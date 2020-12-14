@@ -53,6 +53,7 @@ import chip from '../../assets/images/chip.png';
 import dealer_chip from '../../assets/images/dealer-chip.png';
 import BodyText from "../BodyText";
 import SmallText from "../SmallText";
+import {Fade, Bounce, Zoom, Rotate, JackInTheBox, Hinge} from "react-awesome-reveal";
 
 interface IPokerPlayer {
     player: number,

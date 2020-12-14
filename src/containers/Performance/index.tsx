@@ -1,6 +1,8 @@
 import React, {useState, useEffect, useRef} from 'react';
 // @ts-ignore
 import {connect} from 'react-redux';
+// @ts-ignore
+import Modal from 'react-awesome-modal';
 import './styles.css';
 import {header, sidebarItems} from '../../helpers/builders';
 import Sidebar from "../../components/Sidebar";
@@ -10,6 +12,7 @@ import performanceBg from "../../assets/images/performanceBg.png";
 import TabNavigation from "../../components/TabNavigation";
 import DataTable from "../../components/DataTable";
 import Graph from "../../components/Graph";
+import Settings from "../Settings";
 
 const dataTable = [
     {
@@ -83,6 +86,7 @@ function Performance() {
     const [slider, setSlider] = useState(true);
     const [width, setWidth]   = useState(window.innerWidth);
     const [scrollTop, setScrollTop] = useState(0);
+    const [showSettingsModal, setShowSettingsModal] = useState(false);
 
     // adjust dimensions
     useEffect(() => {
@@ -98,7 +102,7 @@ function Performance() {
         <div className="container">
             <Sidebar title="MENU" items={sidebarItems} upperButtons={[]} reverse={!slider}
                      closeButton={() => setSlider(false)}/>
-            {header(setSlider, scrollTop)}
+            {header(setSlider, scrollTop, setShowSettingsModal)}
             <div
                 ref={scrollRef}
                 className="performanceContentContainer"
@@ -176,6 +180,9 @@ function Performance() {
                     </div>
                 </div>
             </div>
+            <Modal visible={showSettingsModal} width="450" effect="fadeInUp" onClickAway={() => setShowSettingsModal(false)}>
+                <Settings/>
+            </Modal>
         </div>
     );
 }

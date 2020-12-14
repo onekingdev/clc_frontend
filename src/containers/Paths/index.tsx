@@ -1,6 +1,8 @@
 import React, {useState, useEffect, useRef} from 'react';
 // @ts-ignore
 import {connect} from 'react-redux';
+// @ts-ignore
+import Modal from 'react-awesome-modal';
 import './styles.css';
 import {header, sidebarItems} from '../../helpers/builders';
 import Sidebar from "../../components/Sidebar";
@@ -9,12 +11,14 @@ import Slider from "../../components/Slider";
 import TopicCard from "../../components/TopicCard";
 import SmallText from "../../components/SmallText";
 import pathsBg from '../../assets/images/pathsBg.png';
+import Settings from "../Settings";
 
 function Paths() {
     const scrollRef: any = useRef(null);
     const [slider, setSlider] = useState(true);
     const [scrollTop, setScrollTop] = useState(0);
     const [width, setWidth]   = useState(window.innerWidth);
+    const [showSettingsModal, setShowSettingsModal] = useState(false);
 
     // adjust dimensions
     useEffect(() => {
@@ -150,7 +154,7 @@ function Paths() {
     return (
         <div className="container">
             <Sidebar title="MENU" items={sidebarItems} upperButtons={[]} reverse={!slider} closeButton={() => setSlider(false)}/>
-            {header(setSlider, scrollTop)}
+            {header(setSlider, scrollTop, setShowSettingsModal)}
             <div
                 ref={scrollRef}
                 className="pathsContentContainer"
@@ -193,6 +197,9 @@ function Paths() {
                     <Slider content={mastered} show={width < 650 ? 1 : width < 950 ? 2 : width < 1300 ? 3 : width < 1650 ? 4 : width < 2000 ? 5 : 6}/>
                 </div>
             </div>
+            <Modal visible={showSettingsModal} width="450" effect="fadeInUp" onClickAway={() => setShowSettingsModal(false)}>
+                <Settings/>
+            </Modal>
         </div>
     );
 }

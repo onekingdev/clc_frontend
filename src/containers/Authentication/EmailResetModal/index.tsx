@@ -10,28 +10,40 @@ import SubtitleText from '../../../components/SubtitleText';
 import {
     emptyEmailString,
     invalidEmailString,
-    notFoundEmailString
+    notFoundEmailString,
+    resetPasswordEmailSent
     // @ts-ignore
 } from '../../../helpers/constants';
 import {IUser} from "../interfaces";
 import * as ACTIONS from "../store/actions";
 import {emailReset} from "../store/actions";
+// @ts-ignore
+import {useHistory} from 'react-router-dom';
+import {formatMessageCode} from "../../../helpers/formatter";
 
 interface IEmailResetModal {
-    reset: boolean
+    reset: boolean,
+    isFetchingAuthentication: boolean,
+    messageCode: number | string,
+    emailReset: (data: IUser, callback: (success: boolean) => void) => void,
 }
 
 const EmailResetModal: React.FC<IEmailResetModal> = ({
-                                                         reset
+    reset,
+    isFetchingAuthentication,
+    messageCode,
+    emailReset
                                                      }) =>  {
 
     const [emailObj, setEmailObj] = useState({email: '', error: false});
     const [showErrorMsg, setShowErrorMsg] = useState('');
+    const [showSuccessMsg, setShowSuccessMsg] = useState('');
 
     useEffect(() => {
         if (reset) {
             setEmailObj({email: '', error: false});
             setShowErrorMsg('');
+            setShowSuccessMsg('');
         }
     }, [reset]);
 
@@ -41,6 +53,12 @@ const EmailResetModal: React.FC<IEmailResetModal> = ({
         }
     }, [emailObj])
 
+    useEffect(() => {
+        if (messageCode) {
+            setShowErrorMsg(formatMessageCode(messageCode))
+        }
+    }, [messageCode])
+
     const handleSubmit = () => {
         if (emailObj.email === '') {
             setEmailObj({email: emailObj.email, error: true});
@@ -49,12 +67,16 @@ const EmailResetModal: React.FC<IEmailResetModal> = ({
             setEmailObj({email: emailObj.email, error: true});
             setShowErrorMsg(invalidEmailString);
         } else {
-            // setShowErrorMsg(notFoundEmailString);
             const request = {
                 email: emailObj.email
             }
 
-            emailReset(request);
+            emailReset(request, (success) => {
+                if (success) {
+                    setShowErrorMsg('');
+                    setShowSuccessMsg(resetPasswordEmailSent);
+                }
+            });
         }
     }
 
@@ -72,9 +94,10 @@ const EmailResetModal: React.FC<IEmailResetModal> = ({
                     />
                 </div>
                 <div style={{marginTop: 20}}>
-                    <Button onClick={() => handleSubmit()} width="100%" height={45} glow={true} text="Send"/>
+                    <Button loading={isFetchingAuthentication} onClick={() => handleSubmit()} width="100%" height={45} glow={true} text="Send"/>
                 </div>
-                <ErrorDisplay message={showErrorMsg} show={showErrorMsg !== ''}/>
+                {showSuccessMsg ? <ErrorDisplay message={showSuccessMsg} show={showSuccessMsg !== ''} color="var(--primary)"/>
+                    : <ErrorDisplay message={showErrorMsg} show={showErrorMsg !== ''}/>}
             </div>
         </div>
     );
@@ -82,14 +105,14 @@ const EmailResetModal: React.FC<IEmailResetModal> = ({
 
 const mapStateToProps = (state: any) => {
     return {
-        isAuthenticating: state.authState.isAuthenticating,
+        isFetchingAuthentication: state.authState.isFetchingAuthentication,
         messageCode: state.authState.messageCode
     };
 }
 
 const bindActions = (dispatch: any) => {
     return {
-        emailReset: (data: IUser) => dispatch(ACTIONS.emailReset(data))
+        emailReset: (data: IUser, callback: (success: boolean) => void) => dispatch(ACTIONS.emailReset(data, callback))
     };
 };
 

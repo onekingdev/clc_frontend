@@ -8,7 +8,8 @@ interface IAvatar {
     image: string,
     text: string,
     rank?: number,
-    bold?: boolean
+    bold?: boolean,
+    onClick?: () => void
 }
 
 const Avatar: React.FC<IAvatar> = ({
@@ -16,7 +17,8 @@ const Avatar: React.FC<IAvatar> = ({
     image,
     text,
     rank,
-    bold
+    bold,
+    onClick
 }) =>  {
     const getSize = (s: string) => {
         switch (s) {
@@ -30,7 +32,7 @@ const Avatar: React.FC<IAvatar> = ({
     }
     return (
         <div className="">
-            {rank ? <div className="avatarContainer">
+            {rank ? <div className="avatarContainer" onClick={onClick} style={{cursor: 'pointer'}}>
                 <div>
                     <div>
                         <SmallText color="#FFF" bold>{text}</SmallText>

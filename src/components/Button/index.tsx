@@ -3,6 +3,7 @@ import './styles.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import * as Icon from '@fortawesome/free-solid-svg-icons'
 import SubtitleText from '../SubtitleText';
+import PulseLoader from 'react-spinners/PulseLoader';
 
 interface IButton {
     transparent?: boolean,
@@ -19,7 +20,8 @@ interface IButton {
     glow?: boolean,
     imgType?: string,
     closeMenuButton?: boolean,
-    answer?: string
+    answer?: string,
+    loading?: boolean
 }
 
 const Button: React.FC<IButton> = ({
@@ -37,7 +39,8 @@ const Button: React.FC<IButton> = ({
     glow,
     imgType,
     closeMenuButton,
-    answer
+    answer,
+    loading
                                    }) =>  {
     const [count, setCount] = useState(0);
     const [spanStyles, setSpanStyles] = useState({});
@@ -131,14 +134,28 @@ const Button: React.FC<IButton> = ({
                 }
             }}
         >
-            {/*@ts-ignore*/}
-            {iconName ? <FontAwesomeIcon color={selected && transparent ? 'var(--primary)' : textColor} size={iconSize} icon={Icon[iconName]} transform={{ rotate: rotation }} />: null}
-            {answer ? <SubtitleText bold={true} color="#B5B3AE" marginLeft={16} marginRight={7}>{answer}</SubtitleText> : null}
-            <SubtitleText bold={true} color={textColor}>{text}</SubtitleText>
-            {image ? <img src={require(image)} width={imgType === 'phone' ? 50 : 90} height={imgType === 'phone' ? 90 : 50} style={{borderRadius: 5}}  alt="image"/> : null}
-            <div className="rippleContainer" onMouseDown={showRipple} onMouseUp={callCleanUp(cleanUp, 2000)}>
-                {renderRippleSpan()}
-            </div>
+            {loading ?
+                <PulseLoader loading={true} color={textColor}/>
+                :
+                <div>
+                    {iconName ?
+                        <FontAwesomeIcon
+                            color={selected && transparent ? 'var(--primary)' : textColor}
+                            // @ts-ignore
+                            size={iconSize}
+                            // @ts-ignore
+                            icon={Icon[iconName]}
+                            transform={{rotate: rotation}}/> : null}
+                    {answer ? <SubtitleText bold={true} color="#B5B3AE" marginLeft={16}
+                                            marginRight={7}>{answer}</SubtitleText> : null}
+                    <SubtitleText bold={true} color={textColor}>{text}</SubtitleText>
+                    {image ? <img src={require(image)} width={imgType === 'phone' ? 50 : 90}
+                                  height={imgType === 'phone' ? 90 : 50} style={{borderRadius: 5}} alt="image"/> : null}
+                    <div className="rippleContainer" onMouseDown={showRipple} onMouseUp={callCleanUp(cleanUp, 2000)}>
+                        {renderRippleSpan()}
+                    </div>
+                </div>
+            }
         </div>
     );
 }
