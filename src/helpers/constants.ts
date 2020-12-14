@@ -1,6 +1,10 @@
 // API paths
 export const apiProductionUrl = 'https://production.com';
-export const apiDevelopmentUrl = 'https://development.com';
+export const apiDevelopmentUrl = 'http://localhost:3003/clc-poker/us-central1';
+export const apiCreateUser = 'createUser';
+export const apiValidateCode = 'validateCode';
+
+
 export const apiLoginEndpoint = 'login';
 export const apiRegisterEndpoint = 'register';
 export const apiEmailResetEndpoint = 'email';

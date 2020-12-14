@@ -36,7 +36,7 @@ export const getPathsList = () => async(
 ) => {
     try {
         setIsFetchingPathsData(true);
-        const list = await api(apiPathsEndpoint, 'GET', {});
+        const list = await api.get(apiPathsEndpoint);
         setPathsList(list);
     } catch (e) {
         setPathsCode(e);

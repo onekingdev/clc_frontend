@@ -21,15 +21,16 @@ import {Simulate} from "react-dom/test-utils";
 import SmallText from "../../../components/SmallText";
 import {IUser} from "../interfaces";
 import * as ACTIONS from "../store/actions";
-import {register} from "../store/actions";
 
 interface IRegisterModal {
-    reset: boolean
+    reset: boolean,
+    register: (data: IUser) => void
 }
 
 const RegisterModal: React.FC<IRegisterModal> = ({
-                                                         reset
-                                                     }) =>  {
+    reset,
+    register
+}) =>  {
 
     const [activationCodeObj, setActivationCodeObj] = useState({activationCode: '', error: false});
     const [usernameObj, setUsernameObj] = useState({username: '', error: false});

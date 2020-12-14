@@ -36,7 +36,7 @@ export const getLibraryList = () => async(
 ) => {
     try {
         setIsFetchingLibraryData(true);
-        const list = await api(apiLibraryEndpoint, 'GET', {});
+        const list = await api.get(apiLibraryEndpoint);
         setLibraryList(list);
     } catch (e) {
         setLibraryCode(e);

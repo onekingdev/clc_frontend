@@ -1,5 +1,6 @@
 import * as TYPES from './types';
-import {apiLoginEndpoint, apiRegisterEndpoint, apiEmailResetEndpoint} from '../../../../helpers/constants';
+import {app} from '../../../../services/firebase';
+import {apiCreateUser, apiValidateCode, apiRegisterEndpoint, apiEmailResetEndpoint} from '../../../../helpers/constants';
 import api from '../../../../services/apiMiddleware';
 import {IUser} from '../../interfaces';
 
@@ -36,8 +37,15 @@ export const login = (data: IUser) => async(
 ) => {
     try {
         dispatch(setIsFetchingAuthentication(true));
-        const user = await api(apiLoginEndpoint, 'POST', data);
-        dispatch(setUserData(user))
+        if (data.email && data.password) {
+            await app
+                .auth()
+                .signInWithEmailAndPassword(data.email, data.password)
+                .then(async result => {
+                    const user = await api.post(apiCreateUser, data);
+                    dispatch(setUserData(user))
+                });
+        }
     } catch (e) {
         dispatch(setAuthenticationCode(e))
     } finally {
@@ -51,8 +59,19 @@ export const register = (data: IUser) => async(
 ) => {
     try {
         dispatch(setIsFetchingAuthentication(true));
-        const user = await api(apiRegisterEndpoint, 'POST', data);
-        dispatch(setUserData(user))
+
+        const code = await api.post(apiValidateCode, data);
+
+        // alert(JSON.stringify(code));
+        /*if (code && data.email && data.password) {
+            await app
+                .auth()
+                .createUserWithEmailAndPassword(data.email, data.password)
+                .then(async result => {
+                    const user = await api(apiRegisterEndpoint, 'POST', data);
+                    dispatch(setUserData(user))
+                })
+        }*/
     } catch (e) {
         dispatch(setAuthenticationCode(e))
     } finally {
@@ -66,8 +85,15 @@ export const emailReset = (data: IUser) => async(
 ) => {
     try {
         dispatch(setIsFetchingAuthentication(true));
-        const code = await api(apiEmailResetEndpoint, 'POST', data);
-        dispatch(setUserData(code))
+        if (data.email) {
+            await app
+                .auth()
+                .sendPasswordResetEmail(data.email)
+                .then(async result => {
+                    const code = await api.post(apiEmailResetEndpoint, data);
+                    dispatch(setUserData(code))
+                })
+        }
     } catch (e) {
         dispatch(setAuthenticationCode(e))
     } finally {
