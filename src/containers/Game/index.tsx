@@ -14,6 +14,8 @@ import QuestionCard from "../../components/QuestionCard";
 import Button from "../../components/Button";
 import SmallText from "../../components/SmallText";
 import Settings from "../Settings";
+import * as ACTIONS from "./store/actions";
+import * as PERFORMANCE_ACTIONS from "../Performance/store/actions";
 
 const players = [
     {
@@ -63,12 +65,16 @@ const players = [
     }
 ]
 
-function Game() {
+function Game(props: any) {
     const scrollRef: any = useRef(null);
     const [slider, setSlider] = useState(true);
     const [width, setWidth]   = useState(window.innerWidth);
     const [scrollTop, setScrollTop] = useState(0);
     const [showSettingsModal, setShowSettingsModal] = useState(false);
+
+    useEffect(() => {
+        props.updateDailyEarnings({chips: 2, tickets: 1});
+    }, [])
 
     // adjust dimensions
     useEffect(() => {
@@ -111,7 +117,6 @@ function Game() {
                 onScroll={() => {
                     const scrollY = window.scrollY //Don't get confused by what's scrolling - It's not the window
                     const scrollTop = scrollRef.current.scrollTop
-                    console.log(`onScroll, window.scrollY: ${scrollY} myRef.scrollTop: ${scrollTop}`)
                     setScrollTop(scrollTop);
                 }}
                 onClick={() => setSlider(false)}>
@@ -190,7 +195,7 @@ const mapStateToProps = (state: any) => {
 
 const bindActions = (dispatch: any) => {
     return {
-
+        updateDailyEarnings: (data: { chips: number, tickets: number }) => dispatch(PERFORMANCE_ACTIONS.updateDailyEarnings(data))
     };
 };
 

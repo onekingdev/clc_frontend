@@ -1,6 +1,7 @@
 import React, {useState, useEffect, useRef} from 'react';
 // @ts-ignore
 import {connect} from 'react-redux';
+import * as ACTIONS from "./store/actions";
 // @ts-ignore
 import Modal from 'react-awesome-modal';
 import './styles.css';
@@ -14,79 +15,36 @@ import DataTable from "../../components/DataTable";
 import Graph from "../../components/Graph";
 import Settings from "../Settings";
 
-const dataTable = [
-    {
-        firstName: 'Armando',
-        lastName: 'Gutierrez',
-        image: '',
-        rank: 2,
-        correctAnswers: 5000,
-        chips: 600
-    },
-    {
-        firstName: 'Armando',
-        lastName: 'Gutierrez',
-        image: '',
-        rank: 2,
-        correctAnswers: 5000,
-        chips: 600
-    },
-    {
-        firstName: 'Armando',
-        lastName: 'Gutierrez',
-        image: '',
-        rank: 2,
-        correctAnswers: 5000,
-        chips: 600
-    },
-    {
-        firstName: 'Armando',
-        lastName: 'Gutierrez',
-        image: '',
-        rank: 2,
-        correctAnswers: 5000,
-        chips: 600
-    },
-    {
-        firstName: 'Armando',
-        lastName: 'Gutierrez',
-        image: '',
-        rank: 2,
-        correctAnswers: 5000,
-        chips: 600
-    }
-]
-
-const graphData = [
-    {
-        name: 'Friday', ['Questions Correct']: 590, ['Tickets Earned']: 800
-    },
-    {
-        name: 'Saturday', ['Questions Correct']: 868, ['Tickets Earned']: 967
-    },
-    {
-        name: 'Sunday', ['Questions Correct']: 1397, ['Tickets Earned']: 1098
-    },
-    {
-        name: 'Monday', ['Questions Correct']: 1480, ['Tickets Earned']: 1200
-    },
-    {
-        name: 'Tuesday', ['Questions Correct']: 1520, ['Tickets Earned']: 1108
-    },
-    {
-        name: 'Wednesday', ['Questions Correct']: 1400, ['Tickets Earned']: 680
-    },
-    {
-        name: 'Thursday', ['Questions Correct']: 1400, ['Tickets Earned']: 680
-    },
-];
-
-function Performance() {
+function Performance(props: any) {
     const scrollRef: any = useRef(null);
     const [slider, setSlider] = useState(true);
     const [width, setWidth]   = useState(window.innerWidth);
     const [scrollTop, setScrollTop] = useState(0);
     const [showSettingsModal, setShowSettingsModal] = useState(false);
+    const [tab, setTab] = useState(0);
+    const [query, setQuery] = useState('season');
+
+
+    useEffect(() => {
+        switch (tab) {
+            case 0:
+                props.fetchEarnings('season');
+                setQuery('season')
+                break;
+            case 1:
+                props.fetchEarnings('week');
+                setQuery('week')
+                break;
+            case 2:
+                props.fetchEarnings('month');
+                setQuery('month')
+                break;
+            case 3:
+                props.fetchEarnings('lifetime');
+                setQuery('lifetime')
+                break;
+        }
+    }, [tab])
 
     // adjust dimensions
     useEffect(() => {
@@ -109,7 +67,6 @@ function Performance() {
                 onScroll={() => {
                     const scrollY = window.scrollY //Don't get confused by what's scrolling - It's not the window
                     const scrollTop = scrollRef.current.scrollTop
-                    console.log(`onScroll, window.scrollY: ${scrollY} myRef.scrollTop: ${scrollTop}`)
                     setScrollTop(scrollTop);
                 }}
                 onClick={() => setSlider(false)}>
@@ -118,9 +75,8 @@ function Performance() {
                     <img src={performanceBg} width="90%"/>
                 </div>
                 <div style={{marginTop: 72}}>
-                    <TabNavigation selectedIndex={0} tabs={['This Season', 'This Week', 'This Month', 'Lifetime']}
-                                   callback={() => {
-                                   }}/>
+                    <TabNavigation selectedIndex={tab} tabs={['This Season', 'This Week', 'This Month', 'Lifetime']}
+                                   callback={(index) => setTab(index)}/>
                     <div className="performanceTablesWrapper">
                         <div style={{width: '50%'}}>
                             <div className="performanceTextWrapper">
@@ -131,13 +87,14 @@ function Performance() {
                             </div>
                             <div className="dataTableWrapper">
                                 <DataTable
-                                    data={dataTable}
-                                    type="chips"
+                                    query={query}
+                                    data={props.tableData.correctQuestions}
+                                    type="correct"
                                     personalData={{
-                                        image: '',
-                                        rank: 2000,
-                                        chips: 3000,
-                                        correctAnswers: 2000
+                                        avatar: props.user.avatar,
+                                        rank: props.tableData.myCorrectRank,
+                                        chips: props.tableData.myChipsEarned,
+                                        correctAnswers: props.tableData.myCorrectQuestions
                                     }}
                                     width={width < 1090 ? width - 120 : undefined}
                                 />
@@ -152,13 +109,14 @@ function Performance() {
                             </div>
                             <div className="dataTableWrapper">
                                 <DataTable
-                                    data={dataTable}
-                                    type="correct"
+                                    query={query}
+                                    data={props.tableData.chipsEarned}
+                                    type="chips"
                                     personalData={{
-                                        image: '',
-                                        rank: 2000,
-                                        chips: 3000,
-                                        correctAnswers: 2000
+                                        avatar: props.user.avatar,
+                                        rank: props.tableData.myChipRank,
+                                        chips: props.tableData.myChipsEarned,
+                                        correctAnswers: props.tableData.myCorrectQuestions
                                     }}
                                     width={width < 1090 ? width - 120 : undefined}
                                 />
@@ -174,7 +132,7 @@ function Performance() {
                                 </SmallText>
                             </div>
                             <div className="graphWrapper">
-                                <Graph data={graphData} width={(width - 120) < 350 ? 350 :  width - 120}/>
+                                <Graph data={props.graphData} width={(width - 120) < 350 ? 350 :  width - 120}/>
                             </div>
                         </div>
                     </div>
@@ -189,6 +147,7 @@ function Performance() {
 
 const mapStateToProps = (state: any) => {
     return {
+        user: state.authState.user,
         graphData: state.performanceState.graphData,
         tableData: state.performanceState.tableData
     };
@@ -196,7 +155,7 @@ const mapStateToProps = (state: any) => {
 
 const bindActions = (dispatch: any) => {
     return {
-
+        fetchEarnings: (data: string) => dispatch(ACTIONS.fetchEarnings(data))
     };
 };
 

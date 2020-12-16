@@ -138,13 +138,6 @@ function Login(props: any) {
                     <RegisterModal reset={!showRegisterModal}/>
                 </Modal>
             </div>
-            {width < 900 ?
-                <div className="loginVideoContainer">
-                    <iframe width="100%" height="700px"
-                            src="https://www.youtube.com/embed/zBajLyDcfWA?playlist=zBajLyDcfWA&autoplay=1&loop=1">
-                    </iframe>
-                </div>
-                : null}
         </div>
     )
 }
