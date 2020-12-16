@@ -10,9 +10,7 @@
     z-index: -1;
 }
 
-.libraryContentContainer {
-    padding-top: 30px;
-    height: 100vh;
-    overflow-y: auto;
-    overflow-x: hidden;
+.librarySliderCenterLoaderMargin {
+    margin-top: 160px;
+    margin-bottom: 159px;
 }

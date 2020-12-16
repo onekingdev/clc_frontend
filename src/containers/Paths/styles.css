@@ -10,8 +10,7 @@
     z-index: -1;
 }
 
-.pathsContentContainer {
-    height: 100vh;
-    overflow-y: auto;
-    padding-top: 30px;
+.pathsSliderCenterLoaderMargin {
+    margin-top: 145px;
+    margin-bottom: 150px;
 }

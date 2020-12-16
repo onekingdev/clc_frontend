@@ -62,3 +62,10 @@
     justify-content: flex-start;
     align-items: center;
 }
+
+.dataTableCenterLoader {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+}

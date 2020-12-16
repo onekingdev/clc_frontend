@@ -3,60 +3,73 @@ import './styles.css';
 import BodyText from "../BodyText";
 import Avatar from "../Avatar";
 import ChipItem from "../ChipItem";
+import PulseLoader from 'react-spinners/PulseLoader';
 
 interface IDataTable {
+    query: string,
     data: any[],
     personalData: any,
     type: string,
-    width?: number
+    width?: number,
+    loading: boolean
 }
 
 const DataTable: React.FC<IDataTable> = ({
+    query,
     data,
     type,
     personalData,
-    width
+    width,
+    loading
 }) =>  {
     return (
         <div className="dataTableContainer" style={width ? {width} : {}}>
-            <div className="dataTableDataWrapper">
-            {data.length > 0 ?
-                data.map((item, index) =>
-                    <div key={index} className="dataTableRow">
+            {loading ?
+                <div className="dataTableCenterLoader">
+                    <PulseLoader loading={true} color="#FFF"/>
+                </div>
+                :
+                <div>
+                    <div className="dataTableDataWrapper">
+                        {data.length > 0 ?
+                            data.map((item, index) =>
+                                <div key={index} className="dataTableRow">
+                                    <div className="dataTableLeftColumn">
+                                        <BodyText>Rank {item.rank}</BodyText>
+                                    </div>
+                                    <div className="dataTableMiddleColumn">
+                                        <Avatar size="small" image={item.avatar} text={item.userName}/>
+                                    </div>
+                                    {type !== 'chips' ?
+                                        <div className="dataTableRightColumn">
+                                            <BodyText color="#FFF">{`${item[query].correct} Correct`}</BodyText>
+                                        </div> :
+                                        <div className="dataTableRightColumn">
+                                            <ChipItem icon="chip" quantity={item[query].chips} size="small"/>
+                                        </div>
+                                    }
+                                </div>
+                            ) : null}
+                    </div>
+                    <div className="dataTableRow" style={{borderStyle: 'none'}}>
                         <div className="dataTableLeftColumn">
-                            <BodyText>Rank {item.rank}</BodyText>
+                            <BodyText bold color="#FFF">{`Rank ${personalData.rank}`}</BodyText>
                         </div>
                         <div className="dataTableMiddleColumn">
-                            <Avatar size="small" image={item.image} text={`${item.firstName} ${item.lastName}`}/>
+                            <Avatar size="small" image={personalData.avatar} text="You" bold/>
                         </div>
                         {type !== 'chips' ?
                             <div className="dataTableRightColumn">
-                                <BodyText color="#FFF">{`${personalData.correctAnswers} Correct`}</BodyText>
-                            </div> :
+                                <BodyText bold color="#FFF">{`${personalData.correctAnswers} Correct`}</BodyText>
+                            </div>
+                            :
                             <div className="dataTableRightColumn">
-                                <ChipItem icon="chip" quantity={item.chips} size="small"/>
+                                <ChipItem icon="chip" quantity={personalData.chips} size="small"/>
                             </div>
                         }
                     </div>
-                ) : null}
-            </div>
-            <div className="dataTableRow" style={{borderStyle: 'none'}}>
-                <div className="dataTableLeftColumn">
-                    <BodyText bold color="#FFF">{`Rank ${personalData.rank}`}</BodyText>
                 </div>
-                <div className="dataTableMiddleColumn">
-                    <Avatar size="small" image={personalData.image} text="You" bold/>
-                </div>
-                {type !== 'chips' ?
-                    <div className="dataTableRightColumn">
-                        <BodyText bold color="#FFF">{`${personalData.correctAnswers} Correct`}</BodyText>
-                    </div>
-                    :
-                    <div className="dataTableRightColumn">
-                        <ChipItem icon="chip" quantity={personalData.chips} size="small"/>
-                    </div>
-                }
-            </div>
+            }
         </div>
     );
 }

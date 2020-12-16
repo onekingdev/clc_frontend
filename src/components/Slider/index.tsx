@@ -1,17 +1,22 @@
 import React, {useEffect, useState} from 'react';
 import './styles.css';
 import {Fade} from 'react-awesome-reveal';
-import Button from "../Button";
+import Button from '../Button';
+import PulseLoader from 'react-spinners/PulseLoader';
 
 interface ISlider {
     content: any[],
-    show: number
+    show: number,
+    loading: boolean,
+    marginClass?: string
 }
 
 const Slider: React.FC<ISlider> = ({
-    content,
-    show
-}) => {
+                                       content,
+                                       show,
+                                       loading,
+                                       marginClass
+                                   }) => {
     const [selectedIndex, setSelectedIndex] = useState(0);
 
     const dotNum = content.length / show;
@@ -52,14 +57,23 @@ const Slider: React.FC<ISlider> = ({
             <div style={{display: 'flex', alignItems: 'center'}}>
                 {selectedIndex !== 0 ?
                     <div style={{paddingLeft: 60, marginRight: -100, zIndex: 1}}>
-                        <Button onClick={() => setSelectedIndex(selectedIndex-1)} width={40} height={40} circular glow iconName="faChevronLeft" iconSize="1x"/>
+                        <Button onClick={() => setSelectedIndex(selectedIndex - 1)} width={40} height={40}
+                                circular glow iconName="faChevronLeft" iconSize="1x"/>
                     </div> : null}
+
                 <div className="sliderCardsWrapper">
-                    {renderContent(selectedIndex)}
+                    {loading ?
+                        <div className={`sliderCenterLoader ${marginClass}`}>
+                            <PulseLoader loading={true} color="#FFF"/>
+                        </div>
+                        :
+                        renderContent(selectedIndex)
+                    }
                 </div>
                 {selectedIndex !== dotNum - 1 && dotNum > 1 ?
                     <div style={{paddingRight: 60, marginLeft: -100, zIndex: 1}}>
-                        <Button onClick={() => setSelectedIndex(selectedIndex + 1)} width={40} height={40} circular glow
+                        <Button onClick={() => setSelectedIndex(selectedIndex + 1)} width={40} height={40}
+                                circular glow
                                 iconName="faChevronRight" iconSize="1x"/>
                     </div>
                     : null}

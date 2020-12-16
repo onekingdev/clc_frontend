@@ -1,0 +1,17 @@
+.container {
+    height: 100vh;
+    overflow-y: hidden;
+}
+
+.contentContainer {
+    height: 85vh;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+.centerLoader {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 80vh;
+}

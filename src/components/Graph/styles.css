@@ -7,6 +7,20 @@
     border-radius: 16px;
 }
 
+.graphNoDataWrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+}
+
 .recharts-legend-item-text {
     color: #FFF;
+}
+
+.graphCenterLoader {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
 }
