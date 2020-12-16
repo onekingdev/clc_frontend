@@ -77,7 +77,8 @@ export const register = (data: IUser, callback: (success: boolean) => void) => a
                     await app
                         .firestore()
                         .collection('users')
-                        .add({
+                        .doc(data.stringID)
+                        .set({
                             chips: 0,
                             tickets: 0,
                             myTopics: [],

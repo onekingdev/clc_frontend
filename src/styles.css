@@ -36,11 +36,6 @@ iframe {
     padding-bottom: 250px;
 }
 
-.container {
-    height: 100vh;
-    overflow-y: hidden;
-}
-
 body::-webkit-scrollbar {
     display: none;
 }

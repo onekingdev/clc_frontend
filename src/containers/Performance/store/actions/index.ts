@@ -4,8 +4,6 @@ import firebase from "firebase";
 import moment from 'moment';
 import {formatGraphData} from '../../../../helpers/formatter';
 
-const timestamp = firebase.firestore.FieldValue.serverTimestamp();
-
 export const clearPerformanceData = () => {
     return {
         type: TYPES.CLEAR_PERFORMANCE_DATA

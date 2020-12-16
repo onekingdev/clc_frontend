@@ -9,9 +9,3 @@
     top: 0;
     z-index: -1;
 }
-
-.pathsContentContainer {
-    height: 100vh;
-    overflow-y: auto;
-    padding-top: 30px;
-}

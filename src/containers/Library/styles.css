@@ -9,10 +9,3 @@
     top: 0;
     z-index: -1;
 }
-
-.libraryContentContainer {
-    padding-top: 30px;
-    height: 100vh;
-    overflow-y: auto;
-    overflow-x: hidden;
-}
