@@ -46,14 +46,14 @@ export const login = (data: IUser, callback: (success: boolean) => void) => asyn
                 .then(async result => {
                     const user = await api.post(getUserByEmail, data);
                     dispatch(setUserData(user))
-                    setTimeout(() => callback(true), 3000);
+                    setTimeout(() => callback(true), 1000);
                 }).catch(e => dispatch(setAuthenticationCode(e.message)))
         }
     } catch (e) {
         dispatch(setAuthenticationCode(e))
-        setTimeout(() => callback(false), 3000);
+        setTimeout(() => callback(false), 500);
     } finally {
-        setTimeout(() => dispatch(setIsFetchingAuthentication(false)), 2000);
+        setTimeout(() => dispatch(setIsFetchingAuthentication(false)), 500);
     }
 }
 
@@ -106,16 +106,16 @@ export const register = (data: IUser, callback: (success: boolean) => void) => a
                             }
                         });
                     dispatch(setUserData(user))
-                    setTimeout(() => callback(true), 3000);
+                    setTimeout(() => callback(true), 1000);
                 }).catch(e => dispatch(setAuthenticationCode(e.message)))
         } else if (code.error) {
             dispatch(setAuthenticationCode(code.error));
-            setTimeout(() => callback(false), 3000);
+            setTimeout(() => callback(false), 500);
         }
     } catch (e) {
         dispatch(setAuthenticationCode(e));
     } finally {
-        setTimeout(() => dispatch(setIsFetchingAuthentication(false)), 2000);
+        setTimeout(() => dispatch(setIsFetchingAuthentication(false)), 500);
     }
 }
 
@@ -132,14 +132,14 @@ export const emailReset = (data: IUser, callback: (success: boolean) => void) =>
                 .then(async result => {
                     // const code = await api.post(apiEmailResetEndpoint, data);
                     // dispatch(setUserData(code))
-                    setTimeout(() => callback(true), 3000);
+                    setTimeout(() => callback(true), 1000);
                 }).catch(e => dispatch(setAuthenticationCode(e.message)))
         }
     } catch (e) {
         dispatch(setAuthenticationCode(e))
-        setTimeout(() => callback(false), 3000);
+        setTimeout(() => callback(false), 500);
     } finally {
-        setTimeout(() => dispatch(setIsFetchingAuthentication(false)), 2000);
+        setTimeout(() => dispatch(setIsFetchingAuthentication(false)), 500);
     }
 }
 
@@ -154,13 +154,13 @@ export const logout = (callback: (success: boolean) => void) => async(
             .signOut()
             .then(async result => {
                 dispatch(clearAuthenticationData())
-                setTimeout(() => callback(true), 3000);
+                setTimeout(() => callback(true), 2000);
             }).catch(e => dispatch(setAuthenticationCode(e.message)))
 
     } catch (e) {
         dispatch(setAuthenticationCode(e))
-        setTimeout(() => callback(false), 3000);
+        setTimeout(() => callback(false), 1000);
     } finally {
-        setTimeout(() => dispatch(setIsFetchingAuthentication(false)), 2000);
+        setTimeout(() => dispatch(setIsFetchingAuthentication(false)), 1000);
     }
 }

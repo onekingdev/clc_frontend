@@ -2,11 +2,12 @@ import React, {useState, useEffect, useRef} from 'react';
 // @ts-ignore
 import {connect} from 'react-redux';
 import './styles.css';
-import Slider from "../../components/Slider";
-import TopicCard from "../../components/TopicCard";
-import SmallText from "../../components/SmallText";
+import Slider from '../../components/Slider';
+import TopicCard from '../../components/TopicCard';
+import SmallText from '../../components/SmallText';
 import pathsBg from '../../assets/images/pathsBg.png';
-import ScreenTemplate from "../ScreenTemplate";
+import ScreenTemplate from '../ScreenTemplate';
+import Banner from '../../components/Banner';
 
 function Paths(props: any) {
     const [width, setWidth] = useState(window.innerWidth);
@@ -144,6 +145,7 @@ function Paths(props: any) {
 
     return (
         <ScreenTemplate>
+            <Banner topText="Lesson library" title="Pick your path"/>
             <div className="pathsImageWrapper">
                 <img src={pathsBg} width="90%"/>
             </div>

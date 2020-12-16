@@ -23,37 +23,3 @@ export const sidebarItems: any = [
     <SidebarItem icon="answers" text="Answers" onClick={() => {
     }}/>,
 ];
-
-export const header = (setSlider: (show: boolean) => void, scrolling: number, setSettings: (show: boolean) => void) =>
-    <Header
-        scrolling={scrolling}
-        left={
-            <div style={{marginLeft: '10%'}}>
-                <SidebarItem icon="hamburger" onClick={() => setSlider(true)}/>
-            </div>
-        }
-        middle={
-            <div className="headerItemWrapper">
-                <img src={Logo} width={210} height={58}/>
-            </div>
-        }
-        right={
-            <div className="headerItemWrapper">
-                <div className="headerChipTicketWrapper">
-                    <div className="headerChipWrapper">
-                        <ChipItem icon="chip" quantity={25} size="small"/>
-                    </div>
-                    <div className="headerCashWrapper">
-                        <ChipItem icon="cash" quantity={3} size="small"/>
-                    </div>
-                </div>
-                <Avatar
-                    size="medium"
-                    image=""
-                    text="Chance Franci"
-                    rank={1}
-                    onClick={() => setSettings(true)}
-                />
-            </div>
-        }
-    />
