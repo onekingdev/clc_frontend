@@ -5,11 +5,13 @@ import XLSX from 'xlsx';
 import './styles.css';
 
 interface IFilePicker {
-    onFileOpen: (data: any) => void
+    onFileOpen: (data: any) => void;
+    title: string | null;
 }
 
 const FilePicker: React.FC<IFilePicker> = ({
-    onFileOpen
+    onFileOpen,
+    title
 }) =>  {
     
     const [file, setFile] = useState<File | null>();
@@ -49,7 +51,7 @@ const FilePicker: React.FC<IFilePicker> = ({
                 loading={isLoading}
                 width={200}
                 height={44}
-                text={file?.name || "Open File"}
+                text={file?.name || title || "Open File"}
                 glow
                 onClick={chooseFile}
             />

@@ -1,3 +1,8 @@
+.performanceContentContainer {
+    padding-top: 30px;
+    height: 100vh;
+    overflow-y: auto;
+}
 
 .performanceTextWrapper {
     text-align: left;

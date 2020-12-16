@@ -36,6 +36,11 @@ iframe {
     padding-bottom: 250px;
 }
 
+.container {
+    height: 100vh;
+    overflow-y: hidden;
+}
+
 body::-webkit-scrollbar {
     display: none;
 }
@@ -43,6 +48,7 @@ body::-webkit-scrollbar {
 
 ::-webkit-scrollbar {
     width: 5px;
+    height: 20px;
 }
 
 ::-webkit-scrollbar-thumb {

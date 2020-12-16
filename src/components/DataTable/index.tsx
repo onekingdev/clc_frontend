@@ -5,7 +5,6 @@ import Avatar from "../Avatar";
 import ChipItem from "../ChipItem";
 
 interface IDataTable {
-    query: string,
     data: any[],
     personalData: any,
     type: string,
@@ -13,7 +12,6 @@ interface IDataTable {
 }
 
 const DataTable: React.FC<IDataTable> = ({
-    query,
     data,
     type,
     personalData,
@@ -29,14 +27,14 @@ const DataTable: React.FC<IDataTable> = ({
                             <BodyText>Rank {item.rank}</BodyText>
                         </div>
                         <div className="dataTableMiddleColumn">
-                            <Avatar size="small" image={item.avatar} text={item.userName}/>
+                            <Avatar size="small" image={item.image} text={`${item.firstName} ${item.lastName}`}/>
                         </div>
                         {type !== 'chips' ?
                             <div className="dataTableRightColumn">
-                                <BodyText color="#FFF">{`${item[query].correct} Correct`}</BodyText>
+                                <BodyText color="#FFF">{`${personalData.correctAnswers} Correct`}</BodyText>
                             </div> :
                             <div className="dataTableRightColumn">
-                                <ChipItem icon="chip" quantity={item[query].chips} size="small"/>
+                                <ChipItem icon="chip" quantity={item.chips} size="small"/>
                             </div>
                         }
                     </div>
@@ -47,7 +45,7 @@ const DataTable: React.FC<IDataTable> = ({
                     <BodyText bold color="#FFF">{`Rank ${personalData.rank}`}</BodyText>
                 </div>
                 <div className="dataTableMiddleColumn">
-                    <Avatar size="small" image={personalData.avatar} text="You" bold/>
+                    <Avatar size="small" image={personalData.image} text="You" bold/>
                 </div>
                 {type !== 'chips' ?
                     <div className="dataTableRightColumn">

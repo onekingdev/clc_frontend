@@ -3,8 +3,6 @@ import {app} from '../../../../services/firebase';
 import {apiCreateUser, apiValidateCode, getUserByEmail, apiEmailResetEndpoint} from '../../../../helpers/constants';
 import api from '../../../../services/apiMiddleware';
 import {IUser} from '../../interfaces';
-import firebase from "firebase";
-const timestamp = firebase.firestore.FieldValue.serverTimestamp();
 
 export const clearAuthenticationData = () => {
     return {
@@ -72,39 +70,7 @@ export const register = (data: IUser, callback: (success: boolean) => void) => a
                 .auth()
                 .createUserWithEmailAndPassword(data.email, data.password)
                 .then(async result => {
-                    data['stringID'] = result.user?.uid;
                     const user = await api.post(apiCreateUser, data);
-                    await app
-                        .firestore()
-                        .collection('users')
-                        .doc(data.stringID)
-                        .set({
-                            chips: 0,
-                            tickets: 0,
-                            myTopics: [],
-                            favorites: []
-                        });
-                    await app
-                        .firestore()
-                        .collection('earnings')
-                        .doc(data.stringID)
-                        .set({
-                            avatar: '',
-                            userName: data.userName,
-                            season: {correct: 0, chips: 0, started: timestamp},
-                            week: {correct: 0, chips: 0, started: timestamp},
-                            month: {correct: 0, chips: 0, started: timestamp},
-                            lifetime: {correct: 0, chips: 0},
-                            days: {
-                                monday: {correct: 0, tickets: 0},
-                                tuesday: {correct: 0, tickets: 0},
-                                wednesday: {correct: 0, tickets: 0},
-                                thursday: {correct: 0, tickets: 0},
-                                friday: {correct: 0, tickets: 0},
-                                saturday: {correct: 0, tickets: 0},
-                                sunday: {correct: 0, tickets: 0},
-                            }
-                        });
                     dispatch(setUserData(user))
                     setTimeout(() => callback(true), 3000);
                 }).catch(e => dispatch(setAuthenticationCode(e.message)))

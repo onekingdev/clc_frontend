@@ -15,7 +15,6 @@
     "@types/react-dom": "^16.9.8",
     "axios": "^0.21.0",
     "firebase": "^7.19.1",
-    "moment": "^2.29.1",
     "react": "^17.0.1",
     "react-awesome-modal": "^2.0.5",
     "react-awesome-reveal": "^3.4.0",

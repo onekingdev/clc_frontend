@@ -1,3 +1,12 @@
+.gameContentContainer {
+    height: 80vh;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+.gameContentContainer::-webkit-scrollbar {
+    display: none;
+}
 
 .gamePlayerWrapper {
     width: 90%;

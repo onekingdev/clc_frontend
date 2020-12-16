@@ -2,12 +2,12 @@ import React, {useState, useEffect, useRef} from 'react';
 // @ts-ignore
 import {connect} from 'react-redux';
 import './styles.css';
-import * as AUTH_ACTIONS from "../Authentication/store/actions";
+import * as ACTIONS from "../Settings/store/actions";
 // @ts-ignore
 import {useHistory} from 'react-router-dom';
 import XLSX from 'xlsx';
 import FilePicker from '../../components/FilePicker';
-import Button from '../../components/Button';
+import { library } from '@fortawesome/fontawesome-svg-core';
 
 
 function Settings(props: any) {
@@ -33,12 +33,22 @@ function Settings(props: any) {
             const data = XLSX.utils.sheet_to_json(ws);
             sheets[wsname] = data;
         }
-        bulkImport(sheets);
+        return sheets;
+    }
+
+    const importLibrary = (data: any) => {
+        const sheets = onFileOpen(data);
+        bulkImportLibrary(sheets);
+    }
+
+    const importQuestions = (data: any) => {
+        const sheets = onFileOpen(data);
+        bulkImportQuestions(sheets);
     }
     
-    const bulkImport = (sheets: { [email: string]: Object; }) => {
+    const bulkImportLibrary = (sheets: { [email: string]: Object; }) => {
         console.log(sheets)
-        var libraries = (sheets["LIBRARIES"] as Array<Object> || [])
+        var library = (sheets["LIBRARIES"] as Array<Object> || [])
             .map((value: any) => {
                 return {
                     id: value['ID'],
@@ -50,16 +60,17 @@ function Settings(props: any) {
                     type: value['TYPE'] // usage, faq
                 }
             });
-        
+        props.uploadLibrary({ library });
+    }
+    
+    const bulkImportQuestions = (sheets: { [email: string]: Object; }) => {
         var lessons = (sheets["LESSONS"] as Array<Object> || [])
             .map((value: any) => {
                 return {
-                    id: value['ID'],
-                    topicID: value['TOPIC_ID'],
+                    topicRow: value['TOPIC_ROW'],
                     name: value['NAME']
                 }
             });
-        
         
         var topics = (sheets["TOPICS"] as Array<Object> || [])
             .map((value: any) => {
@@ -67,7 +78,7 @@ function Settings(props: any) {
                 return {
                     id: value['ID'],
                     name: value['NAME'],
-                    rank: value['RANK'],
+                    masteredLevel: value['MASTERED_LEVEL'],
                     chips: value['CHIPS'],
                     tickets: value['TICKETS']
                 }
@@ -77,7 +88,7 @@ function Settings(props: any) {
             .map((value: any) => {
                 return {
                     id: value['ID'], 
-                    lessonID: value['LESSON_ID'], 
+                    lessonRow: value['LESSON_ROW'], 
                     questionText: value['QUESTION_TEXT'], 
                     Answers: { 
                         correct: value['ANSWER_CORRECT'], 
@@ -88,29 +99,14 @@ function Settings(props: any) {
                     explanation: { correct: value['EXPLANATION_CORRECT'], wrong: value['EXPLANATION_WRONG'] }
                 }
             });
-            
-        // SEND TO THE API {lessons, questions, topics, libraries}
-        console.log({lessons, questions, topics, libraries});
+        
+        props.uploadQuestions({ lessons, questions, topics });
     }
 
     return (
         <div className="settingsContainer">
-            <FilePicker onFileOpen={onFileOpen}></FilePicker>
-
-            <Button
-                loading={props.isFetchingAuthentication}
-                width={200}
-                height={44}
-                text="Logout"
-                glow
-                onClick={() => {
-                    props.logout((success: boolean) => {
-                        if (success) {
-                            history.push(`/`);
-                        }
-                    })
-                }}
-            />
+            <FilePicker title={"Import Library"} onFileOpen={importLibrary}></FilePicker>
+            <FilePicker title={"Import Questions"} onFileOpen={importQuestions}></FilePicker>
         </div>
     );
 }
@@ -124,7 +120,8 @@ const mapStateToProps = (state: any) => {
 
 const bindActions = (dispatch: any) => {
     return {
-        logout: (callback: (success: boolean) => void) => dispatch(AUTH_ACTIONS.logout(callback))
+        uploadLibrary: (library: any) => dispatch(ACTIONS.uploadLibrary(library)),
+        uploadQuestions: (questions: any) => dispatch(ACTIONS.uploadQuestions(questions)),
     };
 };
 

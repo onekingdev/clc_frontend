@@ -1,15 +1,8 @@
 import * as TYPE from '../actions/types';
 
 const INITIAL_STATE = {
-    graphData: [],
-    tableData: {
-        chipsEarned: [],
-        myChipsEarned: 0,
-        correctQuestions: [],
-        myCorrectQuestions: 0,
-        myCorrectRank: 0,
-        myChipRank: 0
-    },
+    graphData: {},
+    tableData: {},
     messageCode: null
 };
 
