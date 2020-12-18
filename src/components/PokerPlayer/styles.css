@@ -162,3 +162,16 @@
 .dealerChipBottomRight {
     padding-left: 100px;
 }
+
+
+.pokerPlayerItemsWrapper {
+    transition: transform 1s ease-out;
+}
+.pokerPlayerItemsWrapper img {
+    transition: transform 0.5s ease-out;
+}
+
+.badge {
+    transition: all 0.5s ease-out;
+}
+  
