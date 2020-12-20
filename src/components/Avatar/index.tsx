@@ -2,6 +2,8 @@ import React, {useState} from 'react';
 import './styles.css';
 import SmallText from '../SmallText';
 import Chance from '../../assets/images/chance.png';
+import TitleText from "../TitleText";
+import BodyText from "../BodyText";
 
 interface IAvatar {
     size: string, // small, medium, large
@@ -27,7 +29,7 @@ const Avatar: React.FC<IAvatar> = ({
             case 'medium':
                 return 50;
             case 'large':
-                return 58;
+                return 80;
         }
     }
     return (
@@ -38,7 +40,7 @@ const Avatar: React.FC<IAvatar> = ({
                         <SmallText color="#FFF" bold>{text}</SmallText>
                     </div>
                     <div>
-                        <SmallText color="#76746C">{`Rank${rank}`}</SmallText>
+                        <SmallText color="#76746C">{`Level${rank}`}</SmallText>
                     </div>
                 </div>
                 <div className="avatarImage" style={{marginLeft: 16}}>
@@ -51,7 +53,9 @@ const Avatar: React.FC<IAvatar> = ({
                     <img src={image === '' ? Chance : image} width={getSize(size)} height={getSize(size)}/>
                 </div>
                 <div>
-                    <SmallText color={bold ? 'var(--primary)' : '#FFF'} bold={bold}>{text}</SmallText>
+                    {size === 'large' ? <BodyText color="#FFF" bold>{text}</BodyText>
+                        : <SmallText color={bold ? 'var(--primary)' : '#FFF'} bold={bold}>{text}</SmallText>
+                    }
                 </div>
             </div>
             }

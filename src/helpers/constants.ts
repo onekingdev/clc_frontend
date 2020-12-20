@@ -4,11 +4,11 @@ export const apiDevelopmentUrl = '/clc-poker/us-central1';
 export const getUserByEmail = 'getUserByEmail';
 export const apiCreateUser = 'createUser';
 export const apiValidateCode = 'validateCode';
-
+export const apiGetLibrary = 'getLibrary';
 
 
 export const apiEmailResetEndpoint = 'email';
-export const apiLibraryEndpoint = 'library';
+
 export const apiPathsEndpoint = 'paths';
 
 // front end messages

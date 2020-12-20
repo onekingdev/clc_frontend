@@ -21,7 +21,8 @@ interface IButton {
     imgType?: string,
     closeMenuButton?: boolean,
     answer?: string,
-    loading?: boolean
+    loading?: boolean,
+    disabled?: boolean
 }
 
 const Button: React.FC<IButton> = ({
@@ -40,7 +41,8 @@ const Button: React.FC<IButton> = ({
     imgType,
     closeMenuButton,
     answer,
-    loading
+    loading,
+    disabled
                                    }) =>  {
     const [count, setCount] = useState(0);
     const [spanStyles, setSpanStyles] = useState({});
@@ -122,7 +124,7 @@ const Button: React.FC<IButton> = ({
                     height: height,
                     justifyContent: answer ? 'flex-start' : 'center'
                 }}
-            onClick={onClick}
+            onClick={disabled ? () => {} : onClick}
             onMouseOver={() => {
                 if (!selected && !glow && !closeMenuButton && !transparent) {
                     setTextColor('var(--button-solid-text)')

@@ -1,7 +1,7 @@
 import React, {useState} from "react";
 import Navigation from './services/navigation';
 // @ts-ignore
-import { BrowserRouter } from "react-router-dom";
+import { BrowserRouter } from 'react-router-dom';
 // @ts-ignore
 import { Provider } from 'react-redux';
 import store from './redux/configureStore';

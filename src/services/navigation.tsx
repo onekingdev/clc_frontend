@@ -6,6 +6,7 @@ import Paths from '../containers/Paths';
 import Library from '../containers/Library';
 import Performance from '../containers/Performance';
 import Game from '../containers/Game';
+import ScreenTemplate from "../containers/ScreenTemplate";
 
 export default function Navigation() {
     return (

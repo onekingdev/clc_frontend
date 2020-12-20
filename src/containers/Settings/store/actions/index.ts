@@ -1,24 +1,27 @@
-import * as TYPES from "./types";
+import * as TYPES from './types';
 import api from '../../../../services/apiMiddleware';
 
-export const actionTest = () => {
+export const isUploadingLibraryData = (data: boolean) => {
     return {
-        type: TYPES.ACTION_TEST
+        type: TYPES.SET_IS_UPLOADING_LIBRARY_DATA,
+        payload: data
     };
 }
 
 export const uploadLibrary = (library: any) => (dispatch: any, getState: any) => {
+    dispatch(isUploadingLibraryData(true));
     return api.post("uploadLibrary", library)
         .then(response => {
-            console.log("uploadLibrary",response);
+            dispatch(isUploadingLibraryData(false));
             return response;
         });
 }
 
 export const uploadQuestions = (questions: any) => (dispatch: any, getState: any) => {
+    dispatch(isUploadingLibraryData(true));
     return api.post("uploadQuestions", questions)
         .then(response => {
-            console.log("uploadQuestions",response);
+            dispatch(isUploadingLibraryData(false));
             return response;
         });
 }

@@ -86,13 +86,13 @@ const MediaCard: React.FC<IMediaCard> = ({
                 </div>
             </div>
             <div className="topicCardTextWrapper">
-                <SmallText>{duration}</SmallText>
+                <SmallText>{duration.substr(1, duration.length -2)}</SmallText>
             </div>
             <div className="topicCardTextWrapper" style={{marginBottom: 12}}>
                 <SubtitleText>{title}</SubtitleText>
             </div>
             <div className="topicCardTextWrapper">
-                <BodyText>{description}</BodyText>
+                <BodyText>{description.length > 100 ? `${description.substr(0, 100)}...` : description}</BodyText>
             </div>
             <div className="rippleContainer" onMouseDown={showRipple} onMouseUp={callCleanUp(cleanUp, 2000)}>
                 {renderRippleSpan()}

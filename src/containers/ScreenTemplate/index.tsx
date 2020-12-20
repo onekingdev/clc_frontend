@@ -1,10 +1,10 @@
 import React, {useState, useEffect, useRef} from 'react';
+import * as ACTIONS from './store/actions';
 // @ts-ignore
 import {connect} from 'react-redux';
 // @ts-ignore
 import Modal from 'react-awesome-modal';
 import './styles.css';
-import {sidebarItems} from '../../helpers/builders';
 import Sidebar from '../../components/Sidebar';
 import Settings from "../Settings";
 // import * as ACTIONS from "./store/actions";
@@ -15,13 +15,20 @@ import Logo from "../../assets/images/clai-logo.png";
 import ChipItem from "../../components/ChipItem";
 import Avatar from "../../components/Avatar";
 import Header from "../../components/Header";
+// @ts-ignore
+import {useHistory} from 'react-router-dom';
 
 function ScreenTemplate(props: any) {
+    const history = useHistory();
     const scrollRef: any = useRef(null);
-    const [slider, setSlider] = useState(true);
+    const [slider, setSlider] = useState(false);
     const [width, setWidth] = useState(window.innerWidth);
     const [scrollTop, setScrollTop] = useState(0);
     const [showSettingsModal, setShowSettingsModal] = useState(false);
+
+    useEffect(() => {
+        props.getRealtimeUserData();
+    }, []);
 
     // adjust dimensions
     useEffect(() => {
@@ -35,7 +42,32 @@ function ScreenTemplate(props: any) {
 
     return (
         <div className="container">
-            <Sidebar title="MENU" items={sidebarItems} upperButtons={[]} reverse={!slider}
+            <Sidebar title="MENU" items={
+                [<SidebarItem icon="home" text="Home" onClick={() => {
+                    setTimeout(() => history.push('home'), 0);
+                }}/>,
+                <SidebarItem icon="ai" text="AI Learning" onClick={() => {
+                    setTimeout(() => history.push('game'), 0);
+                }}/>,
+                <SidebarItem icon="path" text="Pick Your Path" onClick={() => {
+                    setTimeout(() => history.push('path'), 0);
+                }}/>,
+                <SidebarItem icon="practice" text="Practice" onClick={() => {
+                    setTimeout(() => history.push('practice'), 0);
+                }}/>,
+                <SidebarItem icon="video" text="Video Library" onClick={() => {
+                    setTimeout(() => history.push('library'), 0);
+                }}/>,
+                <SidebarItem icon="training" text="Advanced Training" onClick={() => {
+                    setTimeout(() => history.push('training'), 0);
+                }}/>,
+                <SidebarItem icon="performance" text="My Performance" onClick={() => {
+                    setTimeout(() => history.push('performance'), 0);
+                }}/>,
+                <SidebarItem icon="answers" text="Answers" onClick={() => {
+                    setTimeout(() => history.push('answers'), 0);
+                }}/>]
+            } upperButtons={[]} reverse={!slider}
                      closeButton={() => setSlider(false)}/>
             <Header
                 scrolling={scrollTop}
@@ -53,17 +85,17 @@ function ScreenTemplate(props: any) {
                     <div className="headerItemWrapper">
                         <div className="headerChipTicketWrapper">
                             <div className="headerChipWrapper">
-                                <ChipItem icon="chip" quantity={25} size="small"/>
+                                <ChipItem icon="chip" quantity={(props.chips)} size="small"/>
                             </div>
                             <div className="headerCashWrapper">
-                                <ChipItem icon="cash" quantity={3} size="small"/>
+                                <ChipItem icon="cash" quantity={props.tickets} size="small"/>
                             </div>
                         </div>
                         <Avatar
                             size="medium"
-                            image=""
-                            text="Chance Franci"
-                            rank={1}
+                            image={props.user.avatar}
+                            text={props.user.userName}
+                            rank={props.user.masteredLevel}
                             onClick={() => setShowSettingsModal(true)}
                         />
                     </div>
@@ -89,7 +121,7 @@ function ScreenTemplate(props: any) {
                     </div>
                 }
             </div>
-            <Modal visible={showSettingsModal} width="450" effect="fadeInUp"
+            <Modal visible={showSettingsModal} width="40%" effect="fadeInUp"
                    onClickAway={() => setShowSettingsModal(false)}>
                 <Settings/>
             </Modal>
@@ -99,12 +131,16 @@ function ScreenTemplate(props: any) {
 
 const mapStateToProps = (state: any) => {
     return {
-        user: state.authState.user
+        user: state.authState.user,
+        chips: state.screenTemplateState.chips,
+        tickets: state.screenTemplateState.tickets,
     };
 }
 
 const bindActions = (dispatch: any) => {
-    return {};
+    return {
+        getRealtimeUserData: () => dispatch(ACTIONS.getRealtimeUserData())
+    };
 };
 
 export default connect(mapStateToProps, bindActions)(ScreenTemplate);

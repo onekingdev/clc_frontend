@@ -21,9 +21,9 @@ const reducer = (state = INITIAL_STATE, action: {type: string, payload: any}) =>
         case TYPE.SET_TABLE_DATA:
             return {...state, tableData: action.payload};
         case TYPE.SET_PERFORMANCE_CODE:
+            return {...state, messageCode: action.payload};
         case TYPE.SET_IS_FETCHING_PERFORMANCE_DATA:
             return {...state, isFetchingPerformanceData: action.payload};
-            return {...state, messageCode: action.payload};
         case TYPE.CLEAR_PERFORMANCE_DATA:
             return INITIAL_STATE;
         default:

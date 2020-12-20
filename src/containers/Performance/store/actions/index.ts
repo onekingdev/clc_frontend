@@ -179,6 +179,18 @@ export const updateDailyEarnings = (data: { chips: number, tickets: number }) =>
 
     await app
         .firestore()
+        .collection('users')
+        .doc(uid)
+        .update('chips', firebase.firestore.FieldValue.increment(data.chips));
+
+    await app
+        .firestore()
+        .collection('users')
+        .doc(uid)
+        .update('tickets', firebase.firestore.FieldValue.increment(data.tickets));
+
+    await app
+        .firestore()
         .collection('earnings')
         .doc(uid)
         .update({

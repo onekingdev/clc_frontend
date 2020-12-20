@@ -3,6 +3,8 @@ import Button from "../../components/Button";
 import XLSX from 'xlsx';
 
 import './styles.css';
+import BodyText from "../BodyText";
+import TitleText from "../TitleText";
 
 interface IFilePicker {
     onFileOpen: (data: any) => void;
@@ -10,16 +12,14 @@ interface IFilePicker {
 }
 
 const FilePicker: React.FC<IFilePicker> = ({
-    onFileOpen,
-    title
-}) =>  {
-    
+                                               onFileOpen,
+                                               title
+                                           }) => {
+
     const [file, setFile] = useState<File | null>();
-    const [isLoading, setIsLoading] = useState<boolean>(false);
     const inputRef = useRef(null)
 
     const onChangeFile = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setIsLoading(true);
         const file = e.target.files?.item(0)
         if (file) {
             const reader = new FileReader();
@@ -27,7 +27,6 @@ const FilePicker: React.FC<IFilePicker> = ({
                 /* Parse data */
                 const bstr = evt?.target?.result;
                 onFileOpen(bstr);
-                setIsLoading(false);
             };
             reader.readAsBinaryString(file);
             setFile(file);
@@ -36,7 +35,10 @@ const FilePicker: React.FC<IFilePicker> = ({
 
     const chooseFile = () => {
         const current = inputRef.current;
-        (current || { click: () => {}}).click()
+        (current || {
+            click: () => {
+            }
+        }).click()
     }
 
     return (
@@ -46,15 +48,17 @@ const FilePicker: React.FC<IFilePicker> = ({
                 id="select-file"
                 type="file"
                 hidden={true}
-                ref={inputRef} />
-            <Button
-                loading={isLoading}
-                width={200}
-                height={44}
-                text={file?.name || title || "Open File"}
-                glow
-                onClick={chooseFile}
-            />
+                ref={inputRef}/>
+            <div className="filePickerButton" onClick={chooseFile}>
+                <div>
+                    <div>
+                        <TitleText>+</TitleText>
+                    </div>
+                    <div>
+                        <BodyText>{file?.name || title || "Open File"}</BodyText>
+                    </div>
+                </div>
+            </div>
         </div>
     );
 }

@@ -1,17 +1,18 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import './styles.css';
 import SmallText from "../SmallText";
 import SubtitleText from "../SubtitleText";
 import BodyText from "../BodyText";
 import TitleText from "../TitleText";
+import Button from "../Button";
 
 interface IQuestionCard {
     headerText: string,
     questionNumber: number,
     description: string,
     options: any[],
-    footerText: string,
-    status: number, // 0 = not answered, 1 = correct, 2 = wrong
+    callback: (correct: boolean) => void,
+    next: () => void
 }
 
 const QuestionCard: React.FC<IQuestionCard> = ({
@@ -19,9 +20,16 @@ const QuestionCard: React.FC<IQuestionCard> = ({
                                                    questionNumber,
                                                    description,
                                                    options,
-                                                   footerText,
-                                                   status
+                                                   callback,
+                                                   next
                                                }) => {
+    const [status, setStatus] = useState(0); // 0 = not answered, 1 = correct, 2 = wrong,
+    const [explanation, setExplanation] = useState('');
+
+    useEffect(() => {
+        setStatus(0);
+        setExplanation('');
+    }, [questionNumber])
 
     return (
         <div className="questionCardContainer">
@@ -36,7 +44,14 @@ const QuestionCard: React.FC<IQuestionCard> = ({
                 <BodyText>{description}</BodyText>
             </div>
             {options.length > 0 ?
-                options.map((item, index) => <div key={index} style={{marginBottom: 16}}>{item}</div>) : null}
+                options.map((item, index) => <div key={index} style={{marginBottom: 16}}>
+                    <Button disabled={status !== 0} onClick={() => {
+                        callback(item.correct);
+                        setStatus(item.correct ? 1 : 2);
+                        setExplanation(item.explanation);
+                    }} width={343} height={47} text={item.text}
+                            answer={index === 0 ? 'A.' : index === 1 ? 'B.' : index === 2 ? 'C.' : index === 3 ? 'D.' : 'E.'}/>
+                </div>) : null}
             {status !== 0 ? <div className="questionCardFooterWrapper">
                 {status === 1 ?
                     <div className="questionCardFooterHeaderWrapper">
@@ -54,7 +69,12 @@ const QuestionCard: React.FC<IQuestionCard> = ({
                     </div>
                 }
                 <div>
-                    <BodyText>{footerText}</BodyText>
+                    <BodyText>{explanation}</BodyText>
+                    <div style={{marginTop: 50}}>
+                        <Button onClick={() => {
+                            next();
+                        }} width={343} height={47} text="Next Question" selected glow />
+                    </div>
                 </div>
             </div> : null}
         </div>

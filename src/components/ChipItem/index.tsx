@@ -5,6 +5,7 @@ import SubtitleText from "../SubtitleText";
 import TitleText from "../TitleText";
 import chipIcon from "../../assets/images/chip.png"
 import cashIcon from "../../assets/images/plaque.png"
+import {numberWithCommas} from '../../helpers/formatter'
 
 interface IChipItem {
     icon: string, // chip, cash
@@ -33,13 +34,13 @@ const ChipItem: React.FC<IChipItem> = ({
                 </div>
             }
             {size === 'small' ?
-                <SmallText color="#FFF" bold>{quantity}</SmallText>
+                <SmallText color="#FFF" bold>{numberWithCommas(quantity)}</SmallText>
                 : size === 'medium' ?
-                    <SubtitleText bold>{quantity}</SubtitleText>
+                    <SubtitleText bold>{numberWithCommas(quantity)}</SubtitleText>
                     : size === 'large' ?
-                        <TitleText bold>{quantity}</TitleText>
+                        <TitleText bold>{numberWithCommas(quantity)}</TitleText>
                         :
-                        <SmallText color="#FFF" bold>{quantity}</SmallText>
+                        <SmallText color="#FFF" bold>{numberWithCommas(quantity)}</SmallText>
             }
         </div>
     );

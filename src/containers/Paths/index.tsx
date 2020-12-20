@@ -71,6 +71,24 @@ function Paths(props: any) {
             description="based on the contextual information. What is the best response?"
             status={0}
         />,
+        <TopicCard
+            label="Flop"
+            title="Lesson 3H"
+            description="based on the contextual information. What is the best response?"
+            status={0}
+        />,
+        <TopicCard
+            label="Flop"
+            title="Lesson 3H"
+            description="based on the contextual information. What is the best response?"
+            status={0}
+        />,
+        <TopicCard
+            label="Flop"
+            title="Lesson 3H"
+            description="based on the contextual information. What is the best response?"
+            status={0}
+        />
     ];
     const locked = [
         <TopicCard

@@ -12,7 +12,7 @@
 
 .performanceGraphWrapper {
     margin-top: 72px;
-    margin-bottom: 72px;
+    margin-bottom: 50px;
     display: flex;
     justify-content: space-between;
 }

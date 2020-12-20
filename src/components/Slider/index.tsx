@@ -70,7 +70,7 @@ const Slider: React.FC<ISlider> = ({
                         renderContent(selectedIndex)
                     }
                 </div>
-                {selectedIndex !== dotNum - 1 && dotNum > 1 ?
+                {selectedIndex !== dotNum - 1 && dotNum > 1 && selectedIndex < dotNum -1 ?
                     <div style={{paddingRight: 60, marginLeft: -100, zIndex: 1}}>
                         <Button onClick={() => setSelectedIndex(selectedIndex + 1)} width={40} height={40}
                                 circular glow

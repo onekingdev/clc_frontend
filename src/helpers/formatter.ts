@@ -7,6 +7,10 @@ export const formatPrice = (price: number) => {
     }).format(price);
 }
 
+export const numberWithCommas = (x: number) => {
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
+
 export const formatMessageCode = (code: any) => {
     switch (code) {
         case 400:
@@ -20,10 +24,6 @@ export const formatMessageCode = (code: any) => {
         default:
             return `${code.substring(0, 58)}...`;
     }
-}
-
-export const formatTableData = (data: any) => {
-
 }
 
 export const formatGraphData = (data: any) => {

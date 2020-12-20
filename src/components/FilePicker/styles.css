@@ -1,0 +1,12 @@
+.filePickerButton {
+    width: 150px;
+    height: 100px;
+    border-style: dashed;
+    border-width: 1px;
+    border-color: var(--primary);
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 10px;
+}

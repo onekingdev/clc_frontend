@@ -1,13 +1,13 @@
 import * as TYPE from '../actions/types';
 
 const INITIAL_STATE = {
-    exampleData: [],
+    isUploadingLibraryData: false
 };
 
 const reducer = (state = INITIAL_STATE, action: {type: string, payload: any}) => {
     switch (action.type) {
-        case TYPE.ACTION_TEST:
-            return { ...INITIAL_STATE, exampleData: [1] };
+        case TYPE.SET_IS_UPLOADING_LIBRARY_DATA:
+            return {...state, isUploadingLibraryData: action.payload};
         default:
             return state;
     }

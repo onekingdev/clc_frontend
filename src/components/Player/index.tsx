@@ -4,39 +4,41 @@ import Button from "../Button";
 import BodyText from "../BodyText";
 
 interface IPlayer {
-    play: boolean,
-    replay: boolean,
+    pause: boolean,
+    setPause: (pause: boolean) => void,
+    replay: () => void,
     speed: number,
     volume: number,
     favorite: boolean,
-    rewind: boolean,
-    fastForward: boolean,
-    callback: () => void
+    rewind: () => void,
+    fastForward: () => void,
+    setSpeed: (speed: number) => void
 }
 
 const Player: React.FC<IPlayer> = ({
-    play,
+    pause,
+    setPause,
     replay,
     speed,
     volume,
     favorite,
     rewind,
     fastForward,
-    callback
+    setSpeed,
 }) =>  {
     return (
         <div className="playerContainer">
-            <Button onClick={() => {}} width={53} height={53} iconName="faBackward" transparent/>
+            <Button onClick={rewind} width={53} height={53} iconName="faBackward" transparent/>
             <div className="playerCircularButtonWrapper">
-                <Button onClick={() => {}} width={53} height={53} glow iconName={!play ? 'faPlay' : 'faPause'} circular/>
+                <Button onClick={() => setPause(!pause)} width={53} height={53} glow iconName={pause ? 'faPlay' : 'faPause'} circular/>
             </div>
-            <Button onClick={() => {}} width={53} height={53} iconName="faRedo" transparent/>
-            <Button onClick={() => {}} width={53} height={53} iconName="faForward" transparent/>
+            <Button onClick={replay} width={53} height={53} iconName="faRedo" transparent/>
+            <Button onClick={fastForward} width={53} height={53} iconName="faForward" transparent/>
             <BodyText color="#FFF">1X</BodyText>
-            <input type="range" min="1" max="10" value={volume} className="playerProgressBar" id="myRange"/>
+            <input  type="range" min="500" max="2000" value={speed} onChange={(e) => setSpeed(parseInt(e.target.value))} className="playerProgressBar" id="myRange"/>
             <BodyText color="#FFF">10X</BodyText>
             <Button onClick={() => {}} width={53} height={53} iconName="faVolumeUp" transparent/>
-            <Button onClick={() => {}} width={53} height={53} iconName="faStar" transparent selected/>
+            <Button onClick={() => {}} width={53} height={53} iconName="faStar" transparent selected={favorite}/>
         </div>
     );
 }

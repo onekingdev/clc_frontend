@@ -1,7 +1,7 @@
 import * as TYPES from './types';
 import {ILibraryList} from '../../interfaces';
 import api from '../../../../services/apiMiddleware';
-import {apiLibraryEndpoint} from '../../../../helpers/constants';
+import {apiGetLibrary} from '../../../../helpers/constants';
 
 export const clearLibraryData = () => {
     return {
@@ -30,18 +30,18 @@ export const setLibraryList = (data: ILibraryList) => {
     };
 }
 
-export const getLibraryList = () => async(
+export const fetchLibraryList = () => async(
     dispatch: (data: any) => void,
     getState: any,
 ) => {
     try {
-        setIsFetchingLibraryData(true);
-        const list = await api.get(apiLibraryEndpoint);
-        setLibraryList(list);
+        dispatch(setIsFetchingLibraryData(true));
+        const list = await api.get(apiGetLibrary);
+        dispatch(setLibraryList(list));
     } catch (e) {
         setLibraryCode(e);
     } finally {
-        setIsFetchingLibraryData(false);
+        dispatch(setIsFetchingLibraryData(false));
     }
 }
 

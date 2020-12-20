@@ -3,3 +3,24 @@
     padding: 30px;
     height: 100%;
 }
+
+.settingsUploadButtonsWrapper {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    height: 25vh;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.settingsAvatarWrapper {
+    display: flex;
+    justify-content: center;
+    margin-top: 40px;
+}
+
+.settingsLogoutBtnWrapper {
+    display: flex;
+    justify-content: center;
+    margin-top: 40px;
+}

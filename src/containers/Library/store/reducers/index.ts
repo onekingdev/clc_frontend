@@ -1,10 +1,7 @@
 import * as TYPE from '../actions/types';
 
 const INITIAL_STATE = {
-    libraryLists: {
-        usage: [],
-        faq: []
-    },
+    libraryLists: {},
     isFetchingLibraryData: false,
     messageCode: null
 };
