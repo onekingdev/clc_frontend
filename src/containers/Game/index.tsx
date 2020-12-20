@@ -13,6 +13,8 @@ import Button from "../../components/Button";
 import SmallText from "../../components/SmallText";
 import ScreenTemplate from "../ScreenTemplate";
 import {numberWithCommas} from '../../helpers/formatter';
+import {Fade} from "react-awesome-reveal";
+import {DotLoader} from "react-spinners";
 
 const questions = [
     {
@@ -188,16 +190,11 @@ function Game(props: any) {
     const [width, setWidth] = useState(window.innerWidth);
     const [speed, setSpeed] = useState(1200);
     const [pause, setPause] = useState(false);
+    const [finished, setFinished] = useState(false);
 
     useEffect(() => {
         props.setIsFetchingGameData(true);
     },[])
-
-    useEffect(() => {
-        setTimeout(() => {
-            props.setIsFetchingGameData(false);
-        }, 2000)
-    }, [index])
 
     // adjust dimensions
     useEffect(() => {
@@ -226,13 +223,16 @@ function Game(props: any) {
     }
 
     const move = () => {
-        let counter = index+=1;
         if (pause) return;
-        if (counter > 7) {
-            index = 8;
-            stop()
+        if (index > questions[0].players-1) {
+            if (questions[0].rounds.length-1 === round) setFinished(true);
+            if (questions[0].rounds.length-1 > round) {
+                reset();
+                setRound(round += 1);
+            }
+        } else {
+            setIndex(index += 1)
         }
-        setIndex(counter)
     }
 
     const start = () => {
@@ -278,6 +278,7 @@ function Game(props: any) {
     }
 
     const handleSubmit = () => {
+        setFinished(false);
         props.setIsFetchingGameData(true);
     }
 
@@ -285,6 +286,19 @@ function Game(props: any) {
         if (pause) stop();
         else start();
     }, [pause])
+
+    useEffect(() => {
+        if (round > 0) {
+            start();
+        }
+    }, [round])
+
+    useEffect(() => {
+        if (finished) {
+            stop();
+            setIndex(questions[0].players-1);
+        }
+    }, [finished])
 
     // ScreenTemplate loading={props.isFetchingGameData}
     return (
@@ -298,15 +312,16 @@ function Game(props: any) {
                                 <div key={i} className={`gamePokerPlayerWrapper gameP${player.player}`}>
                                     <PokerPlayer
                                         player={player.player}
+                                        me={player.cardOne && player.cardOne.show && player.cardTwo.show}
                                         cards={player.cardOne ? [player.cardOne, player.cardTwo] : []}
                                         mp={player.mp}
-                                        chips={player.sb || player.action.type === 'anti' ? 1 : player.action.type === 'call' || player.bb ? 2 : player.action.type === 'raise' ? 3 : 0}
+                                        chips={index >= i ? player.sb || player.action.type === 'anti' ? 1 : player.action.type === 'call' || player.bb ? 2 : player.action.type === 'raise' ? 3 : 0 : 0}
                                         chipPos={handleChipPos(player.player)}
                                         turn={index === i}
                                         blind={player.sb ? 'SB' : player.bb ? 'BB' : ''}
                                         dealer={player.dealer}
                                         fold={false}
-                                        action={player.action}/>
+                                        action={index >= i ? player.action : {type: '', amount: 0}}/>
                                 </div>
                             )
                             : null}
@@ -338,13 +353,13 @@ function Game(props: any) {
                 </div>
                 <div className="gameQuestionWrapper">
                     <QuestionCard
+                        loading={!finished}
                         headerText={questions[0].question.header}
                         questionNumber={questions[0].question.questionNumber}
                         description={questions[0].question.description}
                         options={questions[0].question.answers}
                         callback={handleAnswerQuestion}
-                        next={handleSubmit}
-                    />
+                        next={handleSubmit}/>
                 </div>
             </div>
         </div>

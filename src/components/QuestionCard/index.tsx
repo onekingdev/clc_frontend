@@ -5,8 +5,10 @@ import SubtitleText from "../SubtitleText";
 import BodyText from "../BodyText";
 import TitleText from "../TitleText";
 import Button from "../Button";
+import {DotLoader} from "react-spinners";
 
 interface IQuestionCard {
+    loading: boolean,
     headerText: string,
     questionNumber: number,
     description: string,
@@ -16,6 +18,7 @@ interface IQuestionCard {
 }
 
 const QuestionCard: React.FC<IQuestionCard> = ({
+                                                   loading,
                                                    headerText,
                                                    questionNumber,
                                                    description,
@@ -43,7 +46,7 @@ const QuestionCard: React.FC<IQuestionCard> = ({
             <div className="questionCardTextWrapper" style={{marginBottom: 24}}>
                 <BodyText>{description}</BodyText>
             </div>
-            {options.length > 0 ?
+            {!loading && options.length > 0 ?
                 options.map((item, index) => <div key={index} style={{marginBottom: 16}}>
                     <Button disabled={status !== 0} onClick={() => {
                         callback(item.correct);
@@ -51,7 +54,11 @@ const QuestionCard: React.FC<IQuestionCard> = ({
                         setExplanation(item.explanation);
                     }} width={343} height={47} text={item.text}
                             answer={index === 0 ? 'A.' : index === 1 ? 'B.' : index === 2 ? 'C.' : index === 3 ? 'D.' : 'E.'}/>
-                </div>) : null}
+                </div>) :
+                <div className="questionCenterLoader">
+                    <DotLoader loading={true} color="#FFF"/>
+                </div>
+            }
             {status !== 0 ? <div className="questionCardFooterWrapper">
                 {status === 1 ?
                     <div className="questionCardFooterHeaderWrapper">
@@ -73,7 +80,7 @@ const QuestionCard: React.FC<IQuestionCard> = ({
                     <div style={{marginTop: 50}}>
                         <Button onClick={() => {
                             next();
-                        }} width={343} height={47} text="Next Question" selected glow />
+                        }} width={343} height={47} text="Next Question" selected glow/>
                     </div>
                 </div>
             </div> : null}

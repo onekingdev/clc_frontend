@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect, useRef} from 'react';
 import './styles.css';
 import two_clubs from '../../assets/images/cards/2_clubs.png';
 import two_diamonds from '../../assets/images/cards/2_diamonds.png';
@@ -58,6 +58,7 @@ import {numberWithCommas} from "../../helpers/formatter";
 
 interface IPokerPlayer {
     player: number,
+    me: boolean,
     cards: { value: string, type: string, show: boolean }[],
     mp: number,
     chips: number,
@@ -71,6 +72,7 @@ interface IPokerPlayer {
 
 const PokerPlayer: React.FC<IPokerPlayer> = ({
     player,
+    me,
     cards,
     mp,
     chips,
@@ -81,6 +83,12 @@ const PokerPlayer: React.FC<IPokerPlayer> = ({
     blind,
     action
  }) => {
+
+    const leftCard = useRef<HTMLImageElement>(null);
+    const rightCard = useRef<HTMLImageElement>(null);
+
+    const badge = useRef<HTMLDivElement>(null);
+    const container = useRef<HTMLDivElement>(null);
 
     const renderCard = (value: string) => {
         switch (value) {
@@ -183,6 +191,30 @@ const PokerPlayer: React.FC<IPokerPlayer> = ({
         }
     }
 
+    useEffect(() => {
+        if (rightCard.current != null && rightCard.current != null) {
+            if (me) {
+                (leftCard.current as HTMLImageElement).style.transform = 'rotate(-10deg)';
+                (rightCard.current as HTMLImageElement).style.transform = 'rotate(10deg)';
+                (container.current as HTMLDivElement).style.transform = 'translateY(10px)';
+            } else if (dealer) {
+                (badge.current as HTMLDivElement).style.backgroundColor = 'white';
+                (container.current as HTMLDivElement).style.transform = 'translateY(0px)';
+                (leftCard.current as HTMLImageElement).style.transform = 'rotate(0deg)';
+                (container.current as HTMLDivElement).style.transform = 'translateY(10px)';
+            } else {
+                (leftCard.current as HTMLImageElement).style.transform = 'rotate(0deg)';
+                (rightCard.current as HTMLImageElement).style.transform = 'rotate(0deg)';
+                (badge.current as HTMLDivElement).style.backgroundColor = 'black';
+                (container.current as HTMLDivElement).style.transform = 'translateY(10px)';
+            }
+        }
+    }, [me]);
+
+    useEffect(() => {
+        console.log(leftCard.current?.style, rightCard.current);
+    }, [leftCard, rightCard]);
+
     const renderChips = (quantity: number) => {
         let array = []
         for (let i: number = 0; i < quantity; i++) {
@@ -198,7 +230,7 @@ const PokerPlayer: React.FC<IPokerPlayer> = ({
     }
 
     return (
-        <div className="pokerPlayerItemsWrapper">
+        <div className="pokerPlayerItemsWrapper"  ref={container}>
             <div>
                 {chipPos === 'left' || chipPos === 'top' ?
                     <div className={`pokerChips chipP${player}`}>
@@ -214,12 +246,18 @@ const PokerPlayer: React.FC<IPokerPlayer> = ({
                         <img src={dealer_chip} width={16} height={16} className="dealerChipTopRight"/>
                         : <img src={dealer_chip} width={16} height={16} className="dealerChipTopLeft" style={{visibility: 'hidden'}}/>
                 }
-                <div className="pokerPlayerItemsWrapper">
+                <div className="pokerPlayerItemsWrapper cardsWrapper" >
                     {cards.length > 0 ?
                         cards.map((card, index) =>
                             <div key={index} className="pokerPlayerItemsWrapper" style={action.type === 'fold' ? {opacity: 0.3} : {}}>
-                                <img src={!card.show ? cardBack : renderCard(`${card.value}_${card.type}`)} width={40}
-                                     height={56}/>
+                                {
+                                    0 == index ?
+                                        <img ref={leftCard} className={'cardImage'} src={!card.show ? cardBack : renderCard(`${card.value}_${card.type}`)} width={40}
+                                        height={56}/> :
+                                        <img ref={rightCard} className={'cardImage'} src={!card.show ? cardBack : renderCard(`${card.value}_${card.type}`)} width={40}
+                                        height={56}/>
+                                }
+
                             </div>
                         ) : <div style={{height: 56}}/>}
                 </div>
@@ -234,12 +272,12 @@ const PokerPlayer: React.FC<IPokerPlayer> = ({
                     } : {}
                 }
                 >
-                    <div className={dealer ? 'pokerPlayerMPWrapperInverted' : 'pokerPlayerMPWrapper'}>
+                    <div className={`${dealer ? 'pokerPlayerMPWrapperInverted' : 'pokerPlayerMPWrapper'} badge`} ref={badge}>
                         <div style={{marginRight: 9}}>
-                            <BodyText color={dealer ? '#1B1B1C' : '#FFF'}>MP</BodyText>
+                            <BodyText color={dealer ? '#000' : '#FFF'}>{`P${player}`}</BodyText>
                         </div>
                         <div>
-                            <BodyText color={dealer ? '#1B1B1C' : '#FFF'} bold>{`${numberWithCommas(mp - action.amount)} ${blind}`}</BodyText>
+                            <BodyText color={dealer ? '#000' : '#FFF'}>{`${numberWithCommas(mp - action.amount)} ${blind}`}</BodyText>
                         </div>
                     </div>
                 </div>
