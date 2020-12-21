@@ -207,8 +207,13 @@ function Game(props: any) {
     }
 
     const back = () => {
-        setPause(true)
+        setPause(true);
+        setFinished(false);
         clearInterval(interval);
+        if (index === 0 && questions[0].rounds.length-1 === round) {
+            setRound(round -= 1);
+            setIndex(questions[0].players-1)
+        }
         if (index > 0) {
             setIndex(index -= 1);
         }
@@ -217,8 +222,12 @@ function Game(props: any) {
     const forward = () => {
         clearInterval(interval);
         setPause(true)
-        if (index < questions[0].players -1) {
-            setIndex(index += 1);
+        if (index < questions[0].players -1) setIndex(index += 1);
+        if (index === questions[0].players -1 && questions[0].rounds.length-1 === round) setFinished(true);
+        if (index === questions[0].players -1 && questions[0].rounds.length-1 > round) {
+            setRound(round += 1);
+            setIndex(-1);
+            stop();
         }
     }
 
@@ -246,8 +255,9 @@ function Game(props: any) {
     }
 
     const reset = () => {
-        index = -1;
+        index = -2;
         setIndex(index);
+        setFinished(false);
         setPause(true)
         clearInterval(interval);
     }
@@ -299,6 +309,12 @@ function Game(props: any) {
             setIndex(questions[0].players-1);
         }
     }, [finished])
+
+    useEffect(() => {
+        if (index === -2) {
+            setRound(0);
+        }
+    }, [index])
 
     // ScreenTemplate loading={props.isFetchingGameData}
     return (
