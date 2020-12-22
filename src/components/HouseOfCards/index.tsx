@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import './styles.css';
 import two_clubs from '../../assets/images/cards/2_clubs.png';
 import two_diamonds from '../../assets/images/cards/2_diamonds.png';
@@ -48,6 +48,8 @@ import q_clubs from '../../assets/images/cards/Q_clubs.png';
 import q_diamonds from '../../assets/images/cards/Q_diamonds.png';
 import q_hearts from '../../assets/images/cards/Q_hearts.png';
 import q_spades from '../../assets/images/cards/Q_spades.png';
+import back from '../../assets/images/cards/Cardback Default.png';
+import {Flip} from 'react-awesome-reveal';
 
 interface IHouseOfCards {
     cards: {value: string, type: string, show: boolean}[]
@@ -56,6 +58,7 @@ interface IHouseOfCards {
 const HouseOfCards: React.FC<IHouseOfCards> = ({
     cards
 }) =>  {
+    const [flip, setFlip] = useState(true);
 
     const renderCard = (value: string) => {
         switch (value) {
@@ -158,13 +161,25 @@ const HouseOfCards: React.FC<IHouseOfCards> = ({
         }
     }
 
+    useEffect(() => {
+        // setTimeout(() => setFlip(true), 1000);
+    }, [])
+
     return (
         <div className="houseOfCardsContainer">
             {cards.length > 0 ?
                 cards.map((card, index) =>
                     <div key={index} className="houseOfCardsEmpty">
-                        {card.show ?<img src={renderCard(`${card.value}_${card.type}`)} width={54}
-                              height={76}/> : null}
+                        {card.show ?
+                            <Flip>
+                                {flip ?
+                                <img src={renderCard(`${card.value}_${card.type}`)} width={54}
+                                  height={76}/>
+                                  :
+                                <img src={back} width={54}
+                                     height={76}/>}
+                            </Flip>
+                              : null}
                     </div>
                 ) : null}
         </div>

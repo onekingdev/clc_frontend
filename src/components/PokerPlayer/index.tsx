@@ -53,7 +53,7 @@ import chip from '../../assets/images/chip.png';
 import dealer_chip from '../../assets/images/dealer-chip.png';
 import BodyText from "../BodyText";
 import SmallText from "../SmallText";
-import {Fade, Bounce, Zoom, Rotate, JackInTheBox, Hinge} from "react-awesome-reveal";
+import {Flip, Roll, Slide, Fade, Bounce, Zoom, Rotate, JackInTheBox, Hinge} from "react-awesome-reveal";
 import {numberWithCommas} from "../../helpers/formatter";
 
 interface IPokerPlayer {
@@ -198,14 +198,14 @@ const PokerPlayer: React.FC<IPokerPlayer> = ({
                 (rightCard.current as HTMLImageElement).style.transform = 'rotate(10deg)';
                 (container.current as HTMLDivElement).style.transform = 'translateY(10px)';
             } else if (dealer) {
-                (badge.current as HTMLDivElement).style.backgroundColor = 'white';
+                //(badge.current as HTMLDivElement).style.backgroundColor = 'white';
                 (container.current as HTMLDivElement).style.transform = 'translateY(0px)';
                 (leftCard.current as HTMLImageElement).style.transform = 'rotate(0deg)';
                 (container.current as HTMLDivElement).style.transform = 'translateY(10px)';
             } else {
                 (leftCard.current as HTMLImageElement).style.transform = 'rotate(0deg)';
                 (rightCard.current as HTMLImageElement).style.transform = 'rotate(0deg)';
-                (badge.current as HTMLDivElement).style.backgroundColor = 'black';
+                //(badge.current as HTMLDivElement).style.backgroundColor = 'black';
                 (container.current as HTMLDivElement).style.transform = 'translateY(10px)';
             }
         }
@@ -234,7 +234,9 @@ const PokerPlayer: React.FC<IPokerPlayer> = ({
             <div>
                 {chipPos === 'left' || chipPos === 'top' ?
                     <div className={`pokerChips chipP${player}`}>
-                        {renderChips(chips)}
+                        <Rotate>
+                            {renderChips(chips)}
+                        </Rotate>
                         <div className={`pokerChips gameChipBBWrapper${player}`}>
                             {action.amount !== 0 ? <SmallText color="#FFF">{`${action.type} `}<SmallText color="#FFF" bold>{`${numberWithCommas(action.amount)} ${blind}`}</SmallText></SmallText> : null}
                         </div>
@@ -283,7 +285,9 @@ const PokerPlayer: React.FC<IPokerPlayer> = ({
                 </div>
                 {chipPos === 'right' || chipPos === 'bottom' ?
                     <div className={`pokerChips chipP${player}`}>
-                        {renderChips(chips)}
+                        <Rotate>
+                            {renderChips(chips)}
+                        </Rotate>
                         <div className={`pokerChips gameChipBBWrapper${player}`}>
                             {action.amount !== 0 ? <SmallText color="#FFF">{`${action.type} `}<SmallText color="#FFF" bold>{`${numberWithCommas(action.amount)} ${blind}`}</SmallText></SmallText> : null}
                         </div>
