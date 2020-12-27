@@ -65,8 +65,9 @@ interface IPokerPlayer {
     chipPos: string,
     turn: boolean,
     dealer?: boolean,
-    fold: boolean,
     blind?: string,
+    tableAction: string,
+    onCall: (tableAction: string) => void
     action: any
 }
 
@@ -79,10 +80,15 @@ const PokerPlayer: React.FC<IPokerPlayer> = ({
     chipPos,
     turn,
     dealer,
-    fold,
     blind,
+    tableAction,
+    onCall,
     action
  }) => {
+
+    useEffect(() => {
+        onCall(tableAction);
+    }, [turn])
 
     const leftCard = useRef<HTMLImageElement>(null);
     const rightCard = useRef<HTMLImageElement>(null);
@@ -238,7 +244,8 @@ const PokerPlayer: React.FC<IPokerPlayer> = ({
                             {renderChips(chips)}
                         </Rotate>
                         <div className={`pokerChips gameChipBBWrapper${player}`}>
-                            {action.amount !== 0 ? <SmallText color="#FFF">{`${action.type} `}<SmallText color="#FFF" bold>{`${numberWithCommas(action.amount)} ${blind}`}</SmallText></SmallText> : null}
+                            { action.type === 'check' ? <SmallText color="#FFF">{`${action.type} `}</SmallText> :
+                                action.amount !== 0 ? <SmallText color="#FFF">{`${action.type} `}<SmallText color="#FFF" bold>{`${numberWithCommas(action.amount)} ${blind}`}</SmallText></SmallText> : null}
                         </div>
                     </div>
                     : null}
@@ -279,7 +286,7 @@ const PokerPlayer: React.FC<IPokerPlayer> = ({
                             <BodyText color={dealer ? '#000' : '#FFF'}>{`P${player}`}</BodyText>
                         </div>
                         <div>
-                            <BodyText color={dealer ? '#000' : '#FFF'}>{`${numberWithCommas(mp - action.amount)} ${blind}`}</BodyText>
+                            <BodyText color={dealer ? '#000' : '#FFF'}>{`${numberWithCommas(mp - action.amount)}`}</BodyText>
                         </div>
                     </div>
                 </div>
