@@ -160,7 +160,7 @@ const parseRecord = (record: string) => {
     let hands = [];
     for (let i = 0; i < records.length; i++) {
         const line = records[i];
-        const regex = /Seat\s+[#?|\']?(?<seat_number>\d+)\'?:\s+(?<seat_name>\w+[\s+\w+]*)\s+\(\s*(?<seat_amount>([0-9]{1,3}(\,[0-9]{1,3})*)*(\.[0-9]{1,2})?)\s*\)/
+        const regex = /Seat\s+[#?|\']?(?<seat_number>\d+)\'?:\s+(?<seat_name>[a-zA-Z0-9\s\']*)\s+\(\s*(?<seat_amount>(([0-9]{1,3}(\,[0-9]{1,3})*)*(\.[0-9]{1,2})?)|[a-zA-Z0-9\,\$\s]*)\s*\)/
         const result = regex.exec(line)?.groups
 
         if (result) {
@@ -181,24 +181,33 @@ const parseRecord = (record: string) => {
     const strRegex = `(?<seat_name>${words})\\s+(?<hand>[A-Za-z]+(\\s+[A-Za-z]+)*)(\\s*)\\[?(\\s*)(?<seat_amount>([0-9]{1,3}(\\,[0-9]{1,3})*)*(\\.[0-9]{1,2})?)?(\\s*)\\]?`;
     const handRegex = new RegExp(strRegex)
     const dealRegex = new RegExp(`\\bDealt\\b\\s+\\bto\\b\\s+(?<seat_name>${words})\\s+\\[*\\s*(?<cards>[a-zA-Z0-9]{2}(\\,?\\s*[a-zA-Z0-9]{2})*)\\s*\\]*`)
-    const flopRegex = /\*+\s+(\bDealing\s+Flop\b)\s+\*+\s+\[\s*(?<cards>[a-zA-Z0-9]{2}(\,?\s*[a-zA-Z0-9]{2})*)\s*\]/
-    const turnRegex = /\*+\s+(\bDealing\s+Turn\b)\s+\*+\s+\[\s*(?<card>[a-zA-Z0-9]{2}(\,?\s*[a-zA-Z0-9]{2})*)\s*\]/
-    const riverRegex = /\*+\s+(\bDealing\s+River\b)\s+\*+\s+\[\s*(?<card>[a-zA-Z0-9]{2}(\,?\s*[a-zA-Z0-9]{2})*)\s*\]/
+    const flopRegex = /\*+\s+(?<description>\w+(\s+\w+)*)\s+\*+\s+\[\s*(?<cards>[a-zA-Z0-9]{2}(\,?\s*[a-zA-Z0-9]{2})*)\s*\]/
+    // const turnRegex = /\*+\s+(\bDealing\s+Turn\b)\s+\*+\s+\[\s*(?<card>[a-zA-Z0-9]{2}(\,?\s*[a-zA-Z0-9]{2})*)\s*\]/
+    // const riverRegex = /\*+\s+(\bDealing\s+River\b)\s+\*+\s+\[\s*(?<card>[a-zA-Z0-9]{2}(\,?\s*[a-zA-Z0-9]{2})*)\s*\]/
 
     let flopIndex = 0;
+    let turnIndex = 0;
+    let riverIndex = 0;
     for (let i = 0; i < records.length; i++) {
         const line = records[i];
         let result = flopRegex.exec(line)?.groups
 
-        if (result && result.cards) {
-            flop = result.cards.replace(/ /g, '').split(',');
-            flopIndex = i;
+        if (result && result.cards && result.description) {
+            if (result.description === 'FLOP' || result.description === 'Dealing Flop') {
+                flop = result.cards.replace(/ /g, '').split(',');
+                flopIndex = i;
+            } else if (result.description === 'TURN' || result.description === 'Dealing Turn') {
+                flop.push(result.cards);
+                turnIndex = i;
+            } else if (result.description === 'RIVER' || result.description === 'Dealing River') {
+                flop.push(result.cards);
+                riverIndex = i;
+            }
         }
 
     }
 
-    let turnIndex = 0;
-    for (let i = 0; i < records.length; i++) {
+    /*for (let i = 0; i < records.length; i++) {
         const line = records[i];
         let result = turnRegex.exec(line)?.groups
 
@@ -209,7 +218,6 @@ const parseRecord = (record: string) => {
 
     }
 
-    let riverIndex = 0;
     for (let i = 0; i < records.length; i++) {
         const line = records[i];
         let result = riverRegex.exec(line)?.groups
@@ -219,7 +227,7 @@ const parseRecord = (record: string) => {
             riverIndex = i;
         }
 
-    }
+    }*/
 
     for (let i = 0; i < records.length; i++) {
         const line = records[i];
@@ -240,11 +248,11 @@ const parseRecord = (record: string) => {
         let result = handRegex.exec(line)?.groups
 
         if (result) {
-            if (result.hand.trim() === 'posts small blind') {
+            if (result.hand.trim() === 'posts small blind' || result.hand.trim() === 'posts the small blind') {
                 sb = parseInt(result.seat_amount.replace(/,/g, ''), 10)
-            } else if (result.hand.trim() === 'posts big blind') {
+            } else if (result.hand.trim() === 'posts big blind' || result.hand.trim() === 'posts the big blind') {
                 bb = parseInt(result.seat_amount.replace(/,/g, ''), 10)
-            } else if (result.hand.trim() === 'posts ante') {
+            } else if (result.hand.trim() === 'posts ante' || result.hand.trim() === 'posts the ante') {
                 ante = parseInt(result.seat_amount.replace(/,/g, ''), 10)
             }
 
@@ -336,12 +344,16 @@ const returnCard = (card: string) => {
 
 const handHistoryJsonCreator = (generalInfo: {dealer: number, ante: number, bb: number, sb: number, pot: number, players: number}, flop: string[], play: {player: number, action: string, totalChips: number, bet: number, cards: string[], tableAction: string}[]) => {
     let roundIndex = 0;
-    // @ts-ignore
-    let rounds: {seats: any[]}[] = [
-        {seats: []},{seats: []},{seats: []}
-        ];
+    let rounds: {seats: any[]}[] = [{seats: []}];
     let player = -1;
     let me: any;
+
+    play.forEach((item) => {
+        if (item.cards.length > 0) {
+            rounds.push({seats: []});
+        }
+    });
+    //rounds.pop();
 
     play.forEach((item, i) => {
         if (item.cards.length > 0) me = item;
@@ -381,13 +393,13 @@ const handHistoryJsonCreator = (generalInfo: {dealer: number, ante: number, bb: 
             if (item.player === player) {
                 roundIndex += 1;
             }
-            if (play[i-1].player !== item.player && (item.action === 'raises' || item.action === 'calls' || item.action === 'checks' || item.action === 'folds')) {
+            if (play[i-1].player !== item.player && (item.action === 'bets' || item.action === 'raises' || item.action === 'calls' || item.action === 'checks' || item.action === 'folds')) {
                 rounds[roundIndex].seats.push({
                     player: item.player,
                     dealer: generalInfo.dealer === item.player,
                     mp: item.totalChips,
                     action: {
-                        type: item.action === 'raises' ? 'raise' : item.action === 'calls' ? 'call' : item.action === 'checks' ? 'check' : 'fold',
+                        type: item.action === 'bets' ? 'call' : item.action === 'raises' ? 'raise' : item.action === 'calls' ? 'call' : item.action === 'checks' ? 'check' : 'fold',
                         amount: item.action !== 'checks' ? item.bet : null
                     },
                     cardOne: item.cards.length === 0 ? {value: '', type: '', show: false} : returnCard(item.cards[0]),
