@@ -26,15 +26,14 @@ const questions = [
 let interval: any;
 
 function Game(props: any) {
-    let [playerIndex, setPlayerIndex] = useState(-1);
-    let [roundIndex, setRoundIndex] = useState(0);
+    let [handIndex, setHandIndex] = useState(0);
     let [questionIndex, setQuestionIndex] = useState(0);
+    let [pot, setPot] = useState(0);
     const [width, setWidth] = useState(window.innerWidth);
     const [speed, setSpeed] = useState(1200);
     const [pause, setPause] = useState(false);
     const [finished, setFinished] = useState(false);
-    const [flop, setFlop] = useState({array: questions[questionIndex].flop, render: false});
-    const [pot, setPot] = useState(questions[questionIndex].pot);
+    const [tableAction, setTableAction] = useState('');
 
     useEffect(() => {
         props.setIsFetchingGameData(true);
@@ -51,93 +50,76 @@ function Game(props: any) {
         else start();
     }, [pause])
 
-    useEffect(() => {
-        if (playerIndex === -2) {
-            setPause(false);
-            if (roundIndex === 1) setPot(pot + (questions[questionIndex].ante * questions[questionIndex].players));
-            if (roundIndex > 1) {
-                let amount = 0;
-                questions[questionIndex].rounds[roundIndex].seats.forEach(p => {
-                    amount += p.action.amount;
-                })
-                setPot(amount + pot);
-            }
-        }
-    }, [roundIndex, playerIndex])
-
-    useEffect(() => {
-        if (finished) {
-            stop();
-            //setPlayerIndex(questions[questionIndex].players-1);
-        }
-    }, [finished])
-
-    useEffect(() => {
-        if (playerIndex === -2) {
-            setRoundIndex(0);
-        }
-    }, [playerIndex])
-
     const updateDimensions = () => {
         setWidth(window.innerWidth);
+    }
+
+    const getPastPlayerIndex = (array: any[], value: any, jump: number) => {
+        let n = 0;
+        let index = 0;
+        array.forEach((item, i) => {
+            if (item.player === value && i < jump) {
+                n++;
+            }
+        })
+        for (let i = 0, len = array.length; i < len; i++) {
+            if (i in array && value === array[i].player && !--n) {
+                index = i;
+                break;
+            }
+        }
+        return index;
     }
 
     const back = () => {
         setPause(true);
         setFinished(false);
         clearInterval(interval);
-        if (playerIndex === 0 && questions[questionIndex].rounds.length-1 === roundIndex) {
-            setRoundIndex(roundIndex -= 1);
-            setPlayerIndex(questions[questionIndex].players-1)
-        }
-        if (playerIndex > 0) {
-            setPlayerIndex(playerIndex -= 1);
+
+        if (handIndex > 0) {
+            let index = handIndex;
+            index -= 1;
+            pot -= questions[questionIndex].hands[index+1].amount
+            setPot(pot);
+            setHandIndex(index);
+            setTableAction(questions[questionIndex].hands[index].tableAction);
         }
     }
 
     const forward = () => {
         clearInterval(interval);
         setPause(true)
-        if (roundIndex > 0 && playerIndex > -1) {
-            // @ts-ignore
-            /*if (questions[questionIndex].rounds[roundIndex].seats[playerIndex].cardOne.show) {
-                stop();
-                setFinished(true);
-                return;
-            }*/
-        }
-        if (playerIndex < questions[questionIndex].players -1) setPlayerIndex(playerIndex += 1);
-        if (playerIndex === questions[questionIndex].players -1 && questions[questionIndex].rounds.length-1 > roundIndex) {
-            setRoundIndex(roundIndex += 1);
-            setPlayerIndex(-1);
+
+        if (questions[questionIndex].hands.length-1 === handIndex) {
             stop();
+            setFinished(true);
+            return;
         }
+        if (handIndex < questions[questionIndex].hands.length -1) {
+            let index = handIndex;
+            index += 1;
+            pot += questions[questionIndex].hands[index].amount
+            setPot(pot);
+            setHandIndex(index);
+            setTableAction(questions[questionIndex].hands[index].tableAction);
+        }
+
     }
 
     const move = () => {
-        if (roundIndex > 0 && playerIndex > -1) {
-            // @ts-ignore
-            /*if (questions[questionIndex].rounds[roundIndex].seats[playerIndex].cardOne.show) {
-                stop();
-                setFinished(true);
-                return;
-            }*/
-            if (questions[questionIndex].rounds.length-1 === roundIndex && questions[questionIndex].rounds[roundIndex].seats.length-1 === playerIndex) {
-                stop();
-                setFinished(true);
-                return;
-            }
+        if (questions[questionIndex].hands.length-1 === handIndex) {
+            stop();
+            setFinished(true);
+            return;
         }
         if (pause) return;
-        if (playerIndex > questions[questionIndex].players-1) {
-            // if (questions[questionIndex].rounds.length-1 === roundIndex) setFinished(true);
-            if (questions[questionIndex].rounds.length-1 > roundIndex) {
-                reset(true);
-                setRoundIndex(roundIndex += 1);
-            }
-        } else {
-            setPlayerIndex(playerIndex += 1)
+        if (handIndex < questions[questionIndex].hands.length -1) {
+            setHandIndex(handIndex += 1);
+            pot += questions[questionIndex].hands[handIndex].amount
+            setPot(pot);
+            setTableAction(questions[questionIndex].hands[handIndex].tableAction);
         }
+        else stop();
     }
 
     const start = () => {
@@ -151,15 +133,13 @@ function Game(props: any) {
     }
 
     const reset = (pause: boolean) => {
-        playerIndex = -2;
-        setPlayerIndex(playerIndex);
-        setRoundIndex(0);
+        setHandIndex(0);
         setPot(0);
         setFinished(false);
         setPause(pause);
         clearInterval(interval);
 
-        for (let i = 0; i <= 3; i++) flop.array[i].show = false;
+        //for (let i = 0; i <= 3; i++) flop.array[i].show = false;
     }
 
     const speedHandler = (s: number) => {
@@ -187,28 +167,6 @@ function Game(props: any) {
         }
     }
 
-    const checkTableActions = (tableAction: string) => {
-        if (tableAction !== '') {
-            if (tableAction === 'flop') {
-                flop.array[0].show = true;
-                flop.array[1].show = true;
-                flop.array[2].show = true;
-            } else if (tableAction === 'turn') {
-                flop.array[0].show = true;
-                flop.array[1].show = true;
-                flop.array[2].show = true;
-                flop.array[3].show = true;
-            } else if (tableAction === 'river') {
-                flop.array[0].show = true;
-                flop.array[1].show = true;
-                flop.array[2].show = true;
-                flop.array[3].show = true;
-                flop.array[4].show = true;
-            }
-            setFlop({array: flop.array, render: !flop.render});
-        }
-    }
-
     const handleSubmit = () => {
         setFinished(false);
         props.setIsFetchingGameData(true);
@@ -222,32 +180,33 @@ function Game(props: any) {
             <div className="gameWrapper" style={width > 1300 ? {} : {transform: `scale(${width / 1300})`}}>
                 <div>
                     <div className="gamePokerTableContainer">
-                        {questions[questionIndex].rounds[roundIndex].seats.length > 0 ?
-                            //@ts-ignore
-                            questions[questionIndex].rounds[roundIndex].seats.map((player: any, i: number) =>
-                                <div key={i} className={`gamePokerPlayerWrapper gameP${player.player}`}>
+                        {questions[questionIndex].players.length > 0 ?
+                            questions[questionIndex].players.map(item =>
+                                <div className={`gamePokerPlayerWrapper gameP${parseInt(item.number)}`}>
                                     <PokerPlayer
-                                        player={player.player}
-                                        me={player.cardOne && player.cardOne.show && player.cardTwo.show}
-                                        cards={player.cardOne ? [player.cardOne, player.cardTwo] : []}
-                                        mp={player.mp}
-                                        chips={playerIndex >= i ? player.sb || player.action.type === 'ante' ? 1 : player.action.type === 'call' || player.bb ? 2 : player.action.type === 'raise' ? 3 : 0 : 0}
-                                        chipPos={handleChipPos(player.player)}
-                                        turn={playerIndex === i}
-                                        blind={player.sb ? 'SB' : player.bb ? 'BB' : ''}
-                                        dealer={player.dealer}
-                                        tableAction={player.tableAction}
-                                        onCall={(tableAction) => checkTableActions(tableAction)}
-                                        action={playerIndex >= i ? player.action : {type: '', amount: 0}}/>
+                                        players={questions[questionIndex].tableInfo.players}
+                                        player={parseInt(item.number)}
+                                        me={parseInt(item.number) === questions[questionIndex].hands[handIndex].player ? questions[questionIndex].hands[handIndex].cards.length > 0 : false}
+                                        cards={parseInt(item.number) === questions[questionIndex].hands[handIndex].player ? questions[questionIndex].hands[handIndex].cards : questions[questionIndex].hands[getPastPlayerIndex(questions[questionIndex].hands,parseInt(item.number), handIndex)].cards}
+                                        mp={item.initAmount}
+                                        chipPos={parseInt(item.number) === questions[questionIndex].hands[handIndex].player ? handleChipPos(questions[questionIndex].hands[handIndex].player) : handleChipPos(questions[questionIndex].hands[getPastPlayerIndex(questions[questionIndex].hands,parseInt(item.number), handIndex)].player)}
+                                        turn={parseInt(item.number) === questions[questionIndex].hands[handIndex].player}
+                                        dealer={questions[questionIndex].tableInfo.dealer === parseInt(item.number)}
+                                        action={parseInt(item.number) === questions[questionIndex].hands[handIndex].player ? questions[questionIndex].hands[handIndex].action : questions[questionIndex].hands[getPastPlayerIndex(questions[questionIndex].hands,parseInt(item.number), handIndex)].action}
+                                        amount={parseInt(item.number) === questions[questionIndex].hands[handIndex].player ? questions[questionIndex].hands[handIndex].amount : questions[questionIndex].hands[getPastPlayerIndex(questions[questionIndex].hands,parseInt(item.number), handIndex)].amount}
+                                        pot={pot}
+                                    />
                                 </div>
-                            )
-                            : null}
+                            ): null}
                         <div className="gameHouseOfCardsWrapper">
-                            <HouseOfCards cards={flop.array}/>
+                            <HouseOfCards
+                                cards={questions[questionIndex].flop}
+                                tableAction={tableAction}
+                            />
                         </div>
                         <img src={Table} width={700}/>
                         <div className="gamePotWrapper">
-                            <SmallText color="#FFF">POT <SmallText color="#FFF" bold>{`${numberWithCommas(pot)}`}</SmallText> ({`${numberWithCommas(questions[questionIndex].bb)} `}
+                            <SmallText color="#FFF">POT <SmallText color="#FFF" bold>{`${numberWithCommas(pot)}`}</SmallText> ({`${numberWithCommas(questions[questionIndex].tableInfo.bb)} `}
                                 BB)</SmallText>
                         </div>
 

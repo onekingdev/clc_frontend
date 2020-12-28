@@ -167,7 +167,7 @@ const parseRecord = (record: string) => {
             const player = {
                 number: result.seat_number,
                 name: result.seat_name,
-                initAmount: result.seat_amount,
+                initAmount: parseInt(result.seat_amount.replace(/,/g, ''), 10),
                 cards: []
             }
             players.push(player);
@@ -182,8 +182,6 @@ const parseRecord = (record: string) => {
     const handRegex = new RegExp(strRegex)
     const dealRegex = new RegExp(`\\bDealt\\b\\s+\\bto\\b\\s+(?<seat_name>${words})\\s+\\[*\\s*(?<cards>[a-zA-Z0-9]{2}(\\,?\\s*[a-zA-Z0-9]{2})*)\\s*\\]*`)
     const flopRegex = /\*+\s+(?<description>\w+(\s+\w+)*)\s+\*+\s+\[\s*(?<cards>[a-zA-Z0-9]{2}(\,?\s*[a-zA-Z0-9]{2})*)\s*\]/
-    // const turnRegex = /\*+\s+(\bDealing\s+Turn\b)\s+\*+\s+\[\s*(?<card>[a-zA-Z0-9]{2}(\,?\s*[a-zA-Z0-9]{2})*)\s*\]/
-    // const riverRegex = /\*+\s+(\bDealing\s+River\b)\s+\*+\s+\[\s*(?<card>[a-zA-Z0-9]{2}(\,?\s*[a-zA-Z0-9]{2})*)\s*\]/
 
     let flopIndex = 0;
     let turnIndex = 0;
@@ -207,28 +205,6 @@ const parseRecord = (record: string) => {
 
     }
 
-    /*for (let i = 0; i < records.length; i++) {
-        const line = records[i];
-        let result = turnRegex.exec(line)?.groups
-
-        if (result && result.card) {
-            flop.push(result.card);
-            turnIndex = i;
-        }
-
-    }
-
-    for (let i = 0; i < records.length; i++) {
-        const line = records[i];
-        let result = riverRegex.exec(line)?.groups
-
-        if (result && result.card) {
-            flop.push(result.card);
-            riverIndex = i;
-        }
-
-    }*/
-
     for (let i = 0; i < records.length; i++) {
         const line = records[i];
         let result = dealRegex.exec(line)?.groups
@@ -243,9 +219,10 @@ const parseRecord = (record: string) => {
     let bb = 0;
     let sb = 0;
     let ante = 0;
+    let me: any;
     for (let i = 0; i < records.length; i++) {
         const line = records[i];
-        let result = handRegex.exec(line)?.groups
+        let result = handRegex.exec(line)?.groups;
 
         if (result) {
             if (result.hand.trim() === 'posts small blind' || result.hand.trim() === 'posts the small blind') {
@@ -256,21 +233,34 @@ const parseRecord = (record: string) => {
                 ante = parseInt(result.seat_amount.replace(/,/g, ''), 10)
             }
 
-            hands.push({
-                player: parseInt(mapPlayers[result.seat_name].number),
-                totalChips: parseInt(mapPlayers[result.seat_name].initAmount.replace(/,/g, ''), 10),
-                playerName: result.seat_name,
-                action: result.hand.trim(),
-                bet: result.seat_amount ? parseInt(result.seat_amount.replace(/,/g, ''), 10) : 0,
-                cards: mapPlayers[result.seat_name].cards,
-                tableAction: flopIndex > 0 && flopIndex-1 === i ? 'flop' : turnIndex > 0 && turnIndex-1 === i ? 'turn' : riverIndex > 0 && riverIndex-1 === i ? 'river' : ''
-            });
+            if (mapPlayers[result.seat_name].cards.length > 0) me = mapPlayers[result.seat_name];
+            if (result.hand.trim() === 'posts ante' || result.hand.trim() === 'posts the ante' || result.hand.trim() === 'posts big blind' || result.hand.trim() === 'posts the big blind' || result.hand.trim() === 'posts small blind' || result.hand.trim() === 'posts the small blind' || result.hand.trim() === 'calls' || result.hand.trim() === 'raises' || result.hand.trim() === 'checks' || result.hand.trim() === 'folds' || result.hand.trim() === 'bets') {
+                hands.push({
+                    player: parseInt(mapPlayers[result.seat_name].number),
+                    totalChips: mapPlayers[result.seat_name].initAmount,
+                    playerName: result.seat_name,
+                    action: result.hand.trim(),
+                    amount: result.seat_amount ? parseInt(result.seat_amount.replace(/,/g, ''), 10) : 0,
+                    cards: mapPlayers[result.seat_name].cards,
+                    tableAction: flopIndex > 0 && flopIndex - 1 === i ? 'flop' : turnIndex > 0 && turnIndex - 1 === i ? 'turn' : riverIndex > 0 && riverIndex - 1 === i ? 'river' : ''
+                });
+            }
         }
     }
 
+    hands.push({
+        player: parseInt(me.number),
+        totalChips: me.initAmount,
+        playerName: me.seat_name,
+        action: '?',
+        amount: 0,
+        cards: me.cards,
+        tableAction: ''
+    });
+
     const dealerIndex = record.search('is the button');
     const dealer = parseInt(record[dealerIndex-2])
-    const generalInfo = {
+    const tableInfo = {
         dealer,
         sb,
         bb,
@@ -278,194 +268,42 @@ const parseRecord = (record: string) => {
         players: players.length,
         pot: 0,
     }
-
-    return handHistoryJsonCreator(generalInfo, flop, hands)
-}
-
-const returnCard = (card: string) => {
-    let data = {type: '', value: '', show: true};
-    switch (card[0]) {
-        case '2':
-            data.value = 'two';
-            break;
-        case '3':
-            data.value = 'three';
-            break;
-        case '4':
-            data.value = 'four';
-            break;
-        case '5':
-            data.value = 'five';
-            break;
-        case '6':
-            data.value = 'six';
-            break;
-        case '7':
-            data.value = 'seven';
-            break;
-        case '8':
-            data.value = 'eight';
-            break;
-        case '9':
-            data.value = 'nine';
-            break;
-        case 'T':
-            data.value = 'ten';
-            break;
-        case 'J':
-            data.value = 'j';
-            break;
-        case 'Q':
-            data.value = 'q';
-            break;
-        case 'K':
-            data.value = 'k';
-            break;
-        case 'A':
-            data.value = 'a';
-            break;
-    }
-    switch (card[1]) {
-        case 'h':
-            data.type = 'hearts';
-            break;
-        case 'c':
-            data.type = 'clubs';
-            break;
-        case 's':
-            data.type = 'spades';
-            break;
-        case 'd':
-            data.type = 'diamonds';
-            break;
-    }
-    return data
-}
-
-const handHistoryJsonCreator = (generalInfo: {dealer: number, ante: number, bb: number, sb: number, pot: number, players: number}, flop: string[], play: {player: number, action: string, totalChips: number, bet: number, cards: string[], tableAction: string}[]) => {
-    let roundIndex = 0;
-    let rounds: {seats: any[]}[] = [{seats: []}];
-    let player = -1;
-    let me: any;
-
-    play.forEach((item) => {
-        if (item.cards.length > 0) {
-            rounds.push({seats: []});
-        }
-    });
-    //rounds.pop();
-
-    play.forEach((item, i) => {
-        if (item.cards.length > 0) me = item;
-        if (item.action === 'posts ante' || item.action === 'posts the ante') {
-            rounds[roundIndex].seats.push({
-                player: item.player,
-                dealer: generalInfo.dealer === item.player,
-                mp: item.totalChips,
-                action: {type: 'ante', amount: item.bet},
-                tableAction: item.tableAction
-            })
-        } else if (item.action === 'posts small blind' || item.action === 'posts the small blind') {
-            player = item.player;
-            roundIndex+=1;
-            rounds[roundIndex].seats.push({
-                player: item.player,
-                dealer: generalInfo.dealer === item.player,
-                sb: generalInfo.sb,
-                mp: item.totalChips,
-                action: {type: 'call', amount: item.bet},
-                cardOne: item.cards.length === 0 ? {value: '', type: '', show: false} : returnCard(item.cards[0]),
-                cardTwo: item.cards.length === 0 ? {value: '', type: '', show: false} : returnCard(item.cards[1]),
-                tableAction: item.tableAction
-            })
-        } else if (item.action === 'posts big blind' || item.action === 'posts the big blind') {
-            rounds[roundIndex].seats.push({
-                player: item.player,
-                dealer: generalInfo.dealer === item.player,
-                bb: generalInfo.bb,
-                mp: item.totalChips,
-                action: {type: 'call', amount: item.bet},
-                cardOne: item.cards.length === 0 ? {value: '', type: '', show: false} : returnCard(item.cards[0]),
-                cardTwo: item.cards.length === 0 ? {value: '', type: '', show: false} : returnCard(item.cards[1]),
-                tableAction: item.tableAction
-            })
-        } else {
-            if (item.player === player) {
-                roundIndex += 1;
-            }
-            if (play[i-1].player !== item.player && (item.action === 'bets' || item.action === 'raises' || item.action === 'calls' || item.action === 'checks' || item.action === 'folds')) {
-                rounds[roundIndex].seats.push({
-                    player: item.player,
-                    dealer: generalInfo.dealer === item.player,
-                    mp: item.totalChips,
-                    action: {
-                        type: item.action === 'bets' ? 'call' : item.action === 'raises' ? 'raise' : item.action === 'calls' ? 'call' : item.action === 'checks' ? 'check' : 'fold',
-                        amount: item.action !== 'checks' ? item.bet : null
-                    },
-                    cardOne: item.cards.length === 0 ? {value: '', type: '', show: false} : returnCard(item.cards[0]),
-                    cardTwo: item.cards.length === 0 ? {value: '', type: '', show: false} : returnCard(item.cards[1]),
-                    tableAction: item.tableAction
-                })
-            }
-        }
-    });
-    rounds[roundIndex].seats.push({
-        player: me.player,
-        dealer: generalInfo.dealer === me.player,
-        mp: me.totalChips,
-        action: {
-            type: 'NAN',
-            amount: 0
-        },
-        cardOne: returnCard(me.cards[0]),
-        cardTwo: returnCard(me.cards[1]),
-    })
-
-    let data = {
-        ante: generalInfo.ante,
-        bb: generalInfo.bb,
-        sb: generalInfo.sb,
-        pot: generalInfo.pot,
-        players: generalInfo.players,
-        rounds: rounds,
-        flop: [
-            flop[0] ? {...returnCard(flop[0]), show: false} : {type: '', value: '', show: false},
-            flop[1] ? {...returnCard(flop[1]), show: false} : {type: '', value: '', show: false},
-            flop[2] ? {...returnCard(flop[2]), show: false} : {type: '', value: '', show: false},
-            flop[3] ? {...returnCard(flop[3]), show: false} : {type: '', value: '', show: false},
-            flop[4] ? {...returnCard(flop[4]), show: false} : {type: '', value: '', show: false},
-        ],
-        question: {
-            reward: {chips: 4, tickets: 1},
-            description: 'Based on contextual information. What is the best decision?',
+    const question = {
+        reward: {chips: 4, tickets: 1},
+        description: 'Based on contextual information. What is the best decision?',
             header: 'Post Flop Problems',
             questionNumber: 2,
             answers: [
-                {
-                    correct: false,
-                    text: 'Call',
-                    explanation: 'Mauris varius falis commodo impredit. crass faucibius egeases urnas, sed cursus massa cursus in. Ut aliquam loborus arcu. Fucsu id arcu eget nisi porta blandit etiam mollis massa et ipusm timndum'
-                },
-                {
-                    correct: true,
-                    text: 'Fold',
-                    explanation: 'Mauris varius falis commodo impredit. crass faucibius egeases urnas, sed cursus massa cursus in. Ut aliquam loborus arcu. Fucsu id arcu eget nisi porta blandit etiam mollis massa et ipusm timndum'
-                },
-                {
-                    correct: false,
-                    text: 'Raise',
-                    explanation: 'Mauris varius falis commodo impredit. crass faucibius egeases urnas, sed cursus massa cursus in. Ut aliquam loborus arcu. Fucsu id arcu eget nisi porta blandit etiam mollis massa et ipusm timndum'
-                },
-                {
-                    correct: false,
-                    text: 'Bet 1/3',
-                    explanation: 'Mauris varius falis commodo impredit. crass faucibius egeases urnas, sed cursus massa cursus in. Ut aliquam loborus arcu. Fucsu id arcu eget nisi porta blandit etiam mollis massa et ipusm timndum'
-                }
-            ]
-        }
+            {
+                correct: false,
+                text: 'Call',
+                explanation: 'Mauris varius falis commodo impredit. crass faucibius egeases urnas, sed cursus massa cursus in. Ut aliquam loborus arcu. Fucsu id arcu eget nisi porta blandit etiam mollis massa et ipusm timndum'
+            },
+            {
+                correct: true,
+                text: 'Fold',
+                explanation: 'Mauris varius falis commodo impredit. crass faucibius egeases urnas, sed cursus massa cursus in. Ut aliquam loborus arcu. Fucsu id arcu eget nisi porta blandit etiam mollis massa et ipusm timndum'
+            },
+            {
+                correct: false,
+                text: 'Raise',
+                explanation: 'Mauris varius falis commodo impredit. crass faucibius egeases urnas, sed cursus massa cursus in. Ut aliquam loborus arcu. Fucsu id arcu eget nisi porta blandit etiam mollis massa et ipusm timndum'
+            },
+            {
+                correct: false,
+                text: 'Bet 1/3',
+                explanation: 'Mauris varius falis commodo impredit. crass faucibius egeases urnas, sed cursus massa cursus in. Ut aliquam loborus arcu. Fucsu id arcu eget nisi porta blandit etiam mollis massa et ipusm timndum'
+            }
+        ]
     }
 
-    return data;
+    return ({
+        tableInfo,
+        players,
+        hands,
+        flop,
+        question
+    })
 }
 
 export const extract = parseRecord(hands[0]);

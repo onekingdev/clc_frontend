@@ -57,38 +57,36 @@ import {Flip, Roll, Slide, Fade, Bounce, Zoom, Rotate, JackInTheBox, Hinge} from
 import {numberWithCommas} from "../../helpers/formatter";
 
 interface IPokerPlayer {
+    players: number,
     player: number,
     me: boolean,
-    cards: { value: string, type: string, show: boolean }[],
+    cards: string[],
     mp: number,
-    chips: number,
     chipPos: string,
     turn: boolean,
-    dealer?: boolean,
-    blind?: string,
-    tableAction: string,
-    onCall: (tableAction: string) => void
-    action: any
+    dealer: boolean,
+    action: string,
+    amount: number,
+    pot: number
 }
 
 const PokerPlayer: React.FC<IPokerPlayer> = ({
-    player,
-    me,
-    cards,
-    mp,
-    chips,
-    chipPos,
-    turn,
-    dealer,
-    blind,
-    tableAction,
-    onCall,
-    action
- }) => {
+                                                 players,
+                                                 player,
+                                                 me,
+                                                 cards,
+                                                 mp,
+                                                 chipPos,
+                                                 turn,
+                                                 dealer,
+                                                 action,
+                                                 amount,
+                                                 pot
+                                             }) => {
 
-    useEffect(() => {
+    /*useEffect(() => {
         onCall(tableAction);
-    }, [turn])
+    }, [turn])*/
 
     const leftCard = useRef<HTMLImageElement>(null);
     const rightCard = useRef<HTMLImageElement>(null);
@@ -98,102 +96,112 @@ const PokerPlayer: React.FC<IPokerPlayer> = ({
 
     const renderCard = (value: string) => {
         switch (value) {
-            case 'two_clubs':
+            case '2c':
                 return two_clubs;
-            case 'two_diamonds':
+            case '2d':
                 return two_diamonds;
-            case 'two_hearts':
+            case '2h':
                 return two_hearts;
-            case 'two_spades':
+            case '2s':
                 return two_spades;
-            case 'three_clubs':
+            case '3c':
                 return three_clubs;
-            case 'three_diamonds':
+            case '3d':
                 return three_diamonds;
-            case 'three_hearts':
+            case '3h':
                 return three_hearts;
-            case 'three_spades':
+            case '3s':
                 return three_spades;
-            case 'four_clubs':
+            case '4c':
                 return four_clubs;
-            case 'four_diamonds':
+            case '4d':
                 return four_diamonds;
-            case 'four_hearts':
+            case '4h':
                 return four_hearts;
-            case 'four_spades':
+            case '4s':
                 return four_spades;
-            case 'five_clubs':
+            case '5c':
                 return five_clubs;
-            case 'five_diamonds':
+            case '5d':
                 return five_diamonds; //TODO: need this card
-            case 'five_hearts':
+            case '5h':
                 return five_hearts;
-            case 'five_spades':
+            case '5s':
                 return five_spades;
-            case 'six_clubs':
+            case '6c':
                 return six_clubs;
-            case 'six_diamonds':
+            case '6d':
                 return six_diamonds;
-            case 'six_hearts':
+            case '6h':
                 return six_hearts;
-            case 'six_spades':
+            case '6s':
                 return six_spades;
-            case 'seven_clubs':
+            case '7c':
                 return seven_clubs;
-            case 'seven_diamonds':
+            case '7d':
                 return seven_diamonds;
-            case 'seven_hearts':
+            case '7h':
                 return seven_hearts;
-            case 'seven_spades':
+            case '7s':
                 return seven_spades;
-            case 'eight_clubs':
+            case '8c':
                 return eight_clubs;
-            case 'eight_diamonds':
+            case '8d':
                 return eight_diamonds;
-            case 'eight_hearts':
+            case '8h':
                 return eight_hearts;
-            case 'eight_spades':
+            case '8s':
                 return eight_spades;
-            case 'nine_clubs':
+            case '9c':
                 return nine_clubs;
-            case 'nine_diamonds':
+            case '9d':
                 return nine_diamonds;
-            case 'nine_hearts':
+            case '9h':
                 return nine_hearts;
-            case 'nine_spades':
+            case '9s':
                 return nine_spades;
-            case 'ten_clubs':
+            case 'Tc':
                 return ten_clubs;
-            case 'ten_diamonds':
+            case 'Td':
                 return ten_diamonds;
-            case 'ten_hearts':
+            case 'Th':
                 return ten_hearts;
-            case 'ten_spades':
+            case 'Ts':
                 return ten_spades;
-            case 'a_clubs':
+            case 'Ac':
                 return a_clubs;
-            case 'a_diamonds':
+            case 'Ad':
                 return a_diamonds;
-            case 'a_hearts':
+            case 'Ah':
                 return a_hearts
-            case 'a_spades':
+            case 'As':
                 return a_spades;
-            case 'k_clubs':
+            case 'Kc':
                 return k_clubs;
-            case 'k_diamonds':
+            case 'Kd':
                 return k_diamonds;
-            case 'k_hearts':
+            case 'Kh':
                 return k_hearts;
-            case 'k_spades':
+            case 'Ks':
                 return k_spades;
-            case 'q_clubs':
+            case 'Qc':
                 return q_clubs;
-            case 'q_diamonds':
+            case 'Qd':
                 return q_diamonds;
-            case 'q_hearts':
+            case 'Qh':
                 return q_hearts;
-            case 'q_spades':
+            case 'Qs':
                 return q_spades;
+            case 'Jc':
+                return q_clubs;
+            case 'Jd':
+                return q_diamonds;
+            case 'Jh':
+                return q_hearts;
+            case 'Js':
+                return q_spades;
+            default:
+                return cardBack;
         }
     }
 
@@ -206,6 +214,7 @@ const PokerPlayer: React.FC<IPokerPlayer> = ({
             } else if (dealer) {
                 //(badge.current as HTMLDivElement).style.backgroundColor = 'white';
                 (container.current as HTMLDivElement).style.transform = 'translateY(0px)';
+                (rightCard.current as HTMLImageElement).style.transform = 'rotate(0deg)';
                 (leftCard.current as HTMLImageElement).style.transform = 'rotate(0deg)';
                 (container.current as HTMLDivElement).style.transform = 'translateY(10px)';
             } else {
@@ -215,11 +224,7 @@ const PokerPlayer: React.FC<IPokerPlayer> = ({
                 (container.current as HTMLDivElement).style.transform = 'translateY(10px)';
             }
         }
-    }, [me]);
-
-    useEffect(() => {
-        console.log(leftCard.current?.style, rightCard.current);
-    }, [leftCard, rightCard]);
+    }, [me, pot]);
 
     const renderChips = (quantity: number) => {
         let array = []
@@ -235,17 +240,30 @@ const PokerPlayer: React.FC<IPokerPlayer> = ({
         return array;
     }
 
+    const renderLabel = (action: string) => {
+        if (action === 'posts small blind' || action === 'posts the small blind') {
+            return 'SB'
+        } else if (action === 'posts big blind' || action === 'posts the big blind') {
+            return 'BB'
+        } else if (action === 'posts ante' || action === 'posts the ante') {
+            return 'ante'
+        }
+
+        return action;
+    }
+
     return (
-        <div className="pokerPlayerItemsWrapper"  ref={container}>
+        <div className="pokerPlayerItemsWrapper" ref={container}>
             <div>
                 {chipPos === 'left' || chipPos === 'top' ?
                     <div className={`pokerChips chipP${player}`}>
                         <Rotate>
-                            {renderChips(chips)}
+                            {renderChips((renderLabel(action) === 'ante' && turn) || renderLabel(action) === 'SB' ? 1 : renderLabel(action) === 'calls' || renderLabel(action) === 'BB' || renderLabel(action) === 'bets' ? 2 : renderLabel(action) === 'raises' ? 3 : 0)}
                         </Rotate>
                         <div className={`pokerChips gameChipBBWrapper${player}`}>
-                            { action.type === 'check' ? <SmallText color="#FFF">{`${action.type} `}</SmallText> :
-                                action.amount !== 0 ? <SmallText color="#FFF">{`${action.type} `}<SmallText color="#FFF" bold>{`${numberWithCommas(action.amount)} ${blind}`}</SmallText></SmallText> : null}
+                            {(renderLabel(action) === 'ante' && turn) || renderLabel(action) !== 'ante' ?
+                                <SmallText color="#FFF">{`${renderLabel(action)} `}<SmallText color="#FFF"
+                                                                                           bold>{`${amount ? numberWithCommas(amount) : ''}`}</SmallText></SmallText> : null}
                         </div>
                     </div>
                     : null}
@@ -253,50 +271,74 @@ const PokerPlayer: React.FC<IPokerPlayer> = ({
                     <img src={dealer_chip} width={16} height={16} className="dealerChipTopLeft"/>
                     : dealer && player === 8 ?
                         <img src={dealer_chip} width={16} height={16} className="dealerChipTopRight"/>
-                        : <img src={dealer_chip} width={16} height={16} className="dealerChipTopLeft" style={{visibility: 'hidden'}}/>
+                        : <img src={dealer_chip} width={16} height={16} className="dealerChipTopLeft"
+                               style={{visibility: 'hidden'}}/>
                 }
-                <div className="pokerPlayerItemsWrapper cardsWrapper" >
-                    {cards.length > 0 ?
-                        cards.map((card, index) =>
-                            <div key={index} className="pokerPlayerItemsWrapper" style={action.type === 'fold' ? {opacity: 0.3} : {}}>
-                                {
-                                    0 == index ?
-                                        <img ref={leftCard} className={'cardImage'} src={!card.show ? cardBack : renderCard(`${card.value}_${card.type}`)} width={40}
-                                        height={56}/> :
-                                        <img ref={rightCard} className={'cardImage'} src={!card.show ? cardBack : renderCard(`${card.value}_${card.type}`)} width={40}
-                                        height={56}/>
-                                }
+                <div className="pokerPlayerItemsWrapper cardsWrapper">
+                    {renderLabel(action) === 'ante' && pot < amount * players ?
+                            <div style={{height: 56}}/>
+                        : cards.length > 0 ?
+                            cards.map((card, index) =>
+                                <div key={index} className="pokerPlayerItemsWrapper">
+                                    {
+                                        0 == index ?
+                                            <img ref={leftCard} className={'cardImage'}
+                                                 src={renderCard(card)}
+                                                 width={40}
+                                                 height={56}/> :
+                                            <img ref={rightCard} className={'cardImage'}
+                                                 src={renderCard(card)}
+                                                 width={40}
+                                                 height={56}/>
+                                    }
 
-                            </div>
-                        ) : <div style={{height: 56}}/>}
+                                </div>
+                            ) :
+                            <Roll>
+                                <img style={action === 'folds' ? {opacity: 0.3} : {}}
+                                     ref={leftCard} className={'cardImage'}
+                                     src={cardBack}
+                                     width={40}
+                                     height={56}/>
+                                <img style={action === 'folds' ? {opacity: 0.3} : {}}
+                                     ref={rightCard} className={'cardImage'}
+                                     src={cardBack}
+                                     width={40}
+                                     height={56}/>
+                            </Roll>
+                    }
                 </div>
                 <div className="pokerPlayerItemsWrapper"
-                style={
-                    turn ? {
-                        width: 94,
-                        left: 10,
-                        borderRadius: 10,
-                        borderColor: 'var(--primary)',
-                        boxShadow: '0 0 10px var(--primary)'
-                    } : {}
-                }
+                     style={
+                         turn ? {
+                             width: 94,
+                             left: 10,
+                             borderRadius: 10,
+                             borderColor: 'var(--primary)',
+                             boxShadow: '0 0 10px var(--primary)'
+                         } : {}
+                     }
                 >
-                    <div className={`${dealer ? 'pokerPlayerMPWrapperInverted' : 'pokerPlayerMPWrapper'} badge`} ref={badge}>
+                    <div className={`${dealer ? 'pokerPlayerMPWrapperInverted' : 'pokerPlayerMPWrapper'} badge`}
+                         ref={badge}>
                         <div style={{marginRight: 9}}>
                             <BodyText color={dealer ? '#000' : '#FFF'}>{`P${player}`}</BodyText>
                         </div>
                         <div>
-                            <BodyText color={dealer ? '#000' : '#FFF'}>{`${numberWithCommas(mp - action.amount)}`}</BodyText>
+                            <BodyText
+                                color={dealer ? '#000' : '#FFF'}>{`${numberWithCommas(mp - amount)}`}</BodyText>
                         </div>
                     </div>
                 </div>
                 {chipPos === 'right' || chipPos === 'bottom' ?
                     <div className={`pokerChips chipP${player}`}>
                         <Rotate>
-                            {renderChips(chips)}
+                            {renderChips((renderLabel(action) === 'ante' && turn) || renderLabel(action) === 'SB' ? 1 : renderLabel(action) === 'calls' || renderLabel(action) === 'BB' || renderLabel(action) === 'bets' ? 2 : renderLabel(action) === 'raises' ? 3 : 0)}
                         </Rotate>
                         <div className={`pokerChips gameChipBBWrapper${player}`}>
-                            {action.amount !== 0 ? <SmallText color="#FFF">{`${action.type} `}<SmallText color="#FFF" bold>{`${numberWithCommas(action.amount)} ${blind}`}</SmallText></SmallText> : null}
+                            {(renderLabel(action) === 'ante' && turn) || renderLabel(action) !== 'ante' ?
+                                <SmallText color="#FFF">{`${renderLabel(action)} `}<SmallText color="#FFF"
+                                                                                           bold>{`${amount ? numberWithCommas(amount) : ''}`}</SmallText></SmallText> : null}
                         </div>
                     </div>
                     : null}
@@ -304,7 +346,8 @@ const PokerPlayer: React.FC<IPokerPlayer> = ({
                     <img src={dealer_chip} width={16} height={16} className="dealerChipBottomLeft"/>
                     : dealer && player === 9 ?
                         <img src={dealer_chip} width={16} height={16} className="dealerChipBottomRight"/>
-                        : <img src={dealer_chip} width={16} height={16} className="dealerChipBottomRight" style={{visibility: 'hidden'}}/>
+                        : <img src={dealer_chip} width={16} height={16} className="dealerChipBottomRight"
+                               style={{visibility: 'hidden'}}/>
                 }
             </div>
         </div>

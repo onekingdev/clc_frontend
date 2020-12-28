@@ -50,134 +50,144 @@ import q_hearts from '../../assets/images/cards/Q_hearts.png';
 import q_spades from '../../assets/images/cards/Q_spades.png';
 import back from '../../assets/images/cards/Cardback Default.png';
 import {Flip} from 'react-awesome-reveal';
+import cardBack from "../../assets/images/cards/Cardback Default.png";
 
 interface IHouseOfCards {
-    cards: {value: string, type: string, show: boolean}[]
+    cards: string[],
+    tableAction: string
 }
 
 const HouseOfCards: React.FC<IHouseOfCards> = ({
-    cards
+    cards,
+    tableAction
 }) =>  {
-    const [flip, setFlip] = useState(true);
+    const [size, setSize] = useState(cards)
 
     const renderCard = (value: string) => {
         switch (value) {
-            case 'two_clubs':
+            case '2c':
                 return two_clubs;
-            case 'two_diamonds':
+            case '2d':
                 return two_diamonds;
-            case 'two_hearts':
+            case '2h':
                 return two_hearts;
-            case 'two_spades':
+            case '2s':
                 return two_spades;
-            case 'three_clubs':
+            case '3c':
                 return three_clubs;
-            case 'three_diamonds':
+            case '3d':
                 return three_diamonds;
-            case 'three_hearts':
+            case '3h':
                 return three_hearts;
-            case 'three_spades':
+            case '3s':
                 return three_spades;
-            case 'four_clubs':
+            case '4c':
                 return four_clubs;
-            case 'four_diamonds':
+            case '4d':
                 return four_diamonds;
-            case 'four_hearts':
+            case '4h':
                 return four_hearts;
-            case 'four_spades':
+            case '4s':
                 return four_spades;
-            case 'five_clubs':
+            case '5c':
                 return five_clubs;
-            case 'five_diamonds':
-                return five_diamonds;
-            case 'five_hearts':
+            case '5d':
+                return five_diamonds; //TODO: need this card
+            case '5h':
                 return five_hearts;
-            case 'five_spades':
+            case '5s':
                 return five_spades;
-            case 'six_clubs':
+            case '6c':
                 return six_clubs;
-            case 'six_diamonds':
+            case '6d':
                 return six_diamonds;
-            case 'six_hearts':
+            case '6h':
                 return six_hearts;
-            case 'six_spades':
+            case '6s':
                 return six_spades;
-            case 'seven_clubs':
+            case '7c':
                 return seven_clubs;
-            case 'seven_diamonds':
+            case '7d':
                 return seven_diamonds;
-            case 'seven_hearts':
+            case '7h':
                 return seven_hearts;
-            case 'seven_spades':
+            case '7s':
                 return seven_spades;
-            case 'eight_clubs':
+            case '8c':
                 return eight_clubs;
-            case 'eight_diamonds':
+            case '8d':
                 return eight_diamonds;
-            case 'eight_hearts':
+            case '8h':
                 return eight_hearts;
-            case 'eight_spades':
+            case '8s':
                 return eight_spades;
-            case 'nine_clubs':
+            case '9c':
                 return nine_clubs;
-            case 'nine_diamonds':
+            case '9d':
                 return nine_diamonds;
-            case 'nine_hearts':
+            case '9h':
                 return nine_hearts;
-            case 'nine_spades':
+            case '9s':
                 return nine_spades;
-            case 'ten_clubs':
+            case 'Tc':
                 return ten_clubs;
-            case 'ten_diamonds':
+            case 'Td':
                 return ten_diamonds;
-            case 'ten_hearts':
+            case 'Th':
                 return ten_hearts;
-            case 'ten_spades':
+            case 'Ts':
                 return ten_spades;
-            case 'a_clubs':
+            case 'Ac':
                 return a_clubs;
-            case 'a_diamonds':
+            case 'Ad':
                 return a_diamonds;
-            case 'a_hearts':
+            case 'Ah':
                 return a_hearts
-            case 'a_spades':
+            case 'As':
                 return a_spades;
-            case 'k_clubs':
+            case 'Kc':
                 return k_clubs;
-            case 'k_diamonds':
+            case 'Kd':
                 return k_diamonds;
-            case 'k_hearts':
+            case 'Kh':
                 return k_hearts;
-            case 'k_spades':
+            case 'Ks':
                 return k_spades;
-            case 'q_clubs':
+            case 'Qc':
                 return q_clubs;
-            case 'q_diamonds':
+            case 'Qd':
                 return q_diamonds;
-            case 'q_hearts':
+            case 'Qh':
                 return q_hearts;
-            case 'q_spades':
+            case 'Qs':
                 return q_spades;
+            case 'Jc':
+                return q_clubs;
+            case 'Jd':
+                return q_diamonds;
+            case 'Jh':
+                return q_hearts;
+            case 'Js':
+                return q_spades;
+            default:
+                return cardBack;
         }
     }
 
     useEffect(() => {
-        // setTimeout(() => setFlip(true), 1000);
+        if (cards.length === 3) size.push('', '')
+        else if (cards.length === 4) size.push('')
     }, [])
 
     return (
         <div className="houseOfCardsContainer">
-            {cards.length > 0 ?
-                cards.map((card, index) =>
+            {size.length > 0 ?
+                size.map((card, index) =>
                     <div key={index} className="houseOfCardsEmpty">
-                        {card.show ?
+                        {tableAction === 'flop' && index < 3 ?
                             <Flip>
-                                {flip ?
-                                <img src={renderCard(`${card.value}_${card.type}`)} width={54}
+                                <img src={renderCard(card)} width={54}
                                   height={76}/>
-                                  :
-                                <img src={back} width={54}
-                                     height={76}/>}
                             </Flip>
                               : null}
                     </div>
