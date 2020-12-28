@@ -61,7 +61,7 @@ const HouseOfCards: React.FC<IHouseOfCards> = ({
     cards,
     tableAction
 }) =>  {
-    const [size, setSize] = useState(cards)
+    const [display, setDisplay] = useState([{card: '', show: false}])
 
     const renderCard = (value: string) => {
         switch (value) {
@@ -175,18 +175,35 @@ const HouseOfCards: React.FC<IHouseOfCards> = ({
     }
 
     useEffect(() => {
-        if (cards.length === 3) size.push('', '')
-        else if (cards.length === 4) size.push('')
+        const list: any = []
+        cards.forEach(card => {
+            list.push({card, show: false});
+        })
+        if (cards.length === 3) list.push({card: '', show: false}, {card: '', show: false})
+        else if (cards.length === 4) list.push({card: '', show: false})
+        setDisplay(list)
     }, [])
+
+    useEffect(() => {
+        if (tableAction === 'flop') {
+            display[0].show = true;
+            display[1].show = true;
+            display[2].show = true;
+        } else if (tableAction === 'turn') {
+            display[3].show = true;
+        } else if (tableAction === 'river') {
+            display[4].show = true;
+        }
+    }, [tableAction])
 
     return (
         <div className="houseOfCardsContainer">
-            {size.length > 0 ?
-                size.map((card, index) =>
+            {display.length > 0 ?
+                display.map((item, index) =>
                     <div key={index} className="houseOfCardsEmpty">
-                        {tableAction === 'flop' && index < 3 ?
+                        {item.show ?
                             <Flip>
-                                <img src={renderCard(card)} width={54}
+                                <img src={renderCard(item.card)} width={54}
                                   height={76}/>
                             </Flip>
                               : null}
