@@ -1,6 +1,6 @@
 import * as TYPES from './types';
 import {app} from '../../../../services/firebase';
-import {apiCreateUser, apiValidateCode, getUserByEmail, apiEmailResetEndpoint} from '../../../../helpers/constants';
+import {apiCreateUser, apiValidateCode, getUserByEmail} from '../../../../helpers/constants';
 import api from '../../../../services/apiMiddleware';
 import {IUser} from '../../interfaces';
 import firebase from "firebase";
@@ -130,8 +130,6 @@ export const emailReset = (data: IUser, callback: (success: boolean) => void) =>
                 .auth()
                 .sendPasswordResetEmail(data.email)
                 .then(async result => {
-                    // const code = await api.post(apiEmailResetEndpoint, data);
-                    // dispatch(setUserData(code))
                     setTimeout(() => callback(true), 1000);
                 }).catch(e => dispatch(setAuthenticationCode(e.message)))
         }

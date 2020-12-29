@@ -41,3 +41,18 @@ export const setQuestions = (data: IQuestions[]) => {
         payload: data
     };
 };
+
+export const fetchGameData = (lesson: object) => async(
+    dispatch: (data: any) => void,
+    getState: any,
+) => {
+    try {
+        //dispatch(setIsFetchingGameData(true));
+
+    } catch (e) {
+        dispatch(setGameCode(e));
+    } finally {
+        dispatch(setIsFetchingGameData(false));
+    }
+}
+

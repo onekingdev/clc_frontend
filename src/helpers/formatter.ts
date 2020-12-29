@@ -1,5 +1,3 @@
-import {Simulate} from "react-dom/test-utils";
-import axios from "axios";
 
 export const formatPrice = (price: number) => {
     return new Intl.NumberFormat('es-MX',  {
@@ -61,21 +59,17 @@ export const formatGraphData = (data: any) => {
     return list;
 }
 
-export const vimeoDataExtractor = async (url: string) => {
-    // https://vimeo.com/253989945
-    // http://vimeo.com/api/v2/video/253989945.json
-    let path = new URL(url).pathname.substr(1, new URL(url).pathname.length);
+export const embedVideo = (url: string) => {
+    let host = url !== '' ? new URL(url).host : '';
 
-    return await axios.get(`http://vimeo.com/api/v2/video/${path}.json`,{headers: {
-            'Content-Type': 'application/json',
-        }})
-        .then((res: any) => {
-            let data = {
-                description: res.data[0].description,
-                thumbnail: res.data[0].thumbnail_large,
-                duration: res.data[0].duration,
-            }
-            return data;
-        })
-        .catch(error => error)
-}
+    switch (host) {
+        case 'vimeo.com':
+            let vimeoID = new URL(url).pathname;
+            return `https://player.vimeo.com/video${vimeoID}`;
+        case 'www.youtube.com':
+            let youtubeID = new URL(url).searchParams.get("v");
+            return `https://www.youtube.com/embed/${youtubeID}`;
+
+    }
+    return ''
+};

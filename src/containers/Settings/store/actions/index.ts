@@ -19,7 +19,7 @@ export const uploadLibrary = (library: any) => (dispatch: any, getState: any) =>
 
 export const uploadQuestions = (questions: any) => (dispatch: any, getState: any) => {
     dispatch(isUploadingLibraryData(true));
-    return api.post("uploadQuestions", questions)
+    return api.post("uploadContent", questions)
         .then(response => {
             dispatch(isUploadingLibraryData(false));
             return response;

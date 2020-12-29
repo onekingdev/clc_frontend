@@ -46,27 +46,27 @@ function ScreenTemplate(props: any) {
                 [<SidebarItem icon="home" text="Home" onClick={() => {
                     setTimeout(() => history.push('home'), 0);
                 }}/>,
-                <SidebarItem icon="ai" text="AI Learning" onClick={() => {
+                /*<SidebarItem icon="ai" text="AI Learning" onClick={() => {
                     setTimeout(() => history.push('game'), 0);
-                }}/>,
+                }}/>,*/
                 <SidebarItem icon="path" text="Pick Your Path" onClick={() => {
-                    setTimeout(() => history.push('path'), 0);
+                    setTimeout(() => history.push('paths'), 0);
                 }}/>,
-                <SidebarItem icon="practice" text="Practice" onClick={() => {
+                /*<SidebarItem icon="practice" text="Practice" onClick={() => {
                     setTimeout(() => history.push('practice'), 0);
-                }}/>,
+                }}/>,*/
                 <SidebarItem icon="video" text="Video Library" onClick={() => {
                     setTimeout(() => history.push('library'), 0);
                 }}/>,
-                <SidebarItem icon="training" text="Advanced Training" onClick={() => {
+                /*<SidebarItem icon="training" text="Advanced Training" onClick={() => {
                     setTimeout(() => history.push('training'), 0);
-                }}/>,
+                }}/>,*/
                 <SidebarItem icon="performance" text="My Performance" onClick={() => {
                     setTimeout(() => history.push('performance'), 0);
                 }}/>,
-                <SidebarItem icon="answers" text="Answers" onClick={() => {
+                /*<SidebarItem icon="answers" text="Answers" onClick={() => {
                     setTimeout(() => history.push('answers'), 0);
-                }}/>]
+                }}/>*/]
             } upperButtons={[]} reverse={!slider}
                      closeButton={() => setSlider(false)}/>
             <Header

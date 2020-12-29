@@ -12,6 +12,7 @@ import libraryBg from '../../assets/images/libraryBg.png';
 import MediaCard from '../../components/MediaCard';
 import * as ACTIONS from './store/actions';
 import TitleText from "../../components/TitleText";
+import {embedVideo} from "../../helpers/formatter";
 
 function Library(props: any) {
     const [showModal, setShowModal] = useState({show: false, url: ''});
@@ -108,7 +109,7 @@ function Library(props: any) {
             </div>
             <Modal visible={showModal.show} width="750" height="450" effect="fadeInUp" onClickAway={() => setShowModal({show: false, url: ''})}>
                 <iframe width="750" height="450"
-                        src={showModal.url}>
+                        src={embedVideo(showModal.url)}>
                 </iframe>
             </Modal>
         </ScreenTemplate>

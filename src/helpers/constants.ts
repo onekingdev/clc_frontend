@@ -5,11 +5,7 @@ export const getUserByEmail = 'getUserByEmail';
 export const apiCreateUser = 'createUser';
 export const apiValidateCode = 'validateCode';
 export const apiGetLibrary = 'getLibrary';
-
-
-export const apiEmailResetEndpoint = 'email';
-
-export const apiPathsEndpoint = 'paths';
+export const apiPathsEndpoint = 'getPaths';
 
 // front end messages
 export const emptyEmailString = 'Email required';

@@ -58,7 +58,6 @@ function Settings(props: any) {
         let library = (sheets["LIBRARIES"] as Array<Object> || [])
             .map((value: any) => {
                 return {
-                    id: value['ID'],
                     image: value['IMAGE'],
                     duration: value['DURATION'],
                     title: value['TITLE'],
@@ -71,19 +70,19 @@ function Settings(props: any) {
     }
 
     const bulkImportQuestions = (sheets: { [email: string]: Object; }) => {
-        var lessons = (sheets["LESSONS"] as Array<Object> || [])
+        let lessons = (sheets["LESSONS"] as Array<Object> || [])
             .map((value: any) => {
                 return {
-                    topicRow: value['TOPIC_ROW'],
+                    UID: value['UID'],
+                    topicUID: value['TOPIC_UID'],
                     name: value['NAME']
                 }
             });
 
-        var topics = (sheets["TOPICS"] as Array<Object> || [])
+        let topics = (sheets["TOPICS"] as Array<Object> || [])
             .map((value: any) => {
-
                 return {
-                    id: value['ID'],
+                    UID: value['UID'],
                     name: value['NAME'],
                     masteredLevel: value['MASTERED_LEVEL'],
                     chips: value['CHIPS'],
@@ -91,19 +90,21 @@ function Settings(props: any) {
                 }
             });
 
-        var questions = (sheets["QUESTIONS"] as Array<Object> || [])
+        let questions = (sheets["QUESTIONS"] as Array<Object> || [])
             .map((value: any) => {
                 return {
-                    id: value['ID'],
-                    lessonRow: value['LESSON_ROW'],
+                    lessonUID: value['LESSON_UID'],
                     questionText: value['QUESTION_TEXT'],
-                    Answers: {
+                    answers: {
                         correct: value['ANSWER_CORRECT'],
                         wrong1: value['ANSWER_WRONG1'],
                         wrong2: value['ANSWER_WRONG2'],
-                        wrong3: value['ANSWER_WRONG3']
+                        wrong3: value['ANSWER_WRONG3'],
+                        wrong4: value['ANSWER_WRONG4'],
                     },
-                    explanation: {correct: value['EXPLANATION_CORRECT'], wrong: value['EXPLANATION_WRONG']}
+                    explanation: {correct: value['EXPLANATION_CORRECT'], wrong: value['EXPLANATION_WRONG']},
+                    handHistory: value['HAND_HISTORY'],
+                    reward: {chips: value['REWARD_CHIPS'], tickets: value['REWARD_TICKETS']}
                 }
             });
 

@@ -53,7 +53,7 @@ import chip from '../../assets/images/chip.png';
 import dealer_chip from '../../assets/images/dealer-chip.png';
 import BodyText from "../BodyText";
 import SmallText from "../SmallText";
-import {Flip, Roll, Slide, Fade, Bounce, Zoom, Rotate, JackInTheBox, Hinge} from "react-awesome-reveal";
+import {Roll, Rotate} from "react-awesome-reveal";
 import {numberWithCommas} from "../../helpers/formatter";
 
 interface IPokerPlayer {
@@ -83,10 +83,6 @@ const PokerPlayer: React.FC<IPokerPlayer> = ({
                                                  amount,
                                                  pot
                                              }) => {
-
-    /*useEffect(() => {
-        onCall(tableAction);
-    }, [turn])*/
 
     const leftCard = useRef<HTMLImageElement>(null);
     const rightCard = useRef<HTMLImageElement>(null);
@@ -212,7 +208,6 @@ const PokerPlayer: React.FC<IPokerPlayer> = ({
                 (rightCard.current as HTMLImageElement).style.transform = 'rotate(10deg)';
                 (container.current as HTMLDivElement).style.transform = 'translateY(10px)';
             } else if (dealer) {
-                //(badge.current as HTMLDivElement).style.backgroundColor = 'white';
                 (container.current as HTMLDivElement).style.transform = 'translateY(0px)';
                 (rightCard.current as HTMLImageElement).style.transform = 'rotate(0deg)';
                 (leftCard.current as HTMLImageElement).style.transform = 'rotate(0deg)';
@@ -220,7 +215,6 @@ const PokerPlayer: React.FC<IPokerPlayer> = ({
             } else {
                 (leftCard.current as HTMLImageElement).style.transform = 'rotate(0deg)';
                 (rightCard.current as HTMLImageElement).style.transform = 'rotate(0deg)';
-                //(badge.current as HTMLDivElement).style.backgroundColor = 'black';
                 (container.current as HTMLDivElement).style.transform = 'translateY(10px)';
             }
         }
@@ -326,7 +320,7 @@ const PokerPlayer: React.FC<IPokerPlayer> = ({
                         </div>
                         <div>
                             <BodyText
-                                color={dealer ? '#000' : '#FFF'}>{`${numberWithCommas(mp - amount)}`}</BodyText>
+                                color={dealer ? '#000' : '#FFF'}>{`${numberWithCommas(mp -= amount)}`}</BodyText>
                         </div>
                     </div>
                 </div>

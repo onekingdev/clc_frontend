@@ -25,7 +25,7 @@ export const setIsFetchingPathsData = (data: boolean) => {
 
 export const setPathsList = (data: IPathsList) => {
     return {
-        type: TYPES.CLEAR_PATHS_DATA,
+        type: TYPES.SET_PATHS_LIST,
         payload: data
     };
 }
@@ -35,12 +35,14 @@ export const getPathsList = () => async(
     getState: any,
 ) => {
     try {
-        setIsFetchingPathsData(true);
-        const list = await api.get(apiPathsEndpoint);
-        setPathsList(list);
+        dispatch(setIsFetchingPathsData(true));
+        const myTopics = getState().screenTemplateState.myTopics;
+        const email = getState().authState.user.email;
+        const list = await api.post(apiPathsEndpoint, {myTopics, email});
+        dispatch(setPathsList(list));
     } catch (e) {
-        setPathsCode(e);
+        dispatch(setPathsCode(e));
     } finally {
-        setIsFetchingPathsData(false);
+        dispatch(setIsFetchingPathsData(false));
     }
 }

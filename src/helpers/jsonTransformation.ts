@@ -181,7 +181,7 @@ const parseRecord = (record: string) => {
     const strRegex = `(?<seat_name>${words})\\s+(?<hand>[A-Za-z]+(\\s+[A-Za-z]+)*)(\\s*)\\[?(\\s*)(?<seat_amount>([0-9]{1,3}(\\,[0-9]{1,3})*)*(\\.[0-9]{1,2})?)?(\\s*)\\]?`;
     const handRegex = new RegExp(strRegex)
     const dealRegex = new RegExp(`\\bDealt\\b\\s+\\bto\\b\\s+(?<seat_name>${words})\\s+\\[*\\s*(?<cards>[a-zA-Z0-9]{2}(\\,?\\s*[a-zA-Z0-9]{2})*)\\s*\\]*`)
-    const flopRegex = /\*+\s+(?<description>\w+(\s+\w+)*)\s+\*+\s+\[\s*(?<cards>[a-zA-Z0-9]{2}(\,?\s*[a-zA-Z0-9]{2})*)\s*\]/
+    const flopRegex = /\*+\s+(?<description>\w+(\s+\w+)*)\s+\*+\s+\[\s*(?<cards_0>[a-zA-Z0-9]{2}(\s*\,?\s*[a-zA-Z0-9]{2})*)\s*\](\s+\[\s*(?<cards_1>[a-zA-Z0-9]{2}(\s*\,?\s*[a-zA-Z0-9]{2})*)\s*\])?(\s+\[\s*(?<cards_2>[a-zA-Z0-9]{2}(\s*\,?\s*[a-zA-Z0-9]{2})*)\s*\])?/
 
     let flopIndex = 0;
     let turnIndex = 0;
@@ -190,15 +190,24 @@ const parseRecord = (record: string) => {
         const line = records[i];
         let result = flopRegex.exec(line)?.groups
 
-        if (result && result.cards && result.description) {
-            if (result.description === 'FLOP' || result.description === 'Dealing Flop') {
-                flop = result.cards.replace(/ /g, '').split(',');
+        if (result && result.description) {
+            if (result.description === 'Dealing Flop') {
+                flop = result.cards_0.replace(/ /g, '').split(',');
                 flopIndex = i;
-            } else if (result.description === 'TURN' || result.description === 'Dealing Turn') {
-                flop.push(result.cards);
+            } else if (result.description === 'FLOP') {
+                flop = result.cards_0.split(' ');
+                flopIndex = i;
+            } else if (result.description === 'Dealing Turn') {
+                flop.push(result.cards_0);
                 turnIndex = i;
-            } else if (result.description === 'RIVER' || result.description === 'Dealing River') {
-                flop.push(result.cards);
+            } else if (result.description === 'TURN') {
+                flop.push(result.cards_1);
+                turnIndex = i;
+            } else if (result.description === 'Dealing River') {
+                flop.push(result.cards_0);
+                riverIndex = i;
+            } else if (result.description === 'RIVER') {
+                flop.push(result.cards_2);
                 riverIndex = i;
             }
         }
@@ -211,7 +220,7 @@ const parseRecord = (record: string) => {
 
         if (result) {
             if (mapPlayers[result.seat_name]) {
-                mapPlayers[result.seat_name].cards = result.cards.split(/,\s*/);
+                mapPlayers[result.seat_name].cards = result.cards.split(/, | \s*/);
             }
         }
 

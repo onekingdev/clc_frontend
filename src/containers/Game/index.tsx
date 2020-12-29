@@ -12,7 +12,7 @@ import QuestionCard from "../../components/QuestionCard";
 import Button from "../../components/Button";
 import SmallText from "../../components/SmallText";
 import ScreenTemplate from "../ScreenTemplate";
-import {numberWithCommas, vimeoDataExtractor} from '../../helpers/formatter';
+import {numberWithCommas} from '../../helpers/formatter';
 import {Fade} from "react-awesome-reveal";
 import {DotLoader} from "react-spinners";
 
@@ -36,7 +36,7 @@ function Game(props: any) {
     const [tableAction, setTableAction] = useState('');
 
     useEffect(() => {
-        props.setIsFetchingGameData(true);
+        props.setIsFetchingGameData(false);
     },[])
 
     // adjust dimensions
@@ -138,8 +138,6 @@ function Game(props: any) {
         setFinished(false);
         setPause(pause);
         clearInterval(interval);
-
-        //for (let i = 0; i <= 3; i++) flop.array[i].show = false;
     }
 
     const speedHandler = (s: number) => {
@@ -174,9 +172,8 @@ function Game(props: any) {
         reset(false);
     }
 
-    // ScreenTemplate loading={props.isFetchingGameData}
     return (
-        <div>
+        <ScreenTemplate loading={props.isFetchingGameData}>
             <div className="gameWrapper" style={width > 1300 ? {} : {transform: `scale(${width / 1300})`}}>
                 <div>
                     <div className="gamePokerTableContainer">
@@ -238,7 +235,7 @@ function Game(props: any) {
                         next={handleSubmit}/>
                 </div>
             </div>
-        </div>
+        </ScreenTemplate>
     );
 }
 
@@ -253,6 +250,8 @@ const mapStateToProps = (state: any) => {
 
 const bindActions = (dispatch: any) => {
     return {
+        // fetchGameData: (lessson: {UID: string, name: string}) => dispatch(ACTIONS.fetchGameData(lessson)),
+        // saveEarnings: (data: { chips: number, tickets: number }) => dispatch(ACTIONS.saveEarnings(data)),
         updateDailyEarnings: (data: { chips: number, tickets: number }) => dispatch(PERFORMANCE_ACTIONS.updateDailyEarnings(data)),
         setIsFetchingGameData: (data: boolean) => dispatch(ACTIONS.setIsFetchingGameData(data))
     };

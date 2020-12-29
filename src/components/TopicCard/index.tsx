@@ -73,7 +73,7 @@ const TopicCard: React.FC<ITopicCard> = ({
                  onMouseOver={() => setShowPlay(true)}
                  onMouseLeave={() => setShowPlay(false)}
             >
-                {status === 0 ?
+                {status === 1 ?
                     <div className="topicCardImageCover">
                         <div className="topicCardPlayCircle">
                             <FontAwesomeIcon color="#FFF" size="1x" icon={Icon['faPlay']} transform={{ rotate: 0 }} />
@@ -82,7 +82,7 @@ const TopicCard: React.FC<ITopicCard> = ({
                             <BodyText bold color="#FFF">Start now</BodyText>
                         </div>
                     </div>
-                    : status === 1 ?
+                    : status === 0 ?
                         <div className="topicCardImageCover">
                             <FontAwesomeIcon color={'var(--primary)'} size="1x" icon={Icon['faLock']} transform={{ rotate: 0 }} />
                             <div style={{marginLeft: 16}}>

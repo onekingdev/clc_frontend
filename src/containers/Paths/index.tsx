@@ -8,9 +8,13 @@ import SmallText from '../../components/SmallText';
 import pathsBg from '../../assets/images/pathsBg.png';
 import ScreenTemplate from '../ScreenTemplate';
 import Banner from '../../components/Banner';
+import * as ACTIONS from './store/actions';
 
 function Paths(props: any) {
     const [width, setWidth] = useState(window.innerWidth);
+    const [available, setAvailable] = useState({array: [], render: false});
+    const [mastered, setMastered] = useState({array: [], render: false});
+    const [locked, setLocked] = useState({array: [], render: false});
 
     // adjust dimensions
     useEffect(() => {
@@ -18,148 +22,57 @@ function Paths(props: any) {
         return () => window.removeEventListener("resize", updateDimensions);
     }, [width]);
 
+    useEffect(() => {
+        props.getPathsList();
+    }, [])
+
+    useEffect(() => {
+        let arr1: any = [], arr2: any = [], arr3: any = [];
+        if (props.pathsList.available && props.pathsList.available.length > 0) {
+            props.pathsList.available.forEach((item: any) => {
+                arr1.push(
+                    <TopicCard
+                        label={item.name}
+                        title={item.lessonName}
+                        description="based on the contextual information. What is the best response?"
+                        status={item.status}
+                    />
+                )
+            })
+        }
+        if (props.pathsList.mastered && props.pathsList.mastered.length > 0) {
+            props.pathsList.mastered.forEach((item: any) => {
+                arr2.push(
+                    <TopicCard
+                        label={item.name}
+                        title={item.lessonName}
+                        description="based on the contextual information. What is the best response?"
+                        status={item.status}
+                    />
+                )
+            })
+        }
+        if (props.pathsList.locked && props.pathsList.locked.length > 0) {
+            props.pathsList.locked.forEach((item: any) => {
+                arr3.push(
+                    <TopicCard
+                        label={item.name}
+                        title={item.lessonName}
+                        description="based on the contextual information. What is the best response?"
+                        status={item.status}
+                    />
+                )
+            })
+        }
+
+        setAvailable({array: arr1, render: !available.render});
+        setMastered({array: arr2, render: !mastered.render});
+        setLocked({array: arr3, render: !locked.render});
+    }, [props.pathsList])
+
     const updateDimensions = () => {
         setWidth(window.innerWidth);
     }
-
-    const available = [
-        <TopicCard
-            label="Flop"
-            title="Lesson 3A"
-            description="based on the contextual information. What is the best response?"
-            status={0}
-        />,
-        <TopicCard
-            label="Flop"
-            title="Lesson 3B"
-            description="based on the contextual information. What is the best response?"
-            status={0}
-        />,
-        <TopicCard
-            label="Flop"
-            title="Lesson 3C"
-            description="based on the contextual information. What is the best response?"
-            status={0}
-        />,
-        <TopicCard
-            label="Flop"
-            title="Lesson 3D"
-            description="based on the contextual information. What is the best response?"
-            status={0}
-        />,
-        <TopicCard
-            label="Flop"
-            title="Lesson 3E"
-            description="based on the contextual information. What is the best response?"
-            status={0}
-        />,
-        <TopicCard
-            label="Flop"
-            title="Lesson 3F"
-            description="based on the contextual information. What is the best response?"
-            status={0}
-        />,
-        <TopicCard
-            label="Flop"
-            title="Lesson 3G"
-            description="based on the contextual information. What is the best response?"
-            status={0}
-        />,
-        <TopicCard
-            label="Flop"
-            title="Lesson 3H"
-            description="based on the contextual information. What is the best response?"
-            status={0}
-        />,
-        <TopicCard
-            label="Flop"
-            title="Lesson 3H"
-            description="based on the contextual information. What is the best response?"
-            status={0}
-        />,
-        <TopicCard
-            label="Flop"
-            title="Lesson 3H"
-            description="based on the contextual information. What is the best response?"
-            status={0}
-        />,
-        <TopicCard
-            label="Flop"
-            title="Lesson 3H"
-            description="based on the contextual information. What is the best response?"
-            status={0}
-        />
-    ];
-    const locked = [
-        <TopicCard
-            label="Flop"
-            title="Lesson 3A"
-            description="based on the contextual information. What is the best response?"
-            status={1}
-        />,
-        <TopicCard
-            label="Flop"
-            title="Lesson 3B"
-            description="based on the contextual information. What is the best response?"
-            status={1}
-        />,
-        <TopicCard
-            label="Flop"
-            title="Lesson 3C"
-            description="based on the contextual information. What is the best response?"
-            status={1}
-        />,
-        <TopicCard
-            label="Flop"
-            title="Lesson 3D"
-            description="based on the contextual information. What is the best response?"
-            status={1}
-        />,
-        <TopicCard
-            label="Flop"
-            title="Lesson 3E"
-            description="based on the contextual information. What is the best response?"
-            status={1}
-        />,
-        <TopicCard
-            label="Flop"
-            title="Lesson 3F"
-            description="based on the contextual information. What is the best response?"
-            status={1}
-        />,
-        <TopicCard
-            label="Flop"
-            title="Lesson 3G"
-            description="based on the contextual information. What is the best response?"
-            status={1}
-        />,
-        <TopicCard
-            label="Flop"
-            title="Lesson 3H"
-            description="based on the contextual information. What is the best response?"
-            status={1}
-        />,
-    ];
-    const mastered = [
-        <TopicCard
-            label="Flop"
-            title="Lesson 3A"
-            description="based on the contextual information. What is the best response?"
-            status={2}
-        />,
-        <TopicCard
-            label="Flop"
-            title="Lesson 3B"
-            description="based on the contextual information. What is the best response?"
-            status={2}
-        />,
-        <TopicCard
-            label="Flop"
-            title="Lesson 3C"
-            description="based on the contextual information. What is the best response?"
-            status={2}
-        />,
-    ];
 
     return (
         <ScreenTemplate>
@@ -167,45 +80,51 @@ function Paths(props: any) {
             <div className="pathsImageWrapper">
                 <img src={pathsBg} width="90%"/>
             </div>
+            {available.array.length > 0 || props.isFetchingPathsData ?
             <div>
                 <div className="pathsTextWrapper">
                     <SmallText color="#FFF">
-                        <SmallText bold>{available.length}</SmallText>
+                        <SmallText bold>{available.array.length}</SmallText>
                         {' AVAILABLE TOPICS'}
                     </SmallText>
                 </div>
                 <Slider
                     loading={props.isFetchingPathsData}
                     marginClass="pathsSliderCenterLoaderMargin"
-                    content={available}
+                    content={available.array}
                     show={width < 650 ? 1 : width < 950 ? 2 : width < 1300 ? 3 : width < 1650 ? 4 : width < 2000 ? 5 : 6}/>
             </div>
-            <div>
-                <div className="pathsTextWrapper">
-                    <SmallText color="#FFF">
-                        <SmallText bold>{locked.length}</SmallText>
-                        {' LOCKED TOPICS'}
-                    </SmallText>
+                : null}
+            {locked.array.length > 0 || props.isFetchingPathsData ?
+                <div>
+                    <div className="pathsTextWrapper">
+                        <SmallText color="#FFF">
+                            <SmallText bold>{locked.array.length}</SmallText>
+                            {' LOCKED TOPICS'}
+                        </SmallText>
+                    </div>
+                    <Slider
+                        loading={props.isFetchingPathsData}
+                        marginClass="pathsSliderCenterLoaderMargin"
+                        content={locked.array}
+                        show={width < 650 ? 1 : width < 950 ? 2 : width < 1300 ? 3 : width < 1650 ? 4 : width < 2000 ? 5 : 6}/>
                 </div>
-                <Slider
-                    loading={props.isFetchingPathsData}
-                    marginClass="pathsSliderCenterLoaderMargin"
-                    content={locked}
-                    show={width < 650 ? 1 : width < 950 ? 2 : width < 1300 ? 3 : width < 1650 ? 4 : width < 2000 ? 5 : 6}/>
-            </div>
-            <div className="bottomPadding">
-                <div className="pathsTextWrapper">
-                    <SmallText color="#FFF">
-                        <SmallText bold>{mastered.length}</SmallText>
-                        {' MASTERED TOPICS'}
-                    </SmallText>
+            : null}
+            {mastered.array.length > 0 || props.isFetchingPathsData ?
+                <div className="bottomPadding">
+                    <div className="pathsTextWrapper">
+                        <SmallText color="#FFF">
+                            <SmallText bold>{mastered.array.length}</SmallText>
+                            {' MASTERED TOPICS'}
+                        </SmallText>
+                    </div>
+                    <Slider
+                        loading={props.isFetchingPathsData}
+                        marginClass="pathsSliderCenterLoaderMargin"
+                        content={mastered.array}
+                        show={width < 650 ? 1 : width < 950 ? 2 : width < 1300 ? 3 : width < 1650 ? 4 : width < 2000 ? 5 : 6}/>
                 </div>
-                <Slider
-                    loading={props.isFetchingPathsData}
-                    marginClass="pathsSliderCenterLoaderMargin"
-                    content={mastered}
-                    show={width < 650 ? 1 : width < 950 ? 2 : width < 1300 ? 3 : width < 1650 ? 4 : width < 2000 ? 5 : 6}/>
-            </div>
+                : <div className="bottomPadding"/>}
         </ScreenTemplate>
     );
 }
@@ -218,7 +137,9 @@ const mapStateToProps = (state: any) => {
 }
 
 const bindActions = (dispatch: any) => {
-    return {};
+    return {
+        getPathsList: () => dispatch(ACTIONS.getPathsList())
+    };
 };
 
 export default connect(mapStateToProps, bindActions)(Paths);

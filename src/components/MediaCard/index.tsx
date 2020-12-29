@@ -5,10 +5,11 @@ import SubtitleText from "../SubtitleText";
 import BodyText from "../BodyText";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import * as Icon from "@fortawesome/free-solid-svg-icons";
+import moment from "moment";
 
 interface IMediaCard {
     image: string,
-    duration: string,
+    duration: number,
     title: string,
     description: string,
     onClick: () => void
@@ -24,6 +25,8 @@ const MediaCard: React.FC<IMediaCard> = ({
     const [showPlay, setShowPlay] = useState(false);
     const [count, setCount] = useState(0);
     const [spanStyles, setSpanStyles] = useState({});
+
+    let time = moment().startOf('day').seconds(duration).format('H:mm:ss');
 
     /* Debounce Code to call the Ripple removing function */
     const callCleanUp = (cleanup: () => void, delay: number) => {
@@ -86,7 +89,7 @@ const MediaCard: React.FC<IMediaCard> = ({
                 </div>
             </div>
             <div className="topicCardTextWrapper">
-                <SmallText>{duration.substr(1, duration.length -2)}</SmallText>
+                <SmallText>{time[0] === '0' && time[2] === '0' ? time.substr(3, time.length) : time[0] === '0' ? time.substr(1, time.length) : time}</SmallText>
             </div>
             <div className="topicCardTextWrapper" style={{marginBottom: 12}}>
                 <SubtitleText>{title}</SubtitleText>
