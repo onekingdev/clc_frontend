@@ -152,6 +152,10 @@ FishSharkKK checks
 `
 ]
 
+const seatRegex = /Seat\s+[#?|\']?(?<seat_number>\d+)\'?:\s+(?<seat_name>[a-zA-Z0-9\s\']*)\s+\(\s*(?<seat_amount>\S+(\s+\S+)*)\s*\)/;
+const seatAmountRegex = /(?<seat_amount>(\d{1,3}(\,\d{1,3})*)*(\.\d{1,2})?)/;
+const flopRegex = /\*+\s+(?<description>\w+(\s+\w+)*)\s+\*+\s+\[\s*(?<cards_0>[a-zA-Z0-9]{2}(\s*\,?\s*[a-zA-Z0-9]{2})*)\s*\](\s+\[\s*(?<cards_1>[a-zA-Z0-9]{2}(\s*\,?\s*[a-zA-Z0-9]{2})*)\s*\])?(\s+\[\s*(?<cards_2>[a-zA-Z0-9]{2}(\s*\,?\s*[a-zA-Z0-9]{2})*)\s*\])?/
+
 const parseRecord = (record: string) => {
     const records = record.split("\n");
     let players = [];
@@ -160,28 +164,28 @@ const parseRecord = (record: string) => {
     let hands = [];
     for (let i = 0; i < records.length; i++) {
         const line = records[i];
-        const regex = /Seat\s+[#?|\']?(?<seat_number>\d+)\'?:\s+(?<seat_name>[a-zA-Z0-9\s\']*)\s+\(\s*(?<seat_amount>(([0-9]{1,3}(\,[0-9]{1,3})*)*(\.[0-9]{1,2})?)|[a-zA-Z0-9\,\$\s]*)\s*\)/
-        const result = regex.exec(line)?.groups
+        const result = seatRegex.exec(line)?.groups
 
         if (result) {
-            const player = {
-                number: result.seat_number,
-                name: result.seat_name,
-                initAmount: parseInt(result.seat_amount.replace(/,/g, ''), 10),
-                cards: []
+            const amountResult = seatAmountRegex.exec(result.seat_amount)?.groups;
+            if (amountResult) {
+                const player = {
+                    number: result.seat_number,
+                    name: result.seat_name,
+                    initAmount: parseInt(amountResult.seat_amount.replace(/,/g, ''), 10),
+                    cards: []
+                }
+                players.push(player);
+                // @ts-ignore
+                mapPlayers[player.name] =  player;
             }
-            players.push(player);
-            // @ts-ignore
-            mapPlayers[player.name] =  player;
         }
 
     }
 
     const words = players.map(p => `\\b${p.name.replace(" ", "\\s+")}\\b`).join("|")
-    const strRegex = `(?<seat_name>${words})\\s+(?<hand>[A-Za-z]+(\\s+[A-Za-z]+)*)(\\s*)\\[?(\\s*)(?<seat_amount>([0-9]{1,3}(\\,[0-9]{1,3})*)*(\\.[0-9]{1,2})?)?(\\s*)\\]?`;
-    const handRegex = new RegExp(strRegex)
+    const handRegex = new RegExp(`(?<seat_name>${words})\\:?\\s+(?<hand>[A-Za-z]+(\\s+[A-Za-z]+)*)(\\s*)\\[?(\\s*)(?<seat_amount>(([0-9]{1,3}(\\,[0-9]{1,3})*)*(\\.[0-9]{1,2})?)|[a-zA-Z0-9\\,\\$\\s]*)?(\\s*)\\]?`)
     const dealRegex = new RegExp(`\\bDealt\\b\\s+\\bto\\b\\s+(?<seat_name>${words})\\s+\\[*\\s*(?<cards>[a-zA-Z0-9]{2}(\\,?\\s*[a-zA-Z0-9]{2})*)\\s*\\]*`)
-    const flopRegex = /\*+\s+(?<description>\w+(\s+\w+)*)\s+\*+\s+\[\s*(?<cards_0>[a-zA-Z0-9]{2}(\s*\,?\s*[a-zA-Z0-9]{2})*)\s*\](\s+\[\s*(?<cards_1>[a-zA-Z0-9]{2}(\s*\,?\s*[a-zA-Z0-9]{2})*)\s*\])?(\s+\[\s*(?<cards_2>[a-zA-Z0-9]{2}(\s*\,?\s*[a-zA-Z0-9]{2})*)\s*\])?/
 
     let flopIndex = 0;
     let turnIndex = 0;
@@ -315,4 +319,4 @@ const parseRecord = (record: string) => {
     })
 }
 
-export const extract = parseRecord(hands[0]);
+export const extract = parseRecord(hands[3]);
