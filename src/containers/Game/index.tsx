@@ -9,19 +9,10 @@ import Player from "../../components/Player";
 import HouseOfCards from "../../components/HouseOfCards";
 import PokerPlayer from "../../components/PokerPlayer";
 import QuestionCard from "../../components/QuestionCard";
-import Button from "../../components/Button";
 import SmallText from "../../components/SmallText";
 import ScreenTemplate from "../ScreenTemplate";
 import {numberWithCommas} from '../../helpers/formatter';
-import {Fade} from "react-awesome-reveal";
-import {DotLoader} from "react-spinners";
-
-import {extract} from "../../helpers/jsonTransformation";
-
-console.log(extract, '...............................')
-const questions = [
-    extract
-]
+import TitleText from "../../components/TitleText";
 
 let interval: any;
 
@@ -34,10 +25,17 @@ function Game(props: any) {
     const [pause, setPause] = useState(false);
     const [finished, setFinished] = useState(false);
     const [tableAction, setTableAction] = useState('');
+    const [questions, setQuestions]: any = useState({array: [], render: false});
 
     useEffect(() => {
-        props.setIsFetchingGameData(false);
+        props.fetchGameData();
     },[])
+
+    useEffect(() => {
+        if (props.questions && props.questions.length > 0) {
+            setQuestions({array: props.questions, render: !questions.render})
+        }
+    },[props.questions])
 
     // adjust dimensions
     useEffect(() => {
@@ -46,9 +44,11 @@ function Game(props: any) {
     }, [width]);
 
     useEffect(() => {
-        if (pause) stop();
-        else start();
-    }, [pause])
+        if (questions.array.length > 0) {
+            if (pause) stop();
+            else start();
+        }
+    }, [pause, props.isFetchingGameData])
 
     const updateDimensions = () => {
         setWidth(window.innerWidth);
@@ -79,10 +79,10 @@ function Game(props: any) {
         if (handIndex > 0) {
             let index = handIndex;
             index -= 1;
-            pot -= questions[questionIndex].hands[index+1].amount
+            pot -= questions.array[questionIndex].hands[index+1].amount
             setPot(pot);
             setHandIndex(index);
-            setTableAction(questions[questionIndex].hands[index].tableAction);
+            setTableAction(questions.array[questionIndex].hands[index].tableAction);
         }
     }
 
@@ -90,34 +90,34 @@ function Game(props: any) {
         clearInterval(interval);
         setPause(true)
 
-        if (questions[questionIndex].hands.length-1 === handIndex) {
+        if (questions.array[questionIndex].hands.length-1 === handIndex) {
             stop();
             setFinished(true);
             return;
         }
-        if (handIndex < questions[questionIndex].hands.length -1) {
+        if (handIndex < questions.array[questionIndex].hands.length -1) {
             let index = handIndex;
             index += 1;
-            pot += questions[questionIndex].hands[index].amount
+            pot += questions.array[questionIndex].hands[index].amount
             setPot(pot);
             setHandIndex(index);
-            setTableAction(questions[questionIndex].hands[index].tableAction);
+            setTableAction(questions.array[questionIndex].hands[index].tableAction);
         }
 
     }
 
     const move = () => {
-        if (questions[questionIndex].hands.length-1 === handIndex) {
+        if (questions.array[questionIndex].hands.length-1 === handIndex) {
             stop();
             setFinished(true);
             return;
         }
         if (pause) return;
-        if (handIndex < questions[questionIndex].hands.length -1) {
+        if (handIndex < questions.array[questionIndex].hands.length -1) {
             setHandIndex(handIndex += 1);
-            pot += questions[questionIndex].hands[handIndex].amount
+            pot += questions.array[questionIndex].hands[handIndex].amount
             setPot(pot);
-            setTableAction(questions[questionIndex].hands[handIndex].tableAction);
+            setTableAction(questions.array[questionIndex].hands[handIndex].tableAction);
         }
         else stop();
     }
@@ -159,90 +159,100 @@ function Game(props: any) {
 
     const handleAnswerQuestion = (correct: boolean) => {
         if (correct) {
-            // const chips = questions[qNum].question.reward.chips;
-            // const tickets = questions[qNum].question.reward.tickets;
-            // props.updateDailyEarnings({chips: chips, tickets: tickets});
+            const chips = questions.array[questionIndex].question.reward.chips;
+            const tickets = questions.array[questionIndex].question.reward.tickets;
+            props.updateDailyEarnings({chips: chips, tickets: tickets});
+            props.saveEarnings({
+                userID: props.user.id,
+                questionID: questions.array[questionIndex].question.questionID,
+                chips, tickets
+            });
         }
+        props.updateMyTopics(questions.array[questionIndex].question.questionID, correct);
     }
 
     const handleSubmit = () => {
         setFinished(false);
-        props.setIsFetchingGameData(true);
+
         setQuestionIndex(questionIndex += 1);
         reset(false);
     }
 
     return (
         <ScreenTemplate loading={props.isFetchingGameData}>
-            <div className="gameWrapper" style={width > 1300 ? {} : {transform: `scale(${width / 1300})`}}>
-                <div>
-                    <div className="gamePokerTableContainer">
-                        {questions[questionIndex].players.length > 0 ?
-                            questions[questionIndex].players.map(item =>
-                                <div className={`gamePokerPlayerWrapper gameP${parseInt(item.number)}`}>
-                                    <PokerPlayer
-                                        players={questions[questionIndex].tableInfo.players}
-                                        player={parseInt(item.number)}
-                                        me={parseInt(item.number) === questions[questionIndex].hands[handIndex].player ? questions[questionIndex].hands[handIndex].cards.length > 0 : false}
-                                        cards={parseInt(item.number) === questions[questionIndex].hands[handIndex].player ? questions[questionIndex].hands[handIndex].cards : questions[questionIndex].hands[getPastPlayerIndex(questions[questionIndex].hands,parseInt(item.number), handIndex)].cards}
-                                        mp={item.initAmount}
-                                        chipPos={parseInt(item.number) === questions[questionIndex].hands[handIndex].player ? handleChipPos(questions[questionIndex].hands[handIndex].player) : handleChipPos(questions[questionIndex].hands[getPastPlayerIndex(questions[questionIndex].hands,parseInt(item.number), handIndex)].player)}
-                                        turn={parseInt(item.number) === questions[questionIndex].hands[handIndex].player}
-                                        dealer={questions[questionIndex].tableInfo.dealer === parseInt(item.number)}
-                                        action={parseInt(item.number) === questions[questionIndex].hands[handIndex].player ? questions[questionIndex].hands[handIndex].action : questions[questionIndex].hands[getPastPlayerIndex(questions[questionIndex].hands,parseInt(item.number), handIndex)].action}
-                                        amount={parseInt(item.number) === questions[questionIndex].hands[handIndex].player ? questions[questionIndex].hands[handIndex].amount : questions[questionIndex].hands[getPastPlayerIndex(questions[questionIndex].hands,parseInt(item.number), handIndex)].amount}
-                                        pot={pot}
-                                    />
-                                </div>
-                            ): null}
-                        <div className="gameHouseOfCardsWrapper">
-                            <HouseOfCards
-                                cards={questions[questionIndex].flop}
-                                tableAction={tableAction}
-                            />
-                        </div>
-                        <img src={Table} width={700}/>
-                        <div className="gamePotWrapper">
-                            <SmallText color="#FFF">POT <SmallText color="#FFF" bold>{`${numberWithCommas(pot)}`}</SmallText> ({`${numberWithCommas(questions[questionIndex].tableInfo.bb)} `}
-                                BB)</SmallText>
-                        </div>
+            {questions.array.length === 0 ?
+                    <TitleText>Could not fetch data</TitleText>
+                    :
+                <div className="gameWrapper" style={width > 1300 ? {} : {transform: `scale(${width / 1300})`}}>
+                    <div>
+                        <div className="gamePokerTableContainer">
+                            {questions.array[questionIndex].players.length > 0 ?
+                                questions.array[questionIndex].players.map((item: any) =>
+                                    <div className={`gamePokerPlayerWrapper gameP${parseInt(item.number)}`}>
+                                        <PokerPlayer
+                                            players={questions.array[questionIndex].tableInfo.players}
+                                            player={parseInt(item.number)}
+                                            me={parseInt(item.number) === questions.array[questionIndex].hands[handIndex].player ? questions.array[questionIndex].hands[handIndex].cards.length > 0 : false}
+                                            cards={parseInt(item.number) === questions.array[questionIndex].hands[handIndex].player ? questions.array[questionIndex].hands[handIndex].cards : questions.array[questionIndex].hands[getPastPlayerIndex(questions.array[questionIndex].hands, parseInt(item.number), handIndex)].cards}
+                                            mp={item.initAmount}
+                                            chipPos={parseInt(item.number) === questions.array[questionIndex].hands[handIndex].player ? handleChipPos(questions.array[questionIndex].hands[handIndex].player) : handleChipPos(questions.array[questionIndex].hands[getPastPlayerIndex(questions.array[questionIndex].hands, parseInt(item.number), handIndex)].player)}
+                                            turn={parseInt(item.number) === questions.array[questionIndex].hands[handIndex].player}
+                                            dealer={questions.array[questionIndex].tableInfo.dealer === parseInt(item.number)}
+                                            action={parseInt(item.number) === questions.array[questionIndex].hands[handIndex].player ? questions.array[questionIndex].hands[handIndex].action : questions.array[questionIndex].hands[getPastPlayerIndex(questions.array[questionIndex].hands, parseInt(item.number), handIndex)].action}
+                                            amount={parseInt(item.number) === questions.array[questionIndex].hands[handIndex].player ? questions.array[questionIndex].hands[handIndex].amount : questions.array[questionIndex].hands[getPastPlayerIndex(questions.array[questionIndex].hands, parseInt(item.number), handIndex)].amount}
+                                            pot={pot}
+                                        />
+                                    </div>
+                                ) : null}
+                            <div className="gameHouseOfCardsWrapper">
+                                <HouseOfCards
+                                    cards={questions.array[questionIndex].flop}
+                                    tableAction={tableAction}
+                                />
+                            </div>
+                            <img src={Table} width={700}/>
+                            <div className="gamePotWrapper">
+                                <SmallText color="#FFF">POT <SmallText color="#FFF"
+                                                                       bold>{`${numberWithCommas(pot)}`}</SmallText> ({`${numberWithCommas(questions.array[questionIndex].tableInfo.bb)} `}
+                                    BB)</SmallText>
+                            </div>
 
-                    </div>
-                    <div className="gameFooterContainer">
-                        <div className="gamePlayerWrapper">
-                            <Player
-                                pause={pause}
-                                setPause={setPause}
-                                replay={reset}
-                                speed={speed}
-                                setSpeed={(s) => speedHandler(s)}
-                                volume={5}
-                                favorite={false}
-                                rewind={back}
-                                fastForward={forward}
-                            />
+                        </div>
+                        <div className="gameFooterContainer">
+                            <div className="gamePlayerWrapper">
+                                <Player
+                                    pause={pause}
+                                    setPause={setPause}
+                                    replay={reset}
+                                    speed={speed}
+                                    setSpeed={(s) => speedHandler(s)}
+                                    volume={5}
+                                    favorite={false}
+                                    rewind={back}
+                                    fastForward={forward}
+                                />
+                            </div>
                         </div>
                     </div>
+                    <div className="gameQuestionWrapper">
+                        <QuestionCard
+                            loading={!finished}
+                            headerText={questions.array[questionIndex].question.header}
+                            questionNumber={questions.array[questionIndex].question.questionNumber}
+                            description={questions.array[questionIndex].question.description}
+                            options={questions.array[questionIndex].question.answers}
+                            callback={handleAnswerQuestion}
+                            next={handleSubmit}/>
+                    </div>
                 </div>
-                <div className="gameQuestionWrapper">
-                    <QuestionCard
-                        loading={!finished}
-                        headerText={questions[questionIndex].question.header}
-                        questionNumber={questions[questionIndex].question.questionNumber}
-                        description={questions[questionIndex].question.description}
-                        options={questions[questionIndex].question.answers}
-                        callback={handleAnswerQuestion}
-                        next={handleSubmit}/>
-                </div>
-            </div>
+            }
         </ScreenTemplate>
     );
 }
 
 const mapStateToProps = (state: any) => {
     return {
-        players: state.gameState.players,
-        flop: state.gameState.flop,
+        user: state.authState.user,
         questions: state.gameState.questions,
         isFetchingGameData: state.gameState.isFetchingGameData
     };
@@ -250,10 +260,10 @@ const mapStateToProps = (state: any) => {
 
 const bindActions = (dispatch: any) => {
     return {
-        // fetchGameData: (lessson: {UID: string, name: string}) => dispatch(ACTIONS.fetchGameData(lessson)),
-        // saveEarnings: (data: { chips: number, tickets: number }) => dispatch(ACTIONS.saveEarnings(data)),
+        fetchGameData: () => dispatch(ACTIONS.fetchGameData()),
+        saveEarnings: (data: {questionID: number, chips: number, tickets: number }) => dispatch(ACTIONS.saveEarnings(data)),
+        updateMyTopics: (questionID: number, correct: boolean) => dispatch(ACTIONS.updateMyTopics(questionID, correct)),
         updateDailyEarnings: (data: { chips: number, tickets: number }) => dispatch(PERFORMANCE_ACTIONS.updateDailyEarnings(data)),
-        setIsFetchingGameData: (data: boolean) => dispatch(ACTIONS.setIsFetchingGameData(data))
     };
 };
 

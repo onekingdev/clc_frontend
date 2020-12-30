@@ -11,14 +11,16 @@ interface ITopicCard {
     label: string,
     title: string,
     description: string,
-    status: number // 0 = locked, 1 = available, 2 = mastered
+    status: number, // 0 = locked, 1 = available, 2 = mastered
+    callback: () => void
 }
 
 const TopicCard: React.FC<ITopicCard> = ({
     label,
     title,
     description,
-    status
+    status,
+    callback
 }) =>  {
     const [count, setCount] = useState(0);
     const [spanStyles, setSpanStyles] = useState({});
@@ -68,7 +70,7 @@ const TopicCard: React.FC<ITopicCard> = ({
     }
 
     return (
-        <div className="ripple topicCardContainer">
+        <div className="ripple topicCardContainer" onClick={callback}>
             <div className="topicCardBanner"
                  onMouseOver={() => setShowPlay(true)}
                  onMouseLeave={() => setShowPlay(false)}

@@ -33,16 +33,13 @@ export const getRealtimeUserData = () => async(
     dispatch: (data: any) => void,
     getState: any,
 ) => {
-    const uid = getState().authState.user.stringID;
+    const uid = await getState().authState.user.stringID;
 
     await app
         .firestore()
         .collection('users')
         .doc(uid)
         .onSnapshot({
-            error:(e: any) => {
-                throw new Error(e);
-            },
             next: (snapshot: any) => {
                 dispatch(setChips(snapshot.data().chips));
                 dispatch(setTickets(snapshot.data().tickets));

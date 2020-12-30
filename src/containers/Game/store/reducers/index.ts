@@ -1,8 +1,6 @@
 import * as TYPE from '../actions/types';
 
 const INITIAL_STATE = {
-    players: [],
-    flop: [],
     questions: [],
     isFetchingGameData: false,
     messageCode: null
@@ -10,10 +8,6 @@ const INITIAL_STATE = {
 
 const reducer = (state = INITIAL_STATE, action: {type: string, payload: any}) => {
     switch (action.type) {
-        case TYPE.SET_PLAYERS:
-            return {...state, players: action.payload};
-        case TYPE.SET_FLOP:
-            return {...state, flop: action.payload};
         case TYPE.SET_QUESTIONS:
             return {...state, questions: action.payload};
         case TYPE.SET_GAME_CODE:

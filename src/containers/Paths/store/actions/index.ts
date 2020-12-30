@@ -30,6 +30,13 @@ export const setPathsList = (data: IPathsList) => {
     };
 }
 
+export const setSelectedTopic = (data: any) => {
+    return {
+        type: TYPES.SET_SELECTED_TOPIC,
+        payload: data
+    };
+}
+
 export const getPathsList = () => async(
     dispatch: (data: any) => void,
     getState: any,

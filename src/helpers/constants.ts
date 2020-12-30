@@ -6,6 +6,8 @@ export const apiCreateUser = 'createUser';
 export const apiValidateCode = 'validateCode';
 export const apiGetLibrary = 'getLibrary';
 export const apiPathsEndpoint = 'getPaths';
+export const apiSaveEarnings = 'saveEarnings';
+export const apiGetQuestions = 'getQuestions';
 
 // front end messages
 export const emptyEmailString = 'Email required';
