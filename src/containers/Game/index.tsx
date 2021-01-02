@@ -13,10 +13,15 @@ import SmallText from "../../components/SmallText";
 import ScreenTemplate from "../ScreenTemplate";
 import {numberWithCommas} from '../../helpers/formatter';
 import TitleText from "../../components/TitleText";
+// @ts-ignore
+import {useHistory} from 'react-router-dom';
+
 
 let interval: any;
 
 function Game(props: any) {
+    const history = useHistory();
+    let [correctCounter, setCorrectCounter] = useState(0);
     let [handIndex, setHandIndex] = useState(0);
     let [questionIndex, setQuestionIndex] = useState(0);
     let [pot, setPot] = useState(0);
@@ -132,11 +137,10 @@ function Game(props: any) {
         clearInterval(interval);
     }
 
-    const reset = (pause: boolean) => {
+    const reset = () => {
         setHandIndex(0);
         setPot(0);
         setFinished(false);
-        setPause(pause);
         clearInterval(interval);
     }
 
@@ -169,13 +173,18 @@ function Game(props: any) {
             });
         }
         props.updateMyTopics(questions.array[questionIndex].question.questionID, correct);
+        setCorrectCounter(correctCounter += 1);
     }
 
     const handleSubmit = () => {
         setFinished(false);
-
-        setQuestionIndex(questionIndex += 1);
-        reset(false);
+        reset();
+        if (questionIndex < questions.array.length-1) {
+            setQuestionIndex(questionIndex += 1);
+        } else {
+            alert(`You finished all questions in this lesson. ${correctCounter}/${questions.array.length} correct`)
+            history.push('paths');
+        }
     }
 
     return (
@@ -208,6 +217,7 @@ function Game(props: any) {
                                 <HouseOfCards
                                     cards={questions.array[questionIndex].flop}
                                     tableAction={tableAction}
+                                    handIndex={handIndex}
                                 />
                             </div>
                             <img src={Table} width={700}/>
@@ -254,7 +264,8 @@ const mapStateToProps = (state: any) => {
     return {
         user: state.authState.user,
         questions: state.gameState.questions,
-        isFetchingGameData: state.gameState.isFetchingGameData
+        isFetchingGameData: state.gameState.isFetchingGameData,
+        myTopics: state.screenTemplateState.myTopics
     };
 }
 

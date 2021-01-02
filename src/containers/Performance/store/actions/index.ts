@@ -160,13 +160,13 @@ export const updateDailyEarnings = (data: { chips: number, tickets: number }) =>
         switch (time) {
             case 'season':
                 if ((moment(document.season.started.seconds).month() !== 0 ? moment(document.season.started.seconds).month() -1 : 11) <= monthNumber) return document.season.started;
-                return date;
+                return date.format("X");
             case 'week':
                 if ((moment(document.week.started.seconds).day() -1) <= weekDayNumber) return document.week.started;
-                return date;
+                return date.format("X");
             default:
                 if ((moment(document.season.started.seconds).month() !== 0 ? moment(document.season.started.seconds).month() -1 : 11) === monthNumber) return document.month.started;
-                return date;
+                return date.format("X");
         }
     }
 

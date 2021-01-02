@@ -6,7 +6,7 @@ import BodyText from "../BodyText";
 interface IPlayer {
     pause: boolean,
     setPause: (pause: boolean) => void,
-    replay: (pause: boolean) => void,
+    replay: () => void,
     speed: number,
     volume: number,
     favorite: boolean,
@@ -32,7 +32,7 @@ const Player: React.FC<IPlayer> = ({
             <div className="playerCircularButtonWrapper">
                 <Button onClick={() => setPause(!pause)} width={53} height={53} glow iconName={pause ? 'faPlay' : 'faPause'} circular/>
             </div>
-            <Button onClick={() => replay(true)} width={53} height={53} iconName="faRedo" transparent/>
+            <Button onClick={() => replay()} width={53} height={53} iconName="faRedo" transparent/>
             <Button onClick={fastForward} width={53} height={53} iconName="faForward" transparent/>
             <BodyText color="#FFF">1X</BodyText>
             <input  type="range" min="500" max="2000" value={speed} onChange={(e) => setSpeed(parseInt(e.target.value))} className="playerProgressBar" id="myRange"/>

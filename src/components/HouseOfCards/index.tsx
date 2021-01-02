@@ -48,18 +48,23 @@ import q_clubs from '../../assets/images/cards/Q_clubs.png';
 import q_diamonds from '../../assets/images/cards/Q_diamonds.png';
 import q_hearts from '../../assets/images/cards/Q_hearts.png';
 import q_spades from '../../assets/images/cards/Q_spades.png';
-import back from '../../assets/images/cards/Cardback Default.png';
 import {Flip} from 'react-awesome-reveal';
 import cardBack from "../../assets/images/cards/Cardback Default.png";
 
 interface IHouseOfCards {
     cards: string[],
-    tableAction: string
+    tableAction: string,
+    handIndex: number
 }
+
+let flopIndex = 0;
+let turnIndex = 0;
+let riverIndex = 0;
 
 const HouseOfCards: React.FC<IHouseOfCards> = ({
     cards,
-    tableAction
+    tableAction,
+    handIndex
 }) =>  {
     const [display, setDisplay] = useState([{card: '', show: false}])
 
@@ -182,19 +187,35 @@ const HouseOfCards: React.FC<IHouseOfCards> = ({
         if (cards.length === 3) list.push({card: '', show: false}, {card: '', show: false})
         else if (cards.length === 4) list.push({card: '', show: false})
         setDisplay(list)
-    }, [])
+    }, [cards])
 
     useEffect(() => {
-        if (tableAction === 'flop') {
+        if (handIndex === 0) {
+            display.forEach(item => item.show = false);
+            flopIndex = 0;
+            turnIndex = 0;
+            riverIndex = 0;
+        } else if (tableAction === 'flop') {
             display[0].show = true;
             display[1].show = true;
             display[2].show = true;
+            flopIndex = handIndex;
         } else if (tableAction === 'turn') {
             display[3].show = true;
+            turnIndex = handIndex;
         } else if (tableAction === 'river') {
             display[4].show = true;
+            riverIndex = handIndex;
+        } else if (flopIndex !== 0 && flopIndex > handIndex) {
+            display[0].show = false;
+            display[1].show = false;
+            display[2].show = false;
+        } else if (turnIndex !== 0 && turnIndex > handIndex) {
+            display[3].show = false;
+        } else if (riverIndex !== 0 && riverIndex > handIndex) {
+            display[4].show = false;
         }
-    }, [tableAction])
+    }, [tableAction, handIndex])
 
     return (
         <div className="houseOfCardsContainer">

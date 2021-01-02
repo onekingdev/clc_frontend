@@ -25,7 +25,8 @@ const TopicModal: React.FC<ITopicModal> = ({
         if (topic.status === 0) {
 
         } else {
-            setSelectedTopic(topic);
+            localStorage.setItem('selectedTopic', JSON.stringify(topic));
+            // setSelectedTopic(topic);
             setTimeout(() => history.push('game'), 500);
         }
     }

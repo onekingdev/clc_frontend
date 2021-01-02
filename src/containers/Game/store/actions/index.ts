@@ -36,9 +36,10 @@ export const fetchGameData = () => async(
     getState: any,
 ) => {
     try {
+        const topic = JSON.parse(<string>localStorage.getItem('selectedTopic'));
         const lesson = {
-            UID: await getState().pathsState.selectedTopic.lessonUID,
-            name: await getState().pathsState.selectedTopic.lessonName,
+            UID: topic.lessonUID,
+            name: topic.lessonName,
         }
         dispatch(setIsFetchingGameData(true));
         let questions = await api.post(apiGetQuestions, lesson);
@@ -69,7 +70,7 @@ export const updateMyTopics = (questionID: number, correct: boolean) => async(
 ) => {
     const uid = getState().authState.user.stringID;
     const myTopics = getState().screenTemplateState.myTopics;
-    const topic = getState().pathsState.selectedTopic;
+    const topic = JSON.parse(<string>localStorage.getItem('selectedTopic'));
 
     const myTopicsIndex = myTopics.findIndex((t: any) => t.id === topic.id);
 
