@@ -1,13 +1,14 @@
 import axios from 'axios';
-import {apiProductionUrl, apiDevelopmentUrl} from '../helpers/constants';
+import {apiCloudHostUrl, apiLocalhostUrl} from '../helpers/constants';
 
 const getApi = () => {
     /*let parts = window.location.hostname.split('.');
-    let subDomain = parts.slice(-2).join('.');
-    if (subDomain === 'dev') return apiDevelopmentUrl;
-    return apiProductionUrl;*/
+    let subDomain = parts.slice(-2).join('.');*/
+    if (window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1") {
+        return apiLocalhostUrl;
+    }
 
-    return apiDevelopmentUrl;
+    return apiCloudHostUrl;
 }
 
 const api = {

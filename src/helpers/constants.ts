@@ -1,6 +1,6 @@
 // API paths
-export const apiProductionUrl = 'https://production.com';
-export const apiDevelopmentUrl = '/clc-poker/us-central1';
+export const apiCloudHostUrl = 'https://us-central1-chipleadercoaching-webapp.cloudfunctions.net';
+export const apiLocalhostUrl = '/chipleadercoaching-webapp/us-central1';
 export const getUserByEmail = 'getUserByEmail';
 export const apiCreateUser = 'createUser';
 export const apiValidateCode = 'validateCode';
@@ -8,6 +8,8 @@ export const apiGetLibrary = 'getLibrary';
 export const apiPathsEndpoint = 'getPaths';
 export const apiSaveEarnings = 'saveEarnings';
 export const apiGetQuestions = 'getQuestions';
+export const apiGetAIQuestions = 'getQuestionsAI';
+export const apiLevelUp = 'levelUp';
 
 // front end messages
 export const emptyEmailString = 'Email required';

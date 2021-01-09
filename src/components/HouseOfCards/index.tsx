@@ -48,6 +48,10 @@ import q_clubs from '../../assets/images/cards/Q_clubs.png';
 import q_diamonds from '../../assets/images/cards/Q_diamonds.png';
 import q_hearts from '../../assets/images/cards/Q_hearts.png';
 import q_spades from '../../assets/images/cards/Q_spades.png';
+import j_clubs from '../../assets/images/cards/J_clubs.png';
+import j_diamonds from '../../assets/images/cards/J_diamonds.png';
+import j_hearts from '../../assets/images/cards/J_hearts.png';
+import j_spades from '../../assets/images/cards/J_spades.png';
 import {Flip} from 'react-awesome-reveal';
 import cardBack from "../../assets/images/cards/Cardback Default.png";
 
@@ -167,31 +171,36 @@ const HouseOfCards: React.FC<IHouseOfCards> = ({
             case 'Qs':
                 return q_spades;
             case 'Jc':
-                return q_clubs;
+                return j_clubs;
             case 'Jd':
-                return q_diamonds;
+                return j_diamonds;
             case 'Jh':
-                return q_hearts;
+                return j_hearts;
             case 'Js':
-                return q_spades;
+                return j_spades;
             default:
                 return cardBack;
         }
     }
 
     useEffect(() => {
-        const list: any = []
-        cards.forEach(card => {
-            list.push({card, show: false});
-        })
-        if (cards.length === 3) list.push({card: '', show: false}, {card: '', show: false})
-        else if (cards.length === 4) list.push({card: '', show: false})
-        setDisplay(list)
-    }, [cards])
+        if (handIndex === 0) {
+            const list: any = []
+            if (cards.length >= 3) {
+                cards.forEach(card => {
+                    list.push({card, show: false});
+                })
+                if (cards.length === 3) list.push({card: '', show: false}, {card: '', show: false})
+                else if (cards.length === 4) list.push({card: '', show: false})
+            } else {
+                for (let i = 0; i < 5; i++) list.push({card: '', show: false})
+            }
+            setDisplay(list)
+        }
+    }, [cards, handIndex])
 
     useEffect(() => {
         if (handIndex === 0) {
-            display.forEach(item => item.show = false);
             flopIndex = 0;
             turnIndex = 0;
             riverIndex = 0;

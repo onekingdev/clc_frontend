@@ -1,8 +1,9 @@
 import * as TYPES from './types';
 import {IFlop, IPlayers, IQuestions} from '../../interfaces';
-import {apiSaveEarnings, apiGetQuestions} from '../../../../helpers/constants';
+import {apiSaveEarnings, apiGetQuestions, apiGetAIQuestions, apiLevelUp} from '../../../../helpers/constants';
 import api from '../../../../services/apiMiddleware';
 import {app} from "../../../../services/firebase";
+import {setUserData} from "../../../Authentication/store/actions";
 
 export const clearGameData = () => {
     return {
@@ -36,14 +37,23 @@ export const fetchGameData = () => async(
     getState: any,
 ) => {
     try {
-        const topic = JSON.parse(<string>localStorage.getItem('selectedTopic'));
-        const lesson = {
-            UID: topic.lessonUID,
-            name: topic.lessonName,
-        }
         dispatch(setIsFetchingGameData(true));
-        let questions = await api.post(apiGetQuestions, lesson);
-        if (questions) dispatch(setQuestions(questions));
+        const topic = JSON.parse(<string>sessionStorage.getItem('selectedTopic'));
+
+        if (topic && topic.id) {
+            const lesson = {
+                UID: topic.lessonUID,
+                name: topic.lessonName,
+            }
+            let questions = await api.post(apiGetQuestions, lesson);
+            if (questions) dispatch(setQuestions(questions));
+        } else {
+            const user = await getState().authState.user;
+            const myTopics = await getState().screenTemplateState.myTopics; // todo: fix this shit ...........
+
+            let questions = await api.post(apiGetAIQuestions, {myTopics, user});
+            if (questions) dispatch(setQuestions(questions));
+        }
     } catch (e) {
         dispatch(setGameCode(e));
     } finally {
@@ -64,13 +74,24 @@ export const saveEarnings = (data: object) => async(
     }
 }
 
-export const updateMyTopics = (questionID: number, correct: boolean) => async(
+export const levelUp = () => async(
+    dispatch: (data: any) => void,
+    getState: any,
+) => {
+    const user = await getState().authState.user;
+
+    let newUserData = await api.post(apiLevelUp, user.id);
+
+    dispatch(setUserData(newUserData));
+}
+
+export const updateMyTopics = (questionID: number, correct: boolean, topicData: any) => async(
     dispatch: (data: any) => void,
     getState: any,
 ) => {
     const uid = getState().authState.user.stringID;
     const myTopics = getState().screenTemplateState.myTopics;
-    const topic = JSON.parse(<string>localStorage.getItem('selectedTopic'));
+    const topic = topicData ? topicData : JSON.parse(<string>sessionStorage.getItem('selectedTopic'));
 
     const myTopicsIndex = myTopics.findIndex((t: any) => t.id === topic.id);
 
@@ -79,28 +100,37 @@ export const updateMyTopics = (questionID: number, correct: boolean) => async(
 
         if (lessonIndex !== -1) {
             const questionIndex = myTopics[myTopicsIndex].lessons[lessonIndex].questions.findIndex((q: any) => q.id === questionID)
-
+            //***************************************************************************************
             if (questionIndex !== -1) {
                 myTopics[myTopicsIndex].lessons[lessonIndex].questions[questionIndex] = {id: questionID, correct}
-                if (correct) {
-                    myTopics[myTopicsIndex].lessons[lessonIndex].correctInARow += 1;
-                    if (myTopics[myTopicsIndex].lessons[lessonIndex].correctInARow === 5) { // TODO change this condition in near future
-                        myTopics[myTopicsIndex].lessons[lessonIndex].mastered = true;
-                        let counter = 0;
-                        myTopics[myTopicsIndex].lessons.forEach((l:any) => {if (l.mastered) counter++});
-                        if (counter === topic.totalTopicLessons) myTopics[myTopicsIndex].mastered = true;
-                    }
-                } else {
-                    myTopics[myTopicsIndex].lessons[lessonIndex].correctInARow = 0;
-                }
+
             } else {
                 myTopics[myTopicsIndex].lessons[lessonIndex].questions.push({
                     id: questionID,
                     correct,
                 })
             }
+
+            if (correct) {
+                myTopics[myTopicsIndex].lessons[lessonIndex].correctInARow += 1;
+                const rule = myTopics[myTopicsIndex].lessons[lessonIndex].rule.split('/');
+
+                if (myTopics[myTopicsIndex].lessons[lessonIndex].correctInARow === parseInt(rule[0])) {
+                    myTopics[myTopicsIndex].lessons[lessonIndex].mastered = true;
+                    let counter = 0;
+                    myTopics[myTopicsIndex].lessons.forEach((l:any) => {if (l.mastered) counter++});
+                    if (counter === topic.totalTopicLessons) {
+                        myTopics[myTopicsIndex].mastered = true;
+                        dispatch(levelUp());
+                    }
+                }
+            } else {
+                myTopics[myTopicsIndex].lessons[lessonIndex].correctInARow = 0;
+            }
+            // **************************************************************************************
         } else {
             myTopics[myTopicsIndex].lessons.push({
+                rule: topic.rule,
                 mastered: false,
                 UID: topic.lessonUID,
                 lessonName: topic.lessonName,
@@ -124,6 +154,7 @@ export const updateMyTopics = (questionID: number, correct: boolean) => async(
             status: topic.status,
             mastered: false,
             lessons: [{
+                    rule: topic.rule,
                     mastered: false,
                     UID: topic.lessonUID,
                     lessonName: topic.lessonName,

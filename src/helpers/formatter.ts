@@ -20,6 +20,12 @@ export const formatMessageCode = (code: any) => {
             return 'Email not found';
         case 403:
             return 'Activation code incorrect';
+        case 501:
+            return 'Insufficient chips';
+        case 502:
+            return 'Insufficient tickets';
+        case 503:
+            return 'Mastered level required';
         default:
             return `${code.substring(0, 58)}...`;
     }
@@ -63,6 +69,10 @@ export const embedVideo = (url: string) => {
     let host = url !== '' ? new URL(url).host : '';
 
     switch (host) {
+        case 'player.vimeo.com':
+            let playerVimeoID = new URL(url).pathname;
+            const newPlayerVimeoID = playerVimeoID.split('/');
+            return `https://player.vimeo.com/video/${newPlayerVimeoID[2]}`;
         case 'vimeo.com':
             let vimeoID = new URL(url).pathname;
             return `https://player.vimeo.com/video${vimeoID}`;

@@ -9,26 +9,49 @@ import {useHistory} from 'react-router-dom';
 import TitleText from "../../../components/TitleText";
 import BodyText from "../../../components/BodyText";
 import Button from "../../../components/Button";
+import {formatMessageCode} from "../../../helpers/formatter";
+import ErrorDisplay from "../../../components/ErrorDisplay";
 
 interface ITopicModal {
     topic: any,
-    setSelectedTopic: (topic: any) => void
+    setSelectedTopic: (topic: any) => void,
+    buyItem: (item: any, callback: (data: any) => void) => void
 }
 
 const TopicModal: React.FC<ITopicModal> = ({
                                                topic,
-                                               setSelectedTopic
+                                               setSelectedTopic,
+                                               buyItem
                                            }) => {
     const history = useHistory();
+    const [showErrorMsg, setShowErrorMsg] = useState('');
+    const [selectedName, setSelectedName] = useState('');
+
+    useEffect(() => {
+        setSelectedName(topic.lessonName);
+    }, [topic.lessonName]);
 
     const handleClick = () => {
         if (topic.status === 0) {
-
+            buyItem(topic, (data) => {
+                if (data.correct) {
+                    sessionStorage.setItem('selectedTopic', JSON.stringify(topic));
+                    setTimeout(() => history.push('game'), 500);
+                } else {
+                    setShowErrorMsg(formatMessageCode(data.msg));
+                }
+            });
         } else {
-            localStorage.setItem('selectedTopic', JSON.stringify(topic));
-            // setSelectedTopic(topic);
+            sessionStorage.setItem('selectedTopic', JSON.stringify(topic));
             setTimeout(() => history.push('game'), 500);
         }
+    }
+
+    const changeSelectedLesson = (lesson: any) => {
+        topic.lessonName = lesson.name;
+        topic.lessonUID = lesson.UID;
+        topic.rule = lesson.rule;
+        setSelectedName(lesson.name);
     }
 
     return (
@@ -37,11 +60,23 @@ const TopicModal: React.FC<ITopicModal> = ({
                 <TitleText>{topic.name}</TitleText>
             </div>
             <div>
-                <BodyText>required mastered level: {topic.masteredLevel}</BodyText>
+                <BodyText>required mastered level to play: {topic.masteredLevel}</BodyText>
             </div>
             <div>
-                <BodyText>LESSON: {topic.lessonName}</BodyText>
+                <BodyText>Selected LESSON: {selectedName}</BodyText>
             </div>
+            {topic.allTopicLessons && topic.allTopicLessons.length > 0 ?
+                <div>
+                    <BodyText>All LESSONS: </BodyText>
+                    <div className="topicModalAllLessonsWrapper">
+                        {topic.allTopicLessons.map((lesson: any) =>
+                            <div className="topicModalLessonItemWrapper" onClick={() => changeSelectedLesson(lesson)}>
+                                <BodyText>{lesson.name}</BodyText>
+                            </div>
+                        )}
+                    </div>
+                </div>
+                : null}
             <div>
                 {topic.status === 0 && topic.chips !== 0 && topic.tickets !== 0 ?
                     <BodyText>{`buy for ${topic.chips} chips and ${topic.tickets} tickets`}</BodyText> : null}
@@ -50,6 +85,8 @@ const TopicModal: React.FC<ITopicModal> = ({
                 <Button onClick={() => handleClick()} width={300} height={44}
                         text={topic.status === 1 || topic.status === 2 ? 'Start' : 'Buy'} glow/>
                 : null}
+
+            <ErrorDisplay message={showErrorMsg} show={showErrorMsg !== ''}/>
         </div>
     );
 }
@@ -60,7 +97,8 @@ const mapStateToProps = (state: any) => {
 
 const bindActions = (dispatch: any) => {
     return {
-        setSelectedTopic: (topic: any) => dispatch(ACTIONS.setSelectedTopic(topic))
+        setSelectedTopic: (topic: any) => dispatch(ACTIONS.setSelectedTopic(topic)),
+        buyItem: (item: any, callback: (data: any) => void) => dispatch(ACTIONS.buyItem(item, callback))
     };
 };
 

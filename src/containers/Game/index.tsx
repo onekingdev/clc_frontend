@@ -15,6 +15,10 @@ import {numberWithCommas} from '../../helpers/formatter';
 import TitleText from "../../components/TitleText";
 // @ts-ignore
 import {useHistory} from 'react-router-dom';
+// @ts-ignore
+import Modal from 'react-awesome-modal';
+import BodyText from "../../components/BodyText";
+import Button from "../../components/Button";
 
 
 let interval: any;
@@ -31,6 +35,14 @@ function Game(props: any) {
     const [finished, setFinished] = useState(false);
     const [tableAction, setTableAction] = useState('');
     const [questions, setQuestions]: any = useState({array: [], render: false});
+    const [showModal, setShowModal] = useState(false);
+
+    useEffect(() => {
+        return () => {
+            stop();
+            props.clearGameData();
+        }
+    }, []);
 
     useEffect(() => {
         props.fetchGameData();
@@ -138,10 +150,12 @@ function Game(props: any) {
     }
 
     const reset = () => {
+        setPause(true);
         setHandIndex(0);
         setPot(0);
         setFinished(false);
         clearInterval(interval);
+        setTimeout(() => setPause(false), 500);
     }
 
     const speedHandler = (s: number) => {
@@ -171,9 +185,13 @@ function Game(props: any) {
                 questionID: questions.array[questionIndex].question.questionID,
                 chips, tickets
             });
+            setCorrectCounter(correctCounter += 1);
         }
-        props.updateMyTopics(questions.array[questionIndex].question.questionID, correct);
-        setCorrectCounter(correctCounter += 1);
+        props.updateMyTopics(
+            questions.array[questionIndex].question.questionID,
+            correct,
+            questions.array[questionIndex].topicData
+        );
     }
 
     const handleSubmit = () => {
@@ -182,9 +200,17 @@ function Game(props: any) {
         if (questionIndex < questions.array.length-1) {
             setQuestionIndex(questionIndex += 1);
         } else {
-            alert(`You finished all questions in this lesson. ${correctCounter}/${questions.array.length} correct`)
-            history.push('paths');
+            setShowModal(true);
         }
+    }
+
+    const handleSkipLesson = () => {
+        const topic = JSON.parse(sessionStorage.getItem('selectedTopic') as string);
+        const lessonIndex = topic.allTopicLessons.findIndex((l: any) => l.UID === topic.lessonUID);
+        topic.lessonUID = topic.allTopicLessons[lessonIndex + 1].UID;
+        topic.lessonName = topic.allTopicLessons[lessonIndex + 1].name;
+        sessionStorage.setItem('selectedTopic', JSON.stringify(topic));
+        window.location.reload();
     }
 
     return (
@@ -256,6 +282,15 @@ function Game(props: any) {
                     </div>
                 </div>
             }
+            <Modal visible={showModal} width="450" effect="fadeInUp" onClickAway={() => setShowModal(false)}>
+                <div style={{backgroundColor: '#000', display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
+                    <div>
+                        <BodyText>{`You finished all questions in this lesson. ${correctCounter}/${questions.array.length} correct`}</BodyText>
+                        <Button onClick={() =>history.push('paths')} width={300} height={42} glow text="Go to Paths"/>
+                        <Button onClick={() =>handleSkipLesson()} width={300} height={42} glow text="Next Lesson"/>
+                    </div>
+                </div>
+            </Modal>
         </ScreenTemplate>
     );
 }
@@ -273,8 +308,9 @@ const bindActions = (dispatch: any) => {
     return {
         fetchGameData: () => dispatch(ACTIONS.fetchGameData()),
         saveEarnings: (data: {questionID: number, chips: number, tickets: number }) => dispatch(ACTIONS.saveEarnings(data)),
-        updateMyTopics: (questionID: number, correct: boolean) => dispatch(ACTIONS.updateMyTopics(questionID, correct)),
+        updateMyTopics: (questionID: number, correct: boolean, topicData: any) => dispatch(ACTIONS.updateMyTopics(questionID, correct, topicData)),
         updateDailyEarnings: (data: { chips: number, tickets: number }) => dispatch(PERFORMANCE_ACTIONS.updateDailyEarnings(data)),
+        clearGameData: () => dispatch(ACTIONS.clearGameData())
     };
 };
 

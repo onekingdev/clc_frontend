@@ -32,6 +32,7 @@ const QuestionCard: React.FC<IQuestionCard> = ({
     useEffect(() => {
         setStatus(0);
         setExplanation('');
+        //options = options.sort(() => .5 - Math.random());
     }, [questionNumber])
 
     return (
@@ -48,13 +49,15 @@ const QuestionCard: React.FC<IQuestionCard> = ({
             </div>
             {!loading && options.length > 0 ?
                 options.map((item, index) => <div key={index} style={{marginBottom: 16}}>
+                    {item.text ?
                     <Button disabled={status !== 0} onClick={() => {
                         callback(item.correct);
                         setStatus(item.correct ? 1 : 2);
                         setExplanation(item.explanation);
                     }} width={343} height={47} text={item.text}
                             answer={index === 0 ? 'A.' : index === 1 ? 'B.' : index === 2 ? 'C.' : index === 3 ? 'D.' : 'E.'}/>
-                </div>) :
+                    : null}
+                    </div>) :
                 <div className="questionCenterLoader">
                     <DotLoader loading={true} color="#FFF"/>
                 </div>

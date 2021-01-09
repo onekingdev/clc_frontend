@@ -73,6 +73,7 @@ function Library(props: any) {
             <div className="libraryImageWrapper">
                 <img src={libraryBg} width="90%"/>
             </div>
+            {usage.array.length > 0 || props.isFetchingLibraryData ?
                 <div>
                     <div className="libraryTextWrapper">
                         <SmallText color="#FFF">
@@ -80,16 +81,13 @@ function Library(props: any) {
                             {' CHIP LEADER AI'}
                         </SmallText>
                     </div>
-                    {usage.array.length > 0 || props.isFetchingLibraryData ?
-                        <Slider
-                            loading={props.isFetchingLibraryData}
-                            marginClass="librarySliderCenterLoaderMargin"
-                            content={usage.array}
-                            show={width < 650 ? 1 : width < 950 ? 2 : width < 1300 ? 3 : width < 1650 ? 4 : width < 2000 ? 5 : 6}/>
-                        :
-                        <TitleText>NO DATA</TitleText>
-                    }
-                </div>
+                    <Slider
+                        loading={props.isFetchingLibraryData}
+                        marginClass="librarySliderCenterLoaderMargin"
+                        content={usage.array}
+                        show={width < 650 ? 1 : width < 950 ? 2 : width < 1300 ? 3 : width < 1650 ? 4 : width < 2000 ? 5 : 6}/>
+                </div> : null}
+            {faq.array.length > 0 || props.isFetchingLibraryData ?
             <div className="bottomPadding">
                 <div className="libraryTextWrapper">
                     <SmallText color="#FFF">
@@ -97,16 +95,12 @@ function Library(props: any) {
                         {' ASKED QUESTIONS'}
                     </SmallText>
                 </div>
-                {faq.array.length > 0 || props.isFetchingLibraryData ?
-                    <Slider
-                        loading={props.isFetchingLibraryData}
-                        marginClass="librarySliderCenterLoaderMargin"
-                        content={faq.array}
-                        show={width < 650 ? 1 : width < 950 ? 2 : width < 1300 ? 3 : width < 1650 ? 4 : width < 2000 ? 5 : 6}/>
-                    :
-                    <TitleText>NO DATA</TitleText>
-                }
-            </div>
+                <Slider
+                    loading={props.isFetchingLibraryData}
+                    marginClass="librarySliderCenterLoaderMargin"
+                    content={faq.array}
+                    show={width < 650 ? 1 : width < 950 ? 2 : width < 1300 ? 3 : width < 1650 ? 4 : width < 2000 ? 5 : 6}/>
+            </div> : null}
             <Modal visible={showModal.show} width="750" height="450" effect="fadeInUp" onClickAway={() => setShowModal({show: false, url: ''})}>
                 <iframe width="750" height="450"
                         src={embedVideo(showModal.url)}>

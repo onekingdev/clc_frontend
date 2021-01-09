@@ -49,7 +49,9 @@ function Performance(props: any) {
 
     return (
         <ScreenTemplate>
-            <Banner topText="Track your progress" title="My Preformance" footerValues={[12, 25, 3]}/>
+            <Banner topText="Track your progress" title="My Preformance" footerValues={[
+                props.tableData.myCorrectQuestions, props.tableData.myChipsEarned, props.tickets
+            ]}/>
             <div className="pathsImageWrapper">
                 <img src={performanceBg} width="90%"/>
             </div>
@@ -127,7 +129,9 @@ const mapStateToProps = (state: any) => {
         user: state.authState.user,
         graphData: state.performanceState.graphData,
         tableData: state.performanceState.tableData,
-        isFetchingPerformanceData: state.performanceState.isFetchingPerformanceData
+        isFetchingPerformanceData: state.performanceState.isFetchingPerformanceData,
+        chips: state.screenTemplateState.chips,
+        tickets: state.screenTemplateState.tickets,
     };
 }
 

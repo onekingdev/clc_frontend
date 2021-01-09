@@ -16,6 +16,7 @@ export default function Navigation() {
             <Route exact path="/library" component={Library} />
             <Route exact path="/performance" component={Performance} />
             <Route exact path="/game" component={Game} />
+            <Route exact path="/ai" component={Game} />
         </div>
 );
 }

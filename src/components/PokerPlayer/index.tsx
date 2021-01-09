@@ -48,6 +48,10 @@ import q_clubs from '../../assets/images/cards/Q_clubs.png';
 import q_diamonds from '../../assets/images/cards/Q_diamonds.png';
 import q_hearts from '../../assets/images/cards/Q_hearts.png';
 import q_spades from '../../assets/images/cards/Q_spades.png';
+import j_clubs from '../../assets/images/cards/J_clubs.png';
+import j_diamonds from '../../assets/images/cards/J_diamonds.png';
+import j_hearts from '../../assets/images/cards/J_hearts.png';
+import j_spades from '../../assets/images/cards/J_spades.png';
 import cardBack from '../../assets/images/cards/Cardback Default.png';
 import chip from '../../assets/images/chip.png';
 import dealer_chip from '../../assets/images/dealer-chip.png';
@@ -189,13 +193,13 @@ const PokerPlayer: React.FC<IPokerPlayer> = ({
             case 'Qs':
                 return q_spades;
             case 'Jc':
-                return q_clubs;
+                return j_clubs;
             case 'Jd':
-                return q_diamonds;
+                return j_diamonds;
             case 'Jh':
-                return q_hearts;
+                return j_hearts;
             case 'Js':
-                return q_spades;
+                return j_spades;
             default:
                 return cardBack;
         }

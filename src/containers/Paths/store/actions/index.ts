@@ -43,13 +43,34 @@ export const getPathsList = () => async(
 ) => {
     try {
         dispatch(setIsFetchingPathsData(true));
-        const myTopics = getState().screenTemplateState.myTopics;
-        const email = getState().authState.user.email;
+        const myTopics = await getState().screenTemplateState.myTopics;
+        const email = await getState().authState.user.email;
         const list = await api.post(apiPathsEndpoint, {myTopics, email});
         dispatch(setPathsList(list));
     } catch (e) {
         dispatch(setPathsCode(e));
     } finally {
         dispatch(setIsFetchingPathsData(false));
+    }
+}
+
+export const buyItem = (item: any, callback: (data: any) => void) => async(
+    dispatch: (data: any) => void,
+    getState: any,
+) => {
+    const user = await getState().authState.user;
+
+    if (item.masteredLevel >= user.masteredLevel) {
+        if (item.tickets >= user.tickets) {
+            if (item.chips >= user.chips) {
+
+            } else {
+                callback({correct: false, msg: 501});
+            }
+        } else {
+            callback({correct: false, msg: 502})
+        }
+    } else {
+        callback({correct: false, msg: 503})
     }
 }

@@ -75,7 +75,9 @@ function Settings(props: any) {
                 return {
                     UID: value['UID'],
                     topicUID: value['TOPIC_UID'],
-                    name: value['NAME']
+                    name: value['NAME'],
+                    rule: value['RULE'].toString(),
+                    order: parseInt(value['ORDER'])
                 }
             });
 

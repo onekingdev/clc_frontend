@@ -46,9 +46,12 @@ function ScreenTemplate(props: any) {
                 [<SidebarItem icon="home" text="Home" onClick={() => {
                     setTimeout(() => history.push('home'), 0);
                 }}/>,
-                /*<SidebarItem icon="ai" text="AI Learning" onClick={() => {
-                    setTimeout(() => history.push('game'), 0);
-                }}/>,*/
+                <SidebarItem icon="ai" text="AI Learning" onClick={() => {
+                    setTimeout(() => {
+                        sessionStorage.setItem('selectedTopic', '{}');
+                        history.push('ai');
+                    }, 0);
+                }}/>,
                 <SidebarItem icon="path" text="Pick Your Path" onClick={() => {
                     setTimeout(() => history.push('paths'), 0);
                 }}/>,
