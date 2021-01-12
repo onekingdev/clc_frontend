@@ -6,6 +6,8 @@ import BodyText from "../BodyText";
 import TitleText from "../TitleText";
 import Button from "../Button";
 import {DotLoader} from "react-spinners";
+import * as Icon from "@fortawesome/free-solid-svg-icons";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 
 interface IQuestionCard {
     loading: boolean,
@@ -13,6 +15,8 @@ interface IQuestionCard {
     questionNumber: number,
     description: string,
     options: any[],
+    myTopics: any,
+    topicData: any,
     callback: (correct: boolean) => void,
     next: () => void
 }
@@ -23,16 +27,29 @@ const QuestionCard: React.FC<IQuestionCard> = ({
                                                    questionNumber,
                                                    description,
                                                    options,
+                                                   myTopics,
+                                                   topicData,
                                                    callback,
                                                    next
                                                }) => {
     const [status, setStatus] = useState(0); // 0 = not answered, 1 = correct, 2 = wrong,
     const [explanation, setExplanation] = useState('');
+    const [mastered, setMastered] = useState(false);
 
     useEffect(() => {
         setStatus(0);
         setExplanation('');
         //options = options.sort(() => .5 - Math.random());
+        const topic = topicData ? topicData : JSON.parse(sessionStorage.getItem('selectedTopic') as string);
+        const myTopicsIndex = myTopics.findIndex((t: any) => t.id === topic.id);
+        if (myTopicsIndex > -1) {
+            const lessonIndex = myTopics[myTopicsIndex].lessons.findIndex((t: any) => t.UID === topic.lessonUID);
+            if (lessonIndex > -1 && myTopics[myTopicsIndex].lessons[lessonIndex].mastered) {
+                setMastered(true);
+            } else {
+                setMastered(false);
+            }
+        }
     }, [questionNumber])
 
     return (
@@ -40,6 +57,17 @@ const QuestionCard: React.FC<IQuestionCard> = ({
             <div className="questionCardTextWrapper"
                  style={{marginBottom: 8, display: 'flex', justifyContent: 'space-between'}}>
                 <SmallText>{headerText}</SmallText>
+                {mastered ?
+                    <div>
+                        <SmallText bold color="#759A47">Mastered</SmallText>
+                        <FontAwesomeIcon
+                            color="#759A47"
+                            size="1x"
+                            icon={Icon['faCheck']}
+                            transform={{rotate: 0}}
+                            style={{marginLeft: 5}}
+                        />
+                    </div> : null}
             </div>
             <div className="questionCardTextWrapper" style={{marginBottom: 16}}>
                 <TitleText>{`Question #${questionNumber}`}</TitleText>
@@ -47,17 +75,17 @@ const QuestionCard: React.FC<IQuestionCard> = ({
             <div className="questionCardTextWrapper" style={{marginBottom: 24}}>
                 <BodyText>{description}</BodyText>
             </div>
-            {!loading && options.length > 0 ?
+            {options.length > 0 ?
                 options.map((item, index) => <div key={index} style={{marginBottom: 16}}>
                     {item.text ?
-                    <Button disabled={status !== 0} onClick={() => {
-                        callback(item.correct);
-                        setStatus(item.correct ? 1 : 2);
-                        setExplanation(item.explanation);
-                    }} width={343} height={47} text={item.text}
-                            answer={index === 0 ? 'A.' : index === 1 ? 'B.' : index === 2 ? 'C.' : index === 3 ? 'D.' : 'E.'}/>
-                    : null}
-                    </div>) :
+                        <Button disabled={status !== 0} onClick={() => {
+                            callback(item.correct);
+                            setStatus(item.correct ? 1 : 2);
+                            setExplanation(item.explanation);
+                        }} width={343} height={47} text={item.text}
+                                answer={index === 0 ? 'A.' : index === 1 ? 'B.' : index === 2 ? 'C.' : index === 3 ? 'D.' : 'E.'}/>
+                        : null}
+                </div>) :
                 <div className="questionCenterLoader">
                     <DotLoader loading={true} color="#FFF"/>
                 </div>

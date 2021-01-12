@@ -27,7 +27,7 @@ function Paths(props: any) {
     }, [width]);
 
     useEffect(() => {
-        props.getPathsList()
+        setTimeout(() => props.getPathsList(), 2000)
     }, [])
 
     useEffect(() => {

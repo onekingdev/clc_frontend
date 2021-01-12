@@ -11,6 +11,8 @@ import BodyText from "../../../components/BodyText";
 import Button from "../../../components/Button";
 import {formatMessageCode} from "../../../helpers/formatter";
 import ErrorDisplay from "../../../components/ErrorDisplay";
+import * as Icon from "@fortawesome/free-solid-svg-icons";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 
 interface ITopicModal {
     topic: any,
@@ -71,6 +73,15 @@ const TopicModal: React.FC<ITopicModal> = ({
                     <div className="topicModalAllLessonsWrapper">
                         {topic.allTopicLessons.map((lesson: any) =>
                             <div className="topicModalLessonItemWrapper" onClick={() => changeSelectedLesson(lesson)}>
+                                {lesson.mastered ?
+                                    <FontAwesomeIcon
+                                        color="#759A47"
+                                        size="1x"
+                                        icon={Icon['faCheck']}
+                                        transform={{ rotate: 0 }}
+                                        style={{marginRight: 5}}
+                                    />
+                                    : null}
                                 <BodyText>{lesson.name}</BodyText>
                             </div>
                         )}
@@ -82,7 +93,7 @@ const TopicModal: React.FC<ITopicModal> = ({
                     <BodyText>{`buy for ${topic.chips} chips and ${topic.tickets} tickets`}</BodyText> : null}
             </div>
             {topic.status === 0 && topic.chips !== 0 && topic.tickets !== 0 || topic.status !== 0 ?
-                <Button onClick={() => handleClick()} width={300} height={44}
+                <Button onClick={() => handleClick()} width="100%" height={44}
                         text={topic.status === 1 || topic.status === 2 ? 'Start' : 'Buy'} glow/>
                 : null}
 

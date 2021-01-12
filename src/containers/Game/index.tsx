@@ -277,6 +277,8 @@ function Game(props: any) {
                             questionNumber={questions.array[questionIndex].question.questionNumber}
                             description={questions.array[questionIndex].question.description}
                             options={questions.array[questionIndex].question.answers}
+                            myTopics={props.myTopics}
+                            topicData={questions.array[questionIndex].topicData}
                             callback={handleAnswerQuestion}
                             next={handleSubmit}/>
                     </div>
