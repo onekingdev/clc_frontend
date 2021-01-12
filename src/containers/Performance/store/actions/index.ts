@@ -79,12 +79,13 @@ export const fetchEarnings = (consult: string) => async(
             return list;
         });
 
-    let myChips = 0, myCorrect = 0, days = {};
+    let myChips = 0, myCorrect = 0, myTickets = 0, days = {};
 
     correct.forEach((earning: any) => {
         if (earning.id === uid) {
             myChips = earning[consult].chips;
             myCorrect = earning[consult].correct;
+            myTickets = earning[consult].tickets;
             days = earning.days;
         }
     });
@@ -95,7 +96,8 @@ export const fetchEarnings = (consult: string) => async(
         correctQuestions: correct,
         myCorrectQuestions: myCorrect,
         myCorrectRank: correctRank,
-        myChipRank: chipRank
+        myChipRank: chipRank,
+        myTickets: myTickets
     }))
 
     dispatch(setGraphData(formatGraphData(days)))
@@ -197,21 +199,25 @@ export const updateDailyEarnings = (data: { chips: number, tickets: number }) =>
             season: {
                 correct: seasonUpdate(1, 'correct'),
                 chips: seasonUpdate(data.chips, 'chips'),
+                tickets: seasonUpdate(data.tickets, 'tickets'),
                 started: startDateUpdate('season')
             },
             week: {
                 correct: weeklyUpdate(1, 'correct'),
                 chips: weeklyUpdate(data.chips, 'chips'),
+                tickets: weeklyUpdate(data.tickets, 'tickets'),
                 started: startDateUpdate('week')
             },
             month: {
                 correct: monthlyUpdate(1, 'correct'),
                 chips: monthlyUpdate(data.chips, 'chips'),
+                tickets: monthlyUpdate(data.tickets, 'tickets'),
                 started: startDateUpdate('month')
             },
             lifetime: {
                 correct: document.lifetime.correct += 1,
-                chips: document.lifetime.chips += data.chips
+                chips: document.lifetime.chips += data.chips,
+                tickets: document.lifetime.tickets += data.tickets,
             },
             days: daysUpdate()
         })

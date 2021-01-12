@@ -50,7 +50,7 @@ function Performance(props: any) {
     return (
         <ScreenTemplate>
             <Banner topText="Track your progress" title="My Preformance" footerValues={[
-                props.tableData.myCorrectQuestions, props.tableData.myChipsEarned, props.tickets
+                props.tableData.myCorrectQuestions, props.tableData.myChipsEarned, props.tableData.myTickets
             ]}/>
             <div className="pathsImageWrapper">
                 <img src={performanceBg} width="90%"/>

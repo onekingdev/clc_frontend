@@ -40,11 +40,9 @@ const EmailResetModal: React.FC<IEmailResetModal> = ({
     const [showSuccessMsg, setShowSuccessMsg] = useState('');
 
     useEffect(() => {
-        if (reset) {
-            setEmailObj({email: '', error: false});
-            setShowErrorMsg('');
-            setShowSuccessMsg('');
-        }
+        setEmailObj({email: '', error: false});
+        setShowErrorMsg('');
+        setShowSuccessMsg('');
     }, [reset]);
 
     useEffect(() => {

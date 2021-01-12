@@ -49,15 +49,13 @@ const RegisterModal: React.FC<IRegisterModal> = ({
     const [showErrorMsg, setShowErrorMsg] = useState('');
 
     useEffect(() => {
-        if (reset) {
-            setActivationCodeObj({activationCode: '', error: false});
-            setUsernameObj({username: '', error: false});
-            setPasswordObj({password: '', error: false});
-            setVerifyPasswordObj({verifyPassword: '', error: false});
-            setEmailObj({email: '', error: false});
-            setShowErrorMsg('');
-            clearAuthenticationData();
-        }
+        setActivationCodeObj({activationCode: '', error: false});
+        setUsernameObj({username: '', error: false});
+        setPasswordObj({password: '', error: false});
+        setVerifyPasswordObj({verifyPassword: '', error: false});
+        setEmailObj({email: '', error: false});
+        setShowErrorMsg('');
+        clearAuthenticationData();
     }, [reset]);
 
     useEffect(() => {
@@ -109,7 +107,7 @@ const RegisterModal: React.FC<IRegisterModal> = ({
 
             register(request, (success) => {
                 if (success) {
-                    history.push(`/library`);
+                    history.push(`performance`);
                 }
             });
         }

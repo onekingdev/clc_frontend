@@ -28,6 +28,7 @@ function ScreenTemplate(props: any) {
 
     useEffect(() => {
         props.getRealtimeUserData();
+        if (!props.user.id) history.push('/');
     }, []);
 
     // adjust dimensions

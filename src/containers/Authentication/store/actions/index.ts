@@ -91,10 +91,10 @@ export const register = (data: IUser, callback: (success: boolean) => void) => a
                         .set({
                             avatar: '',
                             userName: data.userName,
-                            season: {correct: 0, chips: 0, started: timestamp},
-                            week: {correct: 0, chips: 0, started: timestamp},
-                            month: {correct: 0, chips: 0, started: timestamp},
-                            lifetime: {correct: 0, chips: 0},
+                            season: {correct: 0, chips: 0, tickets: 0, started: timestamp},
+                            week: {correct: 0, chips: 0, tickets: 0, started: timestamp},
+                            month: {correct: 0, chips: 0, tickets: 0, started: timestamp},
+                            lifetime: {correct: 0, chips: 0, tickets: 0},
                             days: {
                                 monday: {correct: 0, tickets: 0},
                                 tuesday: {correct: 0, tickets: 0},

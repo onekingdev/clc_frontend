@@ -25,6 +25,7 @@ import Logo from '../../assets/images/clai-logo.png'
 import {IUser} from './interfaces';
 // @ts-ignore
 import {useHistory} from 'react-router-dom';
+import {setAuthenticationCode} from "./store/actions";
 
 function Login(props: any) {
     const history = useHistory();
@@ -34,6 +35,10 @@ function Login(props: any) {
     const [showRegisterModal, setShowRegisterModal] = useState(false);
     const [showEmailModal, setShowEmailModal] = useState(false);
     const [showErrorMsg, setShowErrorMsg] = useState('');
+
+    useEffect(() => {
+        if (props.user.id) history.push('performance');
+    }, [])
 
     // adjust dimensions
     useEffect(() => {
@@ -46,16 +51,18 @@ function Login(props: any) {
     }
 
     useEffect(() => {
-        if (!emailObj.error && !passwordObj.error) {
+        if (!emailObj.error && !passwordObj.error || showEmailModal || showRegisterModal) {
             setShowErrorMsg('');
+            props.setAuthenticationCode('');
         }
-    }, [emailObj, passwordObj])
+    }, [emailObj, passwordObj, showEmailModal, showRegisterModal])
 
     useEffect(() => {
         if (props.messageCode) {
             setShowErrorMsg(formatMessageCode(props.messageCode))
         } else {
             setShowErrorMsg('');
+            props.setAuthenticationCode('');
         }
     }, [props.messageCode])
 
@@ -76,7 +83,7 @@ function Login(props: any) {
             }
             props.login(request, (success: boolean) => {
                 if (success) {
-                    history.push(`/library`);
+                    history.push(`performance`);
                 }
             });
         }
@@ -152,7 +159,8 @@ const mapStateToProps = (state: any) => {
 
 const bindActions = (dispatch: any) => {
     return {
-        login: (data: IUser, callback: (success: boolean) => void) => dispatch(ACTIONS.login(data, callback))
+        login: (data: IUser, callback: (success: boolean) => void) => dispatch(ACTIONS.login(data, callback)),
+        setAuthenticationCode: (code: string) => dispatch(ACTIONS.setAuthenticationCode(code))
     };
 };
 

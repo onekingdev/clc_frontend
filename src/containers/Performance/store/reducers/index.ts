@@ -8,7 +8,8 @@ const INITIAL_STATE = {
         correctQuestions: [],
         myCorrectQuestions: 0,
         myCorrectRank: 0,
-        myChipRank: 0
+        myChipRank: 0,
+        myTickets: 0,
     },
     isFetchingPerformanceData: false,
     messageCode: null
