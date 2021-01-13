@@ -49,7 +49,7 @@ function Performance(props: any) {
 
     return (
         <ScreenTemplate>
-            <Banner topText="Track your progress" title="My Preformance" footerValues={[
+            <Banner topText="Track your progress" title="My Performance" footerValues={[
                 props.tableData.myCorrectQuestions, props.tableData.myChipsEarned, props.tableData.myTickets
             ]}/>
             <div className="pathsImageWrapper">

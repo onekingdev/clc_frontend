@@ -149,12 +149,12 @@ export const updateDailyEarnings = (data: { chips: number, tickets: number }) =>
     }
 
     const monthlyUpdate = (increment: number, field: string) => {
-        if ((moment(document.season.started.seconds).month() !== 0 ? moment(document.season.started.seconds).month() -1 : 11) === monthNumber) return document.month[field] += increment;
+        if ((moment(document.season.started.seconds).month() !== 0 ? moment(document.season.started.seconds).month() -1 : 0) === monthNumber) return document.month[field] += increment;
         return increment;
     }
 
     const seasonUpdate = (increment: number, field: string) => {
-        if ((moment(document.season.started.seconds).month() !== 0 ? moment(document.season.started.seconds).month() -1 : 11) <= monthNumber ) return document.season[field] += increment;
+        if ((moment(document.season.started.seconds).month() !== 0 ? moment(document.season.started.seconds).month() -1 : 0) <= monthNumber ) return document.season[field] += increment;
         return increment;
     }
 

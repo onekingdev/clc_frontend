@@ -20,3 +20,9 @@ export const resetPasswordEmailSent = 'We sent you a email to reset your passwor
 export const emptyActivationCode = 'Activation code required';
 export const emptyUserName = 'Username required';
 export const passwordsDoNotMatch = 'Passwords do not match';
+export const libraryUploadError = 'Error when uploading library content data';
+export const questionsUploadError = 'Error when uploading question content data';
+
+
+//other
+export const bugTrackerScript = `https://learnwithsocrates.atlassian.net/s/d41d8cd98f00b204e9800998ecf8427e-T/o2joag/b/24/a44af77267a987a660377e5c46e0fb64/_/download/batch/com.atlassian.jira.collector.plugin.jira-issue-collector-plugin:issuecollector/com.atlassian.jira.collector.plugin.jira-issue-collector-plugin:issuecollector.js?locale=en-US&collectorId=acf871b7`

@@ -17,6 +17,8 @@ import Avatar from "../../components/Avatar";
 import Header from "../../components/Header";
 // @ts-ignore
 import {useHistory} from 'react-router-dom';
+import {bugTrackerScript} from "../../helpers/constants";
+import BodyText from "../../components/BodyText";
 
 function ScreenTemplate(props: any) {
     const history = useHistory();
@@ -25,6 +27,18 @@ function ScreenTemplate(props: any) {
     const [width, setWidth] = useState(window.innerWidth);
     const [scrollTop, setScrollTop] = useState(0);
     const [showSettingsModal, setShowSettingsModal] = useState(false);
+
+    useEffect(() => {
+        const script = document.createElement('script');
+
+        script.src = bugTrackerScript;
+        script.async = true;
+
+        if (props.user && props.user.type === 'admin') { // @ts-ignore
+            document.getElementById("root").appendChild(script);
+        }
+
+    }, [props.user]);
 
     useEffect(() => {
         props.getRealtimeUserData();
@@ -44,9 +58,9 @@ function ScreenTemplate(props: any) {
     return (
         <div className="container">
             <Sidebar title="MENU" items={
-                [<SidebarItem icon="home" text="Home" onClick={() => {
+                [/*<SidebarItem icon="home" text="Home" onClick={() => {
                     setTimeout(() => history.push('home'), 0);
-                }}/>,
+                }}/>,*/
                 <SidebarItem icon="ai" text="AI Learning" onClick={() => {
                     setTimeout(() => {
                         sessionStorage.setItem('selectedTopic', '{}');

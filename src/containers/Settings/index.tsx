@@ -13,11 +13,14 @@ import DotLoader from 'react-spinners/DotLoader';
 import TitleText from "../../components/TitleText";
 import Avatar from "../../components/Avatar";
 import BodyText from "../../components/BodyText";
+import ErrorDisplay from "../../components/ErrorDisplay";
+import {libraryUploadError, questionsUploadError} from "../../helpers/constants";
 
 
 function Settings(props: any) {
     const history = useHistory();
     const [file, setFile] = useState<FileList | null>();
+    const [errorMessage, setErrorMessage] = useState('');
 
     const inputRef = useRef(null)
 
@@ -45,11 +48,13 @@ function Settings(props: any) {
     }
 
     const importLibrary = (data: any) => {
+        setErrorMessage('');
         const sheets = onFileOpen(data);
         bulkImportLibrary(sheets);
     }
 
     const importQuestions = (data: any) => {
+        setErrorMessage('');
         const sheets = onFileOpen(data);
         bulkImportQuestions(sheets);
     }
@@ -66,7 +71,11 @@ function Settings(props: any) {
                     type: value['TYPE'] // usage, faq
                 }
             });
-        props.uploadLibrary({library});
+        if (library.length > 0) {
+            props.uploadLibrary({library});
+        } else {
+            setErrorMessage(libraryUploadError);
+        }
     }
 
     const bulkImportQuestions = (sheets: { [email: string]: Object; }) => {
@@ -110,12 +119,16 @@ function Settings(props: any) {
                 }
             });
 
-        props.uploadQuestions({lessons, questions, topics});
+        if (lessons.length > 0 && questions.length > 0 && topics.length > 0) {
+            props.uploadQuestions({lessons, questions, topics});
+        } else {
+            setErrorMessage(questionsUploadError);
+        }
     }
 
     return (
         <div className="settingsContainer">
-            {props.isUploadingLibraryData ?
+            {props.user.avatar === undefined || props.isUploadingLibraryData ?
                 <div className="centerLoader">
                     <div style={{marginBottom: 200}}>
                         <div style={{marginLeft: 45, marginBottom: 10}}>
@@ -152,6 +165,7 @@ function Settings(props: any) {
                             }}
                         />
                     </div>
+                    <ErrorDisplay message={errorMessage} show={errorMessage !== ''}/>
                 </div>
             }
         </div>
