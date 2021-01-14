@@ -10,6 +10,10 @@ export const apiSaveEarnings = 'saveEarnings';
 export const apiGetQuestions = 'getQuestions';
 export const apiGetAIQuestions = 'getQuestionsAI';
 export const apiLevelUp = 'levelUp';
+export const apiDropQuestions = 'dropQuestions';
+export const apiDropLessons = 'dropLessons';
+export const apiDropTopics = 'dropTopics';
+export const apiDropLibrary = 'dropLibrary';
 
 // front end messages
 export const emptyEmailString = 'Email required';

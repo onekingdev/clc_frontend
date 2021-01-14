@@ -1,5 +1,6 @@
 import * as TYPES from './types';
 import api from '../../../../services/apiMiddleware';
+import {apiDropLessons, apiDropLibrary, apiDropQuestions, apiDropTopics} from "../../../../helpers/constants";
 
 export const isUploadingLibraryData = (data: boolean) => {
     return {
@@ -8,8 +9,10 @@ export const isUploadingLibraryData = (data: boolean) => {
     };
 }
 
-export const uploadLibrary = (library: any) => (dispatch: any, getState: any) => {
+export const uploadLibrary = (library: any) => async (dispatch: any, getState: any) => {
     dispatch(isUploadingLibraryData(true));
+    await api.get(apiDropLibrary);
+
     return api.post("uploadLibrary", library)
         .then(response => {
             dispatch(isUploadingLibraryData(false));
@@ -17,8 +20,12 @@ export const uploadLibrary = (library: any) => (dispatch: any, getState: any) =>
         });
 }
 
-export const uploadQuestions = (questions: any) => (dispatch: any, getState: any) => {
+export const uploadQuestions = (questions: any) => async (dispatch: any, getState: any) => {
     dispatch(isUploadingLibraryData(true));
+    await api.get(apiDropQuestions);
+    await api.get(apiDropLessons);
+    await api.get(apiDropTopics);
+
     return api.post("uploadContent", questions)
         .then(response => {
             dispatch(isUploadingLibraryData(false));
