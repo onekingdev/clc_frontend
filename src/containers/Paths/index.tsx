@@ -27,8 +27,10 @@ function Paths(props: any) {
     }, [width]);
 
     useEffect(() => {
-        setTimeout(() => props.getPathsList(), 2000)
-    }, [])
+        if (props.myTopics.length > 0) {
+            props.getPathsList(props.myTopics);
+        }
+    }, [props.myTopics])
 
     useEffect(() => {
         let arr1: any = [], arr2: any = [], arr3: any = [];
@@ -142,13 +144,14 @@ function Paths(props: any) {
 const mapStateToProps = (state: any) => {
     return {
         pathsList: state.pathsState.pathsList,
-        isFetchingPathsData: state.pathsState.isFetchingPathsData
+        isFetchingPathsData: state.pathsState.isFetchingPathsData,
+        myTopics: state.screenTemplateState.myTopics
     };
 }
 
 const bindActions = (dispatch: any) => {
     return {
-        getPathsList: () => dispatch(ACTIONS.getPathsList())
+        getPathsList: (myTopics: any) => dispatch(ACTIONS.getPathsList(myTopics))
     };
 };
 

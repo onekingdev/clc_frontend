@@ -41,7 +41,7 @@ const QuestionCard: React.FC<IQuestionCard> = ({
         setExplanation('');
         //options = options.sort(() => .5 - Math.random());
         const topic = topicData ? topicData : JSON.parse(sessionStorage.getItem('selectedTopic') as string);
-        const myTopicsIndex = myTopics.findIndex((t: any) => t.id === topic.id);
+        const myTopicsIndex = myTopics.findIndex((t: any) => t.UID === topic.UID);
         if (myTopicsIndex > -1) {
             const lessonIndex = myTopics[myTopicsIndex].lessons.findIndex((t: any) => t.UID === topic.lessonUID);
             if (lessonIndex > -1 && myTopics[myTopicsIndex].lessons[lessonIndex].mastered) {

@@ -28,20 +28,27 @@ function ScreenTemplate(props: any) {
     const [showSettingsModal, setShowSettingsModal] = useState(false);
 
     useEffect(() => {
-        const script = document.createElement('script');
+        if (props.user && props.user.type === 'admin') {
+            const script = document.createElement('script');
 
-        script.src = bugTrackerScript;
-        script.async = true;
-
-        if (props.user && props.user.type === 'admin') { // @ts-ignore
-            document.getElementById("root").appendChild(script);
+            script.src = bugTrackerScript;
+            script.async = true;
+            // @ts-ignore
+            document.getElementById("bugTracker").appendChild(script);
+        } else {
+            const element = document.getElementById("bugTracker");
+            if (element && element.innerHTML) {
+                element.removeChild(element);
+                element.innerHTML = '';
+            }
         }
-
     }, [props.user]);
 
     useEffect(() => {
         props.getRealtimeUserData();
-        if (!props.user.id) history.push('/');
+        if (!props.user.id) {
+            history.push('/');
+        }
     }, []);
 
     // adjust dimensions
@@ -138,6 +145,7 @@ function ScreenTemplate(props: any) {
                     </div>
                 }
             </div>
+            {props.user && props.user.type === 'admin' ? <div id="bugTracker"/> : null}
             <Modal visible={showSettingsModal} width="40%" effect="fadeInUp"
                    onClickAway={() => setShowSettingsModal(false)}>
                 <Settings/>

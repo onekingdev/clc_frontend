@@ -3,7 +3,7 @@ import * as TYPE from '../actions/types';
 const INITIAL_STATE = {
     questions: [],
     isFetchingGameData: false,
-    messageCode: null
+    messageCode: null,
 };
 
 const reducer = (state = INITIAL_STATE, action: {type: string, payload: any}) => {

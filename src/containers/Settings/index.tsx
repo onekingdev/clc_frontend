@@ -159,6 +159,7 @@ function Settings(props: any) {
                             onClick={() => {
                                 props.logout((success: boolean) => {
                                     if (success) {
+                                        window.location.reload();
                                         history.push(`/`);
                                     }
                                 })

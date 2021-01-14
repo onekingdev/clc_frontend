@@ -70,9 +70,6 @@ const TopicModal: React.FC<ITopicModal> = ({
             <div>
                 <BodyText>required mastered level to play: {topic.masteredLevel}</BodyText>
             </div>
-            <div>
-                <BodyText>Selected LESSON: {selectedName}</BodyText>
-            </div>
             {topic.allTopicLessons && topic.allTopicLessons.length > 0 ?
                 <div>
                     <BodyText>All LESSONS: </BodyText>
@@ -100,7 +97,7 @@ const TopicModal: React.FC<ITopicModal> = ({
             </div>
             {topic.status === 0 && topic.chips !== 0 && topic.tickets !== 0 || topic.status !== 0 ?
                 <Button onClick={() => handleClick()} width="100%" height={44}
-                        text={topic.status === 1 || topic.status === 2 ? 'Start' : 'Buy'} glow/>
+                        text={topic.status === 1 || topic.status === 2 ? `Start ${selectedName}` : 'Buy'} glow/>
                 : null}
 
             <ErrorDisplay message={showErrorMsg} show={showErrorMsg !== ''}/>

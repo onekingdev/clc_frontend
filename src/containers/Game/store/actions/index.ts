@@ -80,7 +80,7 @@ export const levelUp = () => async(
 ) => {
     const user = await getState().authState.user;
 
-    let newUserData = await api.post(apiLevelUp, user.id);
+    let newUserData = await api.post(apiLevelUp, {id: user.id});
 
     dispatch(setUserData(newUserData));
 }
@@ -93,7 +93,7 @@ export const updateMyTopics = (questionID: number, correct: boolean, topicData: 
     const myTopics = getState().screenTemplateState.myTopics;
     const topic = topicData ? topicData : JSON.parse(<string>sessionStorage.getItem('selectedTopic'));
 
-    const myTopicsIndex = myTopics.findIndex((t: any) => t.id === topic.id);
+    const myTopicsIndex = myTopics.findIndex((t: any) => t.UID === topic.UID);
 
     if (myTopicsIndex !== -1) {
         const lessonIndex = myTopics[myTopicsIndex].lessons.findIndex((l: any) => l.UID === topic.lessonUID)

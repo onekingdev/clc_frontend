@@ -213,6 +213,16 @@ function Game(props: any) {
         window.location.reload();
     }
 
+    const renderSkipLessonBtn = () => {
+        const topic = JSON.parse(sessionStorage.getItem('selectedTopic') as string);
+        const lessonIndex = topic.allTopicLessons.findIndex((l: any) => l.UID === topic.lessonUID);
+        if (topic.allTopicLessons.length-1 === lessonIndex) return null;
+
+        return (
+            <Button onClick={() =>handleSkipLesson()} width={300} height={42} glow text="Next Lesson"/>
+        )
+    }
+
     return (
         <ScreenTemplate loading={props.isFetchingGameData}>
             {questions.array.length === 0 ?
@@ -289,7 +299,7 @@ function Game(props: any) {
                     <div>
                         <BodyText>{`You finished all questions in this lesson. ${correctCounter}/${questions.array.length} correct`}</BodyText>
                         <Button onClick={() =>history.push('paths')} width={300} height={42} glow text="Go to Paths"/>
-                        <Button onClick={() =>handleSkipLesson()} width={300} height={42} glow text="Next Lesson"/>
+                        {renderSkipLessonBtn()}
                     </div>
                 </div>
             </Modal>

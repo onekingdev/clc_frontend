@@ -37,13 +37,12 @@ export const setSelectedTopic = (data: any) => {
     };
 }
 
-export const getPathsList = () => async(
+export const getPathsList = (myTopics: any) => async(
     dispatch: (data: any) => void,
     getState: any,
 ) => {
     try {
         dispatch(setIsFetchingPathsData(true));
-        const myTopics = await getState().screenTemplateState.myTopics;
         const email = await getState().authState.user.email;
         const list = await api.post(apiPathsEndpoint, {myTopics, email});
         dispatch(setPathsList(list));

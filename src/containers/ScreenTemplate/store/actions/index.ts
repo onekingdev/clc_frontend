@@ -33,18 +33,21 @@ export const getRealtimeUserData = () => async(
     dispatch: (data: any) => void,
     getState: any,
 ) => {
-    const uid = await getState().authState.user.stringID;
-
-    await app
-        .firestore()
-        .collection('users')
-        .doc(uid)
-        .onSnapshot({
-            next: (snapshot: any) => {
-                dispatch(setChips(snapshot.data().chips));
-                dispatch(setTickets(snapshot.data().tickets));
-                dispatch(setMyTopics(snapshot.data().myTopics));
-                dispatch(setFavorites(snapshot.data().favorites));
-            },
-        });
+    try {
+        const uid = await getState().authState.user.stringID;
+        await app
+            .firestore()
+            .collection('users')
+            .doc(uid)
+            .onSnapshot({
+                next: (snapshot: any) => {
+                    dispatch(setChips(snapshot.data().chips));
+                    dispatch(setTickets(snapshot.data().tickets));
+                    dispatch(setMyTopics(snapshot.data().myTopics));
+                    dispatch(setFavorites(snapshot.data().favorites));
+                },
+            });
+    } catch (e) {
+        console.log('logged out')
+    }
 }
