@@ -215,9 +215,10 @@ function Game(props: any) {
 
     const renderSkipLessonBtn = () => {
         const topic = JSON.parse(sessionStorage.getItem('selectedTopic') as string);
-        const lessonIndex = topic.allTopicLessons.findIndex((l: any) => l.UID === topic.lessonUID);
-        if (topic.allTopicLessons.length-1 === lessonIndex) return null;
-
+        if (topic.allTopicLessons && topic.allTopicLessons.length > 0) {
+            const lessonIndex = topic.allTopicLessons.findIndex((l: any) => l.UID === topic.lessonUID);
+            if (topic.allTopicLessons.length - 1 === lessonIndex) return null;
+        }
         return (
             <Button onClick={() =>handleSkipLesson()} width={300} height={42} glow text="Next Lesson"/>
         )
