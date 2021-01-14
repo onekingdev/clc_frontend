@@ -133,7 +133,7 @@ function Paths(props: any) {
                 </div>
                 : <div className="bottomPadding"/>}
                 <Modal visible={modal.show} width="450" effect="fadeInUp" onClickAway={() => setModal({item: {}, show: false})}>
-                    <TopicModal topic={modal.item}/>
+                    <TopicModal topic={modal.item} reset={!modal.show}/>
                 </Modal>
         </ScreenTemplate>
     );

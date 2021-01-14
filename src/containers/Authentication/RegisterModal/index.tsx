@@ -64,10 +64,11 @@ const RegisterModal: React.FC<IRegisterModal> = ({
             !activationCodeObj.error &&
             !usernameObj.username &&
             !passwordObj.error &&
-            !verifyPasswordObj.error) {
+            !verifyPasswordObj.error
+        ) {
             setShowErrorMsg('');
         }
-    }, [emailObj])
+    }, [emailObj.error, activationCodeObj.error, usernameObj.error, passwordObj.error, verifyPasswordObj.error])
 
     useEffect(() => {
         if (messageCode) {
@@ -107,7 +108,7 @@ const RegisterModal: React.FC<IRegisterModal> = ({
 
             register(request, (success) => {
                 if (success) {
-                    history.push(`performance`);
+                    history.push('performance');
                 }
             });
         }
@@ -121,7 +122,10 @@ const RegisterModal: React.FC<IRegisterModal> = ({
                     <TextInput
                         value={activationCodeObj.activationCode}
                         placeholder="Activation Code"
-                        onChange={(event) => setActivationCodeObj({activationCode: event.target.value, error: false})}
+                        onChange={(event) => {
+                            setShowErrorMsg('');
+                            setActivationCodeObj({activationCode: event.target.value, error: false})
+                        }}
                         error={activationCodeObj.error}
                     />
                 </div>
@@ -129,7 +133,10 @@ const RegisterModal: React.FC<IRegisterModal> = ({
                     <TextInput
                         value={usernameObj.username}
                         placeholder="Username"
-                        onChange={(event) => setUsernameObj({username: event.target.value, error: false})}
+                        onChange={(event) => {
+                            setShowErrorMsg('');
+                            setUsernameObj({username: event.target.value, error: false})
+                        }}
                         error={usernameObj.error}
                     />
                 </div>
@@ -137,7 +144,10 @@ const RegisterModal: React.FC<IRegisterModal> = ({
                     <TextInput
                         value={passwordObj.password}
                         placeholder="Password"
-                        onChange={(event) => setPasswordObj({password: event.target.value, error: false})}
+                        onChange={(event) => {
+                            setShowErrorMsg('');
+                            setPasswordObj({password: event.target.value, error: false})
+                        }}
                         password={true}
                         error={passwordObj.error}
                     />
@@ -146,7 +156,10 @@ const RegisterModal: React.FC<IRegisterModal> = ({
                     <TextInput
                         value={verifyPasswordObj.verifyPassword}
                         placeholder="Verify Password"
-                        onChange={(event) => setVerifyPasswordObj({verifyPassword: event.target.value, error: false})}
+                        onChange={(event) => {
+                            setShowErrorMsg('');
+                            setVerifyPasswordObj({verifyPassword: event.target.value, error: false})
+                        }}
                         password={true}
                         error={verifyPasswordObj.error}
                     />
@@ -155,7 +168,10 @@ const RegisterModal: React.FC<IRegisterModal> = ({
                     <TextInput
                         value={emailObj.email}
                         placeholder="Email"
-                        onChange={(event) => setEmailObj({email: event.target.value, error: false})}
+                        onChange={(event) => {
+                            setShowErrorMsg('');
+                            setEmailObj({email: event.target.value, error: false})
+                        }}
                         email={true}
                         error={emailObj.error}
                     />

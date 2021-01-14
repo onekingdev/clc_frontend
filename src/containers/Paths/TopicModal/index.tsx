@@ -17,17 +17,23 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 interface ITopicModal {
     topic: any,
     setSelectedTopic: (topic: any) => void,
-    buyItem: (item: any, callback: (data: any) => void) => void
+    buyItem: (item: any, callback: (data: any) => void) => void,
+    reset: boolean
 }
 
 const TopicModal: React.FC<ITopicModal> = ({
                                                topic,
                                                setSelectedTopic,
-                                               buyItem
+                                               buyItem,
+                                               reset
                                            }) => {
     const history = useHistory();
     const [showErrorMsg, setShowErrorMsg] = useState('');
     const [selectedName, setSelectedName] = useState('');
+
+    useEffect(() => {
+        setShowErrorMsg('');
+    }, [reset]);
 
     useEffect(() => {
         setSelectedName(topic.lessonName);
@@ -78,7 +84,7 @@ const TopicModal: React.FC<ITopicModal> = ({
                                         color="#759A47"
                                         size="1x"
                                         icon={Icon['faCheck']}
-                                        transform={{ rotate: 0 }}
+                                        transform={{rotate: 0}}
                                         style={{marginRight: 5}}
                                     />
                                     : null}

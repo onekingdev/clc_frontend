@@ -18,7 +18,6 @@ import Header from "../../components/Header";
 // @ts-ignore
 import {useHistory} from 'react-router-dom';
 import {bugTrackerScript} from "../../helpers/constants";
-import BodyText from "../../components/BodyText";
 
 function ScreenTemplate(props: any) {
     const history = useHistory();
