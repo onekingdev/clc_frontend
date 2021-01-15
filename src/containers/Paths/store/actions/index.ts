@@ -2,6 +2,7 @@ import * as TYPES from './types';
 import {IPathsList} from '../../interfaces';
 import api from '../../../../services/apiMiddleware';
 import {apiPathsEndpoint} from '../../../../helpers/constants';
+import {app} from '../../../../services/firebase';
 
 export const clearPathsData = () => {
     return {
@@ -58,10 +59,46 @@ export const buyItem = (item: any, callback: (data: any) => void) => async(
     getState: any,
 ) => {
     const user = await getState().authState.user;
+    const realtimeChips = await getState().screenTemplateState.chips;
+    const realtimeTickets = await getState().screenTemplateState.tickets;
+    const myTopics = await getState().screenTemplateState.myTopics;
 
-    if (item.masteredLevel >= user.masteredLevel) {
-        if (item.tickets >= user.tickets) {
-            if (item.chips >= user.chips) {
+    if (item.masteredLevel <= user.masteredLevel) {
+        if (item.tickets <= realtimeTickets) {
+            if (item.chips <= realtimeChips) {
+                const chips = realtimeChips - item.chips;
+                const tickets = realtimeTickets - item.tickets;
+
+                await app
+                    .firestore()
+                    .collection('users')
+                    .doc(user.stringID)
+                    .update('chips', chips)
+                await app
+                    .firestore()
+                    .collection('users')
+                    .doc(user.stringID)
+                    .update('tickets', tickets)
+
+                myTopics.push({
+                    id: item.id,
+                    UID: item.UID,
+                    name: item.name,
+                    masteredLevel: item.masteredLevel,
+                    chips: item.chips,
+                    tickets: item.tickets,
+                    status: item.status,
+                    mastered: false,
+                    lessons: []
+                });
+
+                await app
+                    .firestore()
+                    .collection('users')
+                    .doc(user.stringID)
+                    .update('myTopics', myTopics)
+
+                callback({correct: true, msg: 200});
 
             } else {
                 callback({correct: false, msg: 501});

@@ -18,14 +18,16 @@ interface ITopicModal {
     topic: any,
     setSelectedTopic: (topic: any) => void,
     buyItem: (item: any, callback: (data: any) => void) => void,
-    reset: boolean
+    reset: boolean,
+    callback: () => void
 }
 
 const TopicModal: React.FC<ITopicModal> = ({
                                                topic,
                                                setSelectedTopic,
                                                buyItem,
-                                               reset
+                                               reset,
+                                               callback
                                            }) => {
     const history = useHistory();
     const [showErrorMsg, setShowErrorMsg] = useState('');
@@ -43,8 +45,7 @@ const TopicModal: React.FC<ITopicModal> = ({
         if (topic.status === 0) {
             buyItem(topic, (data) => {
                 if (data.correct) {
-                    sessionStorage.setItem('selectedTopic', JSON.stringify(topic));
-                    setTimeout(() => history.push('game'), 500);
+                    callback();
                 } else {
                     setShowErrorMsg(formatMessageCode(data.msg));
                 }
