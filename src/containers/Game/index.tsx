@@ -20,7 +20,6 @@ import Modal from 'react-awesome-modal';
 import BodyText from "../../components/BodyText";
 import Button from "../../components/Button";
 
-
 let interval: any;
 
 function Game(props: any) {
@@ -31,11 +30,12 @@ function Game(props: any) {
     let [pot, setPot] = useState(0);
     const [width, setWidth] = useState(window.innerWidth);
     const [speed, setSpeed] = useState(1200);
-    const [pause, setPause] = useState(false);
+    const [pause, setPause] = useState(true);
     const [finished, setFinished] = useState(false);
     const [tableAction, setTableAction] = useState('');
     const [questions, setQuestions]: any = useState({array: [], render: false});
     const [showModal, setShowModal] = useState(false);
+    const [useStartIndex, setUseStartIndex] = useState(true);
 
     useEffect(() => {
         return () => {
@@ -54,6 +54,12 @@ function Game(props: any) {
         }
     },[props.questions])
 
+    useEffect(() => {
+        if (questions.array.length > 0) {
+            calculateAllAnte();
+        }
+    }, [questions])
+
     // adjust dimensions
     useEffect(() => {
         window.addEventListener("resize", updateDimensions);
@@ -62,8 +68,12 @@ function Game(props: any) {
 
     useEffect(() => {
         if (questions.array.length > 0) {
-            if (pause) stop();
-            else start();
+            if (pause) {
+                stop();
+            } else {
+                setUseStartIndex(false);
+                start();
+            }
         }
     }, [pause, props.isFetchingGameData])
 
@@ -155,7 +165,9 @@ function Game(props: any) {
         setPot(0);
         setFinished(false);
         clearInterval(interval);
-        setTimeout(() => setPause(false), 500);
+        setUseStartIndex(true);
+        setTimeout(() => calculateAllAnte(), 1000);
+        // setTimeout(() => setPause(false), 500); //TODO: requested
     }
 
     const speedHandler = (s: number) => {
@@ -197,7 +209,10 @@ function Game(props: any) {
     const handleSubmit = () => {
         setFinished(false);
         reset();
-        if (questionIndex < questions.array.length-1) {
+        if (props.fetchNextAIQuestions) {
+            props.fetchGameData();
+            props.setFetchNextAIQuestions(false);
+        } else if (questionIndex < questions.array.length-1) {
             setQuestionIndex(questionIndex += 1);
         } else {
             setShowModal(true);
@@ -215,7 +230,8 @@ function Game(props: any) {
 
     const renderSkipLessonBtn = () => {
         const topic = JSON.parse(sessionStorage.getItem('selectedTopic') as string);
-        if (topic.allTopicLessons && topic.allTopicLessons.length > 0) {
+        if (!topic.allTopicLessons) return null;
+        if (topic.allTopicLessons.length > 0) {
             const lessonIndex = topic.allTopicLessons.findIndex((l: any) => l.UID === topic.lessonUID);
             if (topic.allTopicLessons.length - 1 === lessonIndex) return null;
         }
@@ -224,28 +240,60 @@ function Game(props: any) {
         )
     }
 
+    const renderSize = (width: number) => {
+        const digits = width.toString();
+
+        if (width < 600) {
+            return `${0}.${parseInt(digits[0])-1}`;
+        } if (width < 1000) {
+            return `${0}.${parseInt(digits[0])-2}`;
+        } else if (width < 1100) {
+            return `${0}.${parseInt(digits[0])+7}`;
+        } else if (width < 1300) {
+            return `${parseInt(digits[0])}.${parseInt(digits[1])-6}`;
+        } else if (width < 2000) {
+            return `${parseInt(digits[0])}.${parseInt(digits[1])-3}${parseInt(digits[2])-3}`;
+        } else if (width < 2700) {
+            return `${parseInt(digits[0])-1}.${parseInt(digits[1])+3}`;
+        } else if (width < 3000) {
+            return `${parseInt(digits[0])}.${parseInt(digits[1])-6}`;
+        }
+
+        return `${parseInt(digits[0])-1}.${parseInt(digits[1])}${parseInt(digits[2])}`;
+    }
+
+    const calculateAllAnte = () => {
+        console.log(pot, '.....................................')
+        questions.array[questionIndex].hands.forEach((hand: any, index: number) => {
+            if (hand.action === 'ante' || hand.action === 'posts the ante' || hand.action === 'posts ante') {
+                setPot(pot += hand.amount);
+                setHandIndex(index+1);
+            }
+        })
+    }
+
     return (
         <ScreenTemplate loading={props.isFetchingGameData}>
             {questions.array.length === 0 ?
-                    <TitleText>Could not fetch data</TitleText>
+                    <TitleText>You mastered all topics, go to your <a onClick={() => history.push('paths')}>paths</a> to review</TitleText>
                     :
-                <div className="gameWrapper" style={width > 1300 ? {} : {transform: `scale(${width / 1300})`}}>
+                <div className="gameWrapper" style={{transform: `scale(${renderSize(width)})`}}>
                     <div>
                         <div className="gamePokerTableContainer">
                             {questions.array[questionIndex].players.length > 0 ?
-                                questions.array[questionIndex].players.map((item: any) =>
+                                questions.array[questionIndex].players.map((item: any, index: number) =>
                                     <div className={`gamePokerPlayerWrapper gameP${parseInt(item.number)}`}>
                                         <PokerPlayer
                                             players={questions.array[questionIndex].tableInfo.players}
                                             player={parseInt(item.number)}
-                                            me={parseInt(item.number) === questions.array[questionIndex].hands[handIndex].player ? questions.array[questionIndex].hands[handIndex].cards.length > 0 : false}
-                                            cards={parseInt(item.number) === questions.array[questionIndex].hands[handIndex].player ? questions.array[questionIndex].hands[handIndex].cards : questions.array[questionIndex].hands[getPastPlayerIndex(questions.array[questionIndex].hands, parseInt(item.number), handIndex)].cards}
+                                            me={parseInt(item.number) === questions.array[questionIndex].hands[useStartIndex ? index :handIndex].player ? questions.array[questionIndex].hands[useStartIndex ? index :handIndex].cards.length > 0 : false}
+                                            cards={parseInt(item.number) === questions.array[questionIndex].hands[useStartIndex ? index :handIndex].player ? questions.array[questionIndex].hands[useStartIndex ? index :handIndex].cards : questions.array[questionIndex].hands[getPastPlayerIndex(questions.array[questionIndex].hands, parseInt(item.number), useStartIndex ? index :handIndex)].cards}
                                             mp={item.initAmount}
-                                            chipPos={parseInt(item.number) === questions.array[questionIndex].hands[handIndex].player ? handleChipPos(questions.array[questionIndex].hands[handIndex].player) : handleChipPos(questions.array[questionIndex].hands[getPastPlayerIndex(questions.array[questionIndex].hands, parseInt(item.number), handIndex)].player)}
-                                            turn={parseInt(item.number) === questions.array[questionIndex].hands[handIndex].player}
+                                            chipPos={parseInt(item.number) === questions.array[questionIndex].hands[useStartIndex ? index :handIndex].player ? handleChipPos(questions.array[questionIndex].hands[useStartIndex ? index :handIndex].player) : handleChipPos(questions.array[questionIndex].hands[getPastPlayerIndex(questions.array[questionIndex].hands, parseInt(item.number), useStartIndex ? index :handIndex)].player)}
+                                            turn={parseInt(item.number) === questions.array[questionIndex].hands[useStartIndex ? index :handIndex].player}
                                             dealer={questions.array[questionIndex].tableInfo.dealer === parseInt(item.number)}
-                                            action={parseInt(item.number) === questions.array[questionIndex].hands[handIndex].player ? questions.array[questionIndex].hands[handIndex].action : questions.array[questionIndex].hands[getPastPlayerIndex(questions.array[questionIndex].hands, parseInt(item.number), handIndex)].action}
-                                            amount={parseInt(item.number) === questions.array[questionIndex].hands[handIndex].player ? questions.array[questionIndex].hands[handIndex].amount : questions.array[questionIndex].hands[getPastPlayerIndex(questions.array[questionIndex].hands, parseInt(item.number), handIndex)].amount}
+                                            action={parseInt(item.number) === questions.array[questionIndex].hands[useStartIndex ? index :handIndex].player ? questions.array[questionIndex].hands[useStartIndex ? index :handIndex].action : questions.array[questionIndex].hands[getPastPlayerIndex(questions.array[questionIndex].hands, parseInt(item.number), useStartIndex ? index :handIndex)].action}
+                                            amount={parseInt(item.number) === questions.array[questionIndex].hands[useStartIndex ? index :handIndex].player ? questions.array[questionIndex].hands[useStartIndex ? index :handIndex].amount : questions.array[questionIndex].hands[getPastPlayerIndex(questions.array[questionIndex].hands, parseInt(item.number), useStartIndex ? index :handIndex)].amount}
                                             pot={pot}
                                         />
                                     </div>
@@ -312,6 +360,7 @@ const mapStateToProps = (state: any) => {
     return {
         user: state.authState.user,
         questions: state.gameState.questions,
+        fetchNextAIQuestions: state.gameState.fetchNextAIQuestions,
         isFetchingGameData: state.gameState.isFetchingGameData,
         myTopics: state.screenTemplateState.myTopics
     };
@@ -320,6 +369,7 @@ const mapStateToProps = (state: any) => {
 const bindActions = (dispatch: any) => {
     return {
         fetchGameData: () => dispatch(ACTIONS.fetchGameData()),
+        setFetchNextAIQuestions: (fetch: boolean) => dispatch(ACTIONS.setFetchNextAIQuestions(fetch)),
         saveEarnings: (data: {questionID: number, chips: number, tickets: number }) => dispatch(ACTIONS.saveEarnings(data)),
         updateMyTopics: (questionID: number, correct: boolean, topicData: any) => dispatch(ACTIONS.updateMyTopics(questionID, correct, topicData)),
         updateDailyEarnings: (data: { chips: number, tickets: number }) => dispatch(PERFORMANCE_ACTIONS.updateDailyEarnings(data)),

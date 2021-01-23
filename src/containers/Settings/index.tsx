@@ -144,8 +144,8 @@ function Settings(props: any) {
                     </div>
                     {props.user.type === 'admin' ?
                         <div className="settingsUploadButtonsWrapper">
-                            <FilePicker title={"Import Library"} onFileOpen={importLibrary}/>
-                            <FilePicker title={"Import Questions"} onFileOpen={importQuestions}/>
+                            {/*<FilePicker title={"Import Library"} onFileOpen={importLibrary}/>*/}
+                            {/*<FilePicker title={"Import Questions"} onFileOpen={importQuestions}/>*/}
                         </div>
                         : null}
 

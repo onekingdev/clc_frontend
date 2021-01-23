@@ -51,7 +51,7 @@ export const fetchEarnings = (consult: string) => async(
         .firestore()
         .collection('earnings')
         .orderBy(`${consult}.correct`, 'desc')
-        .limit(100)
+        .limit(10)
         .get()
         .then(snapshot => {
             let list: any = [];
@@ -67,7 +67,7 @@ export const fetchEarnings = (consult: string) => async(
         .firestore()
         .collection('earnings')
         .orderBy(`${consult}.chips`, 'desc')
-        .limit(100)
+        .limit(10)
         .get()
         .then(snapshot => {
             let list: any = [];

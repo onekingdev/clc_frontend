@@ -32,6 +32,13 @@ export const setQuestions = (data: IQuestions[]) => {
     };
 };
 
+export const setFetchNextAIQuestions = (data: boolean) => {
+    return {
+        type: TYPES.SET_FETCH_NEXT_AI_QUESTIONS,
+        payload: data
+    };
+};
+
 export const fetchGameData = () => async(
     dispatch: (data: any) => void,
     getState: any,
@@ -117,9 +124,17 @@ export const updateMyTopics = (questionID: number, correct: boolean, topicData: 
 
                 if (myTopics[myTopicsIndex].lessons[lessonIndex].correctInARow === parseInt(rule[0])) {
                     myTopics[myTopicsIndex].lessons[lessonIndex].mastered = true;
+                    dispatch(setFetchNextAIQuestions(true))
                     let counter = 0;
                     myTopics[myTopicsIndex].lessons.forEach((l:any) => {if (l.mastered) counter++});
-                    if (counter === topic.totalTopicLessons) {
+
+                    if (// TODO: fix this shit .........................................
+                        myTopics[myTopicsIndex].name === 'Preflop' && counter > 22
+                        || myTopics[myTopicsIndex].name === 'Flop' && counter > 34
+                        || myTopics[myTopicsIndex].name === 'Turn' && counter > 34
+                        || myTopics[myTopicsIndex].name === 'River' && counter > 44
+                        || myTopics[myTopicsIndex].name === 'Heads Up Strategy' && counter > 3
+                    ) { //counter === topic.totalTopicLessons
                         myTopics[myTopicsIndex].mastered = true;
                         dispatch(levelUp());
                     }

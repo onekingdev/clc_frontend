@@ -35,6 +35,7 @@ const QuestionCard: React.FC<IQuestionCard> = ({
     const [status, setStatus] = useState(0); // 0 = not answered, 1 = correct, 2 = wrong,
     const [explanation, setExplanation] = useState('');
     const [mastered, setMastered] = useState(false);
+    const [pressed, setPressed] = useState({index: 0, pressed: false});
 
     useEffect(() => {
         setStatus(0);
@@ -78,12 +79,19 @@ const QuestionCard: React.FC<IQuestionCard> = ({
             {options.length > 0 ?
                 options.map((item, index) => <div key={index} style={{marginBottom: 16}}>
                     {item.text ?
-                        <Button disabled={status !== 0} onClick={() => {
-                            callback(item.correct);
-                            setStatus(item.correct ? 1 : 2);
-                            setExplanation(item.explanation);
-                        }} width={343} height={47} text={item.text}
-                                answer={index === 0 ? 'A.' : index === 1 ? 'B.' : index === 2 ? 'C.' : index === 3 ? 'D.' : 'E.'}/>
+                        <Button
+                            selected={pressed.index === index && pressed.pressed}
+                            disabled={status !== 0}
+                            onClick={() => {
+                                callback(item.correct);
+                                setStatus(item.correct ? 1 : 2);
+                                setExplanation(item.explanation);
+                                setPressed({index: index, pressed: true});
+                            }}
+                            width={343}
+                            height={47}
+                            text={item.text}
+                            answer={index === 0 ? 'A.' : index === 1 ? 'B.' : index === 2 ? 'C.' : index === 3 ? 'D.' : 'E.'}/>
                         : null}
                 </div>) :
                 <div className="questionCenterLoader">
@@ -94,16 +102,26 @@ const QuestionCard: React.FC<IQuestionCard> = ({
                 {status === 1 ?
                     <div className="questionCardFooterHeaderWrapper">
                         <div className="questionCardIconWrapper" style={{backgroundColor: '#759A47', marginRight: 12}}>
-
+                            <FontAwesomeIcon
+                                color="#FFF"
+                                size="1x"
+                                icon={Icon['faCheck']}
+                                transform={{rotate: 0}}
+                            />
                         </div>
-                        <SubtitleText bold>Correct answer</SubtitleText>
+                        <SubtitleText bold>Reason</SubtitleText>
                     </div>
                     :
                     <div className="questionCardFooterHeaderWrapper">
                         <div className="questionCardIconWrapper" style={{backgroundColor: '#C75350', marginRight: 12}}>
-
+                            <FontAwesomeIcon
+                                color="#FFF"
+                                size="1x"
+                                icon={Icon['faPlus']}
+                                transform={{rotate: 45}}
+                            />
                         </div>
-                        <SubtitleText bold>Incorrect answer</SubtitleText>
+                        <SubtitleText bold>Reason</SubtitleText>
                     </div>
                 }
                 <div>
@@ -111,6 +129,7 @@ const QuestionCard: React.FC<IQuestionCard> = ({
                     <div style={{marginTop: 50}}>
                         <Button onClick={() => {
                             next();
+                            setPressed({index: 0, pressed: false})
                         }} width={343} height={47} text="Next Question" selected glow/>
                     </div>
                 </div>

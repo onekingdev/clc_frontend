@@ -81,7 +81,7 @@ export const register = (data: IUser, callback: (success: boolean) => void) => a
                         .set({
                             chips: 0,
                             tickets: 0,
-                            myTopics: [],
+                            myTopics: [{}],
                             favorites: []
                         });
                     await app

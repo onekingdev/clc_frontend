@@ -1,63 +1,64 @@
 import React, {useState, useEffect, useRef} from 'react';
 import './styles.css';
-import two_clubs from '../../assets/images/cards/2_clubs.png';
-import two_diamonds from '../../assets/images/cards/2_diamonds.png';
-import two_hearts from '../../assets/images/cards/2_hearts.png';
-import two_spades from '../../assets/images/cards/2_spades.png';
-import three_clubs from '../../assets/images/cards/3_clubs.png';
-import three_diamonds from '../../assets/images/cards/3_diamonds.png';
-import three_hearts from '../../assets/images/cards/3_hearts.png';
-import three_spades from '../../assets/images/cards/3_spades.png';
-import four_clubs from '../../assets/images/cards/4_clubs.png';
-import four_diamonds from '../../assets/images/cards/4_diamonds.png';
-import four_hearts from '../../assets/images/cards/4_hearts.png';
-import four_spades from '../../assets/images/cards/4_spades.png';
-import five_clubs from '../../assets/images/cards/5_clubs.png';
-import five_diamonds from '../../assets/images/cards/5_diamonds.png';
-import five_hearts from '../../assets/images/cards/5_hearts.png';
-import five_spades from '../../assets/images/cards/5_spades.png';
-import six_clubs from '../../assets/images/cards/6_clubs.png';
-import six_diamonds from '../../assets/images/cards/6_diamonds.png';
-import six_hearts from '../../assets/images/cards/6_hearts.png';
-import six_spades from '../../assets/images/cards/6_spades.png';
-import seven_clubs from '../../assets/images/cards/7_clubs.png';
-import seven_diamonds from '../../assets/images/cards/7_diamonds.png';
-import seven_hearts from '../../assets/images/cards/7_hearts.png';
-import seven_spades from '../../assets/images/cards/7_spades.png';
-import eight_clubs from '../../assets/images/cards/8_clubs.png';
-import eight_diamonds from '../../assets/images/cards/8_diamonds.png';
-import eight_hearts from '../../assets/images/cards/8_hearts.png';
-import eight_spades from '../../assets/images/cards/8_spades.png';
-import nine_clubs from '../../assets/images/cards/9_clubs.png';
-import nine_diamonds from '../../assets/images/cards/9_diamonds.png';
-import nine_hearts from '../../assets/images/cards/9_hearts.png';
-import nine_spades from '../../assets/images/cards/9_spades.png';
-import ten_clubs from '../../assets/images/cards/10_clubs.png';
-import ten_diamonds from '../../assets/images/cards/10_diamonds.png';
-import ten_hearts from '../../assets/images/cards/10_hearts.png';
-import ten_spades from '../../assets/images/cards/10_spades.png';
-import a_clubs from '../../assets/images/cards/A_clubs.png';
-import a_diamonds from '../../assets/images/cards/A_diamonds.png';
-import a_hearts from '../../assets/images/cards/A_hearts.png';
-import a_spades from '../../assets/images/cards/A_spades.png';
-import k_clubs from '../../assets/images/cards/K_clubs.png';
-import k_diamonds from '../../assets/images/cards/K_diamonds.png';
-import k_hearts from '../../assets/images/cards/K_hearts.png';
-import k_spades from '../../assets/images/cards/K_spades.png';
-import q_clubs from '../../assets/images/cards/Q_clubs.png';
-import q_diamonds from '../../assets/images/cards/Q_diamonds.png';
-import q_hearts from '../../assets/images/cards/Q_hearts.png';
-import q_spades from '../../assets/images/cards/Q_spades.png';
-import j_clubs from '../../assets/images/cards/J_clubs.png';
-import j_diamonds from '../../assets/images/cards/J_diamonds.png';
-import j_hearts from '../../assets/images/cards/J_hearts.png';
-import j_spades from '../../assets/images/cards/J_spades.png';
+import two_clubs from '../../assets/images/cards/2_clubs.svg';
+import two_diamonds from '../../assets/images/cards/2_diamonds.svg';
+import two_hearts from '../../assets/images/cards/2_hearts.svg';
+import two_spades from '../../assets/images/cards/2_spades.svg';
+import three_clubs from '../../assets/images/cards/3_clubs.svg';
+import three_diamonds from '../../assets/images/cards/3_diamonds.svg';
+import three_hearts from '../../assets/images/cards/3_hearts.svg';
+import three_spades from '../../assets/images/cards/3_spades.svg';
+import four_clubs from '../../assets/images/cards/4_clubs.svg';
+import four_diamonds from '../../assets/images/cards/4_diamonds.svg';
+import four_hearts from '../../assets/images/cards/4_hearts.svg';
+import four_spades from '../../assets/images/cards/4_spades.svg';
+import five_clubs from '../../assets/images/cards/5_clubs.svg';
+import five_diamonds from '../../assets/images/cards/5_diamonds.svg';
+import five_hearts from '../../assets/images/cards/5_hearts.svg';
+import five_spades from '../../assets/images/cards/5_spades.svg';
+import six_clubs from '../../assets/images/cards/6_clubs.svg';
+import six_diamonds from '../../assets/images/cards/6_diamonds.svg';
+import six_hearts from '../../assets/images/cards/6_hearts.svg';
+import six_spades from '../../assets/images/cards/6_spades.svg';
+import seven_clubs from '../../assets/images/cards/7_clubs.svg';
+import seven_diamonds from '../../assets/images/cards/7_diamonds.svg';
+import seven_hearts from '../../assets/images/cards/7_hearts.svg';
+import seven_spades from '../../assets/images/cards/7_spades.svg';
+import eight_clubs from '../../assets/images/cards/8_clubs.svg';
+import eight_diamonds from '../../assets/images/cards/8_diamonds.svg';
+import eight_hearts from '../../assets/images/cards/8_hearts.svg';
+import eight_spades from '../../assets/images/cards/8_spades.svg';
+import nine_clubs from '../../assets/images/cards/9_clubs.svg';
+import nine_diamonds from '../../assets/images/cards/9_diamonds.svg';
+import nine_hearts from '../../assets/images/cards/9_hearts.svg';
+import nine_spades from '../../assets/images/cards/9_spades.svg';
+import ten_clubs from '../../assets/images/cards/10_clubs.svg';
+import ten_diamonds from '../../assets/images/cards/10_diamonds.svg';
+import ten_hearts from '../../assets/images/cards/10_hearts.svg';
+import ten_spades from '../../assets/images/cards/10_spades.svg';
+import a_clubs from '../../assets/images/cards/A_clubs.svg';
+import a_diamonds from '../../assets/images/cards/A_diamonds.svg';
+import a_hearts from '../../assets/images/cards/A_hearts.svg';
+import a_spades from '../../assets/images/cards/A_spades.svg';
+import k_clubs from '../../assets/images/cards/K_clubs.svg';
+import k_diamonds from '../../assets/images/cards/K_diamonds.svg';
+import k_hearts from '../../assets/images/cards/K_hearts.svg';
+import k_spades from '../../assets/images/cards/K_spades.svg';
+import q_clubs from '../../assets/images/cards/Q_clubs.svg';
+import q_diamonds from '../../assets/images/cards/Q_diamonds.svg';
+import q_hearts from '../../assets/images/cards/Q_hearts.svg';
+import q_spades from '../../assets/images/cards/Q_spades.svg';
+import j_clubs from '../../assets/images/cards/J_clubs.svg';
+import j_diamonds from '../../assets/images/cards/J_diamonds.svg';
+import j_hearts from '../../assets/images/cards/J_hearts.svg';
+import j_spades from '../../assets/images/cards/J_spades.svg';
 import cardBack from '../../assets/images/cards/Cardback Default.png';
 import chip from '../../assets/images/chip.png';
 import dealer_chip from '../../assets/images/dealer-chip.png';
+import giphy from '../../assets/images/giphy.gif';
 import BodyText from "../BodyText";
 import SmallText from "../SmallText";
-import {Roll, Rotate} from "react-awesome-reveal";
+import {Roll, Rotate, Fade} from "react-awesome-reveal";
 import {numberWithCommas} from "../../helpers/formatter";
 
 interface IPokerPlayer {
@@ -201,7 +202,7 @@ const PokerPlayer: React.FC<IPokerPlayer> = ({
             case 'Js':
                 return j_spades;
             default:
-                return cardBack;
+                return giphy;
         }
     }
 
@@ -318,7 +319,9 @@ const PokerPlayer: React.FC<IPokerPlayer> = ({
                      }
                 >
                     <div className={`${dealer ? 'pokerPlayerMPWrapperInverted' : 'pokerPlayerMPWrapper'} badge`}
-                         ref={badge}>
+                         ref={badge}
+                         style={action === 'folds' ? {opacity: 0.3} : {}}
+                    >
                         <div style={{marginRight: 9}}>
                             <BodyText color={dealer ? '#000' : '#FFF'}>{`P${player}`}</BodyText>
                         </div>
