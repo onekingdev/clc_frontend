@@ -223,7 +223,7 @@ const PokerPlayer: React.FC<IPokerPlayer> = ({
                 (container.current as HTMLDivElement).style.transform = 'translateY(10px)';
             }
         }
-    }, [me, pot]);
+    }, [rightCard.current]);
 
     const renderChips = (quantity: number) => {
         let array = []
@@ -262,7 +262,7 @@ const PokerPlayer: React.FC<IPokerPlayer> = ({
                         <div className={`pokerChips gameChipBBWrapper${player}`}>
                             {(renderLabel(action) === 'ante' && turn) || renderLabel(action) !== 'ante' ?
                                 <SmallText color="#FFF">{`${renderLabel(action)} `}<SmallText color="#FFF"
-                                                                                           bold>{`${amount ? numberWithCommas(amount) : ''}`}</SmallText></SmallText> : null}
+                                                                                              bold>{`${amount ? numberWithCommas(amount) : ''}`}</SmallText></SmallText> : null}
                         </div>
                     </div>
                     : null}
@@ -275,23 +275,25 @@ const PokerPlayer: React.FC<IPokerPlayer> = ({
                 }
                 <div className="pokerPlayerItemsWrapper cardsWrapper">
                     {renderLabel(action) === 'ante' && pot < amount * players ?
-                            <div style={{height: 56}}/>
+                        <div style={{height: 56}}/>
                         : cards.length > 0 ?
                             cards.map((card, index) =>
-                                <div key={index} className="pokerPlayerItemsWrapper">
-                                    {
-                                        0 == index ?
-                                            <img ref={leftCard} className={'cardImage'}
-                                                 src={renderCard(card)}
-                                                 width={40}
-                                                 height={56}/> :
-                                            <img ref={rightCard} className={'cardImage'}
-                                                 src={renderCard(card)}
-                                                 width={40}
-                                                 height={56}/>
-                                    }
+                                <Rotate>
+                                    <div key={index} className="pokerPlayerItemsWrapper">
+                                        {
+                                            0 == index ?
+                                                <img ref={leftCard} className={'cardImage'}
+                                                     src={renderCard(card)}
+                                                     width={40}
+                                                     height={56}/> :
+                                                <img ref={rightCard} className={'cardImage'}
+                                                     src={renderCard(card)}
+                                                     width={40}
+                                                     height={56}/>
+                                        }
 
-                                </div>
+                                    </div>
+                                </Rotate>
                             ) :
                             <Roll>
                                 <img style={action === 'folds' ? {opacity: 0.3} : {}}
@@ -339,7 +341,7 @@ const PokerPlayer: React.FC<IPokerPlayer> = ({
                         <div className={`pokerChips gameChipBBWrapper${player}`}>
                             {(renderLabel(action) === 'ante' && turn) || renderLabel(action) !== 'ante' ?
                                 <SmallText color="#FFF">{`${renderLabel(action)} `}<SmallText color="#FFF"
-                                                                                           bold>{`${amount ? numberWithCommas(amount) : ''}`}</SmallText></SmallText> : null}
+                                                                                              bold>{`${amount ? numberWithCommas(amount) : ''}`}</SmallText></SmallText> : null}
                         </div>
                     </div>
                     : null}

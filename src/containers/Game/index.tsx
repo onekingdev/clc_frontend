@@ -36,6 +36,7 @@ function Game(props: any) {
     const [questions, setQuestions]: any = useState({array: [], render: false});
     const [showModal, setShowModal] = useState(false);
     const [useStartIndex, setUseStartIndex] = useState(true);
+    const [animationBlocker, setAnimationBlocker] = useState(0);
 
     useEffect(() => {
         return () => {
@@ -103,7 +104,7 @@ function Game(props: any) {
         setFinished(false);
         clearInterval(interval);
 
-        if (handIndex > 0) {
+        if (animationBlocker < handIndex && handIndex > 0) {
             let index = handIndex;
             index -= 1;
             pot -= questions.array[questionIndex].hands[index+1].amount
@@ -114,6 +115,7 @@ function Game(props: any) {
     }
 
     const forward = () => {
+        if (useStartIndex) return;
         clearInterval(interval);
         setPause(true)
 
@@ -263,11 +265,12 @@ function Game(props: any) {
     }
 
     const calculateAllAnte = () => {
-        console.log(pot, '.....................................')
+        let amount = 0;
         questions.array[questionIndex].hands.forEach((hand: any, index: number) => {
             if (hand.action === 'ante' || hand.action === 'posts the ante' || hand.action === 'posts ante') {
-                setPot(pot += hand.amount);
+                setPot(amount += hand.amount);
                 setHandIndex(index+1);
+                setAnimationBlocker(index+1);
             }
         })
     }
