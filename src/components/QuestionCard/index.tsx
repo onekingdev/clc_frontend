@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState, useRef} from 'react';
 import './styles.css';
 import SmallText from "../SmallText";
 import SubtitleText from "../SubtitleText";
@@ -36,6 +36,7 @@ const QuestionCard: React.FC<IQuestionCard> = ({
     const [explanation, setExplanation] = useState('');
     const [mastered, setMastered] = useState(false);
     const [pressed, setPressed] = useState({index: 0, pressed: false});
+    const descriptionRef = useRef(null)
 
     useEffect(() => {
         setStatus(0);
@@ -52,6 +53,15 @@ const QuestionCard: React.FC<IQuestionCard> = ({
             }
         }
     }, [questionNumber])
+
+    const scrollToBottom = () => {
+        if (descriptionRef.current !== null) {
+            // @ts-ignore
+            descriptionRef.current.scrollIntoView({behavior: "smooth"})
+        }
+    }
+
+    useEffect(scrollToBottom);
 
     return (
         <div className="questionCardContainer">
@@ -73,7 +83,7 @@ const QuestionCard: React.FC<IQuestionCard> = ({
             <div className="questionCardTextWrapper" style={{marginBottom: 16}}>
                 <TitleText>{`Question #${questionNumber}`}</TitleText>
             </div>
-            <div className="questionCardTextWrapper" style={{marginBottom: 24}}>
+            <div ref={descriptionRef} className="questionCardTextWrapper" style={{marginBottom: 24}}>
                 <BodyText>{description}</BodyText>
             </div>
             {options.length > 0 ?
@@ -81,7 +91,7 @@ const QuestionCard: React.FC<IQuestionCard> = ({
                     {item.text ?
                         <Button
                             selected={pressed.index === index && pressed.pressed}
-                            disabled={status !== 0}
+                            disabled={status !== 0 || loading}
                             onClick={() => {
                                 callback(item.correct);
                                 setStatus(item.correct ? 1 : 2);
@@ -93,10 +103,7 @@ const QuestionCard: React.FC<IQuestionCard> = ({
                             text={item.text}
                             answer={index === 0 ? 'A.' : index === 1 ? 'B.' : index === 2 ? 'C.' : index === 3 ? 'D.' : 'E.'}/>
                         : null}
-                </div>) :
-                <div className="questionCenterLoader">
-                    <DotLoader loading={true} color="#FFF"/>
-                </div>
+                </div>) : null
             }
             {status !== 0 ? <div className="questionCardFooterWrapper">
                 {status === 1 ?

@@ -1,3 +1,10 @@
+.buttonDisabledContainer {
+    background-color: #505050;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 .buttonContainer {
     background-color: var(--primary-element-bg-color);
     display: flex;

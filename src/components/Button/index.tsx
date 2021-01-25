@@ -102,7 +102,7 @@ const Button: React.FC<IButton> = ({
 
     return (
         <div
-            className={glow ? 'ripple buttonGlowingContainer' : 'ripple buttonContainer'}
+            className={disabled ? 'buttonDisabledContainer' : glow ? 'ripple buttonGlowingContainer' : 'ripple buttonContainer'}
             style={selected ? {
                     borderTopLeftRadius: circular ? 100 : closeMenuButton ? 0 : 8,
                     borderTopRightRadius: circular ? 100 : 8,
@@ -126,12 +126,12 @@ const Button: React.FC<IButton> = ({
                 }}
             onClick={disabled ? () => {} : onClick}
             onMouseOver={() => {
-                if (!selected && !glow && !closeMenuButton && !transparent) {
+                if (!disabled && !selected && !glow && !closeMenuButton && !transparent) {
                     setTextColor('var(--button-solid-text)')
                 }
             }}
             onMouseLeave={() => {
-                if (!selected && !glow && !closeMenuButton && !transparent) {
+                if (!disabled && !selected && !glow && !closeMenuButton && !transparent) {
                     setTextColor('var(--button-simple-text)')
                 }
             }}
