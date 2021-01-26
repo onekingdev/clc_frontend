@@ -1,3 +1,10 @@
+.questionMarkContainer {
+    background-color: var(--primary);
+    width: 15px;
+    height: 15px;
+    border-radius: 100px;
+}
+
 .pokerPlayerMPWrapper {
     display: flex;
     justify-content: center;

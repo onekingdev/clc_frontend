@@ -60,6 +60,15 @@ import BodyText from "../BodyText";
 import SmallText from "../SmallText";
 import {Roll, Rotate, Fade} from "react-awesome-reveal";
 import {numberWithCommas} from "../../helpers/formatter";
+import * as Icon from '@fortawesome/free-solid-svg-icons'
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {BounceLoader, PuffLoader, PulseLoader} from "react-spinners";
+import { css } from "@emotion/core";
+
+const override = css`
+      display: block;
+      margin: -29px auto;
+    `;
 
 interface IPokerPlayer {
     players: number,
@@ -246,6 +255,13 @@ const PokerPlayer: React.FC<IPokerPlayer> = ({
             return 'BB'
         } else if (action === 'posts ante' || action === 'posts the ante') {
             return 'ante'
+        } else if (action === '?') {
+            return (
+                <div>
+                    <FontAwesomeIcon color="var(--primary)" size="1x" icon={Icon['faQuestionCircle']} style={{marginLeft: 10}}/>
+                    <PuffLoader loading={true} color="var(--primary)" size={30} css={override}/>
+                </div>
+            )
         }
 
         return action;
@@ -260,9 +276,10 @@ const PokerPlayer: React.FC<IPokerPlayer> = ({
                             {renderChips((renderLabel(action) === 'ante' && turn) || renderLabel(action) === 'SB' ? 1 : renderLabel(action) === 'calls' || renderLabel(action) === 'BB' || renderLabel(action) === 'bets' ? 2 : renderLabel(action) === 'raises' ? 3 : 0)}
                         </Rotate>
                         <div className={`pokerChips gameChipBBWrapper${player}`}>
-                            {(renderLabel(action) === 'ante' && turn) || renderLabel(action) !== 'ante' ?
-                                <SmallText color="#FFF">{`${renderLabel(action)} `}<SmallText color="#FFF"
-                                                                                              bold>{`${amount ? numberWithCommas(amount) : ''}`}</SmallText></SmallText> : null}
+                            {(renderLabel(action) === 'ante' && turn) || (renderLabel(action) !== 'ante' &&  action !== '?') ?
+                                <SmallText color="#FFF">{`${renderLabel(action)} `}
+                                    <SmallText color="#FFF" bold>{`${amount ? numberWithCommas(amount) : ''}`}</SmallText>
+                                </SmallText> : renderLabel(action)}
                         </div>
                     </div>
                     : null}
@@ -339,9 +356,11 @@ const PokerPlayer: React.FC<IPokerPlayer> = ({
                             {renderChips((renderLabel(action) === 'ante' && turn) || renderLabel(action) === 'SB' ? 1 : renderLabel(action) === 'calls' || renderLabel(action) === 'BB' || renderLabel(action) === 'bets' ? 2 : renderLabel(action) === 'raises' ? 3 : 0)}
                         </Rotate>
                         <div className={`pokerChips gameChipBBWrapper${player}`}>
-                            {(renderLabel(action) === 'ante' && turn) || renderLabel(action) !== 'ante' ?
-                                <SmallText color="#FFF">{`${renderLabel(action)} `}<SmallText color="#FFF"
-                                                                                              bold>{`${amount ? numberWithCommas(amount) : ''}`}</SmallText></SmallText> : null}
+                            {(renderLabel(action) === 'ante' && turn) || (renderLabel(action) !== 'ante' &&  action !== '?') ?
+                                <SmallText color="#FFF">{`${renderLabel(action)} `}
+                                    <SmallText color="#FFF" bold>{`${amount ? numberWithCommas(amount) : ''}`}</SmallText>
+                                </SmallText> :
+                                renderLabel(action)}
                         </div>
                     </div>
                     : null}
