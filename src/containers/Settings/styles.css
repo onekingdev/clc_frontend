@@ -24,3 +24,9 @@
     justify-content: center;
     margin-top: 40px;
 }
+
+@media (max-width: 900px) {
+    .settingsUploadButtonsWrapper {
+        display: block;
+    }
+}

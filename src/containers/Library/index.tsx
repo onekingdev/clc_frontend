@@ -101,8 +101,8 @@ function Library(props: any) {
                     content={faq.array}
                     show={width < 650 ? 1 : width < 950 ? 2 : width < 1300 ? 3 : width < 1650 ? 4 : width < 2000 ? 5 : 6}/>
             </div> : null}
-            <Modal visible={showModal.show} width="750" height="450" effect="fadeInUp" onClickAway={() => setShowModal({show: false, url: ''})}>
-                <iframe width="750" height="450"
+            <Modal visible={showModal.show} width="50%" height="50%" effect="fadeInUp" onClickAway={() => setShowModal({show: false, url: ''})}>
+                <iframe width="100%" height="100%" style={{backgroundColor: '#000'}}
                         src={embedVideo(showModal.url)}>
                 </iframe>
             </Modal>
