@@ -275,8 +275,17 @@ function Game(props: any) {
         })
     }
 
-    const getPlayerLabeling = () => {
-        console.log(questions.array[questionIndex].tableInfo.dealer)
+    const share = () => {
+        if (questions.array[questionIndex].topicData) {
+            console.log(questions.array[questionIndex].topicData.UID)
+            console.log(questions.array[questionIndex].topicData.lessonUID)
+            console.log(questions.array[questionIndex].question.questionID)
+        } else {
+            const topic = JSON.parse(sessionStorage.getItem('selectedTopic') as string);
+            console.log(topic.UID);
+            console.log(topic.lessonUID);
+            console.log(questions.array[questionIndex].question.questionID)
+        }
     }
 
     return (
@@ -333,6 +342,7 @@ function Game(props: any) {
                                     rewind={back}
                                     fastForward={forward}
                                     finished={finished}
+                                    share={share}
                                 />
                             </div>
                         </div>

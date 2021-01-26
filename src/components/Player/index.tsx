@@ -13,6 +13,7 @@ interface IPlayer {
     rewind: () => void,
     fastForward: () => void,
     setSpeed: (speed: number) => void,
+    share: () => void,
     finished: boolean
 }
 
@@ -26,6 +27,7 @@ const Player: React.FC<IPlayer> = ({
     rewind,
     fastForward,
     setSpeed,
+    share,
     finished
 }) =>  {
     return (
@@ -39,6 +41,7 @@ const Player: React.FC<IPlayer> = ({
             <BodyText color="#FFF">1X</BodyText>
             <input  type="range" min="500" max="2000" value={speed} onChange={(e) => setSpeed(parseInt(e.target.value))} className="playerProgressBar" id="myRange"/>
             <BodyText color="#FFF">10X</BodyText>
+            {/*<Button onClick={share} width={53} height={53} iconName="faShareAltSquare" transparent/>*/}
             <Button onClick={() => {}} width={53} height={53} iconName="faVolumeUp" transparent/>
             {/*<Button onClick={() => {
             }} width={53} height={53} iconName="faStar" transparent selected={favorite}/>*/}

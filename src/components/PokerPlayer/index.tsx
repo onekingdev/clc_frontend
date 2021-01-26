@@ -255,13 +255,6 @@ const PokerPlayer: React.FC<IPokerPlayer> = ({
             return 'BB'
         } else if (action === 'posts ante' || action === 'posts the ante') {
             return 'ante'
-        } else if (action === '?') {
-            return (
-                <div>
-                    <FontAwesomeIcon color="var(--primary)" size="1x" icon={Icon['faQuestionCircle']} style={{marginLeft: 10}}/>
-                    <PuffLoader loading={true} color="var(--primary)" size={30} css={override}/>
-                </div>
-            )
         }
 
         return action;
@@ -279,7 +272,12 @@ const PokerPlayer: React.FC<IPokerPlayer> = ({
                             {(renderLabel(action) === 'ante' && turn) || (renderLabel(action) !== 'ante' &&  action !== '?') ?
                                 <SmallText color="#FFF">{`${renderLabel(action)} `}
                                     <SmallText color="#FFF" bold>{`${amount ? numberWithCommas(amount) : ''}`}</SmallText>
-                                </SmallText> : renderLabel(action)}
+                                </SmallText> : action === '?' ?
+                                    <div>
+                                        <FontAwesomeIcon color="var(--primary)" size="1x" icon={Icon['faQuestionCircle']} style={{marginLeft: 10}}/>
+                                        <PuffLoader loading={true} color="var(--primary)" size={30} css={override}/>
+                                    </div>
+                                    : null}
                         </div>
                     </div>
                     : null}
@@ -359,8 +357,12 @@ const PokerPlayer: React.FC<IPokerPlayer> = ({
                             {(renderLabel(action) === 'ante' && turn) || (renderLabel(action) !== 'ante' &&  action !== '?') ?
                                 <SmallText color="#FFF">{`${renderLabel(action)} `}
                                     <SmallText color="#FFF" bold>{`${amount ? numberWithCommas(amount) : ''}`}</SmallText>
-                                </SmallText> :
-                                renderLabel(action)}
+                                </SmallText> : action === '?' ?
+                                    <div>
+                                        <FontAwesomeIcon color="var(--primary)" size="1x" icon={Icon['faQuestionCircle']} style={{marginLeft: 10}}/>
+                                        <PuffLoader loading={true} color="var(--primary)" size={30} css={override}/>
+                                    </div>
+                                    : null}
                         </div>
                     </div>
                     : null}
