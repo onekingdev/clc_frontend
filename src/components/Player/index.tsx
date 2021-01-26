@@ -12,7 +12,8 @@ interface IPlayer {
     favorite: boolean,
     rewind: () => void,
     fastForward: () => void,
-    setSpeed: (speed: number) => void
+    setSpeed: (speed: number) => void,
+    finished: boolean
 }
 
 const Player: React.FC<IPlayer> = ({
@@ -25,12 +26,13 @@ const Player: React.FC<IPlayer> = ({
     rewind,
     fastForward,
     setSpeed,
+    finished
 }) =>  {
     return (
         <div className="playerContainer">
             <Button onClick={rewind} width={53} height={53} iconName="faBackward" transparent/>
             <div className="playerCircularButtonWrapper">
-                <Button onClick={() => setPause(!pause)} width={53} height={53} glow iconName={pause ? 'faPlay' : 'faPause'} circular/>
+                <Button disabled={finished} onClick={() => setPause(!pause)} width={53} height={53} glow iconName={pause ? 'faPlay' : 'faPause'} circular/>
             </div>
             <Button onClick={() => replay()} width={53} height={53} iconName="faRedo" transparent/>
             <Button onClick={fastForward} width={53} height={53} iconName="faForward" transparent/>

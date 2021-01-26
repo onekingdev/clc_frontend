@@ -275,6 +275,10 @@ function Game(props: any) {
         })
     }
 
+    const getPlayerLabeling = () => {
+        console.log(questions.array[questionIndex].tableInfo.dealer)
+    }
+
     return (
         <ScreenTemplate loading={props.isFetchingGameData}>
             {questions.array.length === 0 ?
@@ -328,6 +332,7 @@ function Game(props: any) {
                                     favorite={false}
                                     rewind={back}
                                     fastForward={forward}
+                                    finished={finished}
                                 />
                             </div>
                         </div>
