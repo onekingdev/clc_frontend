@@ -131,7 +131,7 @@ const QuestionCard: React.FC<IQuestionCard> = ({
                         <SubtitleText bold>Reason</SubtitleText>
                     </div>
                 }
-                <div>
+                <div ref={descriptionRef}>
                     <BodyText>{explanation}</BodyText>
                     <div style={{marginTop: 50}}>
                         <Button onClick={() => {

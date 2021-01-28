@@ -37,6 +37,7 @@ function Game(props: any) {
     const [showModal, setShowModal] = useState(false);
     const [useStartIndex, setUseStartIndex] = useState(true);
     const [animationBlocker, setAnimationBlocker] = useState(0);
+    const [initBlockPlayBtn, setInitBlockPlayBtn] = useState(true);
 
     useEffect(() => {
         return () => {
@@ -48,6 +49,12 @@ function Game(props: any) {
     useEffect(() => {
         props.fetchGameData();
     },[])
+
+    useEffect(() => {
+        if (initBlockPlayBtn) {
+            setTimeout(() => setInitBlockPlayBtn(false), 2000);
+        }
+    }, [initBlockPlayBtn])
 
     useEffect(() => {
         if (props.questions && props.questions.length > 0) {
@@ -168,6 +175,7 @@ function Game(props: any) {
         setFinished(false);
         clearInterval(interval);
         setUseStartIndex(true);
+        setInitBlockPlayBtn(true);
         setTimeout(() => calculateAllAnte(), 1000);
         // setTimeout(() => setPause(false), 500); //TODO: requested
     }
@@ -332,6 +340,7 @@ function Game(props: any) {
                         <div className="gameFooterContainer">
                             <div className="gamePlayerWrapper">
                                 <Player
+                                    init={initBlockPlayBtn}
                                     pause={pause}
                                     setPause={setPause}
                                     replay={reset}

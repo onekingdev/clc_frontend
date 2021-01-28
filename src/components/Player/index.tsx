@@ -4,6 +4,7 @@ import Button from "../Button";
 import BodyText from "../BodyText";
 
 interface IPlayer {
+    init: boolean,
     pause: boolean,
     setPause: (pause: boolean) => void,
     replay: () => void,
@@ -18,6 +19,7 @@ interface IPlayer {
 }
 
 const Player: React.FC<IPlayer> = ({
+    init,
     pause,
     setPause,
     replay,
@@ -34,7 +36,7 @@ const Player: React.FC<IPlayer> = ({
         <div className="playerContainer">
             <Button onClick={rewind} width={53} height={53} iconName="faBackward" transparent/>
             <div className="playerCircularButtonWrapper">
-                <Button disabled={finished} onClick={() => setPause(!pause)} width={53} height={53} glow iconName={pause ? 'faPlay' : 'faPause'} circular/>
+                <Button disabled={init || finished} onClick={() => setPause(!pause)} width={53} height={53} glow iconName={pause ? 'faPlay' : 'faPause'} circular/>
             </div>
             <Button onClick={() => replay()} width={53} height={53} iconName="faRedo" transparent/>
             <Button onClick={fastForward} width={53} height={53} iconName="faForward" transparent/>

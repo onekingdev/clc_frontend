@@ -1,6 +1,15 @@
 import * as TYPES from './types';
 import api from '../../../../services/apiMiddleware';
-import {apiDropLessons, apiDropLibrary, apiDropQuestions, apiDropTopics} from "../../../../helpers/constants";
+import {
+    apiDropLessons,
+    apiDropLibrary,
+    apiDropQuestions,
+    apiDropTopics,
+    apiUploadLibrary,
+    apiUploadContent,
+    apiDropGlossary,
+    apiUploadGlossary
+} from "../../../../helpers/constants";
 
 export const isUploadingLibraryData = (data: boolean) => {
     return {
@@ -13,7 +22,7 @@ export const uploadLibrary = (library: any) => async (dispatch: any, getState: a
     dispatch(isUploadingLibraryData(true));
     await api.get(apiDropLibrary);
 
-    return api.post("uploadLibrary", library)
+    return api.post(apiUploadLibrary, library)
         .then(response => {
             dispatch(isUploadingLibraryData(false));
             return response;
@@ -26,7 +35,18 @@ export const uploadQuestions = (questions: any) => async (dispatch: any, getStat
     await api.get(apiDropLessons);
     await api.get(apiDropTopics);
 
-    return api.post("uploadContent", questions)
+    return api.post(apiUploadContent, questions)
+        .then(response => {
+            dispatch(isUploadingLibraryData(false));
+            return response;
+        });
+}
+
+export const uploadGlossary = (glossary: any) => async (dispatch: any, getState: any) => {
+    dispatch(isUploadingLibraryData(true));
+    await api.get(apiDropGlossary);
+
+    return api.post(apiUploadGlossary, glossary)
         .then(response => {
             dispatch(isUploadingLibraryData(false));
             return response;

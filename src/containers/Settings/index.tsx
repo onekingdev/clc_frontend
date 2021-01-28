@@ -14,7 +14,7 @@ import TitleText from "../../components/TitleText";
 import Avatar from "../../components/Avatar";
 import BodyText from "../../components/BodyText";
 import ErrorDisplay from "../../components/ErrorDisplay";
-import {libraryUploadError, questionsUploadError} from "../../helpers/constants";
+import {libraryUploadError, questionsUploadError, glossaryUploadError} from "../../helpers/constants";
 
 
 function Settings(props: any) {
@@ -57,6 +57,12 @@ function Settings(props: any) {
         setErrorMessage('');
         const sheets = onFileOpen(data);
         bulkImportQuestions(sheets);
+    }
+
+    const importGlossary = (data: any) => {
+        setErrorMessage('');
+        const sheets = onFileOpen(data);
+        bulkImportGlossary(sheets);
     }
 
     const bulkImportLibrary = (sheets: { [email: string]: Object; }) => {
@@ -126,6 +132,21 @@ function Settings(props: any) {
         }
     }
 
+    const bulkImportGlossary = (sheets: { [email: string]: Object; }) => {
+        let glossary = (sheets["GLOSSARY"] as Array<Object> || [])
+            .map((value: any) => {
+                return {
+                    word: value['WORD'],
+                    meaning: value['MEANING'],
+                }
+            });
+        if (glossary.length > 0) {
+            props.uploadLibrary({glossary});
+        } else {
+            setErrorMessage(glossaryUploadError);
+        }
+    }
+
     return (
         <div className="settingsContainer">
             {props.user.avatar === undefined || props.isUploadingLibraryData ?
@@ -146,6 +167,7 @@ function Settings(props: any) {
                         <div className="settingsUploadButtonsWrapper">
                             {/*<FilePicker title={"Import Library"} onFileOpen={importLibrary}/>*/}
                             {/*<FilePicker title={"Import Questions"} onFileOpen={importQuestions}/>*/}
+                            {/*<FilePicker title={"Import Glossary"} onFileOpen={importQuestions}/>*/}
                         </div>
                         : null}
 
@@ -184,6 +206,7 @@ const mapStateToProps = (state: any) => {
 
 const bindActions = (dispatch: any) => {
     return {
+        uploadGlossary: (glossary: any) => dispatch(ACTIONS),
         uploadLibrary: (library: any) => dispatch(ACTIONS.uploadLibrary(library)),
         uploadQuestions: (questions: any) => dispatch(ACTIONS.uploadQuestions(questions)),
         logout: (callback: (success: boolean) => void) => dispatch(AUTH_ACTIONS.logout(callback))

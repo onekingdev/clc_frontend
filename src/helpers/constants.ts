@@ -14,6 +14,11 @@ export const apiDropQuestions = 'dropQuestions';
 export const apiDropLessons = 'dropLessons';
 export const apiDropTopics = 'dropTopics';
 export const apiDropLibrary = 'dropLibrary';
+export const apiUploadLibrary = 'uploadLibrary';
+export const apiUploadContent = 'uploadContent';
+export const apiUploadGlossary = 'uploadGlossary';
+export const apiDownloadGlossary = 'downloadGlossary';
+export const apiDropGlossary = 'dropGlossary';
 
 // front end messages
 export const emptyEmailString = 'Email required';
@@ -26,6 +31,7 @@ export const emptyUserName = 'Username required';
 export const passwordsDoNotMatch = 'Passwords do not match';
 export const libraryUploadError = 'Error when uploading library content data';
 export const questionsUploadError = 'Error when uploading question content data';
+export const glossaryUploadError = 'Error when uploading glossary content data';
 
 
 //other
