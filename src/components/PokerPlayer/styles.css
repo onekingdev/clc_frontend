@@ -13,6 +13,7 @@
     width: 94px;
     height: 31px;
     border-radius: 8px;
+    overflow-x: hidden;
 }
 
 .pokerPlayerMPWrapperInverted {
@@ -23,6 +24,7 @@
     width: 94px;
     height: 31px;
     border-radius: 8px;
+    overflow-x: hidden;
 }
 
 .pokerPlayerItemsWrapper {

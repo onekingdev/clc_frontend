@@ -78,7 +78,7 @@ interface IPokerPlayer {
     mp: number,
     chipPos: string,
     turn: boolean,
-    dealer: boolean,
+    dealer: number,
     action: string,
     amount: number,
     pot: number
@@ -221,7 +221,7 @@ const PokerPlayer: React.FC<IPokerPlayer> = ({
                 (leftCard.current as HTMLImageElement).style.transform = 'rotate(-10deg)';
                 (rightCard.current as HTMLImageElement).style.transform = 'rotate(10deg)';
                 (container.current as HTMLDivElement).style.transform = 'translateY(10px)';
-            } else if (dealer) {
+            } else if (dealer === player) {
                 (container.current as HTMLDivElement).style.transform = 'translateY(0px)';
                 (rightCard.current as HTMLImageElement).style.transform = 'rotate(0deg)';
                 (leftCard.current as HTMLImageElement).style.transform = 'rotate(0deg)';
@@ -260,6 +260,18 @@ const PokerPlayer: React.FC<IPokerPlayer> = ({
         return action;
     }
 
+    const renderPlayerLabel = () => {
+        if (player === dealer) return 'BTN';
+        if (player === dealer+1 || dealer+1 > players && player === (dealer+1)-players) return 'SB';
+        if (player === dealer+2 || dealer+2 > players && player === (dealer+2)-players) return 'BB';
+        if (player === dealer+3 || dealer+3 > players && player === (dealer+3)-players) return 'UTG';
+        if (player === dealer+4 || dealer+4 > players && player === (dealer+4)-players) return 'UTG+1';
+        if (player === dealer+5 || dealer+5 > players && player === (dealer+5)-players) return 'MP';
+        if (player === dealer+6 || dealer+6 > players && player === (dealer+6)-players) return 'MP+1';
+        if (player === dealer+7 || dealer+7 > players && player === (dealer+7)-players) return 'HJ';
+        if (player === dealer+8 || dealer+8 > players && player === (dealer+8)-players) return 'CO';
+    }
+
     return (
         <div className="pokerPlayerItemsWrapper" ref={container}>
             <div>
@@ -281,9 +293,9 @@ const PokerPlayer: React.FC<IPokerPlayer> = ({
                         </div>
                     </div>
                     : null}
-                {dealer && player > 4 && player < 8 ?
+                {dealer === player && player > 4 && player < 8 ?
                     <img src={dealer_chip} width={16} height={16} className="dealerChipTopLeft"/>
-                    : dealer && player === 8 ?
+                    : dealer === player && player === 8 ?
                         <img src={dealer_chip} width={16} height={16} className="dealerChipTopRight"/>
                         : <img src={dealer_chip} width={16} height={16} className="dealerChipTopLeft"
                                style={{visibility: 'hidden'}}/>
@@ -331,20 +343,21 @@ const PokerPlayer: React.FC<IPokerPlayer> = ({
                              left: 10,
                              borderRadius: 10,
                              borderColor: 'var(--primary)',
-                             boxShadow: '0 0 10px var(--primary)'
+                             boxShadow: '0 0 10px var(--primary)',
+                             overflowX: 'hidden'
                          } : {}
                      }
                 >
-                    <div className={`${dealer ? 'pokerPlayerMPWrapperInverted' : 'pokerPlayerMPWrapper'} badge`}
+                    <div className={`${dealer === player ? 'pokerPlayerMPWrapperInverted' : 'pokerPlayerMPWrapper'} badge`}
                          ref={badge}
                          style={action === 'folds' ? {opacity: 0.3} : {}}
                     >
                         <div style={{marginRight: 9}}>
-                            <BodyText color={dealer ? '#000' : '#FFF'}>{`P${player}`}</BodyText>
+                            <SmallText color={dealer === player ? '#000' : '#FFF'}>{`${renderPlayerLabel()}`}</SmallText>
                         </div>
                         <div>
-                            <BodyText
-                                color={dealer ? '#000' : '#FFF'}>{`${numberWithCommas(mp -= amount)}`}</BodyText>
+                            <SmallText
+                                color={dealer === player ? '#000' : '#FFF'}>{`${numberWithCommas(mp -= amount)}`}</SmallText>
                         </div>
                     </div>
                 </div>
@@ -366,9 +379,9 @@ const PokerPlayer: React.FC<IPokerPlayer> = ({
                         </div>
                     </div>
                     : null}
-                {dealer && player < 5 ?
+                {dealer === player && player < 5 ?
                     <img src={dealer_chip} width={16} height={16} className="dealerChipBottomLeft"/>
-                    : dealer && player === 9 ?
+                    : dealer === player && player === 9 ?
                         <img src={dealer_chip} width={16} height={16} className="dealerChipBottomRight"/>
                         : <img src={dealer_chip} width={16} height={16} className="dealerChipBottomRight"
                                style={{visibility: 'hidden'}}/>
