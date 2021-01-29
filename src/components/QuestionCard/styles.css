@@ -35,3 +35,16 @@
     display: flex;
     align-items: center;
 }
+
+span[id^=keyWord] {
+    color: var(--primary);
+    text-decoration: underline;
+}
+
+span[id^=keyWord]:hover {
+    cursor: pointer;
+}
+
+.questionCardTooltipContainer {
+    width: 248px;
+}

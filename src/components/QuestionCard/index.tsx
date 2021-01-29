@@ -8,6 +8,9 @@ import Button from "../Button";
 import {DotLoader} from "react-spinners";
 import * as Icon from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {parseResponse} from "../../helpers/formatter";
+import parse from 'html-react-parser';
+import ReactTooltip from "react-tooltip";
 
 interface IQuestionCard {
     loading: boolean,
@@ -83,8 +86,17 @@ const QuestionCard: React.FC<IQuestionCard> = ({
             <div className="questionCardTextWrapper" style={{marginBottom: 16}}>
                 <TitleText>{`Question #${questionNumber}`}</TitleText>
             </div>
-            <div ref={descriptionRef} className="questionCardTextWrapper" style={{marginBottom: 24}}>
-                <BodyText>{description}</BodyText>
+            <div className="questionCardTextWrapper" style={{marginBottom: 24}}>
+                <BodyText>
+                    {parse(parseResponse(description))}
+                    <ReactTooltip
+                        place="left"
+                        type="light"
+                        effect="solid"
+                        multiline={true}
+                        className="questionCardTooltipContainer"
+                    />
+                </BodyText>
             </div>
             {options.length > 0 ?
                 options.map((item, index) => <div key={index} style={{marginBottom: 16}}>
@@ -132,7 +144,16 @@ const QuestionCard: React.FC<IQuestionCard> = ({
                     </div>
                 }
                 <div ref={descriptionRef}>
-                    <BodyText>{explanation}</BodyText>
+                    <BodyText>
+                        {parse(parseResponse(explanation))}
+                        <ReactTooltip
+                            place="left"
+                            type="light"
+                            effect="solid"
+                            multiline={true}
+                            className="questionCardTooltipContainer"
+                        />
+                    </BodyText>
                     <div style={{marginTop: 50}}>
                         <Button onClick={() => {
                             next();

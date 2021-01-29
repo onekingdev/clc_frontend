@@ -1,3 +1,5 @@
+import ReactTooltip from "react-tooltip";
+import React from "react";
 
 export const formatPrice = (price: number) => {
     return new Intl.NumberFormat('es-MX',  {
@@ -83,3 +85,17 @@ export const embedVideo = (url: string) => {
     }
     return ''
 };
+
+export const parseResponse = (response: string) => {
+    const glossary = localStorage.getItem('glossary')
+    if (glossary != null) {
+        JSON.parse(glossary).forEach((item: any) => {
+            if (response.includes(' ' + item.word + ' ' || ',' + item.word + ' ' || '.' + item.word + ' ' || ';' + item.word + ' ' || ' ' + item.word + ' ' || ' ' + item.word + ',' || ' ' + item.word + '.' || ' ' + item.word + ';')) {
+                response = response.replace(item.word, "<span data-tip='" + item.definition + "' style={{zIndex: 99}} id='keyWord'>" + item.word + "</span>");
+            }
+        })
+    }
+
+    console.log(response)
+    return response;
+}

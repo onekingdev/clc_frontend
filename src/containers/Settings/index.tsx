@@ -137,11 +137,11 @@ function Settings(props: any) {
             .map((value: any) => {
                 return {
                     word: value['WORD'],
-                    meaning: value['MEANING'],
+                    definition: value['DEFINITION'],
                 }
             });
         if (glossary.length > 0) {
-            props.uploadLibrary({glossary});
+            props.uploadGlossary({glossary});
         } else {
             setErrorMessage(glossaryUploadError);
         }
@@ -165,9 +165,9 @@ function Settings(props: any) {
                     </div>
                     {props.user.type === 'admin' ?
                         <div className="settingsUploadButtonsWrapper">
-                            {/*<FilePicker title={"Import Library"} onFileOpen={importLibrary}/>*/}
-                            {/*<FilePicker title={"Import Questions"} onFileOpen={importQuestions}/>*/}
-                            {/*<FilePicker title={"Import Glossary"} onFileOpen={importQuestions}/>*/}
+                            <FilePicker title={"Import Library"} onFileOpen={importLibrary}/>
+                            <FilePicker title={"Import Questions"} onFileOpen={importQuestions}/>
+                            <FilePicker title={"Import Glossary"} onFileOpen={importGlossary}/>
                         </div>
                         : null}
 
@@ -206,7 +206,7 @@ const mapStateToProps = (state: any) => {
 
 const bindActions = (dispatch: any) => {
     return {
-        uploadGlossary: (glossary: any) => dispatch(ACTIONS),
+        uploadGlossary: (glossary: any) => dispatch(ACTIONS.uploadGlossary(glossary)),
         uploadLibrary: (library: any) => dispatch(ACTIONS.uploadLibrary(library)),
         uploadQuestions: (questions: any) => dispatch(ACTIONS.uploadQuestions(questions)),
         logout: (callback: (success: boolean) => void) => dispatch(AUTH_ACTIONS.logout(callback))

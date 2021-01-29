@@ -17,7 +17,7 @@ export const apiDropLibrary = 'dropLibrary';
 export const apiUploadLibrary = 'uploadLibrary';
 export const apiUploadContent = 'uploadContent';
 export const apiUploadGlossary = 'uploadGlossary';
-export const apiDownloadGlossary = 'downloadGlossary';
+export const apiGetGlossary = 'getGlossary';
 export const apiDropGlossary = 'dropGlossary';
 
 // front end messages

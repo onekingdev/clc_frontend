@@ -28,6 +28,10 @@ function ScreenTemplate(props: any) {
     const [showSettingsModal, setShowSettingsModal] = useState(false);
 
     useEffect(() => {
+        props.getGlossary();
+    }, [])
+
+    useEffect(() => {
         if (props.user && props.user.type === 'admin') {
             const script = document.createElement('script');
 
@@ -164,7 +168,8 @@ const mapStateToProps = (state: any) => {
 
 const bindActions = (dispatch: any) => {
     return {
-        getRealtimeUserData: () => dispatch(ACTIONS.getRealtimeUserData())
+        getRealtimeUserData: () => dispatch(ACTIONS.getRealtimeUserData()),
+        getGlossary: () => dispatch(ACTIONS.getGlossary())
     };
 };
 

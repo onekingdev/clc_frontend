@@ -1,5 +1,7 @@
 import {app} from '../../../../services/firebase';
 import * as TYPES from './types';
+import api from "../../../../services/apiMiddleware";
+import {apiGetGlossary} from "../../../../helpers/constants";
 
 const setTickets = (data: number) => {
     return {
@@ -50,4 +52,9 @@ export const getRealtimeUserData = () => async(
     } catch (e) {
         console.log('logged out')
     }
+}
+
+export const getGlossary = () => async (dispatch: any, getState: any) => {
+    let glossary = await api.get(apiGetGlossary);
+    localStorage.setItem('glossary', JSON.stringify(glossary));
 }
