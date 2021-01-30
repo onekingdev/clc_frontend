@@ -88,14 +88,15 @@ const QuestionCard: React.FC<IQuestionCard> = ({
             </div>
             <div className="questionCardTextWrapper" style={{marginBottom: 24}}>
                 <BodyText>
-                    {parse(parseResponse(description))}
+                    {description && description !== '' ? parse(parseResponse(description)) : null}
+                    {description && description !== '' ?
                     <ReactTooltip
                         place="left"
                         type="light"
                         effect="solid"
                         multiline={true}
                         className="questionCardTooltipContainer"
-                    />
+                    /> : null}
                 </BodyText>
             </div>
             {options.length > 0 ?
@@ -145,14 +146,15 @@ const QuestionCard: React.FC<IQuestionCard> = ({
                 }
                 <div ref={descriptionRef}>
                     <BodyText>
-                        {parse(parseResponse(explanation))}
-                        <ReactTooltip
+                        {explanation && explanation !== '' ? parse(parseResponse(explanation)) : null}
+                        {explanation && explanation !== '' ?
+                            <ReactTooltip
                             place="left"
                             type="light"
                             effect="solid"
                             multiline={true}
                             className="questionCardTooltipContainer"
-                        />
+                        /> : null}
                     </BodyText>
                     <div style={{marginTop: 50}}>
                         <Button onClick={() => {

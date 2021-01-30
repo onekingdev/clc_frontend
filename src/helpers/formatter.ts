@@ -87,15 +87,17 @@ export const embedVideo = (url: string) => {
 };
 
 export const parseResponse = (response: string) => {
+    if (response[response.length] !== '.' && response[response.length] !== '?' && response[response.length-1] !== '.' && response[response.length-1] !== '?') {
+        response += '.';
+    }
     const glossary = localStorage.getItem('glossary')
     if (glossary != null) {
         JSON.parse(glossary).forEach((item: any) => {
-            if (response.includes(' ' + item.word + ' ' || ',' + item.word + ' ' || '.' + item.word + ' ' || ';' + item.word + ' ' || ' ' + item.word + ' ' || ' ' + item.word + ',' || ' ' + item.word + '.' || ' ' + item.word + ';')) {
+            if (response.includes(' ' + item.word + ' ' || ',' + item.word + ' ' || '?' + item.word + ' ' || '.' + item.word + ' ' || ';' + item.word + ' ' || ' ' + item.word + ' ' || ' ' + item.word + ',' || ' ' + item.word + '.' || ' ' + item.word + ';' || ' ' + item.word + '?' || ' ' + item.word + 'ed')) {
                 response = response.replace(item.word, "<span data-tip='" + item.definition + "' style={{zIndex: 99}} id='keyWord'>" + item.word + "</span>");
             }
         })
     }
 
-    console.log(response)
     return response;
 }
