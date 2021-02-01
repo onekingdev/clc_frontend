@@ -101,3 +101,64 @@ export const parseResponse = (response: string) => {
 
     return response;
 }
+
+export const UTGLabeling = (dealer: number, players: any) => {
+    const totalPlayers = players.length;
+    let dealerIndex = 0;
+    let labels = [''];
+    let playerLabels = [''];
+    switch (totalPlayers) {
+        case 2:
+            labels = ['BTN', 'BB'];
+            playerLabels = ['BTN', 'BB'];
+            break;
+        case 3:
+            labels = ['BTN', 'SB', 'BB'];
+            playerLabels = ['BTN', 'SB', 'BB'];
+            break;
+        case 4:
+            labels = ['BTN', 'SB', 'BB', 'CO'];
+            playerLabels = ['BTN', 'SB', 'BB', 'CO'];
+            break;
+        case 5:
+            labels = ['BTN', 'SB', 'BB', 'UTG', 'CO'];
+            playerLabels = ['BTN', 'SB', 'BB', 'UTG', 'CO'];
+            break;
+        case 6:
+            labels = ['BTN', 'SB', 'BB', 'UTG', 'HJ', 'CO'];
+            playerLabels = ['BTN', 'SB', 'BB', 'UTG', 'HJ', 'CO'];
+            break;
+        case 7:
+            labels = ['BTN', 'SB', 'BB', 'UTG', 'MP', 'HJ', 'CO'];
+            playerLabels = ['BTN', 'SB', 'BB', 'UTG', 'MP', 'HJ', 'CO'];
+            break;
+        case 8:
+            labels = ['BTN', 'SB', 'BB', 'UTG', 'UTG+1', 'MP', 'HJ', 'CO'];
+            playerLabels = ['BTN', 'SB', 'BB', 'UTG', 'UTG+1', 'MP', 'HJ', 'CO'];
+            break;
+        case 9:
+            labels = ['BTN', 'SB', 'BB', 'UTG', 'UTG+1', 'MP', 'MP+1', 'HJ', 'CO'];
+            playerLabels = ['BTN', 'SB', 'BB', 'UTG', 'UTG+1', 'MP', 'MP+1', 'HJ', 'CO'];
+            break;
+    }
+
+    players.forEach((player: any, index: number) => {
+        if (parseInt(player.number) === dealer) {
+            dealerIndex = index;
+        }
+    });
+
+    players.forEach((player: any, index: number) => {
+        if (index === dealerIndex) playerLabels[index] = labels[0];
+        else if (index === dealerIndex+1 || index === (dealerIndex+1)-totalPlayers) playerLabels[index] = labels[1];
+        else if (index === dealerIndex+2 || index === (dealerIndex+2)-totalPlayers) playerLabels[index] = labels[2];
+        else if (index === dealerIndex+3 || index === (dealerIndex+3)-totalPlayers) playerLabels[index] = labels[3];
+        else if (index === dealerIndex+4 || index === (dealerIndex+4)-totalPlayers) playerLabels[index] = labels[4];
+        else if (index === dealerIndex+5 || index === (dealerIndex+5)-totalPlayers) playerLabels[index] = labels[5];
+        else if (index === dealerIndex+6 || index === (dealerIndex+6)-totalPlayers) playerLabels[index] = labels[6];
+        else if (index === dealerIndex+7 || index === (dealerIndex+7)-totalPlayers) playerLabels[index] = labels[7];
+        else if (index === dealerIndex+8 || dealerIndex+8 > totalPlayers && index === (dealerIndex+8)-totalPlayers) playerLabels[index] = labels[8];
+    });
+
+    return playerLabels;
+}

@@ -71,6 +71,8 @@ const override = css`
     `;
 
 interface IPokerPlayer {
+    index: number,
+    UTGLabels: string[],
     players: number,
     player: number,
     me: boolean,
@@ -85,6 +87,8 @@ interface IPokerPlayer {
 }
 
 const PokerPlayer: React.FC<IPokerPlayer> = ({
+                                                 index,
+                                                 UTGLabels,
                                                  players,
                                                  player,
                                                  me,
@@ -260,18 +264,6 @@ const PokerPlayer: React.FC<IPokerPlayer> = ({
         return action;
     }
 
-    const renderPlayerLabel = () => {
-        if (player === dealer) return 'BTN';
-        if (player === dealer+1 || dealer+1 > players && player === (dealer+1)-players) return 'SB';
-        if (player === dealer+2 || dealer+2 > players && player === (dealer+2)-players) return 'BB';
-        if (player === dealer+3 || dealer+3 > players && player === (dealer+3)-players) return 'UTG';
-        if (player === dealer+4 || dealer+4 > players && player === (dealer+4)-players) return 'UTG+1';
-        if (player === dealer+5 || dealer+5 > players && player === (dealer+5)-players) return 'MP';
-        if (player === dealer+6 || dealer+6 > players && player === (dealer+6)-players) return 'MP+1';
-        if (player === dealer+7 || dealer+7 > players && player === (dealer+7)-players) return 'HJ';
-        if (player === dealer+8 || dealer+8 > players && player === (dealer+8)-players) return 'CO';
-    }
-
     return (
         <div className="pokerPlayerItemsWrapper" ref={container}>
             <div>
@@ -353,7 +345,7 @@ const PokerPlayer: React.FC<IPokerPlayer> = ({
                          style={action === 'folds' ? {opacity: 0.3} : {}}
                     >
                         <div style={{marginRight: 9}}>
-                            <SmallText color={dealer === player ? '#000' : '#FFF'}>{`${renderPlayerLabel()}`}</SmallText>
+                            <SmallText color={dealer === player ? '#000' : '#FFF'}>{`${UTGLabels[index]}`}</SmallText>
                         </div>
                         <div>
                             <SmallText

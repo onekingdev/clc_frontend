@@ -11,7 +11,7 @@ import PokerPlayer from "../../components/PokerPlayer";
 import QuestionCard from "../../components/QuestionCard";
 import SmallText from "../../components/SmallText";
 import ScreenTemplate from "../ScreenTemplate";
-import {numberWithCommas} from '../../helpers/formatter';
+import {numberWithCommas, UTGLabeling} from '../../helpers/formatter';
 import TitleText from "../../components/TitleText";
 // @ts-ignore
 import {useHistory} from 'react-router-dom';
@@ -308,6 +308,8 @@ function Game(props: any) {
                                 questions.array[questionIndex].players.map((item: any, index: number) =>
                                     <div className={`gamePokerPlayerWrapper gameP${parseInt(item.number)}`}>
                                         <PokerPlayer
+                                            index={index}
+                                            UTGLabels={UTGLabeling(questions.array[questionIndex].tableInfo.dealer, questions.array[questionIndex].players)}
                                             players={questions.array[questionIndex].tableInfo.players}
                                             player={parseInt(item.number)}
                                             me={parseInt(item.number) === questions.array[questionIndex].hands[useStartIndex ? index :handIndex].player ? questions.array[questionIndex].hands[useStartIndex ? index :handIndex].cards.length > 0 : false}
