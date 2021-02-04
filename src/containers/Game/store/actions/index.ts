@@ -1,6 +1,13 @@
 import * as TYPES from './types';
-import {IFlop, IPlayers, IQuestions} from '../../interfaces';
-import {apiSaveEarnings, apiGetQuestions, apiGetAIQuestions, apiLevelUp} from '../../../../helpers/constants';
+import * as RESULTS_ACTIONS from '../../../Results/store/actions';
+import {IQuestions} from '../../interfaces';
+import {
+    apiSaveEarnings,
+    apiGetQuestions,
+    apiGetAIQuestions,
+    apiLevelUp,
+    apiGetAIAssessment
+} from '../../../../helpers/constants';
 import api from '../../../../services/apiMiddleware';
 import {app} from "../../../../services/firebase";
 import {setUserData} from "../../../Authentication/store/actions";
@@ -46,6 +53,7 @@ export const fetchGameData = () => async(
     try {
         dispatch(setIsFetchingGameData(true));
         const topic = JSON.parse(<string>sessionStorage.getItem('selectedTopic'));
+        const pathname = new URL(window.location.href).pathname;
 
         if (topic && topic.id) {
             const lesson = {
@@ -54,6 +62,16 @@ export const fetchGameData = () => async(
             }
             let questions = await api.post(apiGetQuestions, lesson);
             if (questions) dispatch(setQuestions(questions));
+        } else if (pathname === '/assessment') {
+            const myTopics = await getState().screenTemplateState.myTopics; // todo: fix this shit ...........
+            let questions = await api.post(apiGetAIAssessment,{myTopics});
+            if (questions) {
+                dispatch(setQuestions(questions));
+                dispatch(RESULTS_ACTIONS.setChipsEarned(questions[0].chipsEarned));
+                dispatch(RESULTS_ACTIONS.setTicketsEarned(questions[0].ticketsEarned));
+                dispatch(RESULTS_ACTIONS.setTotalQuestions(questions[0].totalQuestions));
+                dispatch(RESULTS_ACTIONS.setCorrectQuestions(questions[0].correctQuestions));
+            }
         } else {
             const user = await getState().authState.user;
             const myTopics = await getState().screenTemplateState.myTopics; // todo: fix this shit ...........

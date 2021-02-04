@@ -55,6 +55,15 @@ function ScreenTemplate(props: any) {
         }
     }, []);
 
+    useEffect(() => {
+        if (props.assessment) {
+            const pathname = new URL(window.location.href).pathname;
+            if (pathname !== '/assessment' && pathname !== '/assessment-screen' && pathname !== '/results') {
+                history.push('assessment-screen');
+            }
+        }
+    }, [props.assessment])
+
     // adjust dimensions
     useEffect(() => {
         window.addEventListener("resize", updateDimensions);
@@ -163,6 +172,7 @@ const mapStateToProps = (state: any) => {
         user: state.authState.user,
         chips: state.screenTemplateState.chips,
         tickets: state.screenTemplateState.tickets,
+        assessment: state.screenTemplateState.assessment,
     };
 }
 

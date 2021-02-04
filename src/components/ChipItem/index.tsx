@@ -9,7 +9,7 @@ import {numberWithCommas} from '../../helpers/formatter'
 
 interface IChipItem {
     icon: string, // chip, cash
-    quantity: number,
+    quantity: number | string,
     size: string, // small, medium, large
 }
 
@@ -34,13 +34,13 @@ const ChipItem: React.FC<IChipItem> = ({
                 </div>
             }
             {size === 'small' ?
-                <SmallText color="#FFF" bold>{numberWithCommas(quantity)}</SmallText>
+                <SmallText color="#FFF" bold>{typeof quantity !== 'string' ? numberWithCommas(quantity) : quantity}</SmallText>
                 : size === 'medium' ?
-                    <SubtitleText bold>{numberWithCommas(quantity)}</SubtitleText>
+                    <SubtitleText bold>{typeof quantity !== 'string' ? numberWithCommas(quantity) : quantity}</SubtitleText>
                     : size === 'large' ?
-                        <TitleText bold>{numberWithCommas(quantity)}</TitleText>
+                        <TitleText bold>{typeof quantity !== 'string' ? numberWithCommas(quantity) : quantity}</TitleText>
                         :
-                        <SmallText color="#FFF" bold>{numberWithCommas(quantity)}</SmallText>
+                        <SmallText color="#FFF" bold>{typeof quantity !== 'string' ? numberWithCommas(quantity) : quantity}</SmallText>
             }
         </div>
     );

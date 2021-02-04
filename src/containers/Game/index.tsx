@@ -1,8 +1,9 @@
 import React, {useState, useEffect, useRef} from 'react';
 // @ts-ignore
 import {connect} from 'react-redux';
-import * as PERFORMANCE_ACTIONS from "../Performance/store/actions";
+import * as PERFORMANCE_ACTIONS from '../Performance/store/actions';
 import * as ACTIONS from './store/actions';
+import * as RESULT_ACTIONS from '../Results/store/actions';
 import './styles.css';
 import Table from '../../assets/images/table.png';
 import Player from "../../components/Player";
@@ -19,11 +20,13 @@ import {useHistory} from 'react-router-dom';
 import Modal from 'react-awesome-modal';
 import BodyText from "../../components/BodyText";
 import Button from "../../components/Button";
+import {setTicketsEarned} from "../Results/store/actions";
 
 let interval: any;
 
 function Game(props: any) {
     const history = useHistory();
+    const pathname = new URL(window.location.href).pathname;
     let [correctCounter, setCorrectCounter] = useState(0);
     let [handIndex, setHandIndex] = useState(0);
     let [questionIndex, setQuestionIndex] = useState(0);
@@ -208,6 +211,11 @@ function Game(props: any) {
                 chips, tickets
             });
             setCorrectCounter(correctCounter += 1);
+            // saving for results
+            let ticketsEarned = props.ticketsEarned;
+            let chipsEarned = props.chipsEarned;
+            props.setTicketsEarned(ticketsEarned += tickets);
+            props.setChipsEarned(chipsEarned += chips);
         }
         props.updateMyTopics(
             questions.array[questionIndex].question.questionID,
@@ -224,6 +232,15 @@ function Game(props: any) {
             props.setFetchNextAIQuestions(false);
         } else if (questionIndex < questions.array.length-1) {
             setQuestionIndex(questionIndex += 1);
+        } else if (pathname === '/assessment') {
+            props.saveAssessment({
+                ticketsEarned: props.ticketsEarned,
+                chipsEarned: props.chipsEarned,
+                correct: correctCounter + props.correctQuestions,
+                totalQuestions: props.totalQuestions
+            }, () => {
+                history.push('results');
+            })
         } else {
             setShowModal(true);
         }
@@ -301,7 +318,7 @@ function Game(props: any) {
             {questions.array.length === 0 ?
                     <TitleText>You mastered all topics, go to your <a onClick={() => history.push('paths')}>paths</a> to review</TitleText>
                     :
-                <div className="gameWrapper" style={{transform: `scale(${renderSize(width)})`}}>
+                <div className="gameWrapper" style={{transform: `scale(${renderSize(width-100)})`}}>
                     <div>
                         <div className="gamePokerTableContainer">
                             {questions.array[questionIndex].players.length > 0 ?
@@ -376,7 +393,7 @@ function Game(props: any) {
                 <div style={{backgroundColor: '#000', display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
                     <div>
                         <BodyText>{`You finished all questions in this lesson. ${correctCounter}/${questions.array.length} correct`}</BodyText>
-                        <Button onClick={() =>history.push('paths')} width={300} height={42} glow text="Go to Paths"/>
+                        <Button onClick={() => history.push('paths')} width={300} height={42} glow text="Go to Paths"/>
                         {renderSkipLessonBtn()}
                     </div>
                 </div>
@@ -391,7 +408,11 @@ const mapStateToProps = (state: any) => {
         questions: state.gameState.questions,
         fetchNextAIQuestions: state.gameState.fetchNextAIQuestions,
         isFetchingGameData: state.gameState.isFetchingGameData,
-        myTopics: state.screenTemplateState.myTopics
+        myTopics: state.screenTemplateState.myTopics,
+        ticketsEarned: state.resultState.ticketsEarned,
+        chipsEarned: state.resultState.chipsEarned,
+        correctQuestions: state.resultState.correctQuestions,
+        totalQuestions: state.resultState.totalQuestions
     };
 }
 
@@ -402,7 +423,12 @@ const bindActions = (dispatch: any) => {
         saveEarnings: (data: {questionID: number, chips: number, tickets: number }) => dispatch(ACTIONS.saveEarnings(data)),
         updateMyTopics: (questionID: number, correct: boolean, topicData: any) => dispatch(ACTIONS.updateMyTopics(questionID, correct, topicData)),
         updateDailyEarnings: (data: { chips: number, tickets: number }) => dispatch(PERFORMANCE_ACTIONS.updateDailyEarnings(data)),
-        clearGameData: () => dispatch(ACTIONS.clearGameData())
+        clearGameData: () => dispatch(ACTIONS.clearGameData()),
+        setTicketsEarned: (tickets: number) => dispatch(RESULT_ACTIONS.setTicketsEarned(tickets)),
+        setChipsEarned: (chips: number) => dispatch(RESULT_ACTIONS.setChipsEarned(chips)),
+        setCorrectQuestions: (correct: number) => dispatch(RESULT_ACTIONS.setCorrectQuestions(correct)),
+        setTotalQuestions: (questions: number) => dispatch(RESULT_ACTIONS.setTotalQuestions(questions)),
+        saveAssessment: (assessment: { correct: number, totalQuestions: number, ticketsEarned: number, chipsEarned: number }, callback: () => void) => dispatch(RESULT_ACTIONS.saveAssessment(assessment, callback))
     };
 };
 

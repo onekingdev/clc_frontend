@@ -79,6 +79,7 @@ export const register = (data: IUser, callback: (success: boolean) => void) => a
                         .collection('users')
                         .doc(data.stringID)
                         .set({
+                            assessment: true,
                             chips: 0,
                             tickets: 0,
                             myTopics: [{}],

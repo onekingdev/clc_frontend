@@ -7,7 +7,7 @@ import ChipItem from "../ChipItem";
 interface IBanner {
     topText: string,
     title: string,
-    footerValues?: number[]
+    footerValues?: number[] | string[]
 }
 
 const Banner: React.FC<IBanner> = ({

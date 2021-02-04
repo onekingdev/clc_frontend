@@ -121,7 +121,8 @@ function Settings(props: any) {
                     },
                     explanation: {correct: value['EXPLANATION_CORRECT'], wrong: value['EXPLANATION_WRONG']},
                     handHistory: value['HAND_HISTORY'],
-                    reward: {chips: value['REWARD_CHIPS'], tickets: value['REWARD_TICKETS']}
+                    reward: {chips: value['REWARD_CHIPS'], tickets: value['REWARD_TICKETS']},
+                    assessment: value['ASSESSMENT']
                 }
             });
 

@@ -31,6 +31,13 @@ const setMyTopics = (data: object[]) => {
     }
 }
 
+const setAssessment = (data: boolean) => {
+    return {
+        type: TYPES.SET_ASSESSMENT,
+        payload: data
+    }
+}
+
 export const getRealtimeUserData = () => async(
     dispatch: (data: any) => void,
     getState: any,
@@ -47,6 +54,7 @@ export const getRealtimeUserData = () => async(
                     dispatch(setTickets(snapshot.data().tickets));
                     dispatch(setMyTopics(snapshot.data().myTopics));
                     dispatch(setFavorites(snapshot.data().favorites));
+                    dispatch(setAssessment(snapshot.data().assessment));
                 },
             });
     } catch (e) {

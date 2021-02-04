@@ -6,6 +6,7 @@ import pathsState from '../containers/Paths/store/reducers';
 import performanceState from '../containers/Performance/store/reducers';
 import settingsState from '../containers/Settings/store/reducers';
 import screenTemplateState from '../containers/ScreenTemplate/store/reducers';
+import resultState from '../containers/Results/store/reducers';
 
 export default combineReducers({
     authState,
@@ -14,5 +15,6 @@ export default combineReducers({
     pathsState,
     performanceState,
     settingsState,
-    screenTemplateState
+    screenTemplateState,
+    resultState
 });

@@ -70,7 +70,7 @@ const HouseOfCards: React.FC<IHouseOfCards> = ({
     tableAction,
     handIndex
 }) =>  {
-    const [display, setDisplay] = useState([{card: '', show: false}])
+    const [display, setDisplay] = useState([{card: '', show: false}, {card: '', show: false}, {card: '', show: false}, {card: '', show: false}, {card: '', show: false}])
 
     const renderCard = (value: string) => {
         switch (value) {

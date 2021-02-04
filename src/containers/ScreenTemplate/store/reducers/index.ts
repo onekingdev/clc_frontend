@@ -5,6 +5,7 @@ const INITIAL_STATE = {
     tickets: 0,
     myTopics: [],
     favorites: [],
+    assessment: false,
 };
 
 const reducer = (state = INITIAL_STATE, action: {type: string, payload: any}) => {
@@ -17,6 +18,8 @@ const reducer = (state = INITIAL_STATE, action: {type: string, payload: any}) =>
             return {...state, favorites: action.payload};
         case TYPE.SET_MY_TOPICS:
             return {...state, myTopics: action.payload};
+        case TYPE.SET_ASSESSMENT:
+            return {...state, assessment: action.payload};
         default:
             return state;
     }
