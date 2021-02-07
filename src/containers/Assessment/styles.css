@@ -4,3 +4,16 @@
     align-items: center;
     width: 100%;
 }
+
+.assessmentTitleWrapper {
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.assessmentInfoCardWrapper {
+    display: flex;
+    justify-content: center;
+    padding: 40px;
+    margin-top: 50px;
+    margin-bottom: 20px;
+}

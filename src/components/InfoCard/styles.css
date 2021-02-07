@@ -1,0 +1,15 @@
+.infoCardContainer {
+    display: flex;
+    width: 360px;
+    text-align: left;
+    padding: 20px;
+}
+
+.infoCardTitleWrapper {
+    margin-left: 20px;
+}
+
+.infoCardTextWrapper {
+    margin-top: 10px;
+    margin-left: 20px;
+}

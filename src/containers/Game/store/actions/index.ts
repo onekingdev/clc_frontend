@@ -6,7 +6,7 @@ import {
     apiGetQuestions,
     apiGetAIQuestions,
     apiLevelUp,
-    apiGetAIAssessment
+    apiGetAssessment
 } from '../../../../helpers/constants';
 import api from '../../../../services/apiMiddleware';
 import {app} from "../../../../services/firebase";
@@ -64,7 +64,7 @@ export const fetchGameData = () => async(
             if (questions) dispatch(setQuestions(questions));
         } else if (pathname === '/assessment') {
             const myTopics = await getState().screenTemplateState.myTopics; // todo: fix this shit ...........
-            let questions = await api.post(apiGetAIAssessment,{myTopics});
+            let questions = await api.post(apiGetAssessment,{myTopics});
             if (questions) {
                 dispatch(setQuestions(questions));
                 dispatch(RESULTS_ACTIONS.setChipsEarned(questions[0].chipsEarned));
