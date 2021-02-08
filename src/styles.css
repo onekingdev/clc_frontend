@@ -43,9 +43,20 @@ body::-webkit-scrollbar {
 
 ::-webkit-scrollbar {
     width: 5px;
+    height: 5px;
 }
 
 ::-webkit-scrollbar-thumb {
     background: rgba(232, 186, 115, 1);
     border-radius: 10px;
+}
+
+.blink_me {
+    animation: blinker 1s linear infinite;
+}
+
+@keyframes blinker {
+    50% {
+        opacity: 0;
+    }
 }

@@ -3,6 +3,8 @@ import './styles.css';
 import SmallText from "../SmallText";
 import TitleText from "../TitleText";
 import BodyText from "../BodyText";
+import computer from '../../assets/images/computer.png';
+import Button from "../Button";
 
 interface IPerformanceCard {
     topText: string,
@@ -33,11 +35,9 @@ const PerformanceCard: React.FC<IPerformanceCard> = ({
                 </div>
             </div>
             <div className="performanceCardRightWrapper">
-                <div>
-                    <TitleText>{`${percentage}%`}</TitleText>
-                </div>
-                <div style={{marginTop: 21}}>
-                    <SmallText>{`${questions} QUESTIONS`}</SmallText>
+                <img src={computer} width="80%"/>
+                <div className="performanceCardButtonWrapper">
+                    <Button onClick={() => {}} width={300} height={55} text="Learn More About Our Programs" glow/>
                 </div>
             </div>
         </div>

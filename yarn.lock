@@ -977,6 +977,13 @@
   dependencies:
     regenerator-runtime "^0.13.4"
 
+"@babel/runtime@^7.10.3":
+  version "7.12.13"
+  resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.12.13.tgz#0a21452352b02542db0ffb928ac2d3ca7cb6d66d"
+  integrity sha512-8+3UMPBrjFa/6TtKi/7sehPKqfAm4g6K+YQjyyFOLUTxzOngcRZTlAVY8sc2CORJYqdHQY8gRPHmn+qo15rCBw==
+  dependencies:
+    regenerator-runtime "^0.13.4"
+
 "@babel/template@^7.10.4", "@babel/template@^7.3.3":
   version "7.10.4"
   resolved "https://registry.yarnpkg.com/@babel/template/-/template-7.10.4.tgz#3251996c4200ebc71d1a8fc405fba940f36ba278"
@@ -4340,6 +4347,11 @@ d3-color@1:
   resolved "https://registry.yarnpkg.com/d3-color/-/d3-color-1.4.1.tgz#c52002bf8846ada4424d55d97982fef26eb3bc8a"
   integrity sha512-p2sTHSLCJI2QKunbGb7ocOh7DgTAn8IrLx21QRc/BSnodXM4sv6aLQlnfpvehFMLZEfBc6g9pH9SWQccFYfJ9Q==
 
+d3-ease@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/d3-ease/-/d3-ease-2.0.0.tgz#fd1762bfca00dae4bacea504b1d628ff290ac563"
+  integrity sha512-68/n9JWarxXkOWMshcT5IcjbB+agblQUaIsbnXmrzejn2O82n3p2A9R2zEB9HIEFWKFwPAEDDN8gR0VdSAyyAQ==
+
 d3-format@1:
   version "1.4.5"
   resolved "https://registry.yarnpkg.com/d3-format/-/d3-format-1.4.5.tgz#374f2ba1320e3717eb74a9356c67daee17a7edb4"
@@ -4387,6 +4399,11 @@ d3-time@1:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/d3-time/-/d3-time-1.1.0.tgz#b1e19d307dae9c900b7e5b25ffc5dcc249a8a0f1"
   integrity sha512-Xh0isrZ5rPYYdqhAVk8VLnMEidhz5aP7htAADH6MfzgmmicPkTo8LhkLxci61/lCB7n7UmE3bN0leRt+qvkLxA==
+
+d3-timer@^1.0.9:
+  version "1.0.10"
+  resolved "https://registry.yarnpkg.com/d3-timer/-/d3-timer-1.0.10.tgz#dfe76b8a91748831b13b6d9c793ffbd508dd9de5"
+  integrity sha512-B1JDm0XDaQC+uvo4DT79H0XmBskgS3l6Ve+1SBCfxgmtIb1AVrPIoqd+nPSv+loMX8szQ0sVUhGngL7D5QPiXw==
 
 d@1, d@^1.0.1:
   version "1.0.1"
@@ -7632,6 +7649,13 @@ jws@^4.0.0:
     jwa "^2.0.0"
     safe-buffer "^5.0.1"
 
+kapellmeister@^3.0.1:
+  version "3.0.1"
+  resolved "https://registry.yarnpkg.com/kapellmeister/-/kapellmeister-3.0.1.tgz#419b715cd221acda3db79892caedf63e1c9f7d25"
+  integrity sha512-S7+gYcziMREv8RxG46138mb1O4Xf9II/bCxEJPYkhlZ7PgGWTlicgsyNad/DGc5oEAlWGLXE5ExLbTDVvJmgDA==
+  dependencies:
+    d3-timer "^1.0.9"
+
 killable@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/killable/-/killable-1.0.1.tgz#4c8ce441187a061c7474fb87ca08e2a638194892"
@@ -10048,6 +10072,15 @@ react-lifecycles-compat@^3.0.4:
   version "3.0.4"
   resolved "https://registry.yarnpkg.com/react-lifecycles-compat/-/react-lifecycles-compat-3.0.4.tgz#4f1a273afdfc8f3488a8c516bfda78f872352362"
   integrity sha512-fBASbA6LnOU9dOU2eW7aQ8xmYBSXUIWr+UmF9b1efZBazGNO+rcXT/icdKnYm2pTwcRylVUYwW7H1PHfLekVzA==
+
+react-move@^6.4.0:
+  version "6.4.0"
+  resolved "https://registry.yarnpkg.com/react-move/-/react-move-6.4.0.tgz#9163a87c62fff94bf6e6980685c713739192650e"
+  integrity sha512-TNyDQESDZ0xsejnxFTQ9CKarJQN6NbgpImrvIEzOVe7+jt8y7uTjJwWxqFTfmvwskIs+RmUbCWdN7PAbGyhrdA==
+  dependencies:
+    "@babel/runtime" "^7.10.3"
+    kapellmeister "^3.0.1"
+    prop-types "^15.7.2"
 
 react-property@1.0.1:
   version "1.0.1"

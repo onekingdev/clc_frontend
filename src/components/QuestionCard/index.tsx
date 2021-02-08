@@ -35,6 +35,7 @@ const QuestionCard: React.FC<IQuestionCard> = ({
                                                    callback,
                                                    next
                                                }) => {
+    const pathname = new URL(window.location.href).pathname;
     const [status, setStatus] = useState(0); // 0 = not answered, 1 = correct, 2 = wrong,
     const [explanation, setExplanation] = useState('');
     const [mastered, setMastered] = useState(false);
@@ -45,7 +46,6 @@ const QuestionCard: React.FC<IQuestionCard> = ({
         setStatus(0);
         setExplanation('');
         //options = options.sort(() => .5 - Math.random());
-        const pathname = new URL(window.location.href).pathname;
         if (pathname !== '/assessment') {
             const topic = topicData ? topicData : JSON.parse(sessionStorage.getItem('selectedTopic') as string);
             const myTopicsIndex = myTopics.findIndex((t: any) => t.UID === topic.UID);
@@ -122,7 +122,7 @@ const QuestionCard: React.FC<IQuestionCard> = ({
                 </div>) : null
             }
             {status !== 0 ? <div className="questionCardFooterWrapper">
-                {status === 1 ?
+                {pathname !== '/assessment' && status === 1 ?
                     <div className="questionCardFooterHeaderWrapper">
                         <div className="questionCardIconWrapper" style={{backgroundColor: '#759A47', marginRight: 12}}>
                             <FontAwesomeIcon
@@ -134,7 +134,7 @@ const QuestionCard: React.FC<IQuestionCard> = ({
                         </div>
                         <SubtitleText bold>Reason</SubtitleText>
                     </div>
-                    :
+                    : pathname !== '/assessment' ?
                     <div className="questionCardFooterHeaderWrapper">
                         <div className="questionCardIconWrapper" style={{backgroundColor: '#C75350', marginRight: 12}}>
                             <FontAwesomeIcon
@@ -145,20 +145,21 @@ const QuestionCard: React.FC<IQuestionCard> = ({
                             />
                         </div>
                         <SubtitleText bold>Reason</SubtitleText>
-                    </div>
+                    </div> : null
                 }
                 <div ref={descriptionRef}>
+                    {pathname !== '/assessment' ?
                     <BodyText>
                         {explanation && explanation !== '' ? parse(parseResponse(explanation)) : null}
                         {explanation && explanation !== '' ?
                             <ReactTooltip
-                            place="left"
-                            type="light"
-                            effect="solid"
-                            multiline={true}
-                            className="questionCardTooltipContainer"
-                        /> : null}
-                    </BodyText>
+                                place="left"
+                                type="light"
+                                effect="solid"
+                                multiline={true}
+                                className="questionCardTooltipContainer"
+                            /> : null}
+                    </BodyText> : null}
                     <div style={{marginTop: 50}}>
                         <Button onClick={() => {
                             next();

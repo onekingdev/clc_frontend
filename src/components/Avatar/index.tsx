@@ -2,7 +2,6 @@ import React, {useState} from 'react';
 import './styles.css';
 import SmallText from '../SmallText';
 import Chance from '../../assets/images/chance.png';
-import TitleText from "../TitleText";
 import BodyText from "../BodyText";
 
 interface IAvatar {

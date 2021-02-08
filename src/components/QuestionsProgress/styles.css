@@ -1,0 +1,30 @@
+.questionsProgressContainer {
+    width: 80%;
+    height: 52px;
+    border-radius: 12px;
+    background-color: #15171A;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+.questionsProgressInactiveSquare {
+    width: 5%;
+    height: 4px;
+    border-radius: 2px;
+    margin-left: 5px;
+}
+
+.questionsProgressActiveSquare {
+    width: 5%;
+    height: 30%;
+    border-radius: 2px;
+    margin-left: 5px;
+}
+
+.questionsProgressTextWrapper {
+    margin-left: 26px;
+    width: 200px;
+}

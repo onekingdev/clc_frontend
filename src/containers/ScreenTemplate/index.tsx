@@ -18,6 +18,20 @@ import Header from "../../components/Header";
 // @ts-ignore
 import {useHistory} from 'react-router-dom';
 import {bugTrackerScript} from "../../helpers/constants";
+import QuestionProgress from "../../components/QuestionsProgress";
+
+const pathname = new URL(window.location.href).pathname;
+
+const dummyData = [
+    {id: 0, correct: null},
+    {id: 1, correct: null},
+    {id: 2, correct: null},
+    {id: 3, correct: null},
+    {id: 4, correct: null},
+    {id: 5, correct: null},
+    {id: 6, correct: null},
+    {id: 7, correct: null},
+]
 
 function ScreenTemplate(props: any) {
     const history = useHistory();
@@ -57,7 +71,6 @@ function ScreenTemplate(props: any) {
 
     useEffect(() => {
         if (props.assessment) {
-            const pathname = new URL(window.location.href).pathname;
             if (pathname !== '/assessment' && pathname !== '/assessment-screen' && pathname !== '/results') {
                 history.push('assessment-screen');
             }
@@ -106,38 +119,46 @@ function ScreenTemplate(props: any) {
                 }}/>*/]
             } upperButtons={[]} reverse={!slider}
                      closeButton={() => setSlider(false)}/>
-            <Header
-                scrolling={scrollTop}
-                left={
-                    <div style={{marginLeft: '10%'}}>
-                        <SidebarItem icon="hamburger" onClick={() => setSlider(true)}/>
-                    </div>
-                }
-                middle={
-                    <div className="headerItemWrapper">
-                        <img src={Logo} width={210} height={58}/>
-                    </div>
-                }
-                right={
-                    <div className="headerItemWrapper">
-                        <div className="headerChipTicketWrapper">
-                            <div className="headerChipWrapper">
-                                <ChipItem icon="chip" quantity={(props.chips)} size="small"/>
+            {
+                pathname !== '/assessment' && pathname !== '/results' && pathname !== '/assessment-screen' ?
+                    <Header
+                        scrolling={scrollTop}
+                        left={
+                            <div style={{marginLeft: '10%'}}>
+                                <SidebarItem icon="hamburger" onClick={() => setSlider(true)}/>
                             </div>
-                            <div className="headerCashWrapper">
-                                <ChipItem icon="cash" quantity={props.tickets} size="small"/>
+                        }
+                        middle={
+                            <div className="headerItemWrapper">
+                                <img src={Logo} width={210} height={58}/>
                             </div>
+                        }
+                        right={
+                            <div className="headerItemWrapper">
+                                <div className="headerChipTicketWrapper">
+                                    <div className="headerChipWrapper">
+                                        <ChipItem icon="chip" quantity={(props.chips)} size="small"/>
+                                    </div>
+                                    <div className="headerCashWrapper">
+                                        <ChipItem icon="cash" quantity={props.tickets} size="small"/>
+                                    </div>
+                                </div>
+                                <Avatar
+                                    size="medium"
+                                    image={props.user.avatar}
+                                    text={props.user.userName}
+                                    rank={props.user.masteredLevel}
+                                    onClick={() => setShowSettingsModal(true)}
+                                />
+                            </div>
+                        }
+                    /> :
+                    pathname === '/assessment' ? <div style={{marginTop: 60}}/> :
+                        <div className="screenTemplateQuestionProgressWrapper">
+                            <QuestionProgress totalQuestions={8} index={0} result={dummyData} showFeedback={false} tooltip="Start"/>
                         </div>
-                        <Avatar
-                            size="medium"
-                            image={props.user.avatar}
-                            text={props.user.userName}
-                            rank={props.user.masteredLevel}
-                            onClick={() => setShowSettingsModal(true)}
-                        />
-                    </div>
-                }
-            />
+            }
+
             <div
                 ref={scrollRef}
                 className="contentContainer"
