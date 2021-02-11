@@ -124,6 +124,12 @@
     z-index: 1;
 }
 
+.gameQuestionProgressbarWrapper {
+    padding-top: 30px;
+    margin-left: 120px;
+    margin-right: 120px;
+}
+
 @media (max-width: 900px) {
     .gameWrapper {
         margin-top: 0;

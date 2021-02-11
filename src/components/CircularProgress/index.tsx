@@ -6,6 +6,8 @@ import 'react-circular-progressbar/dist/styles.css';
 import { easeQuadInOut } from "d3-ease";
 import AnimatedProgressProvider from './AnimatedProgressProvider';
 import ChangingProgressProvider from './ChangingProgressProvider';
+import BodyText from "../BodyText";
+import TitleText from "../TitleText";
 
 interface ICircularProgress {
     type: string // default, speedometer, pie, fill
@@ -21,51 +23,6 @@ const CircularProgress: React.FC<ICircularProgress> = ({
 
     const renderType = (progressType: string) => {
         switch (progressType) {
-            case 'speedometer':
-                return (
-                    <ChangingProgressProvider values={values}>
-                        {(data: any) => (
-                            <CircularProgressbar
-                                value={data}
-                                text={`${data}${text}`}
-                                circleRatio={0.75}
-                                styles={buildStyles({
-                                    rotation: 1 / 2 + 1 / 8,
-                                    strokeLinecap: "butt",
-                                    trailColor: "#eee",
-                                    textColor: "var(--primary)",
-                                    pathColor: "var(--primary)",
-                                })}
-                            />
-                        )}
-                    </ChangingProgressProvider>
-                );
-            case 'pie':
-                return (
-                    <AnimatedProgressProvider
-                        valueStart={values[0]}
-                        valueEnd={values[1]}
-                        duration={1.4}
-                        easingFunction={easeQuadInOut}
-                    >
-                        {(data: any) => {
-                            const roundedValue = Math.round(data);
-                            return (
-                                <CircularProgressbar
-                                    value={data}
-                                    text={`${roundedValue}${text}`}
-                                    strokeWidth={50}
-                                    styles={buildStyles({
-                                        strokeLinecap: "butt",
-                                        trailColor: "transparent",
-                                        textColor: "#fff",
-                                        pathColor: "var(--primary)"
-                                    })}
-                                />
-                            );
-                        }}
-                    </AnimatedProgressProvider>
-                );
             case 'fill':
                 return (
                     <AnimatedProgressProvider
@@ -79,13 +36,14 @@ const CircularProgress: React.FC<ICircularProgress> = ({
                             return (
                                 <CircularProgressbar
                                     value={data}
+                                    strokeWidth={2}
                                     text={`${roundedValue}${text}`}
                                     background
                                     styles={buildStyles({
                                         pathTransition: "none",
-                                        backgroundColor: "var(--primary)",
+                                        backgroundColor: "#000",
                                         textColor: "#fff",
-                                        pathColor: "#fff",
+                                        pathColor: "var(--primary)",
                                         trailColor: "transparent"
                                     })}
                                 />
@@ -102,25 +60,41 @@ const CircularProgress: React.FC<ICircularProgress> = ({
                         easingFunction={easeQuadInOut}
                     >
                         {(data: any) => {
-                            // const roundedValue = Math.round(data);
-
                             return (
-                                <CircularProgressbar
-                                    value={data}
-                                    text={`${text}`}
-                                    /* This is important to include, because if you're fully managing the
-                              animation yourself, you'll want to disable the CSS animation. */
-                                    styles={buildStyles({
-                                        pathTransition: "none",
-                                        textColor: "var(--primary)",
-                                        pathColor: "var(--primary)",
-                                    })}
-                                />
+                                <div>
+                                    <CircularProgressbar
+                                        value={data}
+                                        strokeWidth={4}
+                                        background={true}
+                                        /* This is important to include, because if you're fully managing the
+                                  animation yourself, you'll want to disable the CSS animation. */
+                                        styles={buildStyles({
+                                            pathTransition: "none",
+                                            trailColor: "#000",
+                                            textColor: "#000",
+                                            backgroundColor: "#000",
+                                            pathColor: renderPathColorDependingOnProgress(values[1]),
+                                        })}
+                                    />
+                                    <div style={{marginTop: -70, marginLeft: parseInt(text.split('/')[0]) > 99 ? 15 : parseInt(text.split('/')[0]) > 9 ? 25 : 35}}>
+                                        <TitleText color="#FFF" bold>{text.split('/')[0]}</TitleText>
+                                        <BodyText>{`/${text.split('/')[1]}`}</BodyText>
+                                    </div>
+                                </div>
                             );
                         }}
                     </AnimatedProgressProvider>
                 );
         }
+    }
+
+    const renderPathColorDependingOnProgress = (progress: number) => {
+        if (progress < 25) {
+            return '#C75350'
+        } else if (progress < 65) {
+            return '#BF881D'
+        }
+        return '#759A47'
     }
 
     return (

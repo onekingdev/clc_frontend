@@ -36,10 +36,6 @@ function Login(props: any) {
     const [showEmailModal, setShowEmailModal] = useState(false);
     const [showErrorMsg, setShowErrorMsg] = useState('');
 
-    useEffect(() => {
-        if (props.user.id) history.push('performance');
-    }, [])
-
     // adjust dimensions
     useEffect(() => {
         window.addEventListener("resize", updateDimensions);
@@ -81,9 +77,10 @@ function Login(props: any) {
                 email: emailObj.email,
                 password: passwordObj.password
             }
-            props.login(request, (success: boolean) => {
+            props.login(request, (success: boolean, user: IUser) => {
                 if (success) {
-                    history.push(`performance`);
+                    if (user.assessment) history.push(`assessment-screen`);
+                    else history.push(`performance`);
                 }
             });
         }
@@ -151,7 +148,6 @@ function Login(props: any) {
 
 const mapStateToProps = (state: any) => {
     return {
-        user: state.authState.user,
         isFetchingAuthentication: state.authState.isFetchingAuthentication,
         messageCode: state.authState.messageCode
     };
@@ -159,7 +155,7 @@ const mapStateToProps = (state: any) => {
 
 const bindActions = (dispatch: any) => {
     return {
-        login: (data: IUser, callback: (success: boolean) => void) => dispatch(ACTIONS.login(data, callback)),
+        login: (data: IUser, callback: (success: boolean, data: IUser) => void) => dispatch(ACTIONS.login(data, callback)),
         setAuthenticationCode: (code: string) => dispatch(ACTIONS.setAuthenticationCode(code))
     };
 };

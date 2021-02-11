@@ -25,3 +25,19 @@
     margin-top: -30px;
     margin-bottom: 100px;
 }
+
+@media (max-width: 900px) {
+    .performanceCardWrapper {
+        display: block;
+        height: 600px;
+    }
+    .performanceCardLeftWrapper {
+        margin-top: 20px;
+        text-align: center;
+        width: 80%;
+    }
+    .performanceCardRightWrapper {
+        margin-top: 20px;
+        width: 100%;
+    }
+}

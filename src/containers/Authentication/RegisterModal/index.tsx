@@ -108,7 +108,7 @@ const RegisterModal: React.FC<IRegisterModal> = ({
 
             register(request, (success) => {
                 if (success) {
-                    history.push('performance');
+                    history.push('assessment-screen');
                 }
             });
         }

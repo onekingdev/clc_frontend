@@ -7,9 +7,6 @@ import Modal from 'react-awesome-modal';
 import './styles.css';
 import Sidebar from '../../components/Sidebar';
 import Settings from "../Settings";
-// import * as ACTIONS from "./store/actions";
-import * as PERFORMANCE_ACTIONS from "../Performance/store/actions";
-import DotLoader from "react-spinners/DotLoader";
 import SidebarItem from "../../components/SidebarItem";
 import Logo from "../../assets/images/clai-logo.png";
 import ChipItem from "../../components/ChipItem";
@@ -19,19 +16,7 @@ import Header from "../../components/Header";
 import {useHistory} from 'react-router-dom';
 import {bugTrackerScript} from "../../helpers/constants";
 import QuestionProgress from "../../components/QuestionsProgress";
-
-const pathname = new URL(window.location.href).pathname;
-
-const dummyData = [
-    {id: 0, correct: null},
-    {id: 1, correct: null},
-    {id: 2, correct: null},
-    {id: 3, correct: null},
-    {id: 4, correct: null},
-    {id: 5, correct: null},
-    {id: 6, correct: null},
-    {id: 7, correct: null},
-]
+import Loader from "../../components/Loader";
 
 function ScreenTemplate(props: any) {
     const history = useHistory();
@@ -69,14 +54,6 @@ function ScreenTemplate(props: any) {
         }
     }, []);
 
-    useEffect(() => {
-        if (props.assessment) {
-            if (pathname !== '/assessment' && pathname !== '/assessment-screen' && pathname !== '/results') {
-                history.push('assessment-screen');
-            }
-        }
-    }, [props.assessment])
-
     // adjust dimensions
     useEffect(() => {
         window.addEventListener("resize", updateDimensions);
@@ -89,38 +66,41 @@ function ScreenTemplate(props: any) {
 
     return (
         <div className="container">
-            <Sidebar title="MENU" items={
+            {!props.type ? <Sidebar title="MENU" items={
                 [/*<SidebarItem icon="home" text="Home" onClick={() => {
                     setTimeout(() => history.push('home'), 0);
                 }}/>,*/
-                <SidebarItem icon="ai" text="AI Learning" onClick={() => {
-                    setTimeout(() => {
-                        sessionStorage.setItem('selectedTopic', '{}');
-                        history.push('ai');
-                    }, 0);
-                }}/>,
-                <SidebarItem icon="path" text="Pick Your Path" onClick={() => {
-                    setTimeout(() => history.push('paths'), 0);
-                }}/>,
-                /*<SidebarItem icon="practice" text="Practice" onClick={() => {
-                    setTimeout(() => history.push('practice'), 0);
-                }}/>,*/
-                <SidebarItem icon="video" text="Video Library" onClick={() => {
-                    setTimeout(() => history.push('library'), 0);
-                }}/>,
-                /*<SidebarItem icon="training" text="Advanced Training" onClick={() => {
-                    setTimeout(() => history.push('training'), 0);
-                }}/>,*/
-                <SidebarItem icon="performance" text="My Performance" onClick={() => {
-                    setTimeout(() => history.push('performance'), 0);
-                }}/>,
-                /*<SidebarItem icon="answers" text="Answers" onClick={() => {
-                    setTimeout(() => history.push('answers'), 0);
-                }}/>*/]
-            } upperButtons={[]} reverse={!slider}
-                     closeButton={() => setSlider(false)}/>
+                    <SidebarItem icon="ai" text="AI Learning" onClick={() => {
+                        setTimeout(() => {
+                            sessionStorage.setItem('selectedTopic', '{}');
+                            history.push('ai');
+                        }, 0);
+                    }}/>,
+                    <SidebarItem icon="path" text="Pick Your Path" onClick={() => {
+                        setTimeout(() => history.push('paths'), 0);
+                    }}/>,
+                    /*<SidebarItem icon="practice" text="Practice" onClick={() => {
+                        setTimeout(() => history.push('practice'), 0);
+                    }}/>,*/
+                    <SidebarItem icon="video" text="Video Library" onClick={() => {
+                        setTimeout(() => history.push('library'), 0);
+                    }}/>,
+                    /*<SidebarItem icon="training" text="Advanced Training" onClick={() => {
+                        setTimeout(() => history.push('training'), 0);
+                    }}/>,*/
+                    <SidebarItem icon="performance" text="My Performance" onClick={() => {
+                        setTimeout(() => history.push('performance'), 0);
+                    }}/>,
+                    /*<SidebarItem icon="answers" text="Answers" onClick={() => {
+                        setTimeout(() => history.push('answers'), 0);
+                    }}/>*/]
+            }
+                      upperButtons={[]}
+                      reverse={!slider}
+                      closeButton={() => setSlider(false)}/> : null}
+
             {
-                pathname !== '/assessment' && pathname !== '/results' && pathname !== '/assessment-screen' ?
+                !props.type ?
                     <Header
                         scrolling={scrollTop}
                         left={
@@ -153,9 +133,11 @@ function ScreenTemplate(props: any) {
                             </div>
                         }
                     /> :
-                    pathname === '/assessment' ? <div style={{marginTop: 60}}/> :
+                    props.type === 'assessment' ?
+                        <div style={{marginTop: 60}}/>
+                        :
                         <div className="screenTemplateQuestionProgressWrapper">
-                            <QuestionProgress totalQuestions={8} index={0} result={dummyData} showFeedback={false} tooltip="Start"/>
+                            <QuestionProgress loading={props.totalQuestions === 0} totalQuestions={props.totalQuestions} index={props.index} result={props.progressData} showFeedback={false} tooltip={props.tooltip}/>
                         </div>
             }
 
@@ -170,9 +152,7 @@ function ScreenTemplate(props: any) {
                 }}
                 onClick={() => setSlider(false)}>
                 {props.loading ?
-                    <div className="centerLoader">
-                        <DotLoader loading={true} color="#FFF"/>
-                    </div>
+                    <Loader/>
                     :
                     <div style={{paddingTop: 50}}>
                         {props.children}
@@ -192,15 +172,14 @@ const mapStateToProps = (state: any) => {
     return {
         user: state.authState.user,
         chips: state.screenTemplateState.chips,
-        tickets: state.screenTemplateState.tickets,
-        assessment: state.screenTemplateState.assessment,
+        tickets: state.screenTemplateState.tickets
     };
 }
 
 const bindActions = (dispatch: any) => {
     return {
         getRealtimeUserData: () => dispatch(ACTIONS.getRealtimeUserData()),
-        getGlossary: () => dispatch(ACTIONS.getGlossary())
+        getGlossary: () => dispatch(ACTIONS.getGlossary()),
     };
 };
 

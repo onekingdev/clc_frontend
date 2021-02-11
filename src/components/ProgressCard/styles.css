@@ -1,8 +1,8 @@
 .progressCardContainer {
     border-radius: 16px;
     background: radial-gradient(99.31% 94.34% at 49.88% -2.58%, rgba(232, 186, 115, 0.15) 0%, rgba(232, 186, 115, 0) 72.18%), #15171A;
-    width: 300px;
-    height: 380px;
+    width: 280px;
+    height: 330px;
     text-align: left;
     padding: 40px;
 }
@@ -10,10 +10,12 @@
 .progressCardPercentageWrapper {
     border-radius: 100px;
     background-color: #15171A;
-    width: 120px;
-    height: 120px;
-    margin-bottom: 40px;
+    width: 100px;
+    height: 100px;
+    margin-bottom: 10px;
     margin-top: -100px;
+    padding: 10px;
+    box-shadow: 0px 0px 64px rgba(0, 0, 0, 1);
 }
 
 .progressCardTitleWrapper {

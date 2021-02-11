@@ -21,6 +21,7 @@ import Modal from 'react-awesome-modal';
 import BodyText from "../../components/BodyText";
 import Button from "../../components/Button";
 import {setTicketsEarned} from "../Results/store/actions";
+import QuestionProgress from "../../components/QuestionsProgress";
 
 let interval: any;
 
@@ -41,6 +42,7 @@ function Game(props: any) {
     const [useStartIndex, setUseStartIndex] = useState(true);
     const [animationBlocker, setAnimationBlocker] = useState(0);
     const [initBlockPlayBtn, setInitBlockPlayBtn] = useState(true);
+    const [showFeedback, setShowFeedback] = useState(false);
 
     useEffect(() => {
         return () => {
@@ -50,8 +52,18 @@ function Game(props: any) {
     }, []);
 
     useEffect(() => {
-        props.fetchGameData();
-    },[])
+        if (props.myTopics.length > 0) {
+            props.fetchGameData(props.myTopics);
+        }
+    },[props.myTopics === undefined || props.myTopics.length === 0])
+
+    useEffect(() => {
+        if (pathname === '/assessment') {
+            props.fetchQuestionProgressbar('assessment', props.myTopics);
+        } else {
+            setShowFeedback(true);
+        }
+    }, [props.myTopics])
 
     useEffect(() => {
         if (initBlockPlayBtn) {
@@ -228,7 +240,7 @@ function Game(props: any) {
         setFinished(false);
         reset();
         if (props.fetchNextAIQuestions) {
-            props.fetchGameData();
+            props.fetchGameData(props.myTopics);
             props.setFetchNextAIQuestions(false);
         } else if (questionIndex < questions.array.length-1) {
             setQuestionIndex(questionIndex += 1);
@@ -314,7 +326,7 @@ function Game(props: any) {
     }
 
     return (
-        <ScreenTemplate loading={props.isFetchingGameData}>
+        <ScreenTemplate type={pathname === '/assessment' ? 'assessment' : null} loading={props.isFetchingGameData}>
             {questions.array.length === 0 ?
                     <TitleText>You mastered all topics, go to your <a onClick={() => history.push('paths')}>paths</a> to review</TitleText>
                     :
@@ -389,6 +401,9 @@ function Game(props: any) {
                     </div>
                 </div>
             }
+            <div className="gameQuestionProgressbarWrapper">
+                <QuestionProgress loading={props.totalQuestions === 0} totalQuestions={props.totalQuestions} index={props.progressIndex} result={props.progressData} showFeedback={showFeedback} tooltip=""/>
+            </div>
             <Modal visible={showModal} width="450" effect="fadeInUp" onClickAway={() => setShowModal(false)}>
                 <div style={{backgroundColor: '#000', display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
                     <div>
@@ -412,13 +427,15 @@ const mapStateToProps = (state: any) => {
         ticketsEarned: state.resultState.ticketsEarned,
         chipsEarned: state.resultState.chipsEarned,
         correctQuestions: state.resultState.correctQuestions,
-        totalQuestions: state.resultState.totalQuestions
+        totalQuestions: state.resultState.totalQuestions,
+        progressData: state.resultState.progressData,
+        progressIndex: state.resultState.progressIndex,
     };
 }
 
 const bindActions = (dispatch: any) => {
     return {
-        fetchGameData: () => dispatch(ACTIONS.fetchGameData()),
+        fetchGameData: (myTopics: any) => dispatch(ACTIONS.fetchGameData(myTopics)),
         setFetchNextAIQuestions: (fetch: boolean) => dispatch(ACTIONS.setFetchNextAIQuestions(fetch)),
         saveEarnings: (data: {questionID: number, chips: number, tickets: number }) => dispatch(ACTIONS.saveEarnings(data)),
         updateMyTopics: (questionID: number, correct: boolean, topicData: any) => dispatch(ACTIONS.updateMyTopics(questionID, correct, topicData)),
@@ -428,7 +445,8 @@ const bindActions = (dispatch: any) => {
         setChipsEarned: (chips: number) => dispatch(RESULT_ACTIONS.setChipsEarned(chips)),
         setCorrectQuestions: (correct: number) => dispatch(RESULT_ACTIONS.setCorrectQuestions(correct)),
         setTotalQuestions: (questions: number) => dispatch(RESULT_ACTIONS.setTotalQuestions(questions)),
-        saveAssessment: (assessment: { correct: number, totalQuestions: number, ticketsEarned: number, chipsEarned: number }, callback: () => void) => dispatch(RESULT_ACTIONS.saveAssessment(assessment, callback))
+        saveAssessment: (assessment: { correct: number, totalQuestions: number, ticketsEarned: number, chipsEarned: number }, callback: () => void) => dispatch(RESULT_ACTIONS.saveAssessment(assessment, callback)),
+        fetchQuestionProgressbar: (type: string, myTopics: any) => dispatch(RESULT_ACTIONS.fetchQuestionProgressbar(type, myTopics))
     };
 };
 

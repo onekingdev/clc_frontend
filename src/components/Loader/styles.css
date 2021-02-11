@@ -1,0 +1,12 @@
+.centerLoader {
+    display: grid;
+    justify-content: center;
+    align-items: center;
+}
+
+.loaderCircularProgressWrapper {
+    width: 200px;
+    height: 200px;
+    margin-top: -250px;
+    margin-left: 25px;
+}

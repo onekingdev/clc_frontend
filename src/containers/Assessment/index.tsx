@@ -9,12 +9,17 @@ import Button from "../../components/Button";
 import BodyText from "../../components/BodyText";
 import TitleText from "../../components/TitleText";
 import InfoCard from "../../components/InfoCard";
+import * as RESULT_ACTIONS from '../Results/store/actions';
 
 function Assessment(props: any) {
     const history = useHistory();
 
+    useEffect(() => {
+        props.fetchQuestionProgressbar('assessment', props.myTopics);
+    }, [props.myTopics])
+
     return (
-        <ScreenTemplate>
+        <ScreenTemplate type="assessment-screen" progressData={props.progressData} totalQuestions={props.totalQuestions} index={props.progressIndex} tooltip={props.progressIndex === 0 ? 'Start' : 'Continue'}>
             <div>
                 <BodyText color="var(--primary)">THE TOURNAMENT ASSESSMENT</BodyText>
             </div>
@@ -44,12 +49,16 @@ function Assessment(props: any) {
 const mapStateToProps = (state: any) => {
     return {
         user: state.authState.user,
+        myTopics: state.screenTemplateState.myTopics,
+        progressIndex: state.resultState.progressIndex,
+        totalQuestions: state.resultState.totalQuestions,
+        progressData: state.resultState.progressData
     };
 }
 
 const bindActions = (dispatch: any) => {
     return {
-
+        fetchQuestionProgressbar: (type: string, myTopics: any) => dispatch(RESULT_ACTIONS.fetchQuestionProgressbar(type, myTopics))
     };
 };
 

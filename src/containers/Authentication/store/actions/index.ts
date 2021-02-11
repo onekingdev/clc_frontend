@@ -33,7 +33,7 @@ export const setUserData = (data: IUser) => {
     };
 };
 
-export const login = (data: IUser, callback: (success: boolean) => void) => async(
+export const login = (data: IUser, callback: (success: boolean, userData: IUser) => void) => async(
     dispatch: (data: any) => void,
     getState: any,
 ) => {
@@ -46,12 +46,12 @@ export const login = (data: IUser, callback: (success: boolean) => void) => asyn
                 .then(async result => {
                     const user = await api.post(getUserByEmail, data);
                     dispatch(setUserData(user))
-                    setTimeout(() => callback(true), 1000);
+                    setTimeout(() => callback(true, user), 1000);
                 }).catch(e => dispatch(setAuthenticationCode(e.message)))
         }
     } catch (e) {
         dispatch(setAuthenticationCode(e))
-        setTimeout(() => callback(false), 500);
+        setTimeout(() => callback(false, {}), 500);
     } finally {
         setTimeout(() => dispatch(setIsFetchingAuthentication(false)), 500);
     }

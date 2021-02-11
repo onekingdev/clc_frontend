@@ -162,3 +162,7 @@ export const UTGLabeling = (dealer: number, players: any) => {
 
     return playerLabels;
 }
+
+export const getPercentage = (nominator: number, denominator: number) => {
+    return nominator/denominator*100;
+}

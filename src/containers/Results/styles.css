@@ -3,4 +3,16 @@
     margin-right: 10%;
     margin-top: 100px;
     margin-bottom: 40px;
+
+}
+
+.assessmentResultsProgressGroupWrapper {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.assessmentResultsProgressCardWrapper {
+    margin-left: 20px;
+    margin-bottom: 100px;
 }

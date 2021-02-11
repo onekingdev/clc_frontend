@@ -9,15 +9,10 @@
     overflow-x: hidden;
 }
 
-.centerLoader {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 80vh;
-}
-
 .screenTemplateQuestionProgressWrapper {
     display: flex;
     justify-content: center;
     margin-top: 40px;
+    margin-left: 10%;
+    margin-right: 10%;
 }

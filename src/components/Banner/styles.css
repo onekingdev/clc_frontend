@@ -13,3 +13,14 @@
     border-style: solid;
     border-color: #FFF;
 }
+
+.bannerFooterLeftWrapper {
+    width: 150px;
+    border-top-width: 0;
+    border-bottom-width: 0;
+    border-left-width: 1px;
+    border-right-width: 0;
+    border-style: solid;
+    border-color: #FFF;
+    margin-left: 35px;
+}

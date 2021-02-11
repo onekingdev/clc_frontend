@@ -20,6 +20,8 @@ export const apiUploadContent = 'uploadContent';
 export const apiUploadGlossary = 'uploadGlossary';
 export const apiGetGlossary = 'getGlossary';
 export const apiDropGlossary = 'dropGlossary';
+export const apiGetQuestionsProgressbar = 'getQuestionsProgressbar';
+export const apiFinishAssessment = 'finishAssessment';
 
 // front end messages
 export const emptyEmailString = 'Email required';

@@ -5,20 +5,25 @@ import './styles.css';
 // @ts-ignore
 import {useHistory} from 'react-router-dom';
 import ScreenTemplate from "../ScreenTemplate";
-import Button from "../../components/Button";
 import Banner from "../../components/Banner";
 import TabNavigation from "../../components/TabNavigation";
 import PerformanceCard from "../../components/PerformanceCard";
 import performanceBg from "../../assets/images/performanceBg.png";
 import ProgressCard from "../../components/ProgressCard";
+import * as RESULT_ACTIONS from "./store/actions";
+import {getPercentage} from "../../helpers/formatter";
 
 function Results(props: any) {
     const history = useHistory();
-    const [tab, setTab] = useState(0)
+    const [tab, setTab] = useState(0);
+
+    useEffect(() => {
+        props.fetchQuestionProgressbar('assessment', props.myTopics);
+    }, [props.myTopics])
 
     return (
-        <ScreenTemplate>
-            <Banner topText="THE TOURNAMENT ASSESSMENT" title="Assessment Results" footerValues={['35/50', '45%', '3']}/>
+        <ScreenTemplate type="results" loading={true} progressData={props.progressData} totalQuestions={props.totalQuestions} index={props.progressIndex} tooltip={'Good job!'}>
+            <Banner type="results" topText="THE TOURNAMENT ASSESSMENT" title="Assessment Results" footerValues={[`${props.correctQuestions}/${props.totalQuestions}`, `${getPercentage(props.correctQuestions, props.totalQuestions)}`]}/>
             <div className="pathsImageWrapper">
                 <img src={performanceBg} width="90%"/>
             </div>
@@ -34,7 +39,23 @@ function Results(props: any) {
             </div>
             <TabNavigation selectedIndex={tab} tabs={['Your Stats']} callback={(index) => setTab(index)} />
             <div className="assessmentResultsPerformanceCardWrapper">
-                <ProgressCard values={[0,10]} progressText="5/5" upperText="DOMAIN - 01" title="ICM Fundamentals" text="Mauris varius felis at commodo imperdiet. Cras faucibus egestas urna, sed cursus massa cursus in. Capien interdum quis. Fusce id arcu eget nisl porta blandit. Etiam mollis massa et ipsum tincidunt, at luctus velit ultrices. Aliquam posuere mi ac risus scelerisque, in aliquam nunc molestie. Ut aliquam lobortis arcu, non consectetur sapien interdum quis."/>
+                {props.myTopics && props.myTopics.length > 0 ?
+                    props.myTopics.map((topic: any, index: number) =>
+                        <div className="assessmentResultsProgressGroupWrapper">
+                            {index !== 0 && props.myTopics[index].lessons.map((lesson: any) =>
+                                <div className="assessmentResultsProgressCardWrapper">
+                                    <ProgressCard
+                                        values={[0, getPercentage(lesson.correct, lesson.questions.length)]}
+                                        progressText={`${lesson.correct}/${lesson.questions.length}`}
+                                        upperText={props.myTopics[index].name}
+                                        title={lesson.lessonName}
+                                        text="Mauris varius felis at commodo imperdiet. Cras faucibus egestas urna, sed cursus massa cursus in. Capien interdum quis. Fusce id arcu eget nisl porta blandit. Etiam mollis massa et ipsum tincidunt, at luctus velit ultrices. Aliquam posuere mi ac risus scelerisque, in aliquam nunc molestie. Ut aliquam lobortis arcu, non consectetur sapien interdum quis."
+                                    />
+                                </div>
+                            )}
+                        </div>
+                        )
+                    : null}
             </div>
         </ScreenTemplate>
     )
@@ -43,12 +64,17 @@ function Results(props: any) {
 const mapStateToProps = (state: any) => {
     return {
         user: state.authState.user,
+        myTopics: state.screenTemplateState.myTopics,
+        progressIndex: state.resultState.progressIndex,
+        totalQuestions: state.resultState.totalQuestions,
+        correctQuestions: state.resultState.correctQuestions,
+        progressData: state.resultState.progressData
     };
 }
 
 const bindActions = (dispatch: any) => {
     return {
-
+        fetchQuestionProgressbar: (type: string, myTopics: any) => dispatch(RESULT_ACTIONS.fetchQuestionProgressbar(type, myTopics))
     };
 };
 

@@ -1,5 +1,4 @@
 import * as TYPES from './types';
-import * as RESULTS_ACTIONS from '../../../Results/store/actions';
 import {IQuestions} from '../../interfaces';
 import {
     apiSaveEarnings,
@@ -46,7 +45,7 @@ export const setFetchNextAIQuestions = (data: boolean) => {
     };
 };
 
-export const fetchGameData = () => async(
+export const fetchGameData = (myTopics: any) => async(
     dispatch: (data: any) => void,
     getState: any,
 ) => {
@@ -63,18 +62,10 @@ export const fetchGameData = () => async(
             let questions = await api.post(apiGetQuestions, lesson);
             if (questions) dispatch(setQuestions(questions));
         } else if (pathname === '/assessment') {
-            const myTopics = await getState().screenTemplateState.myTopics; // todo: fix this shit ...........
             let questions = await api.post(apiGetAssessment,{myTopics});
-            if (questions) {
-                dispatch(setQuestions(questions));
-                dispatch(RESULTS_ACTIONS.setChipsEarned(questions[0].chipsEarned));
-                dispatch(RESULTS_ACTIONS.setTicketsEarned(questions[0].ticketsEarned));
-                dispatch(RESULTS_ACTIONS.setTotalQuestions(questions[0].totalQuestions));
-                dispatch(RESULTS_ACTIONS.setCorrectQuestions(questions[0].correctQuestions));
-            }
+            if (questions) dispatch(setQuestions(questions));
         } else {
             const user = await getState().authState.user;
-            const myTopics = await getState().screenTemplateState.myTopics; // todo: fix this shit ...........
 
             let questions = await api.post(apiGetAIQuestions, {myTopics, user});
             if (questions) dispatch(setQuestions(questions));
@@ -138,6 +129,7 @@ export const updateMyTopics = (questionID: number, correct: boolean, topicData: 
 
             if (correct) {
                 myTopics[myTopicsIndex].lessons[lessonIndex].correctInARow += 1;
+                myTopics[myTopicsIndex].lessons[lessonIndex].correct += 1;
                 const rule = myTopics[myTopicsIndex].lessons[lessonIndex].rule.split('/');
 
                 if (myTopics[myTopicsIndex].lessons[lessonIndex].correctInARow === parseInt(rule[0])) {
@@ -159,6 +151,7 @@ export const updateMyTopics = (questionID: number, correct: boolean, topicData: 
                 }
             } else {
                 myTopics[myTopicsIndex].lessons[lessonIndex].correctInARow = 0;
+                myTopics[myTopicsIndex].lessons[lessonIndex].correct -= 1;
             }
             // **************************************************************************************
         } else {
@@ -168,6 +161,7 @@ export const updateMyTopics = (questionID: number, correct: boolean, topicData: 
                 UID: topic.lessonUID,
                 lessonName: topic.lessonName,
                 correctInARow: correct ? 1 : 0,
+                correct: correct ? 1 : 0,
                 questions: [
                     {
                         id: questionID,
@@ -192,6 +186,7 @@ export const updateMyTopics = (questionID: number, correct: boolean, topicData: 
                     UID: topic.lessonUID,
                     lessonName: topic.lessonName,
                     correctInARow: correct ? 1 : 0,
+                    correct: correct ? 1 : 0,
                     questions: [
                         {
                             id: questionID,
