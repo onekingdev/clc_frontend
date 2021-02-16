@@ -4,5 +4,11 @@ export interface IUser {
     assessment?: boolean,
     userName?: string,
     password?: string,
-    email?: string
+    email?: string,
+    payment?: {
+        id: string,
+        amount: number,
+        created: number,
+        subscription: string
+    }
 }

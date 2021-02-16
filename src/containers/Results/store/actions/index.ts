@@ -52,7 +52,7 @@ export const setProgressIndex = (data: number) => {
     }
 }
 
-export const saveAssessment = (assessment: { correct: number, totalQuestions: number, ticketsEarned: number, chipsEarned: number }, callback: () => void) => async(
+export const saveAssessment = (assessment: { correct: number, totalQuestions: number, ticketsEarned: number, chipsEarned: number }) => async(
     dispatch: (data: any) => void,
     getState: any,
 ) => {
@@ -69,7 +69,6 @@ export const saveAssessment = (assessment: { correct: number, totalQuestions: nu
         .doc(uid)
         .update('assessmentResult', assessment)
 
-    callback();
 }
 
 export const fetchQuestionProgressbar = (type: string, myTopics: any) => async(

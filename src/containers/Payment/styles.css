@@ -1,0 +1,14 @@
+.paymentButtonTextWrapper {
+
+}
+
+.paymentButtonWrapper {
+    display: flex;
+    justify-content: center;
+}
+
+.StripeCheckout {
+    /*background-color: var(--primary) !important;
+    width: 300px;
+    height: 64px;*/
+}

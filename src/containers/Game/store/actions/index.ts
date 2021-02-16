@@ -101,7 +101,7 @@ export const levelUp = () => async(
     dispatch(setUserData(newUserData));
 }
 
-export const updateMyTopics = (questionID: number, correct: boolean, topicData: any) => async(
+export const updateMyTopics = (questionID: number, correct: boolean, topicData: any, answeredIndex: number) => async(
     dispatch: (data: any) => void,
     getState: any,
 ) => {
@@ -127,31 +127,28 @@ export const updateMyTopics = (questionID: number, correct: boolean, topicData: 
                 })
             }
 
+            const rule = myTopics[myTopicsIndex].lessons[lessonIndex].rule.split('/');
+
             if (correct) {
                 myTopics[myTopicsIndex].lessons[lessonIndex].correctInARow += 1;
                 myTopics[myTopicsIndex].lessons[lessonIndex].correct += 1;
-                const rule = myTopics[myTopicsIndex].lessons[lessonIndex].rule.split('/');
 
                 if (myTopics[myTopicsIndex].lessons[lessonIndex].correctInARow === parseInt(rule[0])) {
                     myTopics[myTopicsIndex].lessons[lessonIndex].mastered = true;
                     dispatch(setFetchNextAIQuestions(true))
-                    let counter = 0;
-                    myTopics[myTopicsIndex].lessons.forEach((l:any) => {if (l.mastered) counter++});
+                    let master = true;
+                    myTopics[myTopicsIndex].lessons.forEach((l:any) => {if (!l.mastered) master = false});
 
-                    if (// TODO: fix this shit .........................................
-                        myTopics[myTopicsIndex].name === 'Preflop' && counter > 22
-                        || myTopics[myTopicsIndex].name === 'Flop' && counter > 34
-                        || myTopics[myTopicsIndex].name === 'Turn' && counter > 34
-                        || myTopics[myTopicsIndex].name === 'River' && counter > 44
-                        || myTopics[myTopicsIndex].name === 'Heads Up Strategy' && counter > 3
-                    ) { //counter === topic.totalTopicLessons
+                    if (master) {
                         myTopics[myTopicsIndex].mastered = true;
                         dispatch(levelUp());
                     }
                 }
             } else {
-                myTopics[myTopicsIndex].lessons[lessonIndex].correctInARow = 0;
                 myTopics[myTopicsIndex].lessons[lessonIndex].correct -= 1;
+            }
+            if ((answeredIndex / parseInt(rule[1])) % 1 == 0) {
+                myTopics[myTopicsIndex].lessons[lessonIndex].correctInARow = 0;
             }
             // **************************************************************************************
         } else {

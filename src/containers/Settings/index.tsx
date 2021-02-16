@@ -15,7 +15,7 @@ import Avatar from "../../components/Avatar";
 import BodyText from "../../components/BodyText";
 import ErrorDisplay from "../../components/ErrorDisplay";
 import {libraryUploadError, questionsUploadError, glossaryUploadError} from "../../helpers/constants";
-
+const host = new URL(window.location.href).host;
 
 function Settings(props: any) {
     const history = useHistory();
@@ -190,6 +190,7 @@ function Settings(props: any) {
                         />
                     </div>
                     <ErrorDisplay message={errorMessage} show={errorMessage !== ''}/>
+                    <a target="_blank" href={`${host.includes('localhost') ? 'http://'+host : 'https://'+host}/version`}><BodyText color="var(--primary)" textDecoration="underline">Version Info</BodyText></a>
                 </div>
             }
         </div>

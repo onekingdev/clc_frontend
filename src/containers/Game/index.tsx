@@ -13,14 +13,12 @@ import QuestionCard from "../../components/QuestionCard";
 import SmallText from "../../components/SmallText";
 import ScreenTemplate from "../ScreenTemplate";
 import {numberWithCommas, UTGLabeling} from '../../helpers/formatter';
-import TitleText from "../../components/TitleText";
 // @ts-ignore
 import {useHistory} from 'react-router-dom';
 // @ts-ignore
 import Modal from 'react-awesome-modal';
 import BodyText from "../../components/BodyText";
 import Button from "../../components/Button";
-import {setTicketsEarned} from "../Results/store/actions";
 import QuestionProgress from "../../components/QuestionsProgress";
 
 let interval: any;
@@ -43,6 +41,9 @@ function Game(props: any) {
     const [animationBlocker, setAnimationBlocker] = useState(0);
     const [initBlockPlayBtn, setInitBlockPlayBtn] = useState(true);
     const [showFeedback, setShowFeedback] = useState(false);
+    const [chips, setChips] = useState(0);
+    const [tickets, setTickets] = useState(0);
+    const [rerender, setRerender] = useState(false);
 
     useEffect(() => {
         return () => {
@@ -192,7 +193,6 @@ function Game(props: any) {
         setUseStartIndex(true);
         setInitBlockPlayBtn(true);
         setTimeout(() => calculateAllAnte(), 1000);
-        // setTimeout(() => setPause(false), 500); //TODO: requested
     }
 
     const speedHandler = (s: number) => {
@@ -214,13 +214,16 @@ function Game(props: any) {
 
     const handleAnswerQuestion = (correct: boolean) => {
         if (correct) {
-            const chips = questions.array[questionIndex].question.reward.chips;
-            const tickets = questions.array[questionIndex].question.reward.tickets;
-            props.updateDailyEarnings({chips: chips, tickets: tickets});
+            let localChips = questions.array[questionIndex].question.reward.chips;
+            let localTickets = questions.array[questionIndex].question.reward.tickets;
+            setChips(localChips += questions.array[questionIndex].question.reward.chips);
+            setTickets(localTickets += questions.array[questionIndex].question.reward.tickets);
+
+            props.updateDailyEarnings({chips: localChips, tickets: localTickets});
             props.saveEarnings({
                 userID: props.user.id,
                 questionID: questions.array[questionIndex].question.questionID,
-                chips, tickets
+                localChips, localTickets
             });
             setCorrectCounter(correctCounter += 1);
             // saving for results
@@ -232,29 +235,35 @@ function Game(props: any) {
         props.updateMyTopics(
             questions.array[questionIndex].question.questionID,
             correct,
-            questions.array[questionIndex].topicData
+            questions.array[questionIndex].topicData,
+            questionIndex
         );
     }
 
     const handleSubmit = () => {
         setFinished(false);
+        setRerender(true);
+        setTimeout(() => setRerender(false),500)
         reset();
         if (props.fetchNextAIQuestions) {
             props.fetchGameData(props.myTopics);
             props.setFetchNextAIQuestions(false);
         } else if (questionIndex < questions.array.length-1) {
             setQuestionIndex(questionIndex += 1);
-        } else if (pathname === '/assessment') {
-            props.saveAssessment({
-                ticketsEarned: props.ticketsEarned,
-                chipsEarned: props.chipsEarned,
-                correct: correctCounter + props.correctQuestions,
-                totalQuestions: props.totalQuestions
-            }, () => {
-                history.push('results');
-            })
         } else {
-            setShowModal(true);
+            if (pathname === '/assessment') {
+                props.saveAssessment({
+                    ticketsEarned: props.ticketsEarned + tickets,
+                    chipsEarned: props.chipsEarned + chips,
+                    correct: correctCounter + props.correctQuestions,
+                    totalQuestions: props.totalQuestions
+                })
+
+                props.clearResultsData();
+                history.push('results');
+            } else {
+                setShowModal(true);
+            }
         }
     }
 
@@ -326,14 +335,12 @@ function Game(props: any) {
     }
 
     return (
-        <ScreenTemplate type={pathname === '/assessment' ? 'assessment' : null} loading={props.isFetchingGameData}>
-            {questions.array.length === 0 ?
-                    <TitleText>You mastered all topics, go to your <a onClick={() => history.push('paths')}>paths</a> to review</TitleText>
-                    :
+        <ScreenTemplate type={pathname === '/assessment' ? 'assessment' : null} loading={!props.isFetchingGameData}>
+            {questions.array.length === 0 ? null :
                 <div className="gameWrapper" style={{transform: `scale(${renderSize(width-100)})`}}>
                     <div>
                         <div className="gamePokerTableContainer">
-                            {questions.array[questionIndex].players.length > 0 ?
+                            {!rerender && questions.array[questionIndex].players.length > 0 ?
                                 questions.array[questionIndex].players.map((item: any, index: number) =>
                                     <div className={`gamePokerPlayerWrapper gameP${parseInt(item.number)}`}>
                                         <PokerPlayer
@@ -370,7 +377,7 @@ function Game(props: any) {
                         </div>
                         <div className="gameFooterContainer">
                             <div className="gamePlayerWrapper">
-                                <Player
+                                {!rerender ? <Player
                                     init={initBlockPlayBtn}
                                     pause={pause}
                                     setPause={setPause}
@@ -383,12 +390,13 @@ function Game(props: any) {
                                     fastForward={forward}
                                     finished={finished}
                                     share={share}
-                                />
+                                /> : null}
                             </div>
                         </div>
                     </div>
                     <div className="gameQuestionWrapper">
                         <QuestionCard
+                            rerender={rerender}
                             loading={!finished}
                             headerText={questions.array[questionIndex].question.header}
                             questionNumber={questions.array[questionIndex].question.questionNumber}
@@ -397,6 +405,7 @@ function Game(props: any) {
                             myTopics={props.myTopics}
                             topicData={questions.array[questionIndex].topicData}
                             callback={handleAnswerQuestion}
+                            buttonText={questionIndex < questions.array.length-1 ? 'Next Question' : 'Finish!'}
                             next={handleSubmit}/>
                     </div>
                 </div>
@@ -438,15 +447,16 @@ const bindActions = (dispatch: any) => {
         fetchGameData: (myTopics: any) => dispatch(ACTIONS.fetchGameData(myTopics)),
         setFetchNextAIQuestions: (fetch: boolean) => dispatch(ACTIONS.setFetchNextAIQuestions(fetch)),
         saveEarnings: (data: {questionID: number, chips: number, tickets: number }) => dispatch(ACTIONS.saveEarnings(data)),
-        updateMyTopics: (questionID: number, correct: boolean, topicData: any) => dispatch(ACTIONS.updateMyTopics(questionID, correct, topicData)),
+        updateMyTopics: (questionID: number, correct: boolean, topicData: any, questionIndex: number) => dispatch(ACTIONS.updateMyTopics(questionID, correct, topicData, questionIndex)),
         updateDailyEarnings: (data: { chips: number, tickets: number }) => dispatch(PERFORMANCE_ACTIONS.updateDailyEarnings(data)),
         clearGameData: () => dispatch(ACTIONS.clearGameData()),
         setTicketsEarned: (tickets: number) => dispatch(RESULT_ACTIONS.setTicketsEarned(tickets)),
         setChipsEarned: (chips: number) => dispatch(RESULT_ACTIONS.setChipsEarned(chips)),
         setCorrectQuestions: (correct: number) => dispatch(RESULT_ACTIONS.setCorrectQuestions(correct)),
         setTotalQuestions: (questions: number) => dispatch(RESULT_ACTIONS.setTotalQuestions(questions)),
-        saveAssessment: (assessment: { correct: number, totalQuestions: number, ticketsEarned: number, chipsEarned: number }, callback: () => void) => dispatch(RESULT_ACTIONS.saveAssessment(assessment, callback)),
-        fetchQuestionProgressbar: (type: string, myTopics: any) => dispatch(RESULT_ACTIONS.fetchQuestionProgressbar(type, myTopics))
+        saveAssessment: (assessment: { correct: number, totalQuestions: number, ticketsEarned: number, chipsEarned: number }) => dispatch(RESULT_ACTIONS.saveAssessment(assessment)),
+        fetchQuestionProgressbar: (type: string, myTopics: any) => dispatch(RESULT_ACTIONS.fetchQuestionProgressbar(type, myTopics)),
+        clearResultsData: () => dispatch(RESULT_ACTIONS.clearResultsData())
     };
 };
 

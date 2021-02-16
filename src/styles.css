@@ -36,10 +36,19 @@ iframe {
     padding-bottom: 100px;
 }
 
+.visible-scrollbar, .invisible-scrollbar, .mostly-customized-scrollbar {
+    display: none;
+}
+
 body::-webkit-scrollbar {
     display: none;
 }
 
+@-moz-document url-prefix() {
+    html,body, div {
+        scrollbar-width: none;
+    }
+}
 
 ::-webkit-scrollbar {
     width: 5px;

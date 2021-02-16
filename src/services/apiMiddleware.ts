@@ -18,8 +18,8 @@ const api = {
             }})
             .then((res: any) => res.data)
             .catch(error => error),
-    post: async (path: string, data: any) =>
-        await axios.post(`${getApi()}/${path}`, data, {headers: {
+    post: async (path: string, data: any, headers?: object) =>
+        await axios.post(`${getApi()}/${path}`, data, headers ? headers : {headers: {
                 'Content-Type': 'application/json',
             }})
             .then((res: any) => res.data)

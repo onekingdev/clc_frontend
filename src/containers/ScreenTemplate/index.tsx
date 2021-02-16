@@ -25,6 +25,7 @@ function ScreenTemplate(props: any) {
     const [width, setWidth] = useState(window.innerWidth);
     const [scrollTop, setScrollTop] = useState(0);
     const [showSettingsModal, setShowSettingsModal] = useState(false);
+    const [isLoading, setIsLoading] = useState(props.loading);
 
     useEffect(() => {
         props.getGlossary();
@@ -53,6 +54,12 @@ function ScreenTemplate(props: any) {
             history.push('/');
         }
     }, []);
+
+    useEffect(() => {
+        if(!props.loading) {
+            setTimeout(() => setIsLoading(false), 2000);
+        }
+    }, [props.loading])
 
     // adjust dimensions
     useEffect(() => {
@@ -151,8 +158,8 @@ function ScreenTemplate(props: any) {
                     setScrollTop(scrollTop);
                 }}
                 onClick={() => setSlider(false)}>
-                {props.loading ?
-                    <Loader/>
+                {isLoading ?
+                    <Loader topText={props.type === 'results' ? 'THE TOURNAMENT ASSESSMENT' : 'FETCHING DATA'} title={props.type === 'results' ? 'Your Assessment is Being Processed' : 'Loading...'}/>
                     :
                     <div style={{paddingTop: 50}}>
                         {props.children}

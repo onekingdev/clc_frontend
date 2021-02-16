@@ -137,7 +137,7 @@ const PokerPlayer: React.FC<IPokerPlayer> = ({
             case '5c':
                 return five_clubs;
             case '5d':
-                return five_diamonds; //TODO: need this card
+                return five_diamonds;
             case '5h':
                 return five_hearts;
             case '5s':

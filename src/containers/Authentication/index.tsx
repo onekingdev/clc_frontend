@@ -25,7 +25,7 @@ import Logo from '../../assets/images/clai-logo.png'
 import {IUser} from './interfaces';
 // @ts-ignore
 import {useHistory} from 'react-router-dom';
-import {setAuthenticationCode} from "./store/actions";
+import moment from "moment";
 
 function Login(props: any) {
     const history = useHistory();
@@ -80,6 +80,7 @@ function Login(props: any) {
             props.login(request, (success: boolean, user: IUser) => {
                 if (success) {
                     if (user.assessment) history.push(`assessment-screen`);
+                    else if (user.payment && moment(user.payment.subscription).diff(moment(), 'days') <= 0) history.push(`payment`);
                     else history.push(`performance`);
                 }
             });

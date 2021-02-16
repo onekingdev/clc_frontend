@@ -17,12 +17,12 @@ function Results(props: any) {
     const history = useHistory();
     const [tab, setTab] = useState(0);
 
-    useEffect(() => {
+    useEffect(() => {// 0-25 = red; 26-75 = yellow; 76-100 = green
         props.fetchQuestionProgressbar('assessment', props.myTopics);
     }, [props.myTopics])
 
     return (
-        <ScreenTemplate type="results" loading={true} progressData={props.progressData} totalQuestions={props.totalQuestions} index={props.progressIndex} tooltip={'Good job!'}>
+        <ScreenTemplate type="results" loading={props.totalQuestions === 0} progressData={props.progressData} totalQuestions={props.totalQuestions} index={props.progressIndex} tooltip={'Good job!'}>
             <Banner type="results" topText="THE TOURNAMENT ASSESSMENT" title="Assessment Results" footerValues={[`${props.correctQuestions}/${props.totalQuestions}`, `${getPercentage(props.correctQuestions, props.totalQuestions)}`]}/>
             <div className="pathsImageWrapper">
                 <img src={performanceBg} width="90%"/>

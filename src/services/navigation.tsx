@@ -10,6 +10,9 @@ import Performance from '../containers/Performance';
 import Assessment from '../containers/Assessment';
 import Results from '../containers/Results';
 import Game from '../containers/Game';
+import Payment from '../containers/Payment';
+import Version from '../containers/Version';
+import moment from "moment";
 
 function Navigation(props: any) {
 
@@ -26,13 +29,23 @@ function Navigation(props: any) {
                     </div>
                         :
                         <div>
-                            <Route exact path="/paths" component={Paths}/>
-                            <Route exact path="/library" component={Library}/>
-                            <Route exact path="/performance" component={Performance}/>
-                            <Route exact path="/results" component={Results}/>
-                            <Route exact path="/game" component={Game}/>
-                            <Route exact path="/ai" component={Game}/>
-                            <Route exact path="/share" component={Game}/>
+
+                            {props.user.payment && moment(props.user.payment.subscription).diff(moment(), 'days') > 0 ?
+                                <div>
+                                    <Route exact path="/paths" component={Paths}/>
+                                    <Route exact path="/library" component={Library}/>
+                                    <Route exact path="/performance" component={Performance}/>
+                                    <Route exact path="/game" component={Game}/>
+                                    <Route exact path="/ai" component={Game}/>
+                                    <Route exact path="/share" component={Game}/>
+                                    <Route exact path="/version" component={Version}/>
+                                </div>
+                                :
+                                <div>
+                                    <Route exact path="/results" component={Results}/>
+                                    <Route exact path="/payment" component={Payment}/>
+                                </div>
+                            }
                         </div>
                     }
                 </div> : <Redirect to="/" />}

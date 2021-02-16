@@ -5,6 +5,8 @@ import TitleText from "../TitleText";
 import BodyText from "../BodyText";
 import computer from '../../assets/images/computer.png';
 import Button from "../Button";
+// @ts-ignore
+import {useHistory} from 'react-router-dom';
 
 interface IPerformanceCard {
     topText: string,
@@ -21,6 +23,7 @@ const PerformanceCard: React.FC<IPerformanceCard> = ({
                                                          questions,
                                                          percentage
                                                      }) => {
+    const history = useHistory();
     return (
         <div className="performanceCardWrapper">
             <div className="performanceCardLeftWrapper">
@@ -37,7 +40,7 @@ const PerformanceCard: React.FC<IPerformanceCard> = ({
             <div className="performanceCardRightWrapper">
                 <img src={computer} width="80%"/>
                 <div className="performanceCardButtonWrapper">
-                    <Button onClick={() => {}} width={300} height={55} text="Learn More About Our Programs" glow/>
+                    <Button onClick={() => history.push('payment')} width={300} height={55} text="Learn More About Our Programs" glow/>
                 </div>
             </div>
         </div>

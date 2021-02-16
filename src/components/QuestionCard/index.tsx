@@ -13,6 +13,7 @@ import parse from 'html-react-parser';
 import ReactTooltip from "react-tooltip";
 
 interface IQuestionCard {
+    rerender: boolean,
     loading: boolean,
     headerText: string,
     questionNumber: number,
@@ -21,10 +22,12 @@ interface IQuestionCard {
     myTopics: any,
     topicData: any,
     callback: (correct: boolean) => void,
+    buttonText: string,
     next: () => void
 }
 
 const QuestionCard: React.FC<IQuestionCard> = ({
+                                                   rerender,
                                                    loading,
                                                    headerText,
                                                    questionNumber,
@@ -33,6 +36,7 @@ const QuestionCard: React.FC<IQuestionCard> = ({
                                                    myTopics,
                                                    topicData,
                                                    callback,
+                                                   buttonText,
                                                    next
                                                }) => {
     const pathname = new URL(window.location.href).pathname;
@@ -102,7 +106,7 @@ const QuestionCard: React.FC<IQuestionCard> = ({
                     /> : null}
                 </BodyText>
             </div>
-            {options.length > 0 ?
+            {!rerender && options.length > 0 ?
                 options.map((item, index) => <div key={index} style={{marginBottom: 16}}>
                     {item.text ?
                         <Button
@@ -121,7 +125,7 @@ const QuestionCard: React.FC<IQuestionCard> = ({
                         : null}
                 </div>) : null
             }
-            {status !== 0 ? <div className="questionCardFooterWrapper">
+            {!rerender && status !== 0 ? <div className="questionCardFooterWrapper">
                 {pathname !== '/assessment' && status === 1 ?
                     <div className="questionCardFooterHeaderWrapper">
                         <div className="questionCardIconWrapper" style={{backgroundColor: '#759A47', marginRight: 12}}>
@@ -164,7 +168,7 @@ const QuestionCard: React.FC<IQuestionCard> = ({
                         <Button onClick={() => {
                             next();
                             setPressed({index: 0, pressed: false})
-                        }} width={343} height={47} text="Next Question" selected glow/>
+                        }} width={343} height={47} text={buttonText} selected glow/>
                     </div>
                 </div>
             </div> : null}
