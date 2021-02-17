@@ -1,15 +1,17 @@
 import React, {useState, useEffect, useRef} from 'react';
 // @ts-ignore
 import {connect} from 'react-redux';
-import TitleText from "../../components/TitleText";
-
-
+import './styles.css';
 
 function Version(props: any) {
 
     return (
-        <div>
-            <TitleText>Hello world</TitleText>
+        <div className="versionContainer">
+            <iframe
+                src="https://docs.google.com/document/d/1A9XHs_u42qunweu4RtqDajgTNtPzA8KHt7cD2ONfXWk/"
+                width="100%"
+                height="100%"
+            />
         </div>
     );
 }

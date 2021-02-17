@@ -33,8 +33,12 @@ function Payment(props: any) {
             <div className="paymentButtonTextWrapper">
                 <Banner topText="IT'S TIME TO" title="Become a Better Poker Player with Chip Leader AI"/>
                 <div className="paymentButtonWrapper">
-                    {succeeded ?
-                        <Button onClick={() => history.push('performance')} width="30%" height={64} text="Start" glow/>
+                    {succeeded || moment(props.user.payment.subscription).diff(moment(), 'days') > 0 ?
+                        <Button onClick={() => {
+                            props.fetchUpdatedPaymentData(props.email, () => {
+                                history.push('performance');
+                            })
+                        }} width="30%" height={64} text="Start" glow/>
                          :
                         <Elements stripe={promise}>
                             <CheckoutForm clientSecret={props.clientSecret} email={props.user.email} succeeded={succeeded} setSucceeded={setSucceeded}/>
@@ -55,7 +59,8 @@ const mapStateToProps = (state: any) => {
 
 const bindActions = (dispatch: any) => {
     return {
-        fetchPaymentIntent: (items: {id: string}[]) => dispatch(ACTIONS.fetchPaymentIntent(items))
+        fetchPaymentIntent: (items: {id: string}[]) => dispatch(ACTIONS.fetchPaymentIntent(items)),
+        fetchUpdatedPaymentData: (email: string, callback: () => void) => dispatch(ACTIONS.fetchUpdatedPaymentData(email, callback))
     };
 };
 

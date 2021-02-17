@@ -17,6 +17,7 @@ import {useHistory} from 'react-router-dom';
 import {bugTrackerScript} from "../../helpers/constants";
 import QuestionProgress from "../../components/QuestionsProgress";
 import Loader from "../../components/Loader";
+import {detectBrowser} from "../../helpers/validations";
 
 function ScreenTemplate(props: any) {
     const history = useHistory();
@@ -70,6 +71,14 @@ function ScreenTemplate(props: any) {
     const updateDimensions = () => {
         setWidth(window.innerWidth);
     }
+
+    useEffect(() => {
+        if (detectBrowser() === 'Chrome' || detectBrowser() === 'Firefox') {
+            window.screen.orientation.lock('portrait');
+        }
+        window.addEventListener("resize", updateDimensions);
+        return () => window.removeEventListener("resize", updateDimensions);
+    }, [width]);
 
     return (
         <div className="container">
