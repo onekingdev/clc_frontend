@@ -53,7 +53,7 @@ function Performance(props: any) {
                 props.tableData.myCorrectQuestions, props.tableData.myChipsEarned, props.tableData.myTickets
             ]}/>
             <div className="pathsImageWrapper">
-                <img src={performanceBg} width="90%"/>
+                <img src={performanceBg} width="100%"/>
             </div>
             <div style={{marginTop: 72}}>
                 <TabNavigation selectedIndex={tab} tabs={['This Season', 'This Week', 'This Month', 'Lifetime']}

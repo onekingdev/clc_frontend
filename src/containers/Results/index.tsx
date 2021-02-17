@@ -25,7 +25,7 @@ function Results(props: any) {
         <ScreenTemplate type="results" loading={props.totalQuestions === 0} progressData={props.progressData} totalQuestions={props.totalQuestions} index={props.progressIndex} tooltip={'Good job!'}>
             <Banner type="results" topText="THE TOURNAMENT ASSESSMENT" title="Assessment Results" footerValues={[`${props.correctQuestions}/${props.totalQuestions}`, `${getPercentage(props.correctQuestions, props.totalQuestions)}`]}/>
             <div className="pathsImageWrapper">
-                <img src={performanceBg} width="90%"/>
+                <img src={performanceBg} width="100%"/>
             </div>
             <br/>
             <br/>

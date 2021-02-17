@@ -1,0 +1,41 @@
+.homeDashboardContainer {
+}
+
+.homeTopWrapper {
+    display: flex;
+    justify-content: space-around;
+    border-top-color: #505050;
+    border-top-width: 1px;
+    border-top-style: solid;
+    margin-left: 60px;
+    margin-right: 60px;
+}
+
+.homeTextWrapper {
+    text-align: left;
+    margin-top: 33px;
+    margin-bottom: 14px;
+}
+
+.homeTitleWrapper {
+    border-bottom-color: #505050;
+    border-bottom-width: 1px;
+    border-bottom-style: solid;
+    width: 80%;
+    margin-left: 60px;
+}
+
+.homeMonthEventCardWrapper {
+    margin-top: 16px;
+    margin-left: 60px;
+    margin-right: 60px;
+    width: 100%;
+}
+
+.homeGraphWrapper {
+    margin-top: 16px;
+    margin-left: 60px;
+    margin-right: 60px;
+    margin-bottom: 100px;
+    width: 100%;
+}

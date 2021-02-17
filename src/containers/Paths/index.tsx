@@ -87,7 +87,7 @@ function Paths(props: any) {
         <ScreenTemplate>
             <Banner topText="Lesson library" title="Pick your path"/>
             <div className="pathsImageWrapper">
-                <img src={pathsBg} width="90%"/>
+                <img src={pathsBg} width="100%"/>
             </div>
             {available.array.length > 0 || props.isFetchingPathsData ?
             <div>

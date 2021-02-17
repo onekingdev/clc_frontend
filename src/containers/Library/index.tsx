@@ -12,6 +12,7 @@ import libraryBg from '../../assets/images/libraryBg.png';
 import MediaCard from '../../components/MediaCard';
 import * as ACTIONS from './store/actions';
 import {embedVideo} from "../../helpers/formatter";
+import {DotLoader} from "react-spinners";
 
 function Library(props: any) {
     const [showModal, setShowModal] = useState({show: false, url: ''});
@@ -58,7 +59,7 @@ function Library(props: any) {
         <ScreenTemplate>
             <Banner topText="Lesson library" title="Video Library"/>
             <div className="libraryImageWrapper">
-                <img src={libraryBg} width="90%"/>
+                <img src={libraryBg} width="100%"/>
             </div>
             {!!Object.keys(content).length || props.isFetchingLibraryData ?
                 Object.keys(content).map((key: string, index) =>
@@ -77,11 +78,9 @@ function Library(props: any) {
                             content={content[key]}
                             show={width < 650 ? 1 : width < 950 ? 2 : width < 1300 ? 3 : width < 1650 ? 4 : width < 2000 ? 5 : 6}/>
                     </div>
-                 ): null}
+                 ): <DotLoader color="#FFF" loading={true}/>}
             <Modal visible={showModal.show} width="50%" height="50%" effect="fadeInUp" onClickAway={() => setShowModal({show: false, url: ''})}>
-                <iframe width="100%" height="100%" style={{backgroundColor: '#000'}}
-                        src={embedVideo(showModal.url)}>
-                </iframe>
+                <iframe width="100%" height="100%" style={{backgroundColor: '#000'}} src={embedVideo(showModal.url)}/>
             </Modal>
         </ScreenTemplate>
     );

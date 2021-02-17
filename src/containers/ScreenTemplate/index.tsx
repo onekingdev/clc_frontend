@@ -83,9 +83,9 @@ function ScreenTemplate(props: any) {
     return (
         <div className="container">
             {!props.type ? <Sidebar title="MENU" items={
-                [/*<SidebarItem icon="home" text="Home" onClick={() => {
+                [<SidebarItem icon="home" text="Home" onClick={() => {
                     setTimeout(() => history.push('home'), 0);
-                }}/>,*/
+                }}/>,
                     <SidebarItem icon="ai" text="AI Learning" onClick={() => {
                         setTimeout(() => {
                             sessionStorage.setItem('selectedTopic', '{}');

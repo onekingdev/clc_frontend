@@ -1,5 +1,6 @@
 .loginContainer {
     display: flex;
+    justify-content: flex-end;
 }
 
 .formContainer {
@@ -16,10 +17,11 @@
 }
 
 .loginVideoContainer {
+    background-color: #000;
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 70%;
+    width: 80%;
 }
 
 .loginAvatarWrapper {

@@ -25,6 +25,7 @@ import Logo from '../../assets/images/clai-logo.png'
 import {IUser} from './interfaces';
 // @ts-ignore
 import {useHistory} from 'react-router-dom';
+import loopImg from '../../assets/images/chip-leader-loop.gif';
 import moment from "moment";
 
 function Login(props: any) {
@@ -91,9 +92,9 @@ function Login(props: any) {
         <div className="loginContainer">
             {width > 900 ?
                 <div className="loginVideoContainer">
-                    <iframe width="100%" height="100%"
-                        src="https://www.youtube.com/embed/zBajLyDcfWA?playlist=zBajLyDcfWA&autoplay=1&loop=1">
-                    </iframe>
+                    <Fade duration={3000}>
+                        <img src={loopImg} width="500vh" height="500vh"/>
+                    </Fade>
                 </div>
                 : null}
             <div className="formContainer">

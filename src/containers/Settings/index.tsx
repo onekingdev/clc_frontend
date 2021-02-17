@@ -14,7 +14,7 @@ import TitleText from "../../components/TitleText";
 import Avatar from "../../components/Avatar";
 import BodyText from "../../components/BodyText";
 import ErrorDisplay from "../../components/ErrorDisplay";
-import {libraryUploadError, questionsUploadError, glossaryUploadError} from "../../helpers/constants";
+import {libraryUploadError, questionsUploadError, glossaryUploadError, eventsUploadError} from "../../helpers/constants";
 const host = new URL(window.location.href).host;
 
 function Settings(props: any) {
@@ -63,6 +63,12 @@ function Settings(props: any) {
         setErrorMessage('');
         const sheets = onFileOpen(data);
         bulkImportGlossary(sheets);
+    }
+
+    const importEvents = (data: any) => {
+        setErrorMessage('');
+        const sheets = onFileOpen(data);
+        bulkImportEvents(sheets);
     }
 
     const bulkImportLibrary = (sheets: { [email: string]: Object; }) => {
@@ -148,6 +154,23 @@ function Settings(props: any) {
         }
     }
 
+    const bulkImportEvents = (sheets: { [email: string]: Object; }) => {
+        let events = (sheets["EVENTS"] as Array<Object> || [])
+            .map((value: any) => {
+                return {
+                    word: value['TITLE'],
+                    date: value['DATE'],
+                    body: value['BODY'],
+                    link: value['LINK'],
+                }
+            });
+        if (events.length > 0) {
+            props.uploadEvents({events});
+        } else {
+            setErrorMessage(eventsUploadError);
+        }
+    }
+
     return (
         <div className="settingsContainer">
             {props.user.avatar === undefined || props.isUploadingLibraryData ?
@@ -169,6 +192,7 @@ function Settings(props: any) {
                             {/*<FilePicker title={"Import Library"} onFileOpen={importLibrary}/>*/}
                             {/*<FilePicker title={"Import Questions"} onFileOpen={importQuestions}/>*/}
                             {/*<FilePicker title={"Import Glossary"} onFileOpen={importGlossary}/>*/}
+                            <FilePicker title={"Import Events"} onFileOpen={importGlossary}/>
                         </div>
                         : null}
 
@@ -182,7 +206,6 @@ function Settings(props: any) {
                             onClick={() => {
                                 props.logout((success: boolean) => {
                                     if (success) {
-                                        window.location.reload();
                                         history.push(`/`);
                                     }
                                 })
@@ -211,6 +234,7 @@ const bindActions = (dispatch: any) => {
         uploadGlossary: (glossary: any) => dispatch(ACTIONS.uploadGlossary(glossary)),
         uploadLibrary: (library: any) => dispatch(ACTIONS.uploadLibrary(library)),
         uploadQuestions: (questions: any) => dispatch(ACTIONS.uploadQuestions(questions)),
+        uploadEvents: (events: any) => dispatch(ACTIONS.uploadEvents(events)),
         logout: (callback: (success: boolean) => void) => dispatch(AUTH_ACTIONS.logout(callback))
     };
 };

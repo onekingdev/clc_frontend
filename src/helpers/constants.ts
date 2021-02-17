@@ -18,8 +18,10 @@ export const apiDropLibrary = 'dropLibrary';
 export const apiUploadLibrary = 'uploadLibrary';
 export const apiUploadContent = 'uploadContent';
 export const apiUploadGlossary = 'uploadGlossary';
+export const apiUploadEvents = 'uploadEvents';
 export const apiGetGlossary = 'getGlossary';
 export const apiDropGlossary = 'dropGlossary';
+export const apiDropEvents = 'dropEvents';
 export const apiGetQuestionsProgressbar = 'getQuestionsProgressbar';
 export const apiFinishAssessment = 'finishAssessment';
 
@@ -35,6 +37,7 @@ export const passwordsDoNotMatch = 'Passwords do not match';
 export const libraryUploadError = 'Error when uploading library content data';
 export const questionsUploadError = 'Error when uploading question content data';
 export const glossaryUploadError = 'Error when uploading glossary content data';
+export const eventsUploadError = 'Error when uploading events content data';
 
 
 //other

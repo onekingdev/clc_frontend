@@ -12,6 +12,7 @@ import Results from '../containers/Results';
 import Game from '../containers/Game';
 import Payment from '../containers/Payment';
 import Version from '../containers/Version';
+import Home from '../containers/Home';
 import moment from "moment";
 
 function Navigation(props: any) {
@@ -32,6 +33,7 @@ function Navigation(props: any) {
 
                             {props.user.payment && moment(props.user.payment.subscription).diff(moment(), 'days') > 0 ?
                                 <div>
+                                    <Route exact path="/home" component={Home}/>
                                     <Route exact path="/paths" component={Paths}/>
                                     <Route exact path="/library" component={Library}/>
                                     <Route exact path="/performance" component={Performance}/>

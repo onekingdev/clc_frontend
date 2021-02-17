@@ -5,7 +5,6 @@ import SubtitleText from "../SubtitleText";
 import BodyText from "../BodyText";
 import TitleText from "../TitleText";
 import Button from "../Button";
-import {DotLoader} from "react-spinners";
 import * as Icon from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {parseResponse} from "../../helpers/formatter";

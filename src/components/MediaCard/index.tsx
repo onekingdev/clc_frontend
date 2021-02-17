@@ -12,7 +12,8 @@ interface IMediaCard {
     duration: number,
     title: string,
     description: string,
-    onClick: () => void
+    onClick: () => void,
+    link?: boolean
 }
 
 const MediaCard: React.FC<IMediaCard> = ({
@@ -20,7 +21,8 @@ const MediaCard: React.FC<IMediaCard> = ({
     duration,
     description,
     title,
-    onClick
+    onClick,
+    link
 }) =>  {
     const [showPlay, setShowPlay] = useState(false);
     const [count, setCount] = useState(0);
@@ -77,7 +79,7 @@ const MediaCard: React.FC<IMediaCard> = ({
             onMouseOver={() => setShowPlay(true)}
             onMouseLeave={() => setShowPlay(false)}>
             <div className="mediaCardBannerWrapper">
-                {showPlay ?
+                {!link && showPlay ?
                     <div className="mediaCardImageCover">
                         <div className="topicCardPlayCircle">
                             <FontAwesomeIcon color="#FFF" size="1x" icon={Icon['faPlay']} transform={{ rotate: 0 }} />

@@ -8,7 +8,9 @@ import {
     apiUploadLibrary,
     apiUploadContent,
     apiDropGlossary,
-    apiUploadGlossary
+    apiUploadGlossary,
+    apiUploadEvents,
+    apiDropEvents
 } from "../../../../helpers/constants";
 
 export const isUploadingLibraryData = (data: boolean) => {
@@ -47,6 +49,17 @@ export const uploadGlossary = (glossary: any) => async (dispatch: any, getState:
     await api.get(apiDropGlossary);
 
     return api.post(apiUploadGlossary, glossary)
+        .then(response => {
+            dispatch(isUploadingLibraryData(false));
+            return response;
+        });
+}
+
+export const uploadEvents = (events: any) => async (dispatch: any, getState: any) => {
+    dispatch(isUploadingLibraryData(true));
+    await api.get(apiDropEvents);
+
+    return api.post(apiUploadEvents, events)
         .then(response => {
             dispatch(isUploadingLibraryData(false));
             return response;
