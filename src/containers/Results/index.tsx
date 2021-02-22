@@ -49,7 +49,7 @@ function Results(props: any) {
                                         progressText={`${lesson.correct}/${lesson.questions.length}`}
                                         upperText={props.myTopics[index].name}
                                         title={lesson.lessonName}
-                                        text="Mauris varius felis at commodo imperdiet. Cras faucibus egestas urna, sed cursus massa cursus in. Capien interdum quis. Fusce id arcu eget nisl porta blandit. Etiam mollis massa et ipsum tincidunt, at luctus velit ultrices. Aliquam posuere mi ac risus scelerisque, in aliquam nunc molestie. Ut aliquam lobortis arcu, non consectetur sapien interdum quis."
+                                        text={lesson.description}
                                     />
                                 </div>
                             )}

@@ -9,7 +9,7 @@ import moment from "moment";
 
 interface IMediaCard {
     image: string,
-    duration: number,
+    duration?: number,
     title: string,
     description: string,
     onClick: () => void,
@@ -28,7 +28,7 @@ const MediaCard: React.FC<IMediaCard> = ({
     const [count, setCount] = useState(0);
     const [spanStyles, setSpanStyles] = useState({});
 
-    let time = moment().startOf('day').seconds(duration).format('H:mm:ss');
+    let time = moment().startOf('day').seconds(duration ? duration : 0).format('H:mm:ss');
 
     /* Debounce Code to call the Ripple removing function */
     const callCleanUp = (cleanup: () => void, delay: number) => {
@@ -90,15 +90,17 @@ const MediaCard: React.FC<IMediaCard> = ({
                     <img src={image} width={276} height={154}/>
                 </div>
             </div>
+            {duration ?
             <div className="topicCardTextWrapper">
                 <SmallText>{time[0] === '0' && time[2] === '0' ? time.substr(3, time.length) : time[0] === '0' ? time.substr(1, time.length) : time}</SmallText>
-            </div>
+            </div> : null}
             <div className="topicCardTextWrapper" style={{marginBottom: 12}}>
                 <SubtitleText>{title}</SubtitleText>
             </div>
+            {description && description.length > 0 ?
             <div className="topicCardTextWrapper">
                 <BodyText>{description.length > 100 ? `${description.substr(0, 100)}...` : description}</BodyText>
-            </div>
+            </div> : null}
             <div className="rippleContainer" onMouseDown={showRipple} onMouseUp={callCleanUp(cleanUp, 2000)}>
                 {renderRippleSpan()}
             </div>

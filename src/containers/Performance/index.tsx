@@ -10,6 +10,8 @@ import TabNavigation from "../../components/TabNavigation";
 import DataTable from "../../components/DataTable";
 import Graph from "../../components/Graph";
 import ScreenTemplate from "../ScreenTemplate";
+import ProgressCard from "../../components/ProgressCard";
+import {getPercentage} from "../../helpers/formatter";
 
 function Performance(props: any) {
     const [width, setWidth] = useState(window.innerWidth);
@@ -115,9 +117,30 @@ function Performance(props: any) {
                             </SmallText>
                         </div>
                         <div className="graphWrapper">
-                            <Graph loading={props.isFetchingPerformanceData} data={props.graphData} width={(width - 120) < 350 ? 350 : width - 120}/>
+                            <Graph loading={props.isFetchingPerformanceData} data={props.dailyGraphData} width={(width - 120) < 350 ? 350 : width - 120}/>
                         </div>
                     </div>
+                </div>
+                <TabNavigation selectedIndex={tab} tabs={['This Season', 'This Week', 'This Month', 'Lifetime']}
+                               callback={(index) => setTab(index)}/>
+                <div className="assessmentResultsPerformanceCardWrapper">
+                    {props.myTopics && props.myTopics.length > 0 ?
+                        props.myTopics.map((topic: any, index: number) =>
+                            <div className="assessmentResultsProgressGroupWrapper">
+                                {index !== 0 && props.myTopics[index].lessons.map((lesson: any) =>
+                                    <div className="assessmentResultsProgressCardWrapper">
+                                        <ProgressCard
+                                            values={[0, getPercentage(lesson.correct, lesson.questions.length)]}
+                                            progressText={`${lesson.correct}/${lesson.questions.length}`}
+                                            upperText={props.myTopics[index].name}
+                                            title={lesson.lessonName}
+                                            text={lesson.description}
+                                        />
+                                    </div>
+                                )}
+                            </div>
+                        )
+                        : null}
                 </div>
             </div>
         </ScreenTemplate>
@@ -127,11 +150,12 @@ function Performance(props: any) {
 const mapStateToProps = (state: any) => {
     return {
         user: state.authState.user,
-        graphData: state.performanceState.graphData,
+        dailyGraphData: state.performanceState.dailyGraphData,
         tableData: state.performanceState.tableData,
         isFetchingPerformanceData: state.performanceState.isFetchingPerformanceData,
         chips: state.screenTemplateState.chips,
         tickets: state.screenTemplateState.tickets,
+        myTopics: state.screenTemplateState.myTopics,
     };
 }
 

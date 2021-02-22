@@ -31,14 +31,21 @@ export const setTableData = (data: object) => {
     }
 }
 
-export const setGraphData = (data: object) => {
+export const setDailyGraphData = (data: object) => {
     return {
-        type: TYPES.SET_GRAPH_DATA,
+        type: TYPES.SET_DAILY_GRAPH_DATA,
         payload: data
     }
 }
 
-export const fetchEarnings = (consult: string) => async(
+export const setMonthlyGraphData = (data: object) => {
+    return {
+        type: TYPES.SET_MONTHLY_GRAPH_DATA,
+        payload: data
+    }
+}
+
+export const fetchEarnings = (consult: string, tableTime?: string) => async(
     dispatch: (data: any) => void,
     getState: any,
 ) => {
@@ -79,7 +86,7 @@ export const fetchEarnings = (consult: string) => async(
             return list;
         });
 
-    let myChips = 0, myCorrect = 0, myTickets = 0, days = {};
+    let myChips = 0, myCorrect = 0, myTickets = 0, days = {}, months = {};
 
     correct.forEach((earning: any) => {
         if (earning.id === uid) {
@@ -87,6 +94,7 @@ export const fetchEarnings = (consult: string) => async(
             myCorrect = earning[consult].correct;
             myTickets = earning[consult].tickets;
             days = earning.days;
+            months = earning.months;
         }
     });
 
@@ -100,8 +108,8 @@ export const fetchEarnings = (consult: string) => async(
         myTickets: myTickets
     }))
 
-    dispatch(setGraphData(formatGraphData(days)))
-
+    dispatch(setDailyGraphData(formatGraphData(days)))
+    dispatch(setMonthlyGraphData(formatGraphData(months)))
     dispatch(setIsFetchingPerformanceData(false))
 }
 
@@ -140,6 +148,40 @@ export const updateDailyEarnings = (data: { chips: number, tickets: number }) =>
                 return {...document.days, saturday: {correct: dailyUpdate('saturday'), tickets: dailyUpdate('saturday', data.tickets)}};
             default:
                 return {...document.days, sunday: {correct: dailyUpdate('sunday'), tickets: dailyUpdate('sunday', data.tickets)}};
+        }
+    }
+
+    const addToMonth = (month: string, amount?: any) => {
+        if (amount) return document.months[month].tickets += amount;
+        return document.months[month].correct += 1;
+    }
+
+    const monthsUpdate = () => {
+        switch (monthNumber) {
+            case 0:
+                return {...document.months, december: {correct: addToMonth('december'), tickets: addToMonth('december', data.tickets)}};
+            case 1:
+                return {...document.months, january: {correct: addToMonth('january'), tickets: addToMonth('january', data.tickets)}};
+            case 2:
+                return {...document.months, february: {correct: addToMonth('february'), tickets: addToMonth('february', data.tickets)}};
+            case 3:
+                return {...document.months, march: {correct: addToMonth('march'), tickets: addToMonth('march', data.tickets)}};
+            case 4:
+                return {...document.months, april: {correct: addToMonth('april'), tickets: addToMonth('april', data.tickets)}};
+            case 5:
+                return {...document.months, may: {correct: addToMonth('may'), tickets: addToMonth('may', data.tickets)}};
+            case 6:
+                return {...document.months, june: {correct: addToMonth('june'), tickets: addToMonth('june', data.tickets)}};
+            case 7:
+                return {...document.months, july: {correct: addToMonth('july'), tickets: addToMonth('july', data.tickets)}};
+            case 8:
+                return {...document.months, august: {correct: addToMonth('august'), tickets: addToMonth('august', data.tickets)}};
+            case 9:
+                return {...document.months, september: {correct: addToMonth('september'), tickets: addToMonth('september', data.tickets)}};
+            case 10:
+                return {...document.months, october: {correct: addToMonth('october'), tickets: addToMonth('october', data.tickets)}};
+            default:
+                return {...document.months, november: {correct: addToMonth('november'), tickets: addToMonth('november', data.tickets)}};
         }
     }
 
@@ -219,6 +261,7 @@ export const updateDailyEarnings = (data: { chips: number, tickets: number }) =>
                 chips: document.lifetime.chips += data.chips,
                 tickets: document.lifetime.tickets += data.tickets,
             },
-            days: daysUpdate()
+            days: daysUpdate(),
+            months: monthsUpdate()
         })
 }

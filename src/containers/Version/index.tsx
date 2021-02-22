@@ -8,7 +8,7 @@ function Version(props: any) {
     return (
         <div className="versionContainer">
             <iframe
-                src="https://docs.google.com/document/d/1A9XHs_u42qunweu4RtqDajgTNtPzA8KHt7cD2ONfXWk/"
+                src="https://docs.google.com/document/d/1A9XHs_u42qunweu4RtqDajgTNtPzA8KHt7cD2ONfXWk/edit?usp=sharing"
                 width="100%"
                 height="100%"
             />

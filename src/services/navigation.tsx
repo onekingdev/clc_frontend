@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 // @ts-ignore
 import {connect} from 'react-redux';
 // @ts-ignore

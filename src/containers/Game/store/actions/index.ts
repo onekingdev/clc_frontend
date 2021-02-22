@@ -181,6 +181,7 @@ export const updateMyTopics = (questionID: number, correct: boolean, topicData: 
                     rule: topic.rule,
                     mastered: false,
                     UID: topic.lessonUID,
+                    description: topic.lessonDescription,
                     lessonName: topic.lessonName,
                     correctInARow: correct ? 1 : 0,
                     correct: correct ? 1 : 0,

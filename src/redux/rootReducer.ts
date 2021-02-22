@@ -8,6 +8,7 @@ import settingsState from '../containers/Settings/store/reducers';
 import screenTemplateState from '../containers/ScreenTemplate/store/reducers';
 import resultState from '../containers/Results/store/reducers';
 import paymentState from '../containers/Payment/store/reducers';
+import homeState from '../containers/Home/store/reducers';
 
 export default combineReducers({
     authState,
@@ -18,5 +19,6 @@ export default combineReducers({
     settingsState,
     screenTemplateState,
     resultState,
-    paymentState
+    paymentState,
+    homeState
 });

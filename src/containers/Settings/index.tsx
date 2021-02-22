@@ -80,7 +80,8 @@ function Settings(props: any) {
                     title: value['TITLE'],
                     description: value['DESCRIPTION'],
                     url: value['URL'],
-                    type: value['TYPE'] // usage, faq
+                    type: value['TYPE'],
+                    handBreakdown: value['HAND_BREAKDOWN'],
                 }
             });
         if (library.length > 0) {
@@ -97,6 +98,7 @@ function Settings(props: any) {
                     UID: value['UID'],
                     topicUID: value['TOPIC_UID'],
                     name: value['NAME'],
+                    description: value['DESCRIPTION'],
                     rule: value['RULE'].toString(),
                     order: parseInt(value['ORDER'])
                 }
@@ -158,10 +160,11 @@ function Settings(props: any) {
         let events = (sheets["EVENTS"] as Array<Object> || [])
             .map((value: any) => {
                 return {
-                    word: value['TITLE'],
+                    title: value['TITLE'],
                     date: value['DATE'],
                     body: value['BODY'],
                     link: value['LINK'],
+                    spotlight: value['SPOTLIGHT'],
                 }
             });
         if (events.length > 0) {
@@ -188,11 +191,15 @@ function Settings(props: any) {
                         <Avatar size="large" image={props.user.avatar} text={props.user.userName}/>
                     </div>
                     {props.user.type === 'admin' ?
-                        <div className="settingsUploadButtonsWrapper">
-                            {/*<FilePicker title={"Import Library"} onFileOpen={importLibrary}/>*/}
-                            {/*<FilePicker title={"Import Questions"} onFileOpen={importQuestions}/>*/}
-                            {/*<FilePicker title={"Import Glossary"} onFileOpen={importGlossary}/>*/}
-                            <FilePicker title={"Import Events"} onFileOpen={importGlossary}/>
+                        <div>
+                            <div className="settingsUploadButtonsWrapper" style={{marginBottom: 0}}>
+                                <FilePicker title={"Import Library"} onFileOpen={importLibrary}/>
+                                <FilePicker title={"Import Questions"} onFileOpen={importQuestions}/>
+                            </div>
+                            <div className="settingsUploadButtonsWrapper">
+                                <FilePicker title={"Import Glossary"} onFileOpen={importGlossary}/>
+                                <FilePicker title={"Import Events"} onFileOpen={importEvents}/>
+                            </div>
                         </div>
                         : null}
 

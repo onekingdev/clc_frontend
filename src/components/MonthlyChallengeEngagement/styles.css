@@ -1,0 +1,33 @@
+.monthlyChallengeEngagementWrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.monthlyChallengeEngagementDayWrapper {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.monthlyChallengeEngagementActiveWrapper {
+    width: 14px;
+    height: 14px;
+    margin: 3px;
+    border-radius: 100px;
+    background-color: var(--primary);
+}
+
+.monthlyChallengeEngagementInActiveWrapper {
+    width: 14px;
+    height: 14px;
+    margin: 3px;
+    border-radius: 100px;
+    background-color: #2E2F31;
+}
+
+.monthlyChallengeEngagementCalendarWrapper {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}

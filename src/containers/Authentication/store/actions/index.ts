@@ -104,6 +104,18 @@ export const register = (data: IUser, callback: (success: boolean) => void) => a
                                 friday: {correct: 0, tickets: 0},
                                 saturday: {correct: 0, tickets: 0},
                                 sunday: {correct: 0, tickets: 0},
+                            },
+                            months: {
+                                december: {correct: 0, tickets: 0},
+                                january: {correct: 0, tickets: 0},
+                                february: {correct: 0, tickets: 0},
+                                march: {correct: 0, tickets: 0},
+                                may: {correct: 0, tickets: 0},
+                                july: {correct: 0, tickets: 0},
+                                august: {correct: 0, tickets: 0},
+                                september: {correct: 0, tickets: 0},
+                                october: {correct: 0, tickets: 0},
+                                november: {correct: 0, tickets: 0},
                             }
                         });
                     dispatch(setUserData(user))
