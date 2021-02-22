@@ -16,6 +16,7 @@ import {getPercentage} from "../../helpers/formatter";
 function Performance(props: any) {
     const [width, setWidth] = useState(window.innerWidth);
     const [tab, setTab] = useState(0);
+    const [bottomTab, setBottomTab] = useState(0);
     const [query, setQuery] = useState('season');
 
     useEffect(() => {
@@ -47,6 +48,13 @@ function Performance(props: any) {
 
     const updateDimensions = () => {
         setWidth(window.innerWidth);
+    }
+
+    const renderTopicTabs = (topics: any) => {
+        let list: any = [];
+        topics.forEach((topic: any) => list.push(topic.name))
+        list.shift();
+        return list;
     }
 
     return (
@@ -121,13 +129,13 @@ function Performance(props: any) {
                         </div>
                     </div>
                 </div>
-                <TabNavigation selectedIndex={tab} tabs={['This Season', 'This Week', 'This Month', 'Lifetime']}
-                               callback={(index) => setTab(index)}/>
+                <TabNavigation selectedIndex={bottomTab} tabs={renderTopicTabs(props.myTopics)}
+                               callback={(index) => setBottomTab(index)}/>
                 <div className="assessmentResultsPerformanceCardWrapper">
                     {props.myTopics && props.myTopics.length > 0 ?
                         props.myTopics.map((topic: any, index: number) =>
                             <div className="assessmentResultsProgressGroupWrapper">
-                                {index !== 0 && props.myTopics[index].lessons.map((lesson: any) =>
+                                {index-1 === bottomTab && index !== 0 && props.myTopics[index].lessons.map((lesson: any) =>
                                     <div className="assessmentResultsProgressCardWrapper">
                                         <ProgressCard
                                             values={[0, getPercentage(lesson.correct, lesson.questions.length)]}
