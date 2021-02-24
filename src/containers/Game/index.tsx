@@ -59,9 +59,9 @@ function Game(props: any) {
     },[props.myTopics === undefined || props.myTopics.length === 0])
 
     useEffect(() => {
-        if (pathname === '/assessment') {
-            props.fetchQuestionProgressbar('assessment', props.myTopics);
-        } else {
+        const UID = JSON.parse(sessionStorage.getItem('selectedTopic') as string).lessonUID;
+        props.fetchQuestionProgressbar(pathname.substr(1, pathname.length), props.myTopics, UID);
+        if (pathname !== '/assessment') {
             setShowFeedback(true);
         }
     }, [props.myTopics])
@@ -223,7 +223,7 @@ function Game(props: any) {
             props.saveEarnings({
                 userID: props.user.id,
                 questionID: questions.array[questionIndex].question.questionID,
-                localChips, localTickets
+                localChips, localTickets,
             });
             setCorrectCounter(correctCounter += 1);
             // saving for results
@@ -334,6 +334,11 @@ function Game(props: any) {
         }
     }
 
+    const renderQuestionProgressbarIndex = (path: string) => {
+        if (path === '/game') return questionIndex;
+        else return props.progressIndex;
+    }
+
     return (
         <ScreenTemplate type={pathname === '/assessment' ? 'assessment' : null} loading={!props.isFetchingGameData}>
             {questions.array.length === 0 ? null :
@@ -411,7 +416,7 @@ function Game(props: any) {
                 </div>
             }
             <div className="gameQuestionProgressbarWrapper">
-                <QuestionProgress loading={props.totalQuestions === 0} totalQuestions={props.totalQuestions} index={props.progressIndex} result={props.progressData} showFeedback={showFeedback} tooltip=""/>
+                <QuestionProgress loading={props.totalQuestions === 0} totalQuestions={props.totalQuestions} index={renderQuestionProgressbarIndex(pathname)} result={props.progressData} showFeedback={showFeedback} tooltip=""/>
             </div>
             <Modal visible={showModal} width="450" effect="fadeInUp" onClickAway={() => setShowModal(false)}>
                 <div style={{backgroundColor: '#000', display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
@@ -446,7 +451,7 @@ const bindActions = (dispatch: any) => {
     return {
         fetchGameData: (myTopics: any) => dispatch(ACTIONS.fetchGameData(myTopics)),
         setFetchNextAIQuestions: (fetch: boolean) => dispatch(ACTIONS.setFetchNextAIQuestions(fetch)),
-        saveEarnings: (data: {questionID: number, chips: number, tickets: number }) => dispatch(ACTIONS.saveEarnings(data)),
+        saveEarnings: (data: { localTickets: any; questionID: any; localChips: any; userID: any }) => dispatch(ACTIONS.saveEarnings(data)),
         updateMyTopics: (questionID: number, correct: boolean, topicData: any, questionIndex: number) => dispatch(ACTIONS.updateMyTopics(questionID, correct, topicData, questionIndex)),
         updateDailyEarnings: (data: { chips: number, tickets: number }) => dispatch(PERFORMANCE_ACTIONS.updateDailyEarnings(data)),
         clearGameData: () => dispatch(ACTIONS.clearGameData()),
@@ -455,7 +460,7 @@ const bindActions = (dispatch: any) => {
         setCorrectQuestions: (correct: number) => dispatch(RESULT_ACTIONS.setCorrectQuestions(correct)),
         setTotalQuestions: (questions: number) => dispatch(RESULT_ACTIONS.setTotalQuestions(questions)),
         saveAssessment: (assessment: { correct: number, totalQuestions: number, ticketsEarned: number, chipsEarned: number }) => dispatch(RESULT_ACTIONS.saveAssessment(assessment)),
-        fetchQuestionProgressbar: (type: string, myTopics: any) => dispatch(RESULT_ACTIONS.fetchQuestionProgressbar(type, myTopics)),
+        fetchQuestionProgressbar: (type: string, myTopics: any, UID: string) => dispatch(RESULT_ACTIONS.fetchQuestionProgressbar(type, myTopics, UID)),
         clearResultsData: () => dispatch(RESULT_ACTIONS.clearResultsData())
     };
 };

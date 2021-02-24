@@ -159,29 +159,29 @@ export const updateDailyEarnings = (data: { chips: number, tickets: number }) =>
     const monthsUpdate = () => {
         switch (monthNumber) {
             case 0:
-                return {...document.months, december: {correct: addToMonth('december'), tickets: addToMonth('december', data.tickets)}};
-            case 1:
                 return {...document.months, january: {correct: addToMonth('january'), tickets: addToMonth('january', data.tickets)}};
-            case 2:
+            case 1:
                 return {...document.months, february: {correct: addToMonth('february'), tickets: addToMonth('february', data.tickets)}};
-            case 3:
+            case 2:
                 return {...document.months, march: {correct: addToMonth('march'), tickets: addToMonth('march', data.tickets)}};
-            case 4:
+            case 3:
                 return {...document.months, april: {correct: addToMonth('april'), tickets: addToMonth('april', data.tickets)}};
-            case 5:
+            case 4:
                 return {...document.months, may: {correct: addToMonth('may'), tickets: addToMonth('may', data.tickets)}};
-            case 6:
+            case 5:
                 return {...document.months, june: {correct: addToMonth('june'), tickets: addToMonth('june', data.tickets)}};
-            case 7:
+            case 6:
                 return {...document.months, july: {correct: addToMonth('july'), tickets: addToMonth('july', data.tickets)}};
-            case 8:
+            case 7:
                 return {...document.months, august: {correct: addToMonth('august'), tickets: addToMonth('august', data.tickets)}};
-            case 9:
+            case 8:
                 return {...document.months, september: {correct: addToMonth('september'), tickets: addToMonth('september', data.tickets)}};
-            case 10:
+            case 9:
                 return {...document.months, october: {correct: addToMonth('october'), tickets: addToMonth('october', data.tickets)}};
-            default:
+            case 10:
                 return {...document.months, november: {correct: addToMonth('november'), tickets: addToMonth('november', data.tickets)}};
+            default:
+                return {...document.months, december: {correct: addToMonth('december'), tickets: addToMonth('december', data.tickets)}};
         }
     }
 

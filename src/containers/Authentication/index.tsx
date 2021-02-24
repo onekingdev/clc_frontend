@@ -82,7 +82,7 @@ function Login(props: any) {
                 if (success) {
                     if (user.assessment) history.push(`assessment-screen`);
                     else if (user.payment && moment(user.payment.subscription).diff(moment(), 'days') <= 0) history.push(`payment`);
-                    else history.push(`performance`);
+                    else history.push(`home`);
                 }
             });
         }

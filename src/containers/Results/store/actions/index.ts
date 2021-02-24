@@ -71,16 +71,26 @@ export const saveAssessment = (assessment: { correct: number, totalQuestions: nu
 
 }
 
-export const fetchQuestionProgressbar = (type: string, myTopics: any) => async(
+export const fetchQuestionProgressbar = (type: string, myTopics: any, UID?: string) => async(
     dispatch: (data: any) => void,
     getState: any,
 ) => {
-    let result = await api.post(apiGetQuestionsProgressbar, {type, myTopics});
+    const userID = getState().authState.user.id;
+    const dailyChallenge = getState().screenTemplateState.dailyChallenge;
 
-    dispatch(setChipsEarned(result.chipsEarned));
-    dispatch(setTicketsEarned(result.ticketsEarned));
-    dispatch(setTotalQuestions(result.totalQuestions));
-    dispatch(setCorrectQuestions(result.correctQuestions));
-    dispatch(setProgressData(result.progressData));
-    dispatch(setProgressIndex(result.progressIndex))
+    if (dailyChallenge.counter) {
+        let result = await api.post(apiGetQuestionsProgressbar, {
+            type,
+            myTopics,
+            UID,
+            user: {id: userID, dailyChallenge}
+        });
+
+        dispatch(setChipsEarned(result.chipsEarned));
+        dispatch(setTicketsEarned(result.ticketsEarned));
+        dispatch(setTotalQuestions(result.totalQuestions));
+        dispatch(setCorrectQuestions(result.correctQuestions));
+        dispatch(setProgressData(result.progressData));
+        dispatch(setProgressIndex(result.progressIndex))
+    }
 }

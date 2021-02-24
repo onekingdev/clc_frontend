@@ -18,11 +18,13 @@ import DataTable from "../../components/DataTable";
 import MediaCard from "../../components/MediaCard";
 import MonthEventCard from "../../components/MonthEventCard";
 import Graph from "../../components/Graph";
-import {DotLoader} from "react-spinners";
+import {PulseLoader} from "react-spinners";
 import MonthlyChallengeEngagement from "../../components/MonthlyChallengeEngagement";
 import {embedVideo} from "../../helpers/formatter";
 // @ts-ignore
 import Modal from 'react-awesome-modal';
+import moment from "moment";
+import {Fade} from "react-awesome-reveal";
 
 function Home(props: any) {
     const history = useHistory();
@@ -45,30 +47,46 @@ function Home(props: any) {
         setWidth(window.innerWidth);
     }
 
+
     return (
         <ScreenTemplate>
             <Banner topText="Dashboard" title={`Welcome, ${props.user.userName}`}/>
-            <div className="homeUnderBannerWrapper">
-                <div className="homeLeftSectionUnderBannerWrapper">
-                    <div className="homeLeftSectionUnderTextBannerWrapper">
-                        <div style={{marginRight: 30}}>
-                            <TitleText bold>30</TitleText>
-                        </div>
-                        <div>
-                            <div>
-                                <BodyText color="#FFF">QUESTIONS</BodyText>
+            {props.dailyChallenge.days ?
+                <Fade duration={2000}>
+                    <div className="homeUnderBannerWrapper">
+                        <div className="homeLeftSectionUnderBannerWrapper">
+                            <div className="homeLeftSectionUnderTextBannerWrapper">
+                                <div style={{marginRight: 30}}>
+                                    <TitleText bold>{
+                                        props.dailyChallenge.questions - props.dailyChallenge.counter ?
+                                            props.dailyChallenge.questions - props.dailyChallenge.counter
+                                            : 0
+                                    }</TitleText>
+                                </div>
+                                <div>
+                                    <div>
+                                        <BodyText color="#FFF">QUESTIONS</BodyText>
+                                    </div>
+                                    <div>
+                                        <BodyText color="#FFF">FOR TODAY</BodyText>
+                                    </div>
+                                </div>
                             </div>
-                            <div>
-                                <BodyText color="#FFF">FOR TODAY</BodyText>
+                            <div className="homeButtonWrapper">
+                                <Button onClick={() => {
+                                    setTimeout(() => history.push('ai'), 500)
+                                }} width={171} height={40} glow text="Start now"/>
                             </div>
                         </div>
+                        <MonthlyChallengeEngagement
+                            month={moment.unix(props.dailyChallenge.lastUpdate).format('MMM').toUpperCase()}
+                            year={moment().format('YYYY')}
+                            days={props.dailyChallenge.days}
+                            totalDays={moment.unix(props.dailyChallenge.lastUpdate).daysInMonth()}
+                        />
                     </div>
-                    <div className="homeButtonWrapper">
-                        <Button onClick={() => {}} width={171} height={40} glow text="Start now"/>
-                    </div>
-                </div>
-                <MonthlyChallengeEngagement month="FEB" year="2021" days={[1,4,7,12]} totalDays={28} />
-            </div>
+                </Fade>
+                : <div style={{height: 193}}/>}
             <div className="libraryImageWrapper">
                 <img src={homeBg} width="100%"/>
             </div>
@@ -102,14 +120,14 @@ function Home(props: any) {
                                 CONTENT <SmallText bold>SPOTLIGHT</SmallText>
                             </SmallText>
                         </div>
-                        {props.isFetchingCards ? <div className="homeCenterLoader"><DotLoader loading={true} color="#FFF" /></div> : props.contentSpotlight.title ?
-                        <MediaCard
-                            link
-                            image="https://firebasestorage.googleapis.com/v0/b/chipleadercoaching-webapp.appspot.com/o/image1.png?alt=media&token=9b6d0aff-a401-42d1-8f07-43bb46764e1d"
-                            title={props.contentSpotlight.title}
-                            description={props.contentSpotlight.body}
-                            onClick={() => setTimeout(() => window.open(props.contentSpotlight.link, '_blank'), 500)}
-                        /> : null}
+                            <MediaCard
+                                link
+                                image="https://firebasestorage.googleapis.com/v0/b/chipleadercoaching-webapp.appspot.com/o/image1.png?alt=media&token=9b6d0aff-a401-42d1-8f07-43bb46764e1d"
+                                title={props.contentSpotlight.title}
+                                description={props.contentSpotlight.body}
+                                onClick={() => setTimeout(() => window.open(props.contentSpotlight.link, '_blank'), 500)}
+                                loading={!props.contentSpotlight.title}
+                            />
                     </div>
                     <div>
                         <div className="homeTextWrapper">
@@ -117,14 +135,17 @@ function Home(props: any) {
                                 WEEKLY <SmallText bold>HAND BREAKDOWN</SmallText>
                             </SmallText>
                         </div>
-                        {props.isFetchingCards ? <div className="homeCenterLoader"><DotLoader loading={true} color="#FFF" /></div> : props.weeklyHandBreakdown.title ?
                         <MediaCard
                             image={props.weeklyHandBreakdown.image}
                             duration={props.weeklyHandBreakdown.duration}
                             title={props.weeklyHandBreakdown.title}
                             description={props.weeklyHandBreakdown.description}
-                            onClick={() => setTimeout(() => setShowModal({show: true, url: props.weeklyHandBreakdown.url}), 500)}
-                        /> : null}
+                            onClick={() => setTimeout(() => setShowModal({
+                                show: true,
+                                url: props.weeklyHandBreakdown.url
+                            }), 500)}
+                            loading={!props.weeklyHandBreakdown.title}
+                        />
                     </div>
                 </div>
                 <div>
@@ -135,19 +156,19 @@ function Home(props: any) {
                             </SmallText>
                         </div>
                     </div>
-                    {props.events.length > 0 ?  props.events.map((event: any) =>
-                        <div className="homeMonthEventCardWrapper">
-                            <MonthEventCard
-                                width={(width - 120) < 350 ? 350 : width - 190}
-                                title={event.title}
-                                date={event.date}
-                                body={event.body}
-                                onClick={() => setTimeout(() => window.open(event.link, '_blank'), 500)}
-                            />
-                        </div>
-                    ) :
+                    {props.events.length > 0 ? props.events.map((event: any) =>
+                            <div className="homeMonthEventCardWrapper">
+                                <MonthEventCard
+                                    width={(width - 120) < 350 ? 350 : width - 190}
+                                    title={event.title}
+                                    date={event.date}
+                                    body={event.body}
+                                    onClick={() => setTimeout(() => window.open(event.link, '_blank'), 500)}
+                                />
+                            </div>
+                        ) :
                         <div className="homeCenterLoader">
-                            <DotLoader color="#FFF"/>
+                            <PulseLoader color="#FFF" loading={true}/>
                         </div>
                     }
                 </div>
@@ -160,11 +181,13 @@ function Home(props: any) {
                         </div>
                     </div>
                     <div className="homeGraphWrapper">
-                        <Graph data={props.monthlyGraphData} width={(width - 120) < 350 ? 350 : width - 120} loading={props.isFetchingPerformanceData}/>
+                        <Graph data={props.monthlyGraphData} width={(width - 120) < 350 ? 350 : width - 120}
+                               loading={props.isFetchingPerformanceData}/>
                     </div>
                 </div>
             </div>
-            <Modal visible={showModal.show} width="50%" height="50%" effect="fadeInUp" onClickAway={() => setShowModal({show: false, url: ''})}>
+            <Modal visible={showModal.show} width="50%" height="50%" effect="fadeInUp"
+                   onClickAway={() => setShowModal({show: false, url: ''})}>
                 <iframe width="100%" height="100%" style={{backgroundColor: '#000'}} src={embedVideo(showModal.url)}/>
             </Modal>
         </ScreenTemplate>
@@ -181,7 +204,8 @@ const mapStateToProps = (state: any) => {
         isFetchingCards: state.homeState.isFetchingCards,
         events: state.homeState.events,
         contentSpotlight: state.homeState.contentSpotlight,
-        weeklyHandBreakdown: state.homeState.weeklyHandBreakdown
+        weeklyHandBreakdown: state.homeState.weeklyHandBreakdown,
+        dailyChallenge: state.screenTemplateState.dailyChallenge
     };
 }
 

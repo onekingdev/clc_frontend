@@ -37,8 +37,8 @@ const MonthlyChallengeEngagement: React.FC<IMonthlyChallengeEngagement> = ({
         <div className="monthlyChallengeEngagementWrapper">
             <div style={{marginRight: 20}}>
                 <div style={{textAlign: 'left'}}>
-                    <TitleText color="var(--primary)" bold>{days.length}</TitleText>
-                    <BodyText color="#FFF" bold>{`/${totalDays}`}</BodyText>
+                    <TitleText color="var(--primary)" bold>{days ? days.length : 0}</TitleText>
+                    <BodyText color="#FFF" bold>{`/${totalDays ? totalDays : 0}`}</BodyText>
                 </div>
                 <div style={{textAlign: 'left'}}>
                     <div>

@@ -10,5 +10,6 @@ export interface IUser {
         amount: number,
         created: number,
         subscription: string
-    }
+    },
+    dailyChallenge?: {questions: number, counter: number, lastUpdate: string}
 }

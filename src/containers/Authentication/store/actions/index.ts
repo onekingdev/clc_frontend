@@ -79,6 +79,7 @@ export const register = (data: IUser, callback: (success: boolean) => void) => a
                         .collection('users')
                         .doc(data.stringID)
                         .set({
+                            dailyChallenge: {questions: 10, counter: 0, days:[], lastUpdate: timestamp},
                             assessment: true,
                             chips: 0,
                             tickets: 0,

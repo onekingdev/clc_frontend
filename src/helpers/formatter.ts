@@ -1,6 +1,3 @@
-import ReactTooltip from "react-tooltip";
-import React from "react";
-
 export const formatPrice = (price: number) => {
     return new Intl.NumberFormat('es-MX',  {
         style: 'currency',
@@ -61,40 +58,40 @@ export const formatGraphData = (data: any) => {
             case 'saturday':
                 list[6] = {"name": key, "Questions Correct": values[index].correct, "Tickets Earned": values[index].tickets}
                 break;
-            case 'december':
+            case 'january':
                 list[0] = {"name": key, "Questions Correct": values[index].correct, "Tickets Earned": values[index].tickets}
                 break;
-            case 'january':
+            case 'february':
                 list[1] = {"name": key, "Questions Correct": values[index].correct, "Tickets Earned": values[index].tickets}
                 break;
-            case 'february':
+            case 'march':
                 list[2] = {"name": key, "Questions Correct": values[index].correct, "Tickets Earned": values[index].tickets}
                 break;
-            case 'march':
+            case 'april':
                 list[3] = {"name": key, "Questions Correct": values[index].correct, "Tickets Earned": values[index].tickets}
                 break;
-            case 'april':
+            case 'may':
                 list[4] = {"name": key, "Questions Correct": values[index].correct, "Tickets Earned": values[index].tickets}
                 break;
-            case 'may':
+            case 'june':
                 list[5] = {"name": key, "Questions Correct": values[index].correct, "Tickets Earned": values[index].tickets}
                 break;
-            case 'june':
+            case 'july':
                 list[6] = {"name": key, "Questions Correct": values[index].correct, "Tickets Earned": values[index].tickets}
                 break;
-            case 'july':
+            case 'august':
                 list[7] = {"name": key, "Questions Correct": values[index].correct, "Tickets Earned": values[index].tickets}
                 break;
-            case 'august':
+            case 'september':
                 list[8] = {"name": key, "Questions Correct": values[index].correct, "Tickets Earned": values[index].tickets}
                 break;
-            case 'september':
+            case 'october':
                 list[9] = {"name": key, "Questions Correct": values[index].correct, "Tickets Earned": values[index].tickets}
                 break;
-            case 'october':
+            case 'november':
                 list[10] = {"name": key, "Questions Correct": values[index].correct, "Tickets Earned": values[index].tickets}
                 break;
-            case 'november':
+            case 'december':
                 list[11] = {"name": key, "Questions Correct": values[index].correct, "Tickets Earned": values[index].tickets}
                 break;
         }

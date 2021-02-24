@@ -6,6 +6,7 @@ import BodyText from "../BodyText";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import * as Icon from "@fortawesome/free-solid-svg-icons";
 import moment from "moment";
+import {PulseLoader} from "react-spinners";
 
 interface IMediaCard {
     image: string,
@@ -13,7 +14,8 @@ interface IMediaCard {
     title: string,
     description: string,
     onClick: () => void,
-    link?: boolean
+    link?: boolean,
+    loading?: boolean
 }
 
 const MediaCard: React.FC<IMediaCard> = ({
@@ -22,7 +24,8 @@ const MediaCard: React.FC<IMediaCard> = ({
     description,
     title,
     onClick,
-    link
+    link,
+    loading
 }) =>  {
     const [showPlay, setShowPlay] = useState(false);
     const [count, setCount] = useState(0);
@@ -86,18 +89,22 @@ const MediaCard: React.FC<IMediaCard> = ({
                         </div>
                     </div>
                     : null}
-                <div>
+                {!loading ? <div>
                     <img src={image} width={276} height={154}/>
-                </div>
+                </div> :
+                    <div style={{display: 'flex', alignItems: 'center', justifyContent: 'center', height: 281}}>
+                        <PulseLoader loading color="#FFF"/>
+                    </div>
+                }
             </div>
-            {duration ?
+            {!loading && duration ?
             <div className="topicCardTextWrapper">
                 <SmallText>{time[0] === '0' && time[2] === '0' ? time.substr(3, time.length) : time[0] === '0' ? time.substr(1, time.length) : time}</SmallText>
             </div> : null}
             <div className="topicCardTextWrapper" style={{marginBottom: 12}}>
                 <SubtitleText>{title}</SubtitleText>
             </div>
-            {description && description.length > 0 ?
+            {!loading && description && description.length > 0 ?
             <div className="topicCardTextWrapper">
                 <BodyText>{description.length > 100 ? `${description.substr(0, 100)}...` : description}</BodyText>
             </div> : null}

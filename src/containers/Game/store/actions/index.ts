@@ -1,4 +1,6 @@
 import * as TYPES from './types';
+import * as AUTH_ACTIONS from '../../../Authentication/store/actions';
+import * as SCREEN_TEMPLATE_ACTIONS from '../../../ScreenTemplate/store/actions';
 import {IQuestions} from '../../interfaces';
 import {
     apiSaveEarnings,
@@ -9,7 +11,7 @@ import {
 } from '../../../../helpers/constants';
 import api from '../../../../services/apiMiddleware';
 import {app} from "../../../../services/firebase";
-import {setUserData} from "../../../Authentication/store/actions";
+import moment from "moment";
 
 export const clearGameData = () => {
     return {
@@ -77,11 +79,20 @@ export const fetchGameData = (myTopics: any) => async(
     }
 }
 
-export const saveEarnings = (data: object) => async(
+export const saveEarnings = (data: any) => async(
     dispatch: (data: any) => void,
     getState: any,
 ) => {
     try {
+        let dailyChallenge = getState().screenTemplateState.dailyChallenge;
+        if (dailyChallenge.questions > dailyChallenge.counter) {
+            data['challenge'] = 1;
+            dailyChallenge.counter += 1;
+            dailyChallenge.days.push(moment().daysInMonth());
+            dispatch(SCREEN_TEMPLATE_ACTIONS.setDailyChallenge(dailyChallenge))
+        } else {
+            data['challenge'] = 0;
+        }
         await api.post(apiSaveEarnings, data);
     } catch (e) {
         dispatch(setGameCode(e));
@@ -98,7 +109,7 @@ export const levelUp = () => async(
 
     let newUserData = await api.post(apiLevelUp, {id: user.id});
 
-    dispatch(setUserData(newUserData));
+    dispatch(AUTH_ACTIONS.setUserData(newUserData));
 }
 
 export const updateMyTopics = (questionID: number, correct: boolean, topicData: any, answeredIndex: number) => async(

@@ -36,7 +36,7 @@ function Payment(props: any) {
                     {succeeded || moment(props.user.payment.subscription).diff(moment(), 'days') > 0 ?
                         <Button onClick={() => {
                             props.fetchUpdatedPaymentData(props.email, () => {
-                                history.push('performance');
+                                history.push('home');
                             })
                         }} width="30%" height={64} text="Start" glow/>
                          :

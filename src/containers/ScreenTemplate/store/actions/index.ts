@@ -31,6 +31,13 @@ const setMyTopics = (data: object[]) => {
     }
 }
 
+export const setDailyChallenge = (data: object[]) => {
+    return {
+        type: TYPES.SET_DAILY_CHALLENGE,
+        payload: data
+    }
+}
+
 export const getRealtimeUserData = () => async(
     dispatch: (data: any) => void,
     getState: any,
@@ -47,6 +54,7 @@ export const getRealtimeUserData = () => async(
                     dispatch(setTickets(snapshot.data().tickets));
                     dispatch(setMyTopics(snapshot.data().myTopics));
                     dispatch(setFavorites(snapshot.data().favorites));
+                    dispatch(setDailyChallenge(snapshot.data().dailyChallenge));
                 },
             });
     } catch (e) {
