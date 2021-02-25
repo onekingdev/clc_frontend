@@ -194,10 +194,12 @@ function Settings(props: any) {
                         <div>
                             <div className="settingsUploadButtonsWrapper" style={{marginBottom: 0}}>
                                 <FilePicker title={"Import Library"} onFileOpen={importLibrary}/>
+                                <div style={{marginRight: 20, marginBottom: 20}}/>
                                 <FilePicker title={"Import Questions"} onFileOpen={importQuestions}/>
                             </div>
                             <div className="settingsUploadButtonsWrapper">
                                 <FilePicker title={"Import Glossary"} onFileOpen={importGlossary}/>
+                                <div style={{marginRight: 20, marginBottom: 20}}/>
                                 <FilePicker title={"Import Events"} onFileOpen={importEvents}/>
                             </div>
                         </div>

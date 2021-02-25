@@ -1,3 +1,56 @@
+import {app} from "../services/firebase";
+import moment from 'moment';
+import firebase from "firebase";
+const timestamp = firebase.firestore.FieldValue.serverTimestamp();
+
+export const endOfMonthHandler = async (uid: string) => {
+    const user: any = await app
+        .firestore()
+        .collection('users')
+        .doc(uid)
+        .get()
+        .then((doc: any) => doc.data());
+
+    if (moment().format('MM') !== moment.unix(user.dailyChallenge.lastUpdate).format('MM')) {
+        user.dailyChallenge.days = [];
+        user.dailyChallenge.days.push(parseInt(moment().format('DD')));
+
+        await app
+            .firestore()
+            .collection('users')
+            .doc(uid)
+            .update('dailyChallenge', user.dailyChallenge)
+    }
+}
+
+export const endOfDayHandler = async (uid: string) => {
+    const user: any = await app
+        .firestore()
+        .collection('users')
+        .doc(uid)
+        .get()
+        .then((doc: any) => doc.data());
+
+    const date1 = moment().format('DD/MM');
+    const date2 = moment.unix(user.dailyChallenge.lastUpdate).format('DD/MM');
+
+    if (date1 !== date2) {
+        if ((parseInt(moment().format('DD')) - parseInt(moment.unix(user.dailyChallenge.lastUpdate).format('DD'))) > 1 && user.dailyChallenge.questions > 10) {
+            user.dailyChallenge.questions -= 5;
+        } else if ((parseInt(moment().format('DD')) - parseInt(moment.unix(user.dailyChallenge.lastUpdate).format('DD'))) === 1) {
+            user.dailyChallenge.questions += 5;
+        }
+        user.dailyChallenge.lastUpdate = timestamp;
+        user.dailyChallenge.counter = 0;
+
+        await app
+            .firestore()
+            .collection('users')
+            .doc(uid)
+            .update('dailyChallenge', user.dailyChallenge)
+    }
+}
+
 export const  validateEmail = (email: string) => {
     if (!email) return false;
     email = email.trim();

@@ -1,6 +1,7 @@
 import * as TYPES from "./types";
 import api from "../../../../services/apiMiddleware";
 import {apiGetEvents, apiGetSpotlight, apiGetWeeklyHandBreakdown} from "../../../../helpers/constants";
+import {endOfDayHandler, endOfMonthHandler} from "../../../../helpers/validations";
 
 export const setEvents = (data: any) => {
     return {
@@ -57,12 +58,17 @@ export const fetchHomeCards = () => async(
     getState: any,
 ) => {
     try {
+        const user = getState().authState.user;
+
         dispatch(setIsFetchingCards(true));
         const contentSpotlight = await api.get(apiGetSpotlight);
         const weeklyHandBreakdown = await api.get(apiGetWeeklyHandBreakdown);
-        console.log(weeklyHandBreakdown,'................0000000000............')
+
         dispatch(setContentSpotlight(contentSpotlight));
         dispatch(setWeeklyHandBreakdown(weeklyHandBreakdown));
+
+        await endOfMonthHandler(user.stringID);
+        await endOfDayHandler(user.stringID);
     } catch (e) {
         console.log(e);
     } finally {

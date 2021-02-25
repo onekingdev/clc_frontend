@@ -176,7 +176,7 @@ function ScreenTemplate(props: any) {
                 }
             </div>
             {props.user && props.user.type === 'admin' ? <div id="bugTracker" /> : null}
-            <Modal visible={showSettingsModal} width="40%" effect="fadeInUp"
+            <Modal visible={showSettingsModal} width="420px" height="100%" effect="fadeInUp"
                    onClickAway={() => setShowSettingsModal(false)}>
                 <Settings/>
             </Modal>

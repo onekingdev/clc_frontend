@@ -3,6 +3,7 @@ import api from "../../../../services/apiMiddleware";
 import {apiGetQuestionsProgressbar, apiFinishAssessment} from "../../../../helpers/constants";
 import {app} from "../../../../services/firebase";
 import {setUserData} from "../../../Authentication/store/actions";
+import {endOfDayHandler, endOfMonthHandler} from "../../../../helpers/validations";
 
 export const clearResultsData = () => {
     return {
@@ -75,15 +76,15 @@ export const fetchQuestionProgressbar = (type: string, myTopics: any, UID?: stri
     dispatch: (data: any) => void,
     getState: any,
 ) => {
-    const userID = getState().authState.user.id;
+    const user = getState().authState.user;
     const dailyChallenge = getState().screenTemplateState.dailyChallenge;
 
-    if (dailyChallenge.counter) {
+    if (dailyChallenge.lastUpdate) {
         let result = await api.post(apiGetQuestionsProgressbar, {
             type,
             myTopics,
             UID,
-            user: {id: userID, dailyChallenge}
+            user: {...user, dailyChallenge}
         });
 
         dispatch(setChipsEarned(result.chipsEarned));
@@ -92,5 +93,8 @@ export const fetchQuestionProgressbar = (type: string, myTopics: any, UID?: stri
         dispatch(setCorrectQuestions(result.correctQuestions));
         dispatch(setProgressData(result.progressData));
         dispatch(setProgressIndex(result.progressIndex))
+
+        await endOfMonthHandler(user.stringID);
+        await endOfDayHandler(user.stringID);
     }
 }

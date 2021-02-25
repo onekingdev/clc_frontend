@@ -82,7 +82,7 @@ const EmailResetModal: React.FC<IEmailResetModal> = ({
         <div className="emailResetContainer">
             <div>
                 <SubtitleText bold={true}>Email</SubtitleText>
-                <div style={{marginTop: 20}}>
+                <div style={{marginTop: 20, width: 300}}>
                     <TextInput
                         value={emailObj.email}
                         placeholder="Email"

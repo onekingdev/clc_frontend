@@ -223,7 +223,9 @@ function Game(props: any) {
             props.saveEarnings({
                 userID: props.user.id,
                 questionID: questions.array[questionIndex].question.questionID,
-                localChips, localTickets,
+                challenge: 0,
+                chips: localChips,
+                tickets: localTickets,
             });
             setCorrectCounter(correctCounter += 1);
             // saving for results
@@ -231,6 +233,14 @@ function Game(props: any) {
             let chipsEarned = props.chipsEarned;
             props.setTicketsEarned(ticketsEarned += tickets);
             props.setChipsEarned(chipsEarned += chips);
+        } else {
+            props.saveEarnings({
+                userID: props.user.id,
+                questionID: questions.array[questionIndex].question.questionID,
+                challenge: 0,
+                chips: 0,
+                tickets: 0,
+            });
         }
         props.updateMyTopics(
             questions.array[questionIndex].question.questionID,
@@ -418,7 +428,7 @@ function Game(props: any) {
             <div className="gameQuestionProgressbarWrapper">
                 <QuestionProgress loading={props.totalQuestions === 0} totalQuestions={props.totalQuestions} index={renderQuestionProgressbarIndex(pathname)} result={props.progressData} showFeedback={showFeedback} tooltip=""/>
             </div>
-            <Modal visible={showModal} width="450" effect="fadeInUp" onClickAway={() => setShowModal(false)}>
+            <Modal visible={showModal} width="420px" height="100%" effect="fadeInUp" onClickAway={() => setShowModal(false)}>
                 <div style={{backgroundColor: '#000', display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
                     <div>
                         <BodyText>{`You finished all questions in this lesson. ${correctCounter}/${questions.array.length} correct`}</BodyText>
@@ -451,7 +461,7 @@ const bindActions = (dispatch: any) => {
     return {
         fetchGameData: (myTopics: any) => dispatch(ACTIONS.fetchGameData(myTopics)),
         setFetchNextAIQuestions: (fetch: boolean) => dispatch(ACTIONS.setFetchNextAIQuestions(fetch)),
-        saveEarnings: (data: { localTickets: any; questionID: any; localChips: any; userID: any }) => dispatch(ACTIONS.saveEarnings(data)),
+        saveEarnings: (data: { tickets: number, questionID: number, chips: number, userID: number, challenge: 0}) => dispatch(ACTIONS.saveEarnings(data)),
         updateMyTopics: (questionID: number, correct: boolean, topicData: any, questionIndex: number) => dispatch(ACTIONS.updateMyTopics(questionID, correct, topicData, questionIndex)),
         updateDailyEarnings: (data: { chips: number, tickets: number }) => dispatch(PERFORMANCE_ACTIONS.updateDailyEarnings(data)),
         clearGameData: () => dispatch(ACTIONS.clearGameData()),

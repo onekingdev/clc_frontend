@@ -137,10 +137,10 @@ function Login(props: any) {
                         <ErrorDisplay message={showErrorMsg} show={showErrorMsg !== ''}/>
                     </Fade>
                 </div>
-                <Modal visible={showEmailModal} width="450" effect="fadeInUp" onClickAway={() => setShowEmailModal(false)}>
+                <Modal visible={showEmailModal} width="420px" height="100%" effect="fadeInUp" onClickAway={() => setShowEmailModal(false)}>
                     <EmailResetModal reset={!showEmailModal}/>
                 </Modal>
-                <Modal visible={showRegisterModal} width="450" effect="fadeInUp" onClickAway={() => setShowRegisterModal(false)}>
+                <Modal visible={showRegisterModal} width="420px" height="100%" effect="fadeInUp" onClickAway={() => setShowRegisterModal(false)}>
                     <RegisterModal reset={!showRegisterModal}/>
                 </Modal>
             </div>

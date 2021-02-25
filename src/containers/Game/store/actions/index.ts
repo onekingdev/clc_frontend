@@ -1,6 +1,5 @@
 import * as TYPES from './types';
 import * as AUTH_ACTIONS from '../../../Authentication/store/actions';
-import * as SCREEN_TEMPLATE_ACTIONS from '../../../ScreenTemplate/store/actions';
 import {IQuestions} from '../../interfaces';
 import {
     apiSaveEarnings,
@@ -79,20 +78,27 @@ export const fetchGameData = (myTopics: any) => async(
     }
 }
 
-export const saveEarnings = (data: any) => async(
+export const saveEarnings = (data: { tickets: number, questionID: number, chips: number, userID: number, challenge: number}) => async(
     dispatch: (data: any) => void,
     getState: any,
 ) => {
+    const uid = getState().authState.user.stringID;
+
     try {
         let dailyChallenge = getState().screenTemplateState.dailyChallenge;
         if (dailyChallenge.questions > dailyChallenge.counter) {
-            data['challenge'] = 1;
+            data.challenge = 1;
             dailyChallenge.counter += 1;
-            dailyChallenge.days.push(moment().daysInMonth());
-            dispatch(SCREEN_TEMPLATE_ACTIONS.setDailyChallenge(dailyChallenge))
-        } else {
-            data['challenge'] = 0;
+            if (!dailyChallenge.days.includes(parseInt(moment().format('DD')))) {
+                dailyChallenge.days.push(parseInt(moment().format('DD')));
+            }
+            await app
+                .firestore()
+                .collection('users')
+                .doc(uid)
+                .update('dailyChallenge', dailyChallenge)
         }
+
         await api.post(apiSaveEarnings, data);
     } catch (e) {
         dispatch(setGameCode(e));

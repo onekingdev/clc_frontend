@@ -66,42 +66,45 @@ const TopicModal: React.FC<ITopicModal> = ({
     return (
         <div className="registerModalContainer">
             <div>
-                <TitleText>{topic.name}</TitleText>
-            </div>
-            <div>
-                <BodyText>required mastered level to play: {topic.masteredLevel}</BodyText>
-            </div>
-            {topic.allTopicLessons && topic.allTopicLessons.length > 0 ?
                 <div>
-                    <BodyText>All LESSONS: </BodyText>
-                    <div className="topicModalAllLessonsWrapper">
-                        {topic.allTopicLessons.map((lesson: any) =>
-                            <div className="topicModalLessonItemWrapper" onClick={() => changeSelectedLesson(lesson)}>
-                                {lesson.mastered ?
-                                    <FontAwesomeIcon
-                                        color="#759A47"
-                                        size="1x"
-                                        icon={Icon['faCheck']}
-                                        transform={{rotate: 0}}
-                                        style={{marginRight: 5}}
-                                    />
-                                    : null}
-                                <BodyText>{lesson.name}</BodyText>
-                            </div>
-                        )}
-                    </div>
+                    <TitleText>{topic.name}</TitleText>
                 </div>
-                : null}
-            <div>
-                {topic.status === 0 && topic.chips !== 0 && topic.tickets !== 0 ?
-                    <BodyText>{`buy for ${topic.chips} chips and ${topic.tickets} tickets`}</BodyText> : null}
-            </div>
-            {topic.status === 0 && topic.chips !== 0 && topic.tickets !== 0 || topic.status !== 0 ?
-                <Button onClick={() => handleClick()} width="100%" height={44}
-                        text={topic.status === 1 || topic.status === 2 ? `Start ${selectedName}` : 'Buy'} glow/>
-                : null}
+                <div>
+                    <BodyText>required mastered level to play: {topic.masteredLevel}</BodyText>
+                </div>
+                {topic.allTopicLessons && topic.allTopicLessons.length > 0 ?
+                    <div>
+                        <BodyText>All LESSONS: </BodyText>
+                        <div className="topicModalAllLessonsWrapper">
+                            {topic.allTopicLessons.map((lesson: any) =>
+                                <div className="topicModalLessonItemWrapper"
+                                     onClick={() => changeSelectedLesson(lesson)}>
+                                    {lesson.mastered ?
+                                        <FontAwesomeIcon
+                                            color="#759A47"
+                                            size="1x"
+                                            icon={Icon['faCheck']}
+                                            transform={{rotate: 0}}
+                                            style={{marginRight: 5}}
+                                        />
+                                        : null}
+                                    <BodyText>{lesson.name}</BodyText>
+                                </div>
+                            )}
+                        </div>
+                    </div>
+                    : null}
+                <div>
+                    {topic.status === 0 && topic.chips !== 0 && topic.tickets !== 0 ?
+                        <BodyText>{`buy for ${topic.chips} chips and ${topic.tickets} tickets`}</BodyText> : null}
+                </div>
+                {topic.status === 0 && topic.chips !== 0 && topic.tickets !== 0 || topic.status !== 0 ?
+                    <Button onClick={() => handleClick()} width="100%" height={44}
+                            text={topic.status === 1 || topic.status === 2 ? `Start ${selectedName}` : 'Buy'} glow/>
+                    : null}
 
-            <ErrorDisplay message={showErrorMsg} show={showErrorMsg !== ''}/>
+                <ErrorDisplay message={showErrorMsg} show={showErrorMsg !== ''}/>
+            </div>
         </div>
     );
 }
