@@ -78,7 +78,7 @@ export const fetchGameData = (myTopics: any) => async(
     }
 }
 
-export const saveEarnings = (data: { tickets: number, questionID: number, chips: number, userID: number, challenge: number}) => async(
+export const saveEarnings = (path: string, data: { tickets: number, questionID: number, chips: number, userID: number, challenge: number}) => async(
     dispatch: (data: any) => void,
     getState: any,
 ) => {
@@ -86,7 +86,7 @@ export const saveEarnings = (data: { tickets: number, questionID: number, chips:
 
     try {
         let dailyChallenge = getState().screenTemplateState.dailyChallenge;
-        if (dailyChallenge.questions > dailyChallenge.counter) {
+        if (path !== '/assessment' && dailyChallenge.questions > dailyChallenge.counter) {
             data.challenge = 1;
             dailyChallenge.counter += 1;
             if (!dailyChallenge.days.includes(parseInt(moment().format('DD')))) {

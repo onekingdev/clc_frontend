@@ -30,7 +30,6 @@ function Navigation(props: any) {
                     </div>
                         :
                         <div>
-
                             {props.user.payment && moment(props.user.payment.subscription).diff(moment(), 'days') > 0 ?
                                 <div>
                                     <Route exact path="/home" component={Home}/>
@@ -42,12 +41,11 @@ function Navigation(props: any) {
                                     <Route exact path="/share" component={Game}/>
                                     <Route exact path="/version" component={Version}/>
                                 </div>
-                                :
-                                <div>
-                                    <Route exact path="/results" component={Results}/>
-                                    <Route exact path="/payment" component={Payment}/>
-                                </div>
-                            }
+                                : null}
+                            <div>
+                                <Route exact path="/results" component={Results}/>
+                                <Route exact path="/payment" component={Payment}/>
+                            </div>
                         </div>
                     }
                 </div> : <Redirect to="/" />}

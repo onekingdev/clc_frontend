@@ -12,7 +12,7 @@ import libraryBg from '../../assets/images/libraryBg.png';
 import MediaCard from '../../components/MediaCard';
 import * as ACTIONS from './store/actions';
 import {embedVideo} from "../../helpers/formatter";
-import {DotLoader} from "react-spinners";
+import {DotLoader, PulseLoader} from "react-spinners";
 
 function Library(props: any) {
     const [showModal, setShowModal] = useState({show: false, url: ''});
@@ -61,7 +61,12 @@ function Library(props: any) {
             <div className="libraryImageWrapper">
                 <img src={libraryBg} width="100%"/>
             </div>
-            {!!Object.keys(content).length || props.isFetchingLibraryData ?
+            {props.isFetchingLibraryData ?
+                <div style={{marginTop: 200}}>
+                    <PulseLoader color="#FFF" loading={true}/>
+                </div>
+            : null}
+            {!!Object.keys(content).length ?
                 Object.keys(content).map((key: string, index) =>
                     <div className={Object.keys(content).length-1 === index ? 'bottomPadding' : ''}>
                         <div className="libraryTextWrapper">
@@ -78,7 +83,7 @@ function Library(props: any) {
                             content={content[key]}
                             show={width < 650 ? 1 : width < 950 ? 2 : width < 1300 ? 3 : width < 1650 ? 4 : width < 2000 ? 5 : 6}/>
                     </div>
-                 ): <DotLoader color="#FFF" loading={true}/>}
+                 ): null}
             <Modal visible={showModal.show} width="50%" height="50%" effect="fadeInUp" onClickAway={() => setShowModal({show: false, url: ''})}>
                 <iframe width="100%" height="100%" style={{backgroundColor: '#000'}} src={embedVideo(showModal.url)}/>
             </Modal>

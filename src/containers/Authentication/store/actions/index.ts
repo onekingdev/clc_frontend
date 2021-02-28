@@ -1,6 +1,6 @@
 import * as TYPES from './types';
 import {app} from '../../../../services/firebase';
-import {apiCreateUser, apiValidateCode, getUserByEmail} from '../../../../helpers/constants';
+import {apiCreateUser, apiValidateCode, apiGetUserByEmail} from '../../../../helpers/constants';
 import api from '../../../../services/apiMiddleware';
 import {IUser} from '../../interfaces';
 import firebase from "firebase";
@@ -38,13 +38,14 @@ export const login = (data: IUser, callback: (success: boolean, userData: IUser)
     getState: any,
 ) => {
     try {
+        sessionStorage.setItem('selectedTopic', '{}');
         setTimeout(() => dispatch(setIsFetchingAuthentication(true)), 500);
         if (data.email && data.password) {
             await app
                 .auth()
                 .signInWithEmailAndPassword(data.email, data.password)
                 .then(async result => {
-                    const user = await api.post(getUserByEmail, data);
+                    const user = await api.post(apiGetUserByEmail, data);
                     dispatch(setUserData(user))
                     setTimeout(() => callback(true, user), 1000);
                 }).catch(e => dispatch(setAuthenticationCode(e.message)))
@@ -61,8 +62,8 @@ export const register = (data: IUser, callback: (success: boolean) => void) => a
     dispatch: (data: any) => void,
     getState: any,
 ) => {
-
     try {
+        sessionStorage.setItem('selectedTopic', '{}');
         setTimeout(() => dispatch(setIsFetchingAuthentication(true)), 500);
 
         const code = await api.post(apiValidateCode, data);
@@ -80,7 +81,6 @@ export const register = (data: IUser, callback: (success: boolean) => void) => a
                         .doc(data.stringID)
                         .set({
                             dailyChallenge: {questions: 10, counter: 0, days:[], lastUpdate: timestamp},
-                            assessment: true,
                             chips: 0,
                             tickets: 0,
                             myTopics: [{}],
@@ -111,7 +111,9 @@ export const register = (data: IUser, callback: (success: boolean) => void) => a
                                 january: {correct: 0, tickets: 0},
                                 february: {correct: 0, tickets: 0},
                                 march: {correct: 0, tickets: 0},
+                                april: {correct: 0, tickets: 0},
                                 may: {correct: 0, tickets: 0},
+                                june: {correct: 0, tickets: 0},
                                 july: {correct: 0, tickets: 0},
                                 august: {correct: 0, tickets: 0},
                                 september: {correct: 0, tickets: 0},

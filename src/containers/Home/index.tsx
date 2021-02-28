@@ -32,9 +32,9 @@ function Home(props: any) {
     const [showModal, setShowModal] = useState({show: false, url: ''});
 
     useEffect(() => {
+        props.fetchHomeCards();
         props.fetchEarnings('month');
         props.fetchEvents();
-        props.fetchHomeCards();
     }, [])
 
     // adjust dimensions
@@ -46,7 +46,6 @@ function Home(props: any) {
     const updateDimensions = () => {
         setWidth(window.innerWidth);
     }
-
 
     return (
         <ScreenTemplate>

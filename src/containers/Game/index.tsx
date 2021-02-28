@@ -213,41 +213,43 @@ function Game(props: any) {
     }
 
     const handleAnswerQuestion = (correct: boolean) => {
-        if (correct) {
-            let localChips = questions.array[questionIndex].question.reward.chips;
-            let localTickets = questions.array[questionIndex].question.reward.tickets;
-            setChips(localChips += questions.array[questionIndex].question.reward.chips);
-            setTickets(localTickets += questions.array[questionIndex].question.reward.tickets);
+        setTimeout(() => {
+            if (correct) {
+                let localChips = questions.array[questionIndex].question.reward.chips;
+                let localTickets = questions.array[questionIndex].question.reward.tickets;
+                setChips(localChips += questions.array[questionIndex].question.reward.chips);
+                setTickets(localTickets += questions.array[questionIndex].question.reward.tickets);
 
-            props.updateDailyEarnings({chips: localChips, tickets: localTickets});
-            props.saveEarnings({
-                userID: props.user.id,
-                questionID: questions.array[questionIndex].question.questionID,
-                challenge: 0,
-                chips: localChips,
-                tickets: localTickets,
-            });
-            setCorrectCounter(correctCounter += 1);
-            // saving for results
-            let ticketsEarned = props.ticketsEarned;
-            let chipsEarned = props.chipsEarned;
-            props.setTicketsEarned(ticketsEarned += tickets);
-            props.setChipsEarned(chipsEarned += chips);
-        } else {
-            props.saveEarnings({
-                userID: props.user.id,
-                questionID: questions.array[questionIndex].question.questionID,
-                challenge: 0,
-                chips: 0,
-                tickets: 0,
-            });
-        }
-        props.updateMyTopics(
-            questions.array[questionIndex].question.questionID,
-            correct,
-            questions.array[questionIndex].topicData,
-            questionIndex
-        );
+                props.updateDailyEarnings({chips: localChips, tickets: localTickets});
+                props.saveEarnings(pathname,{
+                    userID: props.user.id,
+                    questionID: questions.array[questionIndex].question.questionID,
+                    challenge: 0,
+                    chips: localChips,
+                    tickets: localTickets,
+                });
+                setCorrectCounter(correctCounter += 1);
+                // saving for results
+                let ticketsEarned = props.ticketsEarned;
+                let chipsEarned = props.chipsEarned;
+                props.setTicketsEarned(ticketsEarned += tickets);
+                props.setChipsEarned(chipsEarned += chips);
+            } else {
+                props.saveEarnings(pathname, {
+                    userID: props.user.id,
+                    questionID: questions.array[questionIndex].question.questionID,
+                    challenge: 0,
+                    chips: 0,
+                    tickets: 0,
+                });
+            }
+            props.updateMyTopics(
+                questions.array[questionIndex].question.questionID,
+                correct,
+                questions.array[questionIndex].topicData,
+                questionIndex
+            );
+        }, 500)
     }
 
     const handleSubmit = () => {
@@ -255,9 +257,10 @@ function Game(props: any) {
         setRerender(true);
         setTimeout(() => setRerender(false),500)
         reset();
-        if (props.fetchNextAIQuestions) {
+        if (props.fetchNextAIQuestions && pathname === '/ai') {
             props.fetchGameData(props.myTopics);
             props.setFetchNextAIQuestions(false);
+            setQuestionIndex(questionIndex += 1);
         } else if (questionIndex < questions.array.length-1) {
             setQuestionIndex(questionIndex += 1);
         } else {
@@ -461,7 +464,7 @@ const bindActions = (dispatch: any) => {
     return {
         fetchGameData: (myTopics: any) => dispatch(ACTIONS.fetchGameData(myTopics)),
         setFetchNextAIQuestions: (fetch: boolean) => dispatch(ACTIONS.setFetchNextAIQuestions(fetch)),
-        saveEarnings: (data: { tickets: number, questionID: number, chips: number, userID: number, challenge: 0}) => dispatch(ACTIONS.saveEarnings(data)),
+        saveEarnings: (path: string, data: { tickets: number, questionID: number, chips: number, userID: number, challenge: 0}) => dispatch(ACTIONS.saveEarnings(path, data)),
         updateMyTopics: (questionID: number, correct: boolean, topicData: any, questionIndex: number) => dispatch(ACTIONS.updateMyTopics(questionID, correct, topicData, questionIndex)),
         updateDailyEarnings: (data: { chips: number, tickets: number }) => dispatch(PERFORMANCE_ACTIONS.updateDailyEarnings(data)),
         clearGameData: () => dispatch(ACTIONS.clearGameData()),

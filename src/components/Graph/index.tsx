@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React from 'react';
 import './styles.css';
 
 import {
@@ -30,7 +30,7 @@ const Graph: React.FC<IGraph> = ({
                 </div>
                 :
                 <div>
-                    {data.length ?
+                    {data && data.length > 0 ?
                         <ComposedChart
                             width={width}
                             height={400}

@@ -22,10 +22,17 @@ function Payment(props: any) {
     const history = useHistory();
 
     const [succeeded, setSucceeded] = useState(false);
+    const [redirect, setRedirect] = useState(false);
 
     useEffect(() => {
         props.fetchPaymentIntent([{ id: "prod_ItM3Rl00ARmZwI" }]);
     }, [])
+
+    useEffect(() => {
+        if (redirect && moment(props.user.payment.subscription).diff(moment(), 'days') > 0 ) {
+            history.push('home');
+        }
+    }, [redirect, props.user.payment.subscription])
 
     return (
         <div>
@@ -35,9 +42,7 @@ function Payment(props: any) {
                 <div className="paymentButtonWrapper">
                     {succeeded || moment(props.user.payment.subscription).diff(moment(), 'days') > 0 ?
                         <Button onClick={() => {
-                            props.fetchUpdatedPaymentData(props.email, () => {
-                                history.push('home');
-                            })
+                            props.fetchUpdatedPaymentData(props.user.email, () => setRedirect(true))
                         }} width="30%" height={64} text="Start" glow/>
                          :
                         <Elements stripe={promise}>
