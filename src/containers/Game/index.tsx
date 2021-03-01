@@ -383,6 +383,7 @@ function Game(props: any) {
                                     cards={questions.array[questionIndex].flop}
                                     tableAction={tableAction}
                                     handIndex={handIndex}
+                                    players={questions.array[questionIndex].players.length}
                                 />
                             </div>
                             <img src={Table} width={700}/>

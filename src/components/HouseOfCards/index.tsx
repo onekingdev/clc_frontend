@@ -58,7 +58,8 @@ import cardBack from "../../assets/images/cards/Cardback Default.png";
 interface IHouseOfCards {
     cards: string[],
     tableAction: string,
-    handIndex: number
+    handIndex: number,
+    players: number
 }
 
 let flopIndex = 0;
@@ -68,7 +69,8 @@ let riverIndex = 0;
 const HouseOfCards: React.FC<IHouseOfCards> = ({
     cards,
     tableAction,
-    handIndex
+    handIndex,
+    players
 }) =>  {
     const [display, setDisplay] = useState([{card: '', show: false}, {card: '', show: false}, {card: '', show: false}, {card: '', show: false}, {card: '', show: false}])
 
@@ -184,7 +186,7 @@ const HouseOfCards: React.FC<IHouseOfCards> = ({
     }
 
     useEffect(() => {
-        if (handIndex === 0) {
+        if (handIndex === players) {
             const list: any = []
             if (cards.length >= 3) {
                 cards.forEach(card => {
