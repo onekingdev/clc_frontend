@@ -118,7 +118,7 @@ export const levelUp = () => async(
     dispatch(AUTH_ACTIONS.setUserData(newUserData));
 }
 
-export const updateMyTopics = (questionID: number, correct: boolean, topicData: any, answeredIndex: number) => async(
+export const updateMyTopics = (path: string, questionID: number, correct: boolean, topicData: any, answeredIndex: number) => async(
     dispatch: (data: any) => void,
     getState: any,
 ) => {
@@ -152,11 +152,13 @@ export const updateMyTopics = (questionID: number, correct: boolean, topicData: 
 
                 if (myTopics[myTopicsIndex].lessons[lessonIndex].correctInARow === parseInt(rule[0])) {
                     myTopics[myTopicsIndex].lessons[lessonIndex].mastered = true;
-                    dispatch(setFetchNextAIQuestions(true))
-                    let master = true;
-                    myTopics[myTopicsIndex].lessons.forEach((l:any) => {if (!l.mastered) master = false});
+                    if (path === '/ai') {
+                        dispatch(setFetchNextAIQuestions(true))
+                    }
+                    let masterLessons = 0;
+                    myTopics[myTopicsIndex].lessons.forEach((l:any) => {if (!l.mastered) masterLessons += 1});
 
-                    if (master) {
+                    if (masterLessons === topic.totalTopicLessons && !myTopics[myTopicsIndex].mastered) {
                         myTopics[myTopicsIndex].mastered = true;
                         dispatch(levelUp());
                     }

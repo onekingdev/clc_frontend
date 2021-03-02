@@ -91,7 +91,7 @@ export const register = (data: IUser, callback: (success: boolean) => void) => a
                         .collection('earnings')
                         .doc(data.stringID)
                         .set({
-                            avatar: '',
+                            avatar: 'S',
                             userName: data.userName,
                             season: {correct: 0, chips: 0, tickets: 0, started: timestamp},
                             week: {correct: 0, chips: 0, tickets: 0, started: timestamp},

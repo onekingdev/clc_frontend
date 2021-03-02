@@ -44,6 +44,7 @@ function Game(props: any) {
     const [chips, setChips] = useState(0);
     const [tickets, setTickets] = useState(0);
     const [rerender, setRerender] = useState(false);
+    const [showTable, setShowTable] = useState(true);
 
     useEffect(() => {
         return () => {
@@ -244,6 +245,7 @@ function Game(props: any) {
                 });
             }
             props.updateMyTopics(
+                pathname,
                 questions.array[questionIndex].question.questionID,
                 correct,
                 questions.array[questionIndex].topicData,
@@ -275,7 +277,8 @@ function Game(props: any) {
                 props.clearResultsData();
                 history.push('results');
             } else {
-                setShowModal(true);
+                history.push('results')
+                // setShowModal(true);
             }
         }
     }
@@ -356,7 +359,7 @@ function Game(props: any) {
         <ScreenTemplate type={pathname === '/assessment' ? 'assessment' : null} loading={!props.isFetchingGameData}>
             {questions.array.length === 0 ? null :
                 <div className="gameWrapper" style={{transform: `scale(${renderSize(width-100)})`}}>
-                    <div>
+                    {showTable ? <div>
                         <div className="gamePokerTableContainer">
                             {!rerender && questions.array[questionIndex].players.length > 0 ?
                                 questions.array[questionIndex].players.map((item: any, index: number) =>
@@ -378,14 +381,14 @@ function Game(props: any) {
                                         />
                                     </div>
                                 ) : null}
-                            <div className="gameHouseOfCardsWrapper">
+                            {showTable ? <div className="gameHouseOfCardsWrapper">
                                 <HouseOfCards
                                     cards={questions.array[questionIndex].flop}
                                     tableAction={tableAction}
                                     handIndex={handIndex}
                                     players={questions.array[questionIndex].players.length}
                                 />
-                            </div>
+                            </div> : null}
                             <img src={Table} width={700}/>
                             <div className="gamePotWrapper">
                                 <SmallText color="#FFF">POT <SmallText color="#FFF"
@@ -412,7 +415,7 @@ function Game(props: any) {
                                 /> : null}
                             </div>
                         </div>
-                    </div>
+                    </div> : null}
                     <div className="gameQuestionWrapper">
                         <QuestionCard
                             rerender={rerender}
@@ -466,7 +469,7 @@ const bindActions = (dispatch: any) => {
         fetchGameData: (myTopics: any) => dispatch(ACTIONS.fetchGameData(myTopics)),
         setFetchNextAIQuestions: (fetch: boolean) => dispatch(ACTIONS.setFetchNextAIQuestions(fetch)),
         saveEarnings: (path: string, data: { tickets: number, questionID: number, chips: number, userID: number, challenge: 0}) => dispatch(ACTIONS.saveEarnings(path, data)),
-        updateMyTopics: (questionID: number, correct: boolean, topicData: any, questionIndex: number) => dispatch(ACTIONS.updateMyTopics(questionID, correct, topicData, questionIndex)),
+        updateMyTopics: (path: string, questionID: number, correct: boolean, topicData: any, questionIndex: number) => dispatch(ACTIONS.updateMyTopics(path, questionID, correct, topicData, questionIndex)),
         updateDailyEarnings: (data: { chips: number, tickets: number }) => dispatch(PERFORMANCE_ACTIONS.updateDailyEarnings(data)),
         clearGameData: () => dispatch(ACTIONS.clearGameData()),
         setTicketsEarned: (tickets: number) => dispatch(RESULT_ACTIONS.setTicketsEarned(tickets)),

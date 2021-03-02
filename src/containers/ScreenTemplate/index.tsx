@@ -25,7 +25,6 @@ function ScreenTemplate(props: any) {
     const [slider, setSlider] = useState(false);
     const [width, setWidth] = useState(window.innerWidth);
     const [scrollTop, setScrollTop] = useState(0);
-    const [showSettingsModal, setShowSettingsModal] = useState(false);
     const [isLoading, setIsLoading] = useState(props.loading);
 
     useEffect(() => {
@@ -144,7 +143,7 @@ function ScreenTemplate(props: any) {
                                     image={props.user.avatar}
                                     text={props.user.userName}
                                     rank={props.user.masteredLevel}
-                                    onClick={() => setShowSettingsModal(true)}
+                                    onClick={() => history.push('settings')}
                                 />
                             </div>
                         }
@@ -176,10 +175,6 @@ function ScreenTemplate(props: any) {
                 }
             </div>
             {props.user && props.user.type === 'admin' ? <div id="bugTracker" /> : null}
-            <Modal visible={showSettingsModal} width="420px" height="100%" effect="fadeInUp"
-                   onClickAway={() => setShowSettingsModal(false)}>
-                <Settings/>
-            </Modal>
         </div>
     );
 }

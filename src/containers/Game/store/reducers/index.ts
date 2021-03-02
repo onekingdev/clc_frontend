@@ -18,6 +18,7 @@ const reducer = (state = INITIAL_STATE, action: {type: string, payload: any}) =>
         case TYPE.SET_IS_FETCHING_GAME_DATA:
             return {...state, isFetchingGameData: action.payload};
         case TYPE.CLEAR_GAME_DATA:
+            sessionStorage.setItem('selectedTopic', '{}')
             return INITIAL_STATE;
         default:
             return state;

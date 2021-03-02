@@ -27,6 +27,7 @@ export const apiDropGlossary = 'dropGlossary';
 export const apiDropEvents = 'dropEvents';
 export const apiGetQuestionsProgressbar = 'getQuestionsProgressbar';
 export const apiFinishAssessment = 'finishAssessment';
+export const apiUpdateUser = 'updateUser';
 
 // front end messages
 export const emptyEmailString = 'Email required';

@@ -13,6 +13,7 @@ import Game from '../containers/Game';
 import Payment from '../containers/Payment';
 import Version from '../containers/Version';
 import Home from '../containers/Home';
+import Settings from '../containers/Settings';
 import moment from "moment";
 
 function Navigation(props: any) {
@@ -40,6 +41,7 @@ function Navigation(props: any) {
                                     <Route exact path="/ai" component={Game}/>
                                     <Route exact path="/share" component={Game}/>
                                     <Route exact path="/version" component={Version}/>
+                                    <Route exact path="/settings" component={Settings}/>
                                 </div>
                                 : null}
                             <div>

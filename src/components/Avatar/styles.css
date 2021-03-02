@@ -5,4 +5,31 @@
 
 .avatarImage {
     border-radius: 100px;
+    cursor: pointer;
+    background-color: #FFF;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.avatarSelected {
+    border-style: solid;
+    border-width: 4px;
+    border-color: var(--primary);
+    border-radius: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.avatarCircle {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--primary);
+    height: 40px;
+    width: 40px;
+    border-radius: 100px;
+    margin-left: -40px;
+    margin-top: 70px;
 }

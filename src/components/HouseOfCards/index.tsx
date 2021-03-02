@@ -186,7 +186,7 @@ const HouseOfCards: React.FC<IHouseOfCards> = ({
     }
 
     useEffect(() => {
-        if (handIndex === players) {
+        if (handIndex === 0 || handIndex === players) {
             const list: any = []
             if (cards.length >= 3) {
                 cards.forEach(card => {

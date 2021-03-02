@@ -14,15 +14,68 @@ import TitleText from "../../components/TitleText";
 import Avatar from "../../components/Avatar";
 import BodyText from "../../components/BodyText";
 import ErrorDisplay from "../../components/ErrorDisplay";
-import {libraryUploadError, questionsUploadError, glossaryUploadError, eventsUploadError} from "../../helpers/constants";
+import {
+    libraryUploadError,
+    questionsUploadError,
+    glossaryUploadError,
+    eventsUploadError,
+    emptyEmailString, invalidEmailString, emptyPasswordString
+} from "../../helpers/constants";
+import Banner from "../../components/Banner";
+import TextInput from "../../components/TextInput";
+import {validateEmail} from "../../helpers/validations";
+import ScreenTemplate from "../ScreenTemplate";
+import {IUpdateUserData} from "./interfaces";
+
 const host = new URL(window.location.href).host;
 
 function Settings(props: any) {
     const history = useHistory();
-    const [file, setFile] = useState<FileList | null>();
     const [errorMessage, setErrorMessage] = useState('');
+    const [emailObj, setEmailObj] = useState({email: props.user.email, error: false});
+    const [passwordObj, setPasswordObj] = useState({password: 'set your new password', error: false});
+    const [showErrorMsg, setShowErrorMsg] = useState('');
+    const [selected, setSelected] = useState(props.user.avatar);
 
-    const inputRef = useRef(null)
+    const inputRef = useRef(null);
+
+    useEffect(() => {
+        if (
+            !emailObj.error &&
+            !passwordObj.error
+        ) {
+            setShowErrorMsg('');
+            props.settingsErrorMessage('');
+        }
+    }, [emailObj, passwordObj])
+
+    useEffect(() => {
+        if (props.errorMessage !== '') {
+            setShowErrorMsg(props.errorMessage);
+        }
+    }, [props.errorMessage])
+
+    const handleSubmit = () => {
+        if (emailObj.email === '') {
+            setEmailObj({email: emailObj.email, error: true});
+            setShowErrorMsg(emptyEmailString);
+        } else if (!validateEmail(emailObj.email)) {
+            setEmailObj({email: emailObj.email, error: true});
+            setShowErrorMsg(invalidEmailString);
+        } else if (passwordObj.password === '') {
+            setPasswordObj({password: passwordObj.password, error: true});
+            setShowErrorMsg(emptyPasswordString);
+        } else {
+            const request = {
+                email: emailObj.email,
+                password: passwordObj.password,
+                avatar: selected
+            }
+
+            props.updateUserData(request);
+        }
+    }
+
 
     function chooseFile() {
         const current = inputRef.current;
@@ -128,7 +181,7 @@ function Settings(props: any) {
                         wrong4: value['ANSWER_WRONG4'],
                     },
                     explanation: {correct: value['EXPLANATION_CORRECT'], wrong: value['EXPLANATION_WRONG']},
-                    handHistory: value['HAND_HISTORY'],
+                    handHistory: value['HAND_HISTORY'] ? value['HAND_HISTORY'] : '',
                     reward: {chips: value['REWARD_CHIPS'], tickets: value['REWARD_TICKETS']},
                     assessment: value['ASSESSMENT']
                 }
@@ -145,7 +198,7 @@ function Settings(props: any) {
         let glossary = (sheets["GLOSSARY"] as Array<Object> || [])
             .map((value: any) => {
                 return {
-                    word: value['WORD'],
+                    word: value['WORD'] ? value['WORD'] : '',
                     definition: value['DEFINITION'],
                 }
             });
@@ -175,57 +228,111 @@ function Settings(props: any) {
     }
 
     return (
-        <div className="settingsContainer">
-            {props.user.avatar === undefined || props.isUploadingLibraryData ?
-                <div className="centerLoader">
-                    <div style={{marginBottom: 200}}>
-                        <div style={{marginLeft: 45, marginBottom: 10}}>
-                        <DotLoader color="#FFF" loading={true}/>
-                        </div>
-                        <TitleText>Uploading</TitleText>
-                    </div>
-                </div>
-                :
-                <div>
-                    <div className="settingsAvatarWrapper">
-                        <Avatar size="large" image={props.user.avatar} text={props.user.userName}/>
-                    </div>
-                    {props.user.type === 'admin' ?
-                        <div>
-                            <div className="settingsUploadButtonsWrapper" style={{marginBottom: 0}}>
-                                <FilePicker title={"Import Library"} onFileOpen={importLibrary}/>
-                                <div style={{marginRight: 20, marginBottom: 20}}/>
-                                <FilePicker title={"Import Questions"} onFileOpen={importQuestions}/>
+        <ScreenTemplate>
+            <div className="settingsContainer">
+                {props.user.avatar === undefined || props.isUploadingLibraryData ?
+                    <div className="centerLoader">
+                        <div style={{marginBottom: 200}}>
+                            <div style={{marginLeft: 45, marginBottom: 10}}>
+                                <DotLoader color="#FFF" loading={true}/>
                             </div>
-                            <div className="settingsUploadButtonsWrapper">
-                                <FilePicker title={"Import Glossary"} onFileOpen={importGlossary}/>
-                                <div style={{marginRight: 20, marginBottom: 20}}/>
-                                <FilePicker title={"Import Events"} onFileOpen={importEvents}/>
+                            <TitleText>Uploading</TitleText>
+                        </div>
+                    </div>
+                    :
+                    <div>
+                        <div className="settingsAvatarWrapper">
+                            <div>
+                                <Banner topText="Settings" title={props.user.userName}/>
+                                <div style={{marginBottom: 35}}>
+                                    <BodyText color="#FFF">AVATAR</BodyText>
+                                </div>
+                                <div className="settingsAvatarWrapper">
+                                    <Avatar size="large" image="S" text="" selected={selected === 'S'}
+                                            onClick={() => setSelected('S')}/>
+                                    <Avatar size="large" image="C" text="" selected={selected === 'C'}
+                                            onClick={() => setSelected('C')}/>
+                                    <Avatar size="large" image="H" text="" selected={selected === 'H'}
+                                            onClick={() => setSelected('H')}/>
+                                    <Avatar size="large" image="D" text="" selected={selected === 'D'}
+                                            onClick={() => setSelected('D')}/>
+                                </div>
                             </div>
                         </div>
-                        : null}
+                        <div style={{marginBottom: 35, marginTop: 48, marginRight: 50, marginLeft: 50}}>
+                            <BodyText color="#FFF">MAIN INFO</BodyText>
+                            <TextInput
+                                value={emailObj.email}
+                                placeholder="Email"
+                                onChange={(event) => setEmailObj({email: event.target.value, error: false})}
+                                email={true}
+                                error={emailObj.error}
+                            />
+                            <TextInput
+                                value={passwordObj.password}
+                                placeholder="Password"
+                                onChange={(event) => setPasswordObj({password: event.target.value, error: false})}
+                                password={true}
+                                error={passwordObj.error}
+                            />
+                        </div>
+                        <div style={{marginBottom: 35}}>
+                            <BodyText color="#FFF">BILLING INFO</BodyText>
+                        </div>
+                        {props.user.type === 'admin' ?
+                            <div>
+                                <div style={{marginBottom: 35}}>
+                                    <BodyText color="#FFF">CONTENT CONTROL</BodyText>
+                                </div>
+                                <div className="settingsUploadButtonsWrapper" style={{marginBottom: 0}}>
+                                    <FilePicker title={"Import Library"} onFileOpen={importLibrary}/>
+                                    <div style={{marginRight: 20, marginBottom: 20}}/>
+                                    <FilePicker title={"Import Questions"} onFileOpen={importQuestions}/>
+                                </div>
+                                <div className="settingsUploadButtonsWrapper">
+                                    <FilePicker title={"Import Glossary"} onFileOpen={importGlossary}/>
+                                    <div style={{marginRight: 20, marginBottom: 20}}/>
+                                    <FilePicker title={"Import Events"} onFileOpen={importEvents}/>
+                                </div>
+                            </div>
+                            : null}
 
-                    <div className="settingsLogoutBtnWrapper">
-                        <Button
-                            loading={props.isFetchingAuthentication}
-                            width={300}
-                            height={44}
-                            text="Logout"
-                            glow
-                            onClick={() => {
-                                props.logout((success: boolean) => {
-                                    if (success) {
-                                        history.push(`/`);
-                                    }
-                                })
-                            }}
-                        />
+                        <div className="settingsLogoutBtnWrapper">
+                            <Button
+                                onClick={handleSubmit}
+                                width={300}
+                                height={44}
+                                text="Save"
+                                glow
+                            />
+                        </div>
+
+                        <ErrorDisplay message={showErrorMsg} show={showErrorMsg !== ''}/>
+
+                        <div className="settingsLogoutBtnWrapper">
+                            <Button
+                                loading={props.isFetchingAuthentication}
+                                width={300}
+                                height={44}
+                                text="Logout"
+                                glow
+                                onClick={() => {
+                                    props.logout((success: boolean) => {
+                                        if (success) {
+                                            history.push(`/`);
+                                        }
+                                    })
+                                }}
+                            />
+                        </div>
+                        <ErrorDisplay message={errorMessage} show={errorMessage !== ''}/>
+                        <a target="_blank"
+                           href={`${host.includes('localhost') ? 'http://' + host : 'https://' + host}/version`}><BodyText
+                            color="var(--primary)" textDecoration="underline">Version Info</BodyText></a>
                     </div>
-                    <ErrorDisplay message={errorMessage} show={errorMessage !== ''}/>
-                    <a target="_blank" href={`${host.includes('localhost') ? 'http://'+host : 'https://'+host}/version`}><BodyText color="var(--primary)" textDecoration="underline">Version Info</BodyText></a>
-                </div>
-            }
-        </div>
+                }
+            </div>
+        </ScreenTemplate>
     );
 }
 
@@ -234,7 +341,7 @@ const mapStateToProps = (state: any) => {
         user: state.authState.user,
         isUploadingLibraryData: state.settingsState.isUploadingLibraryData,
         isFetchingAuthentication: state.authState.isFetchingAuthentication,
-        messageCode: state.authState.messageCode
+        errorMessage: state.settingsState.errorMessage
     };
 }
 
@@ -244,7 +351,9 @@ const bindActions = (dispatch: any) => {
         uploadLibrary: (library: any) => dispatch(ACTIONS.uploadLibrary(library)),
         uploadQuestions: (questions: any) => dispatch(ACTIONS.uploadQuestions(questions)),
         uploadEvents: (events: any) => dispatch(ACTIONS.uploadEvents(events)),
-        logout: (callback: (success: boolean) => void) => dispatch(AUTH_ACTIONS.logout(callback))
+        logout: (callback: (success: boolean) => void) => dispatch(AUTH_ACTIONS.logout(callback)),
+        updateUserData: (userData: IUpdateUserData) => dispatch(ACTIONS.updateUserData(userData)),
+        settingsErrorMessage: (msg: string) => dispatch(ACTIONS.settingsErrorMessage(msg))
     };
 };
 

@@ -1,8 +1,13 @@
-import React, {useState} from 'react';
+import React from 'react';
 import './styles.css';
 import SmallText from '../SmallText';
-import Chance from '../../assets/images/chance.png';
 import BodyText from "../BodyText";
+import * as Icon from '@fortawesome/free-solid-svg-icons'
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import Spade from '../../assets/images/avatar_spade.png';
+import Club from '../../assets/images/avatar_club.png';
+import Diamond from '../../assets/images/avatar_diamond.png';
+import Heart from '../../assets/images/avatar_heart.png';
 
 interface IAvatar {
     size: string, // small, medium, large
@@ -10,7 +15,8 @@ interface IAvatar {
     text: string,
     rank?: number,
     bold?: boolean,
-    onClick?: () => void
+    onClick?: () => void,
+    selected?: boolean
 }
 
 const Avatar: React.FC<IAvatar> = ({
@@ -19,20 +25,38 @@ const Avatar: React.FC<IAvatar> = ({
     text,
     rank,
     bold,
-    onClick
+    onClick,
+    selected
 }) =>  {
-    const getSize = (s: string) => {
+    const getSize = (s: string, min?: number) => {
         switch (s) {
             case 'small':
-                return 24;
+                return 24  - (min ? min : 0);
             case 'medium':
-                return 50;
+                return 50 - (min ? min : 0);
             case 'large':
-                return 80;
+                if (selected) return 120 - (min ? min : 0);
+                return 128 - (min ? min : 0);
         }
     }
+
+    const getImage = (image: string) => {
+        switch (image) {
+            case 'S':
+                return Spade;
+            case 'H':
+                return Heart;
+            case 'D':
+                return Diamond;
+            case 'C':
+                return Club;
+            default:
+                return Spade;
+        }
+    }
+
     return (
-        <div className="">
+        <div>
             {rank ? <div className="avatarContainer" onClick={onClick} style={{cursor: 'pointer'}}>
                 <div>
                     <div>
@@ -42,14 +66,22 @@ const Avatar: React.FC<IAvatar> = ({
                         <SmallText color="#76746C">{`Level${rank}`}</SmallText>
                     </div>
                 </div>
-                <div className="avatarImage" style={{marginLeft: 16}}>
-                    <img src={image === '' ? Chance : image} width={getSize(size)} height={getSize(size)}/>
+                <div className={`avatarImage ${selected ? 'avatarSelected' : ''}`} style={{marginLeft: 16, width: getSize(size), height: getSize(size)}}>
+                    <img src={getImage(image)} width={getSize(size, 30)} height={getSize(size, 30)}/>
+                    {selected ? <div className="avatarCircle">
+                        <FontAwesomeIcon color="#FFF" size="1x" icon={Icon['faCheck']}
+                                         transform={{rotate: 0}}/>
+                    </div> : null}
                 </div>
             </div>
                 :
-            <div className="avatarContainer">
-                <div className="avatarImage" style={{marginRight: 16}}>
-                    <img src={image === '' ? Chance : image} width={getSize(size)} height={getSize(size)}/>
+            <div className="avatarContainer" onClick={onClick}>
+                <div className={`avatarImage ${selected ? 'avatarSelected' : ''}`} style={{marginRight: 16, width: getSize(size), height: getSize(size)}}>
+                    <img src={getImage(image)} width={getSize(size, size === 'large' ? 50 : 10)} height={getSize(size, size === 'large' ? 50 : 10)}/>
+                    {selected ? <div className="avatarCircle">
+                        <FontAwesomeIcon color="#FFF" size="1x" icon={Icon['faCheck']}
+                                         transform={{rotate: 0}}/>
+                    </div> : null}
                 </div>
                 <div>
                     {size === 'large' ? <BodyText color="#FFF" bold>{text}</BodyText>
