@@ -1,8 +1,6 @@
-import React, {useState, useEffect, useRef} from 'react';
+import React, {useState, useEffect} from 'react';
 // @ts-ignore
 import {connect} from 'react-redux';
-// @ts-ignore
-import Modal from 'react-awesome-modal';
 import './styles.css';
 import Slider from '../../components/Slider';
 import TopicCard from '../../components/TopicCard';
@@ -12,13 +10,14 @@ import ScreenTemplate from '../ScreenTemplate';
 import Banner from '../../components/Banner';
 import * as ACTIONS from './store/actions';
 import TopicModal from "./TopicModal";
+import Sidebar from "../../components/Sidebar";
 
 function Paths(props: any) {
     const [width, setWidth] = useState(window.innerWidth);
     const [available, setAvailable] = useState({array: [], render: false});
     const [mastered, setMastered] = useState({array: [], render: false});
     const [locked, setLocked] = useState({array: [], render: false});
-    const [modal, setModal] = useState({item: {}, show: false});
+    const [slider, setSlider] = useState({item: {}, show: false});
 
     // adjust dimensions
     useEffect(() => {
@@ -42,7 +41,7 @@ function Paths(props: any) {
                         title={item.lessonName}
                         description="based on the contextual information. What is the best response?"
                         status={item.status}
-                        callback={() => setModal({item, show: true})}
+                        callback={() => setSlider({item, show: true})}
                     />
                 )
             })
@@ -55,7 +54,7 @@ function Paths(props: any) {
                         title={item.lessonName}
                         description="based on the contextual information. What is the best response?"
                         status={item.status}
-                        callback={() => setModal({item, show: true})}
+                        callback={() => setSlider({item, show: true})}
                     />
                 )
             })
@@ -68,7 +67,7 @@ function Paths(props: any) {
                         title={item.lessonName}
                         description="based on the contextual information. What is the best response?"
                         status={item.status}
-                        callback={() => setModal({item, show: true})}
+                        callback={() => setSlider({item, show: true})}
                     />
                 )
             })
@@ -134,9 +133,15 @@ function Paths(props: any) {
                         show={width < 650 ? 1 : width < 950 ? 2 : width < 1300 ? 3 : width < 1650 ? 4 : width < 2000 ? 5 : 6}/>
                 </div>
                 : <div className="bottomPadding"/>}
-                <Modal visible={modal.show} width="420px" height="100%" effect="fadeInUp" onClickAway={() => setModal({item: {}, show: false})}>
-                    <TopicModal topic={modal.item} reset={!modal.show} callback={() => setModal({item: {}, show: false})}/>
-                </Modal>
+                <Sidebar
+                        right
+                        type="lessons"
+                        title=""
+                        items={<TopicModal topic={slider.item} reset={!slider.show} callback={() => setSlider({item: {}, show: false})}/>}
+                        upperButtons={[]}
+                        reverse={!slider.show}
+                        closeButton={() => setSlider({item: {}, show: false})}/>
+
         </ScreenTemplate>
     );
 }

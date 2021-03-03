@@ -20,6 +20,7 @@ interface IButton {
     glow?: boolean,
     imgType?: string,
     closeMenuButton?: boolean,
+    closeMenuButtonRight?: boolean,
     answer?: string,
     loading?: boolean,
     disabled?: boolean
@@ -40,6 +41,7 @@ const Button: React.FC<IButton> = ({
     glow,
     imgType,
     closeMenuButton,
+    closeMenuButtonRight,
     answer,
     loading,
     disabled
@@ -49,13 +51,13 @@ const Button: React.FC<IButton> = ({
     const [textColor, setTextColor] = useState(glow || transparent ? 'var(--button-solid-text)' : 'var(--button-simple-text)');
 
     useEffect(() => {
-        if (!selected && !glow && !closeMenuButton && !transparent) {
+        if (!selected && !glow && !closeMenuButton && !closeMenuButtonRight && !transparent) {
             setTextColor('var(--button-simple-text)');
         } else {
             setTextColor('var(--button-solid-text)');
 
         }
-    }, [selected, glow, closeMenuButton])
+    }, [selected, glow, closeMenuButton, closeMenuButtonRight])
 
     /* Debounce Code to call the Ripple removing function */
     const callCleanUp = (cleanup: () => void, delay: number) => {
@@ -105,9 +107,9 @@ const Button: React.FC<IButton> = ({
             className={disabled ? 'buttonDisabledContainer' : glow ? 'ripple buttonGlowingContainer' : 'ripple buttonContainer'}
             style={selected ? {
                     borderTopLeftRadius: circular ? 100 : closeMenuButton ? 0 : 8,
-                    borderTopRightRadius: circular ? 100 : 8,
+                    borderTopRightRadius: circular ? 100 : closeMenuButtonRight ? 0 : 8,
                     borderBottomLeftRadius: circular ? 100 : closeMenuButton ? 0 : 8,
-                    borderBottomRightRadius: circular ? 100 : 8,
+                    borderBottomRightRadius: circular ? 100 : closeMenuButtonRight ? 0 : 8,
                     background: transparent ? 'transparent' : '',
                     width: width,
                     height: height,
@@ -116,9 +118,9 @@ const Button: React.FC<IButton> = ({
                 } :
                 {
                     borderTopLeftRadius: circular ? 100 : closeMenuButton ? 0 : 8,
-                    borderTopRightRadius: circular ? 100 : 8,
+                    borderTopRightRadius: circular ? 100 : closeMenuButtonRight ? 0 : 8,
                     borderBottomLeftRadius: circular ? 100 : closeMenuButton ? 0 : 8,
-                    borderBottomRightRadius: circular ? 100 : 8,
+                    borderBottomRightRadius: circular ? 100 : closeMenuButtonRight ? 0 : 8,
                     background: transparent ? 'transparent' : '',
                     width: width,
                     height: height,
@@ -126,12 +128,12 @@ const Button: React.FC<IButton> = ({
                 }}
             onClick={disabled ? () => {} : onClick}
             onMouseOver={() => {
-                if (!disabled && !selected && !glow && !closeMenuButton && !transparent) {
+                if (!disabled && !selected && !glow && !closeMenuButton && !closeMenuButtonRight && !transparent) {
                     setTextColor('var(--button-solid-text)')
                 }
             }}
             onMouseLeave={() => {
-                if (!disabled && !selected && !glow && !closeMenuButton && !transparent) {
+                if (!disabled && !selected && !glow && !closeMenuButton && !closeMenuButtonRight && !transparent) {
                     setTextColor('var(--button-simple-text)')
                 }
             }}

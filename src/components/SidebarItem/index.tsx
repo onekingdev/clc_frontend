@@ -13,6 +13,7 @@ import video2 from '../../assets/images/Vector 5.png';
 import performance1 from '../../assets/images/Vector 9.png';
 import performance2 from '../../assets/images/Vector 8.png';
 import answer from '../../assets/images/Vector 8-1.png';
+import settingsIcon from '../../assets/images/settings_icon.png';
 
 interface ISidebarItem {
     icon: string,
@@ -76,6 +77,12 @@ const SidebarItem: React.FC<ISidebarItem> = ({
                 return(
                     <div className="">
                         <img src={answer}/>
+                    </div>
+                );
+            case 'settings':
+                return(
+                    <div className="">
+                        <img src={settingsIcon}/>
                     </div>
                 );
             default:

@@ -4,13 +4,17 @@ import {Slide} from 'react-awesome-reveal';
 import SmallText from "../SmallText";
 import hamburger from '../../assets/images/Rectangle.png';
 import Button from "../Button";
+import PathsCardLogo from '../../assets/images/pathsLogo.png';
+import TitleText from "../TitleText";
 
 interface ISidebar {
     title: string,
-    items: any[],
+    items: any,
     upperButtons: any[],
     reverse: boolean,
-    closeButton: () => void
+    closeButton: () => void,
+    type: string,
+    right?: boolean
 }
 
 const Sidebar: React.FC<ISidebar> = ({
@@ -18,7 +22,9 @@ const Sidebar: React.FC<ISidebar> = ({
     items,
     upperButtons,
     reverse,
-    closeButton
+    closeButton,
+    type,
+    right
 }) =>  {
     const [width, setWidth]   = useState(window.innerWidth);
 
@@ -33,17 +39,17 @@ const Sidebar: React.FC<ISidebar> = ({
     }
 
     return (
-        <Slide duration={500} style={{zIndex: 2, position: 'absolute', top: 0}} reverse={reverse} triggerOnce>
+        <Slide direction={right ? "right" : "left"} duration={500} style={right ? {zIndex: 2, position: 'absolute', top: 0, right: 0} : {zIndex: 2, position: 'absolute', top: 0}} reverse={reverse} triggerOnce>
             <div className="sideMenuContainer">
-                <div style={{marginLeft: 305, zIndex: 0}}>
-                    <Button onClick={closeButton} text="X" width={40} height={40} closeMenuButton glow/>
+                <div style={right ? {marginLeft: -59, zIndex: 0} : {marginLeft: 305, zIndex: 0}}>
+                    <Button onClick={closeButton} text="X" width={40} height={40} closeMenuButton={!right} closeMenuButtonRight={right} glow/>
                 </div>
                 <div className="sideMenuUpperButtonsWrapper">
                     {upperButtons.length > 0 ?
                         upperButtons.map((button, index) => <div key={index} style={{marginRight: 10}}>{button}</div>)
                         :null}
                 </div>
-                <div className="sideMenuTitleWrapper">
+                {type === 'default' ? <div className="sideMenuTitleWrapper">
                     <div className="sideBarItemHamburgerWrapper">
                         <div className="sideBarItemHamburgerItemWrapper">
                             <img src={hamburger}/>
@@ -58,10 +64,17 @@ const Sidebar: React.FC<ISidebar> = ({
                     <div style={{marginLeft: 13}}>
                         <SmallText color="#FFF">{title}</SmallText>
                     </div>
+                </div> :
+                <div>
+                    <img src={PathsCardLogo} width={209} height={97}/>
+                    <div style={{marginTop: 30, marginLeft: 10, textAlign: 'left'}}>
+                        <TitleText bold>{title}</TitleText>
+                    </div>
                 </div>
+                }
                 <div className="sideMenuBodyWrapper">
                     {items.length > 0 ?
-                        items.map((item, index) =>
+                        items.map((item: any, index: number) =>
                             <div key={index}>
                                 {!(index % 2) ?
                                 <div style={{display: 'flex'}}>
@@ -73,7 +86,7 @@ const Sidebar: React.FC<ISidebar> = ({
                                     </div>
                                 </div> : null}
                             </div>)
-                        :null}
+                        :  items}
                 </div>
             </div>
         </Slide>

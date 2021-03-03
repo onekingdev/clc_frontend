@@ -81,7 +81,7 @@ function ScreenTemplate(props: any) {
 
     return (
         <div className="container">
-            {!props.type ? <Sidebar title="MENU" items={
+            {!props.type ? <Sidebar type="default" title="MENU" items={
                 [<SidebarItem icon="home" text="Home" onClick={() => {
                     setTimeout(() => history.push('home'), 0);
                 }}/>,
@@ -108,7 +108,11 @@ function ScreenTemplate(props: any) {
                     }}/>,
                     /*<SidebarItem icon="answers" text="Answers" onClick={() => {
                         setTimeout(() => history.push('answers'), 0);
-                    }}/>*/]
+                    }}/>,*/
+                    <SidebarItem icon="settings" text="Settings" onClick={() => {
+                        setTimeout(() => history.push('settings'), 0);
+                    }}/>
+                ]
             }
                       upperButtons={[]}
                       reverse={!slider}

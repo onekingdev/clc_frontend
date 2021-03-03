@@ -61,34 +61,54 @@ const TopicModal: React.FC<ITopicModal> = ({
         topic.lessonUID = lesson.UID;
         topic.rule = lesson.rule;
         setSelectedName(lesson.name);
+
+        handleClick();
     }
 
     return (
-        <div className="registerModalContainer">
+        <div>
             <div>
-                <div>
+                <div style={{textAlign: 'left'}}>
                     <TitleText>{topic.name}</TitleText>
                 </div>
-                <div>
+                <div style={{textAlign: 'left'}}>
                     <BodyText>required mastered level to play: {topic.masteredLevel}</BodyText>
                 </div>
                 {topic.allTopicLessons && topic.allTopicLessons.length > 0 ?
                     <div>
-                        <BodyText>All LESSONS: </BodyText>
+                        <div style={{textAlign: 'left'}}>
+                            <BodyText>All LESSONS: </BodyText>
+                        </div>
                         <div className="topicModalAllLessonsWrapper">
                             {topic.allTopicLessons.map((lesson: any) =>
                                 <div className="topicModalLessonItemWrapper"
                                      onClick={() => changeSelectedLesson(lesson)}>
-                                    {lesson.mastered ?
+                                    <div className="topicModalPlayCircle">
                                         <FontAwesomeIcon
-                                            color="#759A47"
+                                            color="#FFF"
                                             size="1x"
-                                            icon={Icon['faCheck']}
+                                            icon={Icon['faPlay']}
                                             transform={{rotate: 0}}
-                                            style={{marginRight: 5}}
                                         />
-                                        : null}
-                                    <BodyText>{lesson.name}</BodyText>
+                                    </div>
+                                    <div>
+                                        <div>
+                                            <BodyText bold color="#FFF">{lesson.name}</BodyText>
+                                            {lesson.mastered ?<BodyText bold color="#759A47"> Mastered</BodyText> : null}
+                                            {lesson.mastered ?
+                                                <FontAwesomeIcon
+                                                    color="#759A47"
+                                                    size="1x"
+                                                    icon={Icon['faCheck']}
+                                                    transform={{rotate: 0}}
+                                                    style={{marginLeft: 5}}
+                                                />
+                                                : null}
+                                        </div>
+                                        <div style={{marginTop: 8}}>
+                                            <BodyText>{`${lesson.description.length > 40 ? lesson.description.substr(0, 40)+'...' : lesson.description}`}</BodyText>
+                                        </div>
+                                    </div>
                                 </div>
                             )}
                         </div>
@@ -98,11 +118,10 @@ const TopicModal: React.FC<ITopicModal> = ({
                     {topic.status === 0 && topic.chips !== 0 && topic.tickets !== 0 ?
                         <BodyText>{`buy for ${topic.chips} chips and ${topic.tickets} tickets`}</BodyText> : null}
                 </div>
-                {topic.status === 0 && topic.chips !== 0 && topic.tickets !== 0 || topic.status !== 0 ?
+                {topic.status === 0 && topic.chips !== 0 && topic.tickets !== 0 ?
                     <Button onClick={() => handleClick()} width="100%" height={44}
-                            text={topic.status === 1 || topic.status === 2 ? `Start ${selectedName}` : 'Buy'} glow/>
+                            text="Buy" glow />
                     : null}
-
                 <ErrorDisplay message={showErrorMsg} show={showErrorMsg !== ''}/>
             </div>
         </div>
