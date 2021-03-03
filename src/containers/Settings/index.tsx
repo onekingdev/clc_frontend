@@ -275,10 +275,22 @@ function Settings(props: any) {
                                 password={true}
                                 error={passwordObj.error}
                             />
+                            <div className="settingsLogoutBtnWrapper">
+                                <Button
+                                    onClick={handleSubmit}
+                                    width={300}
+                                    height={44}
+                                    text="Save"
+                                    glow
+                                />
+                            </div>
+
+                            <ErrorDisplay message={showErrorMsg} show={showErrorMsg !== ''}/>
                         </div>
-                        <div style={{marginBottom: 35}}>
+                        {/*<div style={{marginBottom: 35}}>
                             <BodyText color="#FFF">BILLING INFO</BodyText>
-                        </div>
+                        </div>*/}
+
                         {props.user.type === 'admin' ?
                             <div>
                                 <div style={{marginBottom: 35}}>
@@ -296,19 +308,6 @@ function Settings(props: any) {
                                 </div>
                             </div>
                             : null}
-
-                        <div className="settingsLogoutBtnWrapper">
-                            <Button
-                                onClick={handleSubmit}
-                                width={300}
-                                height={44}
-                                text="Save"
-                                glow
-                            />
-                        </div>
-
-                        <ErrorDisplay message={showErrorMsg} show={showErrorMsg !== ''}/>
-
                         <div className="settingsLogoutBtnWrapper">
                             <Button
                                 loading={props.isFetchingAuthentication}

@@ -344,10 +344,10 @@ const PokerPlayer: React.FC<IPokerPlayer> = ({
                          ref={badge}
                          style={action === 'folds' ? {opacity: 0.3} : {}}
                     >
-                        <div style={{marginRight: 9}}>
+                        <div style={mp > 999999 ? {transform: 'scale(.9)'} : {marginRight: 9}}>
                             <SmallText color={dealer === player ? '#000' : '#FFF'}>{`${UTGLabels[index]}`}</SmallText>
                         </div>
-                        <div>
+                        <div style={mp > 999999 ? {transform: 'scale(.9)'} : {}}>
                             <SmallText
                                 color={dealer === player ? '#000' : '#FFF'}>{`${numberWithCommas(mp -= amount)}`}</SmallText>
                         </div>

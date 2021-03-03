@@ -1,6 +1,6 @@
 .dataTableContainer {
     min-width: 350px;
-    height: 308px;
+    height: 320px;
     background: radial-gradient(99.31% 94.34% at 49.88% -2.58%, rgba(232, 186, 115, 0.15) 0%, rgba(232, 186, 115, 0) 72.18%), #15171A;
     border-radius: 16px;
 }
@@ -33,8 +33,11 @@
     height: 60px;
 
     display: flex;
-    justify-content: center;
+    justify-content: left;
     align-items: center;
+
+    padding-left: 20px;
+    overflow-x: scroll;
 }
 
 .dataTableRightColumn {

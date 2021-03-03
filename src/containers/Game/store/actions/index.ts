@@ -156,7 +156,7 @@ export const updateMyTopics = (path: string, questionID: number, correct: boolea
                         dispatch(setFetchNextAIQuestions(true))
                     }
                     let masterLessons = 0;
-                    myTopics[myTopicsIndex].lessons.forEach((l:any) => {if (!l.mastered) masterLessons += 1});
+                    myTopics[myTopicsIndex].lessons.forEach((l:any) => {if (l.mastered) masterLessons += 1});
 
                     if (masterLessons === topic.totalTopicLessons && !myTopics[myTopicsIndex].mastered) {
                         myTopics[myTopicsIndex].mastered = true;
