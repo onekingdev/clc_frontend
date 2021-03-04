@@ -22,7 +22,7 @@ import {detectBrowser} from "../../helpers/validations";
 function ScreenTemplate(props: any) {
     const history = useHistory();
     const scrollRef: any = useRef(null);
-    const [slider, setSlider] = useState(false);
+    const [slider, setSlider]: any = useState(null);
     const [width, setWidth] = useState(window.innerWidth);
     const [scrollTop, setScrollTop] = useState(0);
     const [isLoading, setIsLoading] = useState(props.loading);
@@ -57,7 +57,7 @@ function ScreenTemplate(props: any) {
 
     useEffect(() => {
         if(!props.loading) {
-            setTimeout(() => setIsLoading(false), 2000);
+            setTimeout(() => setIsLoading(false), 3000);
         }
     }, [props.loading])
 
@@ -81,36 +81,42 @@ function ScreenTemplate(props: any) {
 
     return (
         <div className="container">
-            {!props.type ? <Sidebar type="default" title="MENU" items={
+            {!props.type && slider !== null ? <Sidebar type="default" title="MENU" items={
                 [<SidebarItem icon="home" text="Home" onClick={() => {
-                    setTimeout(() => history.push('home'), 0);
+                    setSlider(false)
+                    setTimeout(() => history.push('home'), 700);
                 }}/>,
                     <SidebarItem icon="ai" text="AI Learning" onClick={() => {
+                        setSlider(false)
                         setTimeout(() => {
                             sessionStorage.setItem('selectedTopic', '{}');
                             history.push('ai');
-                        }, 0);
+                        }, 700);
                     }}/>,
                     <SidebarItem icon="path" text="Pick Your Path" onClick={() => {
-                        setTimeout(() => history.push('paths'), 0);
+                        setSlider(false)
+                        setTimeout(() => history.push('paths'), 700);
                     }}/>,
                     /*<SidebarItem icon="practice" text="Practice" onClick={() => {
                         setTimeout(() => history.push('practice'), 0);
                     }}/>,*/
                     <SidebarItem icon="video" text="Video Library" onClick={() => {
-                        setTimeout(() => history.push('library'), 0);
+                        setSlider(false)
+                        setTimeout(() => history.push('library'), 700);
                     }}/>,
                     /*<SidebarItem icon="training" text="Advanced Training" onClick={() => {
                         setTimeout(() => history.push('training'), 0);
                     }}/>,*/
                     <SidebarItem icon="performance" text="My Performance" onClick={() => {
-                        setTimeout(() => history.push('performance'), 0);
+                        setSlider(false)
+                        setTimeout(() => history.push('performance'), 700);
                     }}/>,
                     /*<SidebarItem icon="answers" text="Answers" onClick={() => {
                         setTimeout(() => history.push('answers'), 0);
                     }}/>,*/
                     <SidebarItem icon="settings" text="Settings" onClick={() => {
-                        setTimeout(() => history.push('settings'), 0);
+                        setSlider(false)
+                        setTimeout(() => history.push('settings'), 700);
                     }}/>
                 ]
             }
@@ -169,7 +175,11 @@ function ScreenTemplate(props: any) {
                     const scrollTop = scrollRef.current.scrollTop
                     setScrollTop(scrollTop);
                 }}
-                onClick={() => setSlider(false)}>
+                onClick={() => {
+                    if (slider !== null) {
+                        setSlider(false)
+                    }
+                }}>
                 {isLoading ?
                     <Loader topText={props.type === 'results' ? 'THE TOURNAMENT ASSESSMENT' : 'FETCHING DATA'} title={props.type === 'results' ? 'Your Assessment is Being Processed' : 'Loading...'}/>
                     :

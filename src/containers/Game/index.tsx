@@ -277,8 +277,8 @@ function Game(props: any) {
                 props.clearResultsData();
                 history.push('results');
             } else {
-                history.push('results')
-                // setShowModal(true);
+                // history.push('results')
+                setShowModal(true);
             }
         }
     }
@@ -356,7 +356,7 @@ function Game(props: any) {
     }
 
     return (
-        <ScreenTemplate type={pathname === '/assessment' ? 'assessment' : null} loading={!props.isFetchingGameData}>
+        <ScreenTemplate type={pathname === '/assessment' ? 'assessment' : null} loading={!props.isFetchingGameData || props.totalQuestions === 0}>
             {questions.array.length === 0 ? null :
                 <div className="gameWrapper" style={{transform: `scale(${renderSize(width-100)})`}}>
                     {showTable ? <div>

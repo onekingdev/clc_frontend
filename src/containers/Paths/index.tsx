@@ -17,7 +17,7 @@ function Paths(props: any) {
     const [available, setAvailable] = useState({array: [], render: false});
     const [mastered, setMastered] = useState({array: [], render: false});
     const [locked, setLocked] = useState({array: [], render: false});
-    const [slider, setSlider] = useState({item: {}, show: false});
+    const [slider, setSlider]: any = useState({item: {}, show: null});
 
     // adjust dimensions
     useEffect(() => {
@@ -133,6 +133,7 @@ function Paths(props: any) {
                         show={width < 650 ? 1 : width < 950 ? 2 : width < 1300 ? 3 : width < 1650 ? 4 : width < 2000 ? 5 : 6}/>
                 </div>
                 : <div className="bottomPadding"/>}
+            {slider.show !== null ?
                 <Sidebar
                         right
                         type="lessons"
@@ -141,7 +142,7 @@ function Paths(props: any) {
                         upperButtons={[]}
                         reverse={!slider.show}
                         closeButton={() => setSlider({item: {}, show: false})}/>
-
+                        : null}
         </ScreenTemplate>
     );
 }

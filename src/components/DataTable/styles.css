@@ -29,7 +29,7 @@
 }
 
 .dataTableMiddleColumn {
-    width: 250%;
+    width: 100%;
     height: 60px;
 
     display: flex;
@@ -41,7 +41,7 @@
 }
 
 .dataTableRightColumn {
-    width: 100%;
+    width: 50%;
     height: 60px;
 
     border-left-width: 1px;
@@ -54,7 +54,7 @@
 }
 
 .dataTableLeftColumn {
-    width: 100%;
+    width: 50%;
     height: 60px;
 
     border-right-width: 1px;

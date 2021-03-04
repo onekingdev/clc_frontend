@@ -12,6 +12,9 @@ import * as ACTIONS from './store/actions';
 import moment from "moment";
 import Button from "../../components/Button";
 import IframeResizer from 'iframe-resizer-react'
+import {PulseLoader} from "react-spinners";
+import TitleText from "../../components/TitleText";
+import SmallText from "../../components/SmallText";
 
 const promise = loadStripe("pk_test_RqGIvgu49sLej0wM4rycOkJh");
 
@@ -24,30 +27,43 @@ function Payment(props: any) {
 
     const [succeeded, setSucceeded] = useState(false);
     const [redirect, setRedirect] = useState(false);
+    const [showIframe, setShowIframe] = useState(false);
 
     useEffect(() => {
         props.fetchPaymentIntent([{ id: "prod_ItM3Rl00ARmZwI" }]);
+        setTimeout(() => setShowIframe(true), 2000);
     }, [])
 
     useEffect(() => {
-        if (redirect && moment(props.user.payment.subscription).diff(moment(), 'days') > 0 ) {
-            history.push('home');
+        if (succeeded) {
+            props.fetchUpdatedPaymentData(props.user.email, () => setRedirect(true))
         }
-    }, [redirect, props.user.payment.subscription])
+    }, [succeeded])
 
     return (
         <div>
-            <IframeResizer
+            {showIframe ? <IframeResizer
                 src="https://www.clcpoker.com/ai"
-                style={{ height: '85vh', width: '100%'}}
+                style={{height: '90vh', width: '100%'}}
                 onResized={(e) => alert(JSON.stringify(e))}
-            />
+            /> :<div className="paymentLoaderWrapper">
+                    <PulseLoader loading color="#FFF"/>
+                </div>}
             <div className="paymentButtonTextWrapper">
-                <Banner topText="IT'S TIME TO" title="Become a Better Poker Player with Chip Leader AI"/>
+                {/*<Banner topText="IT'S TIME TO" title="Become a Better Poker Player with Chip Leader AI"/>*/}
+                <div>
+                    <SmallText>IT'S TIME TO</SmallText>
+                </div>
+                <div>
+                    <TitleText>Become a Better Poker Player</TitleText>
+                </div>
+                <div style={{marginBottom: 20}}>
+                    <TitleText>Player with Chip Leader AI</TitleText>
+                </div>
                 <div className="paymentButtonWrapper">
                     {succeeded || moment(props.user.payment.subscription).diff(moment(), 'days') > 0 ?
                         <Button onClick={() => {
-                            props.fetchUpdatedPaymentData(props.user.email, () => setRedirect(true))
+                            setTimeout(() => history.push('home'), 500)
                         }} width="30%" height={64} text="Start" glow/>
                          :
                         <Elements stripe={promise}>

@@ -1,9 +1,10 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import './styles.css';
 import SmallText from "../SmallText";
 import TitleText from "../TitleText";
 import ChipItem from "../ChipItem";
 import BodyText from "../BodyText";
+import {Bounce} from "react-awesome-reveal";
 
 interface IBanner {
     topText: string,
@@ -18,6 +19,18 @@ const Banner: React.FC<IBanner> = ({
                                        footerValues,
                                        type
                                    }) => {
+    const [reverse, setReverse] = useState(true);
+
+    useEffect(() => {
+        setReverse(true);
+    }, [footerValues])
+
+    useEffect(() => {
+        if (reverse) {
+            setReverse(false)
+        }
+    }, [reverse])
+
     return (
         <div className="">
             <div style={{marginBottom: 57}}>
@@ -31,7 +44,15 @@ const Banner: React.FC<IBanner> = ({
             {footerValues ? <div className="bannerFooterWrapper">
                 <div style={{width: 150}}>
                     <div>
-                        <TitleText>{typeof footerValues[0] === 'string' ? footerValues[0].split('/')[0] : footerValues[0]}</TitleText>{typeof footerValues[0] === 'string'? < BodyText color="#FFF">{`/${footerValues[0].split('/')[1]}`}</BodyText> : null}
+                        {typeof footerValues[0] === 'string' ?
+                            <TitleText>{typeof footerValues[0] === 'string' ? footerValues[0].split('/')[0] : footerValues[0]}</TitleText>
+                            : footerValues[0] > 0 ?
+                                <Bounce reverse={reverse} triggerOnce>
+                                    <TitleText>{footerValues[0]}</TitleText>
+                                </Bounce>
+                                : <TitleText>0</TitleText>}
+                        {typeof footerValues[0] === 'string' ?
+                            < BodyText color="#FFF">{`/${footerValues[0].split('/')[1]}`}</BodyText> : null}
                     </div>
                     <div>
                         <SmallText color="#FFF">QUESTIONS CORRECT</SmallText>

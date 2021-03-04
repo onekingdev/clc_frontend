@@ -47,13 +47,21 @@ const ChipItem: React.FC<IChipItem> = ({
                 </div>
             }
             {size === 'small' ?
-                <Bounce reverse={reverse}><SmallText color="#FFF" bold>{typeof quantity !== 'string' ? numberWithCommas(quantity) : quantity}</SmallText></Bounce>
+                typeof quantity === 'string' || quantity > 0 ?
+                <Bounce reverse={reverse} triggerOnce><SmallText color="#FFF" bold>{typeof quantity !== 'string' ? numberWithCommas(quantity) : quantity}</SmallText></Bounce>
+                    : <SmallText color="#FFF" bold>0</SmallText>
                 : size === 'medium' ?
-                    <Bounce reverse={reverse}><SubtitleText bold>{typeof quantity !== 'string' ? numberWithCommas(quantity) : quantity}</SubtitleText></Bounce>
+                    typeof quantity === 'string' || quantity > 0 ?
+                    <Bounce reverse={reverse} triggerOnce><SubtitleText bold>{typeof quantity !== 'string' ? numberWithCommas(quantity) : quantity}</SubtitleText></Bounce>
+                        : <SubtitleText bold>0</SubtitleText>
                     : size === 'large' ?
-                        <Bounce reverse={reverse}><TitleText bold>{typeof quantity !== 'string' ? numberWithCommas(quantity) : quantity}</TitleText></Bounce>
+                        typeof quantity === 'string' || quantity > 0 ?
+                        <Bounce reverse={reverse} triggerOnce><TitleText bold>{typeof quantity !== 'string' ? numberWithCommas(quantity) : quantity}</TitleText></Bounce>
+                            : <TitleText bold>0</TitleText>
                         :
-                        <Bounce reverse={reverse}><SmallText color="#FFF" bold>{typeof quantity !== 'string' ? numberWithCommas(quantity) : quantity}</SmallText></Bounce>
+                        typeof quantity === 'string' || quantity > 0 ?
+                        <Bounce reverse={reverse} triggerOnce><SmallText color="#FFF" bold>{typeof quantity !== 'string' ? numberWithCommas(quantity) : quantity}</SmallText></Bounce>
+                            : <SmallText color="#FFF" bold>0</SmallText>
             }
         </div>
     );

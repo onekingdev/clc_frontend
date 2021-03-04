@@ -32,6 +32,12 @@ function Home(props: any) {
     const [showModal, setShowModal] = useState({show: false, url: ''});
 
     useEffect(() => {
+        return () => {
+            props.clearPerformanceData()
+        }
+    }, []);
+
+    useEffect(() => {
         props.fetchHomeCards();
         props.fetchEarnings('month');
         props.fetchEvents();
@@ -212,7 +218,8 @@ const bindActions = (dispatch: any) => {
     return {
         fetchEarnings: (query: string) => dispatch(PERFORMANCE_ACTIONS.fetchEarnings(query)),
         fetchEvents: () => dispatch(ACTIONS.fetchEvents()),
-        fetchHomeCards: () => dispatch(ACTIONS.fetchHomeCards())
+        fetchHomeCards: () => dispatch(ACTIONS.fetchHomeCards()),
+        clearPerformanceData: () => dispatch(PERFORMANCE_ACTIONS.clearPerformanceData())
     };
 };
 

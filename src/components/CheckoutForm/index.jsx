@@ -69,7 +69,7 @@ export default function CheckoutForm({
         } else {
             setError(null);
             setProcessing(false);
-            setSucceeded(true);
+            setTimeout(() => setSucceeded(true), 2000)
             toast("Success! Check email for details", {type: "success"});
         }
     };
