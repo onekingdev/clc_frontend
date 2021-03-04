@@ -3,6 +3,7 @@ import {app} from '../../../../services/firebase';
 import firebase from "firebase";
 import moment from 'moment';
 import {formatGraphData} from '../../../../helpers/formatter';
+const timestamp = firebase.firestore.FieldValue.serverTimestamp();
 
 export const clearPerformanceData = () => {
     return {
@@ -45,7 +46,7 @@ export const setMonthlyGraphData = (data: object) => {
     }
 }
 
-export const fetchEarnings = (consult: string, tableTime?: string) => async(
+export const fetchEarnings = (consult: string) => async(
     dispatch: (data: any) => void,
     getState: any,
 ) => {
@@ -58,7 +59,7 @@ export const fetchEarnings = (consult: string, tableTime?: string) => async(
         .firestore()
         .collection('earnings')
         .orderBy(`${consult}.correct`, 'desc')
-        .limit(10)
+        //.limit(10)
         .get()
         .then(snapshot => {
             let list: any = [];
@@ -70,11 +71,11 @@ export const fetchEarnings = (consult: string, tableTime?: string) => async(
             return list;
         });
 
-    const chips = await app
+    let chips = await app
         .firestore()
         .collection('earnings')
         .orderBy(`${consult}.chips`, 'desc')
-        .limit(10)
+        //.limit(10)
         .get()
         .then(snapshot => {
             let list: any = [];
@@ -99,9 +100,9 @@ export const fetchEarnings = (consult: string, tableTime?: string) => async(
     });
 
     dispatch(setTableData({
-        chipsEarned: chips,
+        chipsEarned: chips.slice(0, 5),
         myChipsEarned: myChips,
-        correctQuestions: correct,
+        correctQuestions: correct.slice(0, 5),
         myCorrectQuestions: myCorrect,
         myCorrectRank: correctRank,
         myChipRank: chipRank,
@@ -122,10 +123,16 @@ export const updateDailyEarnings = (data: { chips: number, tickets: number }) =>
     // graph (questions, tickets)
     const uid = getState().authState.user.stringID;
 
-    let date = moment();
-    let weekDayName =  moment(date).format('dddd').toLowerCase();
-    let weekDayNumber =  moment(date).day();
-    let monthNumber =  moment(date).month();
+    let weekDayName =  moment().format('dddd').toLowerCase();
+    let weekDayNumber =  moment().day();
+    let monthNumber =  moment().month();
+
+    const document = await app
+        .firestore()
+        .collection('earnings')
+        .doc(uid)
+        .get()
+        .then((doc: any) => doc.data());
 
     const dailyUpdate = (day: string, amount?: any) => {
         if (amount) return document.days[day].tickets += amount;
@@ -186,40 +193,37 @@ export const updateDailyEarnings = (data: { chips: number, tickets: number }) =>
     }
 
     const weeklyUpdate = (increment: number, field: string) => {
-        if ((moment(document.week.started.seconds).day() -1) <= weekDayNumber) return document.week[field] += increment;
+        if (moment.unix(document.week.started).month() <= weekDayNumber) return document.week[field] += increment;
         return increment;
     }
 
     const monthlyUpdate = (increment: number, field: string) => {
-        if ((moment(document.season.started.seconds).month() !== 0 ? moment(document.season.started.seconds).month() -1 : 0) === monthNumber) return document.month[field] += increment;
+        if (moment.unix(document.month.started).month() === monthNumber) {
+            return document.month[field] += increment;
+        }
         return increment;
     }
 
     const seasonUpdate = (increment: number, field: string) => {
-        if ((moment(document.season.started.seconds).month() !== 0 ? moment(document.season.started.seconds).month() -1 : 0) <= monthNumber ) return document.season[field] += increment;
+        if (moment.unix(document.season.started).month() <= monthNumber ) {
+            return document.season[field] += increment;
+        }
         return increment;
     }
 
     const startDateUpdate = (time: string) => {
         switch (time) {
             case 'season':
-                if ((moment(document.season.started.seconds).month() !== 0 ? moment(document.season.started.seconds).month() -1 : 11) <= monthNumber) return document.season.started;
-                return date.format("X");
+                if (moment.unix(document.season.started).month() <= monthNumber) return document.season.started;
+                return timestamp;
             case 'week':
-                if ((moment(document.week.started.seconds).day() -1) <= weekDayNumber) return document.week.started;
-                return date.format("X");
-            default:
-                if ((moment(document.season.started.seconds).month() !== 0 ? moment(document.season.started.seconds).month() -1 : 11) === monthNumber) return document.month.started;
-                return date.format("X");
+                if (moment.unix(document.week.started).month() <= weekDayNumber) return document.week.started;
+                return timestamp;
+            case 'month':
+                if (moment.unix(document.month.started).month() === monthNumber) return document.month.started;
+                return timestamp;
         }
     }
-
-    const document = await app
-        .firestore()
-        .collection('earnings')
-        .doc(uid)
-        .get()
-        .then((doc: any) => doc.data());
 
     await app
         .firestore()

@@ -10,6 +10,7 @@ import BodyText from "../../components/BodyText";
 import TitleText from "../../components/TitleText";
 import InfoCard from "../../components/InfoCard";
 import * as RESULT_ACTIONS from '../Results/store/actions';
+import assessmentBG from "../../assets/images/assessment-start.png";
 
 function Assessment(props: any) {
     const history = useHistory();
@@ -20,6 +21,9 @@ function Assessment(props: any) {
 
     return (
         <ScreenTemplate type="assessment-screen" progressData={props.progressData} totalQuestions={props.totalQuestions} index={props.progressIndex} tooltip={props.progressIndex === 0 ? 'Start' : 'Continue'}>
+            <div className="libraryImageWrapper">
+                <img src={assessmentBG} width="100%"/>
+            </div>
             <div>
                 <BodyText color="var(--primary)">THE TOURNAMENT ASSESSMENT</BodyText>
             </div>

@@ -19,6 +19,7 @@
     "d3-ease": "^2.0.0",
     "firebase": "^7.19.1",
     "html-react-parser": "^1.2.3",
+    "iframe-resizer-react": "^1.1.0",
     "moment": "^2.29.1",
     "react": "^17.0.1",
     "react-awesome-modal": "^2.0.5",

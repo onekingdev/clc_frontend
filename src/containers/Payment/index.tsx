@@ -11,6 +11,7 @@ import CheckoutForm from "../../components/CheckoutForm";
 import * as ACTIONS from './store/actions';
 import moment from "moment";
 import Button from "../../components/Button";
+import IframeResizer from 'iframe-resizer-react'
 
 const promise = loadStripe("pk_test_RqGIvgu49sLej0wM4rycOkJh");
 
@@ -36,7 +37,11 @@ function Payment(props: any) {
 
     return (
         <div>
-            <iframe></iframe>
+            <IframeResizer
+                src="https://www.clcpoker.com/ai"
+                style={{ height: '85vh', width: '100%'}}
+                onResized={(e) => alert(JSON.stringify(e))}
+            />
             <div className="paymentButtonTextWrapper">
                 <Banner topText="IT'S TIME TO" title="Become a Better Poker Player with Chip Leader AI"/>
                 <div className="paymentButtonWrapper">

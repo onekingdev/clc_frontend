@@ -164,7 +164,9 @@ export const updateMyTopics = (path: string, questionID: number, correct: boolea
                     }
                 }
             } else {
-                myTopics[myTopicsIndex].lessons[lessonIndex].correct -= 1;
+                if (myTopics[myTopicsIndex].lessons[lessonIndex].correct > 0) {
+                    myTopics[myTopicsIndex].lessons[lessonIndex].correct -= 1;
+                }
             }
             if ((answeredIndex / parseInt(rule[1])) % 1 == 0) {
                 myTopics[myTopicsIndex].lessons[lessonIndex].correctInARow = 0;
