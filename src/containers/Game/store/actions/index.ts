@@ -137,23 +137,27 @@ export const updateMyTopics = (path: string, questionID: number, correct: boolea
             const rule = myTopics[myTopicsIndex].lessons[lessonIndex].rule.split('/');
 
             if (questionIndex !== -1) {
+                if (!myTopics[myTopicsIndex].lessons[lessonIndex].questions[questionIndex].correct && correct) {
+                    myTopics[myTopicsIndex].lessons[lessonIndex].correctInARow += 1;
+                    myTopics[myTopicsIndex].lessons[lessonIndex].correct += 1;
+                } else if (myTopics[myTopicsIndex].lessons[lessonIndex].questions[questionIndex].correct && !correct && myTopics[myTopicsIndex].lessons[lessonIndex].correct > 0) {
+                    myTopics[myTopicsIndex].lessons[lessonIndex].correct -= 1;
+                }
                 myTopics[myTopicsIndex].lessons[lessonIndex].questions[questionIndex] = {id: questionID, correct}
-
             } else {
+                if (correct) {
+                    myTopics[myTopicsIndex].lessons[lessonIndex].correctInARow += 1;
+                    myTopics[myTopicsIndex].lessons[lessonIndex].correct += 1;
+                } else if (!correct && myTopics[myTopicsIndex].lessons[lessonIndex].correct > 0) {
+                    myTopics[myTopicsIndex].lessons[lessonIndex].correct -= 1;
+                }
                 myTopics[myTopicsIndex].lessons[lessonIndex].questions.push({
                     id: questionID,
                     correct,
                 })
-                questionIndex = myTopics[myTopicsIndex].lessons[lessonIndex].questions.length-1;
             }
 
             if (correct) {
-
-                if (myTopics[myTopicsIndex].lessons[lessonIndex].questions[questionIndex].correct) {
-                    myTopics[myTopicsIndex].lessons[lessonIndex].correctInARow += 1;
-                    myTopics[myTopicsIndex].lessons[lessonIndex].correct += 1;
-                }
-
                 if (myTopics[myTopicsIndex].lessons[lessonIndex].correctInARow === parseInt(rule[0])) {
                     myTopics[myTopicsIndex].lessons[lessonIndex].mastered = true;
                     if (path === '/ai') {
@@ -167,10 +171,6 @@ export const updateMyTopics = (path: string, questionID: number, correct: boolea
                         myTopics[myTopicsIndex].mastered = true;
                         dispatch(levelUp());
                     }
-                }
-            } else {
-                if (!myTopics[myTopicsIndex].lessons[lessonIndex].questions[questionIndex].correct && myTopics[myTopicsIndex].lessons[lessonIndex].correct > 0) {
-                    myTopics[myTopicsIndex].lessons[lessonIndex].correct -= 1;
                 }
             }
 

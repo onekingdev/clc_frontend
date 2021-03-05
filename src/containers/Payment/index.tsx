@@ -61,7 +61,7 @@ function Payment(props: any) {
                     <TitleText>Player with Chip Leader AI</TitleText>
                 </div>
                 <div className="paymentButtonWrapper">
-                    {succeeded || moment(props.user.payment.subscription).diff(moment(), 'days') > 0 ?
+                    {moment(props.user.payment.subscription).diff(moment(), 'days') > 0 ?
                         <Button onClick={() => {
                             setTimeout(() => history.push('home'), 500)
                         }} width="30%" height={64} text="Start" glow/>
