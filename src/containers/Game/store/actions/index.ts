@@ -132,8 +132,10 @@ export const updateMyTopics = (path: string, questionID: number, correct: boolea
         const lessonIndex = myTopics[myTopicsIndex].lessons.findIndex((l: any) => l.UID === topic.lessonUID)
 
         if (lessonIndex !== -1) {
-            const questionIndex = myTopics[myTopicsIndex].lessons[lessonIndex].questions.findIndex((q: any) => q.id === questionID)
+            let questionIndex = myTopics[myTopicsIndex].lessons[lessonIndex].questions.findIndex((q: any) => q.id === questionID)
             //***************************************************************************************
+            const rule = myTopics[myTopicsIndex].lessons[lessonIndex].rule.split('/');
+
             if (questionIndex !== -1) {
                 myTopics[myTopicsIndex].lessons[lessonIndex].questions[questionIndex] = {id: questionID, correct}
 
@@ -142,13 +144,15 @@ export const updateMyTopics = (path: string, questionID: number, correct: boolea
                     id: questionID,
                     correct,
                 })
+                questionIndex = myTopics[myTopicsIndex].lessons[lessonIndex].questions.length-1;
             }
 
-            const rule = myTopics[myTopicsIndex].lessons[lessonIndex].rule.split('/');
-
             if (correct) {
-                myTopics[myTopicsIndex].lessons[lessonIndex].correctInARow += 1;
-                myTopics[myTopicsIndex].lessons[lessonIndex].correct += 1;
+
+                if (myTopics[myTopicsIndex].lessons[lessonIndex].questions[questionIndex].correct) {
+                    myTopics[myTopicsIndex].lessons[lessonIndex].correctInARow += 1;
+                    myTopics[myTopicsIndex].lessons[lessonIndex].correct += 1;
+                }
 
                 if (myTopics[myTopicsIndex].lessons[lessonIndex].correctInARow === parseInt(rule[0])) {
                     myTopics[myTopicsIndex].lessons[lessonIndex].mastered = true;
@@ -158,16 +162,18 @@ export const updateMyTopics = (path: string, questionID: number, correct: boolea
                     let masterLessons = 0;
                     myTopics[myTopicsIndex].lessons.forEach((l:any) => {if (l.mastered) masterLessons += 1});
 
+                    //TODO: creo que topic.totalTopicLessons no viene bien
                     if (masterLessons === topic.totalTopicLessons && !myTopics[myTopicsIndex].mastered) {
                         myTopics[myTopicsIndex].mastered = true;
                         dispatch(levelUp());
                     }
                 }
             } else {
-                if (myTopics[myTopicsIndex].lessons[lessonIndex].correct > 0) {
+                if (!myTopics[myTopicsIndex].lessons[lessonIndex].questions[questionIndex].correct && myTopics[myTopicsIndex].lessons[lessonIndex].correct > 0) {
                     myTopics[myTopicsIndex].lessons[lessonIndex].correct -= 1;
                 }
             }
+
             if ((answeredIndex / parseInt(rule[1])) % 1 == 0) {
                 myTopics[myTopicsIndex].lessons[lessonIndex].correctInARow = 0;
             }
