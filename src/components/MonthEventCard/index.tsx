@@ -21,7 +21,7 @@ const MonthEventCard: React.FC<IMonthEventCard> = ({
                                          }) =>  {
 
     return (
-        <div className="monthEventCardContainer" style={{width: width}}>
+        <div className="monthEventCardContainer" style={width > 470 ? {width: width} : {}}>
             <div style={{width: '80%'}}>
                 <div>
                     <BodyText color="var(--primary)" bold>{title}</BodyText>

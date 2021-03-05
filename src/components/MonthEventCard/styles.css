@@ -1,5 +1,6 @@
 .monthEventCardContainer {
     height: 100px;
+    width: 100%;
     border-radius: 16px;
     background: radial-gradient(99.31% 94.34% at 49.88% -2.58%, rgba(232, 186, 115, 0.15) 0%, rgba(232, 186, 115, 0) 72.18%), #15171A;
     cursor: pointer;
@@ -8,5 +9,12 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    overflow-y: hidden;
+}
+
+@media (max-width: 754px) {
+    .monthEventCardContainer {
+        align-items: flex-start;
+        overflow-y: auto;
+        width: 70%;
+    }
 }
