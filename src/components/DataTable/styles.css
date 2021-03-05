@@ -41,7 +41,7 @@
 }
 
 .dataTableRightColumn {
-    width: 50%;
+    width: 150px;
     height: 60px;
 
     border-left-width: 1px;
@@ -54,7 +54,7 @@
 }
 
 .dataTableLeftColumn {
-    width: 50%;
+    width: 150px;
     height: 60px;
 
     border-right-width: 1px;

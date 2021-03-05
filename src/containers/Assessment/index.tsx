@@ -44,7 +44,7 @@ function Assessment(props: any) {
                 <InfoCard title="ARGUMENT 3" text="Mauris varius felis at commodo imperdiet. Cras faucibus egestas urna, sed cursus massa cursus in. Ut aliquam lobortis arcu, non consectetur sapien interdum quis." image="timer" />
             </div>
             <div className="assessmentContainer">
-                <Button onClick={() => history.push('assessment')} width={200} height={47} glow text="START ASSESSMENT"/>
+                <Button onClick={() => setTimeout(() => history.push('assessment'), 500)} width={200} height={47} glow text="START ASSESSMENT"/>
             </div>
         </ScreenTemplate>
     )

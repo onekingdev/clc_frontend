@@ -255,32 +255,34 @@ function Game(props: any) {
     }
 
     const handleSubmit = () => {
-        setFinished(false);
-        setRerender(true);
-        setTimeout(() => setRerender(false),500)
-        reset();
-        if (props.fetchNextAIQuestions && pathname === '/ai') {
-            props.fetchGameData(props.myTopics);
-            props.setFetchNextAIQuestions(false);
-            setQuestionIndex(questionIndex += 1);
-        } else if (questionIndex < questions.array.length-1) {
-            setQuestionIndex(questionIndex += 1);
-        } else {
-            if (pathname === '/assessment') {
-                props.saveAssessment({
-                    ticketsEarned: props.ticketsEarned + tickets,
-                    chipsEarned: props.chipsEarned + chips,
-                    correct: correctCounter + props.correctQuestions,
-                    totalQuestions: props.totalQuestions
-                })
-
-                props.clearResultsData();
-                history.push('results');
+        setTimeout(() => {
+            setFinished(false);
+            setRerender(true);
+            setRerender(false)
+            reset();
+            if (props.fetchNextAIQuestions && pathname === '/ai') {
+                props.fetchGameData(props.myTopics);
+                props.setFetchNextAIQuestions(false);
+                setQuestionIndex(questionIndex += 1);
+            } else if (questionIndex < questions.array.length - 1) {
+                setQuestionIndex(questionIndex += 1);
             } else {
-                // history.push('results')
-                setShowModal(true);
+                if (pathname === '/assessment') {
+                    props.saveAssessment({
+                        ticketsEarned: props.ticketsEarned + tickets,
+                        chipsEarned: props.chipsEarned + chips,
+                        correct: correctCounter + props.correctQuestions,
+                        totalQuestions: props.totalQuestions
+                    }, () => {
+                        props.clearResultsData();
+                        history.push('results');
+                    })
+                } else {
+                    // history.push('results')
+                    setShowModal(true);
+                }
             }
-        }
+        }, 500);
     }
 
     const handleSkipLesson = () => {
@@ -476,7 +478,7 @@ const bindActions = (dispatch: any) => {
         setChipsEarned: (chips: number) => dispatch(RESULT_ACTIONS.setChipsEarned(chips)),
         setCorrectQuestions: (correct: number) => dispatch(RESULT_ACTIONS.setCorrectQuestions(correct)),
         setTotalQuestions: (questions: number) => dispatch(RESULT_ACTIONS.setTotalQuestions(questions)),
-        saveAssessment: (assessment: { correct: number, totalQuestions: number, ticketsEarned: number, chipsEarned: number }) => dispatch(RESULT_ACTIONS.saveAssessment(assessment)),
+        saveAssessment: (assessment: { correct: number, totalQuestions: number, ticketsEarned: number, chipsEarned: number }, callback: () => void) => dispatch(RESULT_ACTIONS.saveAssessment(assessment, callback)),
         fetchQuestionProgressbar: (type: string, myTopics: any, UID: string) => dispatch(RESULT_ACTIONS.fetchQuestionProgressbar(type, myTopics, UID)),
         clearResultsData: () => dispatch(RESULT_ACTIONS.clearResultsData())
     };

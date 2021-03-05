@@ -1,5 +1,5 @@
 :root {
-    --primary: #E8BA73;
+    --primary: rgba(232, 186, 115, 1);
     --primary-title-text: #FFF;
     --primary-subtitle-text: #FFF;
     --primary-body-text: #76746C;
@@ -56,7 +56,7 @@ body::-webkit-scrollbar {
 }
 
 ::-webkit-scrollbar-thumb {
-    background: rgba(232, 186, 115, 1);
+    background: var(--primary);
     border-radius: 10px;
 }
 
