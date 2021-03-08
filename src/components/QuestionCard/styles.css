@@ -36,6 +36,13 @@
     align-items: center;
 }
 
+.questionCardLoaderWrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+}
+
 span[id^=keyWord] {
     color: var(--primary);
     text-decoration: underline;

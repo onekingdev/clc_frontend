@@ -54,6 +54,7 @@ export const getPathsList = (myTopics: any) => async(
     }
 }
 
+//TODO: add backend transaction
 export const buyItem = (item: any, callback: (data: any) => void) => async(
     dispatch: (data: any) => void,
     getState: any,
@@ -74,6 +75,7 @@ export const buyItem = (item: any, callback: (data: any) => void) => async(
                     .collection('users')
                     .doc(user.stringID)
                     .update('chips', chips)
+
                 await app
                     .firestore()
                     .collection('users')
@@ -99,6 +101,8 @@ export const buyItem = (item: any, callback: (data: any) => void) => async(
                     .update('myTopics', myTopics)
 
                 callback({correct: true, msg: 200});
+
+
 
             } else {
                 callback({correct: false, msg: 501});

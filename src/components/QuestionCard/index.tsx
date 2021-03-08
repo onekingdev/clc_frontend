@@ -10,8 +10,10 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {parseResponse} from "../../helpers/formatter";
 import parse from 'html-react-parser';
 import ReactTooltip from "react-tooltip";
+import {PulseLoader} from "react-spinners";
 
 interface IQuestionCard {
+    showQuestionNumber: boolean,
     rerender: boolean,
     loading: boolean,
     headerText: string,
@@ -26,6 +28,7 @@ interface IQuestionCard {
 }
 
 const QuestionCard: React.FC<IQuestionCard> = ({
+                                                   showQuestionNumber,
                                                    rerender,
                                                    loading,
                                                    headerText,
@@ -74,7 +77,7 @@ const QuestionCard: React.FC<IQuestionCard> = ({
 
     return (
         <div className="questionCardContainer">
-            <div className="questionCardTextWrapper"
+            {!rerender ? <div className="questionCardTextWrapper"
                  style={{marginBottom: 8, display: 'flex', justifyContent: 'space-between'}}>
                 <SmallText>{headerText}</SmallText>
                 {mastered ?
@@ -88,11 +91,11 @@ const QuestionCard: React.FC<IQuestionCard> = ({
                             style={{marginLeft: 5}}
                         />
                     </div> : null}
-            </div>
-            <div className="questionCardTextWrapper" style={{marginBottom: 16}}>
+            </div> : null}
+            {!rerender && showQuestionNumber ? <div className="questionCardTextWrapper" style={{marginBottom: 16}}>
                 <TitleText>{`Question #${questionNumber}`}</TitleText>
-            </div>
-            <div className="questionCardTextWrapper" style={{marginBottom: 24}}>
+            </div> : null}
+            {!rerender ? <div className="questionCardTextWrapper" style={{marginBottom: 24}}>
                 <BodyText>
                     {description && description !== '' ? parse(parseResponse(description)) : null}
                     {description && description !== '' ?
@@ -104,7 +107,7 @@ const QuestionCard: React.FC<IQuestionCard> = ({
                         className="questionCardTooltipContainer"
                     /> : null}
                 </BodyText>
-            </div>
+            </div> : null}
             {!rerender && options.length > 0 ?
                 options.map((item, index) => <div key={index} style={{marginBottom: 16}}>
                     {item.text ?
@@ -122,7 +125,10 @@ const QuestionCard: React.FC<IQuestionCard> = ({
                             text={item.text}
                             answer={index === 0 ? 'A.' : index === 1 ? 'B.' : index === 2 ? 'C.' : index === 3 ? 'D.' : 'E.'}/>
                         : null}
-                </div>) : null
+                </div>) :
+                <div className="questionCardLoaderWrapper">
+                    <PulseLoader loading={true} color="#FFF"/>
+                </div>
             }
             {!rerender && status !== 0 ? <div className="questionCardFooterWrapper">
                 {pathname !== '/assessment' && status === 1 ?

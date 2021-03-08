@@ -228,6 +228,7 @@ function Game(props: any) {
                     challenge: 0,
                     chips: localChips,
                     tickets: localTickets,
+                    correct: 1,
                 });
                 setCorrectCounter(correctCounter += 1);
                 // saving for results
@@ -242,47 +243,49 @@ function Game(props: any) {
                     challenge: 0,
                     chips: 0,
                     tickets: 0,
+                    correct: 0
                 });
             }
             props.updateMyTopics(
                 pathname,
                 questions.array[questionIndex].question.questionID,
                 correct,
-                questions.array[questionIndex].topicData,
-                questionIndex
+                questions.array[questionIndex].topicData
             );
         }, 500)
     }
 
     const handleSubmit = () => {
-        setTimeout(() => {
-            setFinished(false);
-            setRerender(true);
-            setRerender(false)
-            reset();
-            if (props.fetchNextAIQuestions && pathname === '/ai') {
-                props.fetchGameData(props.myTopics);
-                props.setFetchNextAIQuestions(false);
-                setQuestionIndex(questionIndex += 1);
-            } else if (questionIndex < questions.array.length - 1) {
-                setQuestionIndex(questionIndex += 1);
-            } else {
-                if (pathname === '/assessment') {
-                    props.saveAssessment({
-                        ticketsEarned: props.ticketsEarned + tickets,
-                        chipsEarned: props.chipsEarned + chips,
-                        correct: correctCounter + props.correctQuestions,
-                        totalQuestions: props.totalQuestions
-                    }, () => {
-                        props.clearResultsData();
-                        history.push('results');
-                    })
+        let blocker = false;
+        setRerender(true);
+        reset();
+        if ((questionIndex === questions.array.length - 1 || props.fetchNextAIQuestions)&& pathname === '/ai') {
+            window.location.reload();
+        } else if (questionIndex === questions.array.length - 1 && pathname === '/assessment') {//TODO check lag for some times
+            blocker = true;
+            props.saveAssessment({
+                ticketsEarned: props.ticketsEarned + tickets,
+                chipsEarned: props.chipsEarned + chips,
+                correct: correctCounter + props.correctQuestions,
+                totalQuestions: props.totalQuestions
+            }, () => {
+                props.clearResultsData();
+                history.push('results');
+            })
+        }
+
+        if (!blocker) {
+            setTimeout(() => {
+                if (questionIndex < questions.array.length - 1) {
+                    setQuestionIndex(questionIndex += 1);
                 } else {
                     // history.push('results')
                     setShowModal(true);
                 }
-            }
-        }, 500);
+                setFinished(false);
+                setRerender(false)
+            }, 500);
+        }
     }
 
     const handleSkipLesson = () => {
@@ -420,6 +423,7 @@ function Game(props: any) {
                     </div> : null}
                     <div className="gameQuestionWrapper">
                         <QuestionCard
+                            showQuestionNumber={pathname !== '/ai'}
                             rerender={rerender}
                             loading={!finished}
                             headerText={questions.array[questionIndex].question.header}
@@ -429,7 +433,7 @@ function Game(props: any) {
                             myTopics={props.myTopics}
                             topicData={questions.array[questionIndex].topicData}
                             callback={handleAnswerQuestion}
-                            buttonText={questionIndex < questions.array.length-1 ? 'Next Question' : 'Finish!'}
+                            buttonText={questionIndex < questions.array.length-1  || pathname === '/ai' ? 'Next Question' : 'Finish!'}
                             next={handleSubmit}/>
                     </div>
                 </div>
@@ -470,8 +474,8 @@ const bindActions = (dispatch: any) => {
     return {
         fetchGameData: (myTopics: any) => dispatch(ACTIONS.fetchGameData(myTopics)),
         setFetchNextAIQuestions: (fetch: boolean) => dispatch(ACTIONS.setFetchNextAIQuestions(fetch)),
-        saveEarnings: (path: string, data: { tickets: number, questionID: number, chips: number, userID: number, challenge: 0}) => dispatch(ACTIONS.saveEarnings(path, data)),
-        updateMyTopics: (path: string, questionID: number, correct: boolean, topicData: any, questionIndex: number) => dispatch(ACTIONS.updateMyTopics(path, questionID, correct, topicData, questionIndex)),
+        saveEarnings: (path: string, data: { tickets: number, questionID: number, chips: number, userID: number, challenge: number, correct: number}) => dispatch(ACTIONS.saveEarnings(path, data)),
+        updateMyTopics: (path: string, questionID: number, correct: boolean, topicData: any) => dispatch(ACTIONS.updateMyTopics(path, questionID, correct, topicData)),
         updateDailyEarnings: (data: { chips: number, tickets: number }) => dispatch(PERFORMANCE_ACTIONS.updateDailyEarnings(data)),
         clearGameData: () => dispatch(ACTIONS.clearGameData()),
         setTicketsEarned: (tickets: number) => dispatch(RESULT_ACTIONS.setTicketsEarned(tickets)),
