@@ -16,10 +16,11 @@ export default function CheckoutForm({
                                          clientSecret,
                                          email,
                                          succeeded,
-                                         setSucceeded
+                                         setSucceeded,
+                                         processing,
+                                         callback
                                      }) {
-    const [error, setError] = useState(null);
-    const [processing, setProcessing] = useState('');
+    const [msg, setMsg] = useState(null);
     const [disabled, setDisabled] = useState(true);
     const stripe = useStripe();
     const elements = useElements();
@@ -46,13 +47,12 @@ export default function CheckoutForm({
         // Listen for changes in the CardElement
         // and display any errors as the customer types their card details
         setDisabled(event.empty);
-        setError(event.error ? event.error.message : "");
+        setMsg(event.error ? event.error.message : "");
     };
 
     const handleSubmit = async ev => {
         ev.preventDefault();
-        setProcessing(true);
-
+        callback(true);
         const payload = await stripe.confirmCardPayment(clientSecret, {
             payment_method: {
                 card: elements.getElement(CardElement),
@@ -63,14 +63,13 @@ export default function CheckoutForm({
         });
 
         if (payload.error) {
-            setError(`Payment failed ${payload.error.message}`);
-            toast(`Payment failed ${payload.error.message}`, {type: "error"});
-            setProcessing(false);
+            callback(false);
+            setMsg(`Payment failed ${payload.error.message}`);
+            //toast(`Payment failed ${payload.error.message}`, {type: "error"});
         } else {
-            setError(null);
-            setProcessing(false);
-            setTimeout(() => setSucceeded(true), 2000)
-            toast("Success! Check email for details", {type: "success"});
+            setSucceeded(true);
+            //toast("Success! Check email for details", {type: "success"});
+            setTimeout(() => setMsg("You are all set to start playing!"), 2000)
         }
     };
 
@@ -88,7 +87,10 @@ export default function CheckoutForm({
                 glow
                 text="Sign Up Today"/>
             {/* Show any error that happens when processing the payment */}
-            <ErrorDisplay message={error} show={error}/>
+            {succeeded ?
+                <ErrorDisplay message={msg} show={msg} color="var(--primary)"/> :
+                <ErrorDisplay message={msg} show={msg}/>}
+
         </form>
     );
 }

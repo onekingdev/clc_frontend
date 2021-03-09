@@ -28,6 +28,7 @@ function Payment(props: any) {
     const [succeeded, setSucceeded] = useState(false);
     const [redirect, setRedirect] = useState(false);
     const [showIframe, setShowIframe] = useState(false);
+    const [processing, setProcessing] = useState(false);
 
     useEffect(() => {
         props.fetchPaymentIntent([{ id: "prod_ItM3Rl00ARmZwI" }]);
@@ -36,7 +37,8 @@ function Payment(props: any) {
 
     useEffect(() => {
         if (succeeded) {
-            props.fetchUpdatedPaymentData(props.user.email, () => setRedirect(true))
+            props.fetchUpdatedPaymentData(props.user.email, () => setRedirect(true));
+            setProcessing(false);
         }
     }, [succeeded])
 
@@ -67,7 +69,13 @@ function Payment(props: any) {
                         }} width="30%" height={64} text="Start" glow/>
                          :
                         <Elements stripe={promise}>
-                            <CheckoutForm clientSecret={props.clientSecret} email={props.user.email} succeeded={succeeded} setSucceeded={setSucceeded}/>
+                            <CheckoutForm
+                                callback={(value: boolean) => setProcessing(value)}
+                                processing={processing}
+                                clientSecret={props.clientSecret}
+                                email={props.user.email}
+                                succeeded={succeeded}
+                                setSucceeded={setSucceeded}/>
                         </Elements>
                     }
                 </div>
