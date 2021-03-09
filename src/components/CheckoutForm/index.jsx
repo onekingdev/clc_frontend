@@ -69,7 +69,7 @@ export default function CheckoutForm({
         } else {
             setSucceeded(true);
             //toast("Success! Check email for details", {type: "success"});
-            setTimeout(() => setMsg("You are all set to start playing!"), 2000)
+            setTimeout(() => setMsg("You are all set to start playing!"), 1000)
         }
     };
 

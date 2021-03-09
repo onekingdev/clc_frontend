@@ -33,7 +33,8 @@ function Settings(props: any) {
     const history = useHistory();
     const [errorMessage, setErrorMessage] = useState('');
     const [emailObj, setEmailObj] = useState({email: props.user.email, error: false});
-    const [passwordObj, setPasswordObj] = useState({password: 'set your new password', error: false});
+    const [passwordObj, setPasswordObj] = useState({password: '', error: false});
+    const [oldPasswordObj, setOldPasswordObj] = useState({oldPassword: '', error: false});
     const [showErrorMsg, setShowErrorMsg] = useState('');
     const [selected, setSelected] = useState(props.user.avatar);
 
@@ -42,12 +43,13 @@ function Settings(props: any) {
     useEffect(() => {
         if (
             !emailObj.error &&
-            !passwordObj.error
+            !passwordObj.error &&
+            !oldPasswordObj.error
         ) {
             setShowErrorMsg('');
             props.settingsErrorMessage('');
         }
-    }, [emailObj, passwordObj])
+    }, [emailObj, passwordObj, oldPasswordObj])
 
     useEffect(() => {
         if (props.errorMessage !== '') {
@@ -62,13 +64,14 @@ function Settings(props: any) {
         } else if (!validateEmail(emailObj.email)) {
             setEmailObj({email: emailObj.email, error: true});
             setShowErrorMsg(invalidEmailString);
-        } else if (passwordObj.password === '') {
-            setPasswordObj({password: passwordObj.password, error: true});
+        } else if (oldPasswordObj.oldPassword === '') {
+            setOldPasswordObj({oldPassword: oldPasswordObj.oldPassword, error: true});
             setShowErrorMsg(emptyPasswordString);
         } else {
             const request = {
                 email: emailObj.email,
                 password: passwordObj.password,
+                oldPassword: oldPasswordObj.oldPassword,
                 avatar: selected
             }
 
@@ -270,13 +273,21 @@ function Settings(props: any) {
                             />
                             <TextInput
                                 value={passwordObj.password}
-                                placeholder="Password"
+                                placeholder="New Password"
                                 onChange={(event) => setPasswordObj({password: event.target.value, error: false})}
                                 password={true}
                                 error={passwordObj.error}
                             />
+                            <TextInput
+                                value={oldPasswordObj.oldPassword}
+                                placeholder="Old Password"
+                                onChange={(event) => setOldPasswordObj({oldPassword: event.target.value, error: false})}
+                                password={true}
+                                error={oldPasswordObj.error}
+                            />
                             <div className="settingsLogoutBtnWrapper">
                                 <Button
+                                    loading={props.isFetchingAuthentication}
                                     onClick={handleSubmit}
                                     width={300}
                                     height={44}
@@ -352,7 +363,7 @@ const bindActions = (dispatch: any) => {
         uploadEvents: (events: any) => dispatch(ACTIONS.uploadEvents(events)),
         logout: (callback: (success: boolean) => void) => dispatch(AUTH_ACTIONS.logout(callback)),
         updateUserData: (userData: IUpdateUserData) => dispatch(ACTIONS.updateUserData(userData)),
-        settingsErrorMessage: (msg: string) => dispatch(ACTIONS.settingsErrorMessage(msg))
+        settingsErrorMessage: (msg: string) => dispatch(ACTIONS.setSettingsErrorMessage(msg))
     };
 };
 

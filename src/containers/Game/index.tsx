@@ -261,7 +261,7 @@ function Game(props: any) {
         reset();
         if ((questionIndex === questions.array.length - 1 || props.fetchNextAIQuestions)&& pathname === '/ai') {
             window.location.reload();
-        } else if (questionIndex === questions.array.length - 1 && pathname === '/assessment') {//TODO check lag for some times
+        } else if (questionIndex === questions.array.length - 1 && pathname === '/assessment') {
             blocker = true;
             props.saveAssessment({
                 ticketsEarned: props.ticketsEarned + tickets,
