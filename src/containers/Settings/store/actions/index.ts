@@ -16,7 +16,6 @@ import {
 import * as AUTH_ACTIONS from '../../../Authentication/store/actions';
 import {IUpdateUserData} from "../../interfaces";
 import {app} from "../../../../services/firebase";
-import {setAuthenticationCode, setIsFetchingAuthentication, setUserData} from "../../../Authentication/store/actions";
 
 export const setSettingsErrorMessage = (data: string) => {
     return {

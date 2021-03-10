@@ -438,9 +438,10 @@ function Game(props: any) {
                     </div>
                 </div>
             }
+            {props.totalQuestions > 0 ?
             <div className="gameQuestionProgressbarWrapper">
                 <QuestionProgress loading={props.totalQuestions === 0} totalQuestions={props.totalQuestions} index={renderQuestionProgressbarIndex(pathname)} result={props.progressData} showFeedback={showFeedback} tooltip=""/>
-            </div>
+            </div> : null}
             <Modal visible={showModal} width="420px" height="100%" effect="fadeInUp" onClickAway={() => setShowModal(false)}>
                 <div style={{backgroundColor: '#000', display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
                     <div>
