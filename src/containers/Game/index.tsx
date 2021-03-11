@@ -361,7 +361,7 @@ function Game(props: any) {
     }
 
     return (
-        <ScreenTemplate type={pathname === '/assessment' ? 'assessment' : null} loading={!props.isFetchingGameData || props.totalQuestions === 0}>
+        <ScreenTemplate type={pathname === '/assessment' ? 'assessment' : null} loading={!props.isFetchingGameData || props.questions.length === 0}>
             {questions.array.length === 0 ? null :
                 <div className="gameWrapper" style={{transform: `scale(${renderSize(width-100)})`}}>
                     {showTable ? <div>
@@ -438,7 +438,7 @@ function Game(props: any) {
                     </div>
                 </div>
             }
-            {props.totalQuestions > 0 ?
+            {questions.array.length > 0 ?
             <div className="gameQuestionProgressbarWrapper">
                 <QuestionProgress loading={props.totalQuestions === 0} totalQuestions={props.totalQuestions} index={renderQuestionProgressbarIndex(pathname)} result={props.progressData} showFeedback={showFeedback} tooltip=""/>
             </div> : null}

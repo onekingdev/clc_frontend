@@ -166,7 +166,6 @@ export const updateMyTopics = (path: string, questionID: number, correct: boolea
                     let masterLessons = 0;
                     myTopics[myTopicsIndex].lessons.forEach((l:any) => {if (l.mastered) masterLessons += 1});
 
-                    //TODO: totalTopicLessons will not work for ai
                     if (masterLessons === topic.totalTopicLessons && !myTopics[myTopicsIndex].mastered) {
                         myTopics[myTopicsIndex].mastered = true;
                         dispatch(levelUp(myTopics[myTopicsIndex].UID));

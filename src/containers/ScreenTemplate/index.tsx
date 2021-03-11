@@ -57,7 +57,7 @@ function ScreenTemplate(props: any) {
 
     useEffect(() => {
         if(!props.loading) {
-            setTimeout(() => setIsLoading(false), 3000);
+            setTimeout(() => setIsLoading(false), 1000);
         }
     }, [props.loading])
 
