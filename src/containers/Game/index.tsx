@@ -45,11 +45,14 @@ function Game(props: any) {
     const [tickets, setTickets] = useState(0);
     const [rerender, setRerender] = useState(false);
     const [showTable, setShowTable] = useState(true);
+    const [progressData, setProgressData] = useState([]);
+    const [progressIndex, setProgressIndex] = useState(0);
 
     useEffect(() => {
         return () => {
             stop();
             props.clearGameData();
+            props.clearResultsData();
         }
     }, []);
 
@@ -60,12 +63,14 @@ function Game(props: any) {
     },[props.myTopics === undefined || props.myTopics.length === 0])
 
     useEffect(() => {
-        const UID = JSON.parse(sessionStorage.getItem('selectedTopic') as string).lessonUID;
-        props.fetchQuestionProgressbar(pathname.substr(1, pathname.length), props.myTopics, UID);
-        if (pathname !== '/assessment') {
-            setShowFeedback(true);
+        if (props.dailyChallenge.questions) {
+            const UID = JSON.parse(sessionStorage.getItem('selectedTopic') as string).lessonUID;
+            props.fetchQuestionProgressbar(pathname.substr(1, pathname.length), props.dailyChallenge.questions, UID);
+            if (pathname !== '/assessment') {
+                setShowFeedback(true);
+            }
         }
-    }, [props.myTopics])
+    }, [props.dailyChallenge && props.dailyChallenge.questions])
 
     useEffect(() => {
         if (initBlockPlayBtn) {
@@ -77,7 +82,12 @@ function Game(props: any) {
         if (props.questions && props.questions.length > 0) {
             setQuestions({array: props.questions, render: !questions.render})
         }
-    },[props.questions])
+
+        if (props.progressData.length > 0) {
+            setProgressData(props.progressData);
+            setProgressIndex(props.progressIndex);
+        }
+    },[props.questions, props.progressData])
 
     useEffect(() => {
         if (questions.array.length > 0) {
@@ -253,6 +263,16 @@ function Game(props: any) {
                 questions.array[questionIndex].topicData
             );
         }, 500)
+
+        if (props.dailyChallenge.counter !== props.dailyChallenge.questions) {
+            alert(props.dailyChallenge.counter)
+            let p: any = progressData;
+            p[pathname === '/game' ? questionIndex : progressIndex] = {
+                id: questions.array[questionIndex].question.questionID,
+                correct: correct
+            }
+            setProgressData(p);
+        }
     }
 
     const handleSubmit = () => {
@@ -278,6 +298,11 @@ function Game(props: any) {
             setTimeout(() => {
                 if (questionIndex < questions.array.length - 1) {
                     setQuestionIndex(questionIndex += 1);
+
+                    if (props.dailyChallenge.counter !== props.dailyChallenge.questions) {
+                        let i = progressIndex;
+                        setProgressIndex(i += 1);
+                    }
                 } else {
                     // history.push('results')
                     setShowModal(true);
@@ -357,7 +382,7 @@ function Game(props: any) {
 
     const renderQuestionProgressbarIndex = (path: string) => {
         if (path === '/game') return questionIndex;
-        else return props.progressIndex;
+        else return progressIndex;
     }
 
     return (
@@ -440,7 +465,7 @@ function Game(props: any) {
             }
             {questions.array.length > 0 ?
             <div className="gameQuestionProgressbarWrapper">
-                <QuestionProgress loading={props.totalQuestions === 0} totalQuestions={props.totalQuestions} index={renderQuestionProgressbarIndex(pathname)} result={props.progressData} showFeedback={showFeedback} tooltip=""/>
+                <QuestionProgress loading={props.totalQuestions === 0} totalQuestions={props.totalQuestions} index={renderQuestionProgressbarIndex(pathname)} result={progressData} showFeedback={showFeedback} tooltip=""/>
             </div> : null}
             <Modal visible={showModal} width="420px" height="100%" effect="fadeInUp" onClickAway={() => setShowModal(false)}>
                 <div style={{backgroundColor: '#000', display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
@@ -462,6 +487,7 @@ const mapStateToProps = (state: any) => {
         fetchNextAIQuestions: state.gameState.fetchNextAIQuestions,
         isFetchingGameData: state.gameState.isFetchingGameData,
         myTopics: state.screenTemplateState.myTopics,
+        dailyChallenge: state.screenTemplateState.dailyChallenge,
         ticketsEarned: state.resultState.ticketsEarned,
         chipsEarned: state.resultState.chipsEarned,
         correctQuestions: state.resultState.correctQuestions,
@@ -484,7 +510,7 @@ const bindActions = (dispatch: any) => {
         setCorrectQuestions: (correct: number) => dispatch(RESULT_ACTIONS.setCorrectQuestions(correct)),
         setTotalQuestions: (questions: number) => dispatch(RESULT_ACTIONS.setTotalQuestions(questions)),
         saveAssessment: (assessment: { correct: number, totalQuestions: number, ticketsEarned: number, chipsEarned: number }, callback: () => void) => dispatch(RESULT_ACTIONS.saveAssessment(assessment, callback)),
-        fetchQuestionProgressbar: (type: string, myTopics: any, UID: string) => dispatch(RESULT_ACTIONS.fetchQuestionProgressbar(type, myTopics, UID)),
+        fetchQuestionProgressbar: (type: string, dailyQuestions?: number, UID?: string) => dispatch(RESULT_ACTIONS.fetchQuestionProgressbar(type, dailyQuestions, UID)),
         clearResultsData: () => dispatch(RESULT_ACTIONS.clearResultsData())
     };
 };

@@ -1,7 +1,8 @@
 import * as TYPES from './types';
+import * as AUTH_TYPES from '../../../Authentication/store/actions';
 import {IPathsList} from '../../interfaces';
 import api from '../../../../services/apiMiddleware';
-import {apiPathsEndpoint} from '../../../../helpers/constants';
+import {apiBuyTopic, apiPathsEndpoint} from '../../../../helpers/constants';
 import {app} from '../../../../services/firebase';
 
 export const clearPathsData = () => {
@@ -54,7 +55,6 @@ export const getPathsList = (myTopics: any) => async(
     }
 }
 
-//TODO: add backend transaction
 export const buyItem = (item: any, callback: (data: any) => void) => async(
     dispatch: (data: any) => void,
     getState: any,
@@ -65,7 +65,9 @@ export const buyItem = (item: any, callback: (data: any) => void) => async(
     const myTopics = await getState().screenTemplateState.myTopics;
 
     if (item.masteredLevel <= user.masteredLevel) {
-        if (item.tickets <= realtimeTickets) {
+        const newUserData = await api.post(apiBuyTopic, {id: user.id, UID: item.UID});
+        if (newUserData.error) callback({correct: false, msg: 503})
+         else if (item.tickets <= realtimeTickets) {
             if (item.chips <= realtimeChips) {
                 const chips = realtimeChips - item.chips;
                 const tickets = realtimeTickets - item.tickets;
@@ -100,9 +102,8 @@ export const buyItem = (item: any, callback: (data: any) => void) => async(
                     .doc(user.stringID)
                     .update('myTopics', myTopics)
 
+                dispatch(AUTH_TYPES.setUserData(newUserData));
                 callback({correct: true, msg: 200});
-
-
 
             } else {
                 callback({correct: false, msg: 501});

@@ -4,6 +4,7 @@ import {apiGetQuestionsProgressbar, apiFinishAssessment} from "../../../../helpe
 import {app} from "../../../../services/firebase";
 import {setUserData} from "../../../Authentication/store/actions";
 import {endOfDayHandler, endOfMonthHandler} from "../../../../helpers/validations";
+import moment from "moment";
 
 export const clearResultsData = () => {
     return {
@@ -73,29 +74,26 @@ export const saveAssessment = (assessment: { correct: number, totalQuestions: nu
     callback();
 }
 
-export const fetchQuestionProgressbar = (type: string, myTopics: any, UID?: string) => async(
+export const fetchQuestionProgressbar = (type: string, dailyQuestions?: number, UID?: string) => async(
     dispatch: (data: any) => void,
     getState: any,
 ) => {
     const user = getState().authState.user;
-    const dailyChallenge = getState().screenTemplateState.dailyChallenge;
 
-    if (dailyChallenge.lastUpdate) {
-        let result = await api.post(apiGetQuestionsProgressbar, {
-            type,
-            myTopics,
-            UID,
-            user: {...user, dailyChallenge}
-        });
+    let result = await api.post(apiGetQuestionsProgressbar, {
+        type,
+        UID,
+        user: {...user, dailyQuestions},
+        today: moment().local()
+    });
 
-        dispatch(setChipsEarned(result.chipsEarned));
-        dispatch(setTicketsEarned(result.ticketsEarned));
-        dispatch(setTotalQuestions(result.totalQuestions));
-        dispatch(setCorrectQuestions(result.correctQuestions));
-        dispatch(setProgressData(result.progressData));
-        dispatch(setProgressIndex(result.progressIndex))
+    dispatch(setChipsEarned(result.chipsEarned));
+    dispatch(setTicketsEarned(result.ticketsEarned));
+    dispatch(setTotalQuestions(result.totalQuestions));
+    dispatch(setCorrectQuestions(result.correctQuestions));
+    dispatch(setProgressData(result.progressData));
+    dispatch(setProgressIndex(result.progressIndex))
 
-        await endOfMonthHandler(user.stringID);
-        await endOfDayHandler(user.stringID);
-    }
+    await endOfMonthHandler(user.stringID);
+    await endOfDayHandler(user.stringID);
 }
