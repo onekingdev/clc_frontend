@@ -265,7 +265,6 @@ function Game(props: any) {
         }, 500)
 
         if (props.dailyChallenge.counter !== props.dailyChallenge.questions) {
-            alert(props.dailyChallenge.counter)
             let p: any = progressData;
             p[pathname === '/game' ? questionIndex : progressIndex] = {
                 id: questions.array[questionIndex].question.questionID,

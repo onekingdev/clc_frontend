@@ -18,7 +18,8 @@ export default function CheckoutForm({
                                          succeeded,
                                          setSucceeded,
                                          processing,
-                                         callback
+                                         setProcessing,
+                                         fetchPaymentSubscription
                                      }) {
     const [msg, setMsg] = useState(null);
     const [disabled, setDisabled] = useState(true);
@@ -52,8 +53,8 @@ export default function CheckoutForm({
 
     const handleSubmit = async ev => {
         ev.preventDefault();
-        callback(true);
-        const payload = await stripe.confirmCardPayment(clientSecret, {
+        setProcessing(true);
+        /*const payload = await stripe.confirmCardPayment(clientSecret, {
             payment_method: {
                 card: elements.getElement(CardElement),
                 billing_details: {
@@ -69,7 +70,36 @@ export default function CheckoutForm({
         } else {
             setSucceeded(true);
             //toast("Success! Check email for details", {type: "success"});
-            setTimeout(() => setMsg("You are all set to start playing!"), 1000)
+            setTimeout(() => setMsg(""), 1000)
+        }*/
+
+        const result = await stripe.createPaymentMethod({
+            type: 'card',
+            card: elements.getElement(CardElement),
+            billing_details: {
+                email: email,
+            },
+        });
+
+        if (result.error) {
+            setMsg(`Payment failed ${result.error.message}`);
+            setProcessing(false);
+        } else {
+            const res = await fetchPaymentSubscription(email, result.paymentMethod.id);
+
+            if (res.status === 'requires_action') {
+                stripe.confirmCardPayment(res.client_secret).then((result) => {
+                    if (result.error) {
+                        setMsg(`Payment failed ${result.error}`);
+                        setProcessing(false);
+                    } else {
+                        setSucceeded(true);
+                    }
+                });
+            } else {
+                alert('lollipop')
+                setSucceeded(true);
+            }
         }
     };
 
@@ -90,7 +120,6 @@ export default function CheckoutForm({
             {succeeded ?
                 <ErrorDisplay message={msg} show={msg} color="var(--primary)"/> :
                 <ErrorDisplay message={msg} show={msg}/>}
-
         </form>
     );
 }

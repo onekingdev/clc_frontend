@@ -30,6 +30,7 @@ export const apiFinishAssessment = 'finishAssessment';
 export const apiUpdateUser = 'updateUser';
 export const apiUpdateMasteredLessons = 'updateMasteredLessons';
 export const apiBuyTopic = 'buyTopic';
+export const apiPaymentSubscription = 'paymentSubscription';
 
 // front end messages
 export const emptyEmailString = 'Email required';

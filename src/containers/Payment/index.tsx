@@ -26,9 +26,9 @@ function Payment(props: any) {
     const history = useHistory();
 
     const [succeeded, setSucceeded] = useState(false);
-    const [redirect, setRedirect] = useState(false);
     const [showIframe, setShowIframe] = useState(false);
     const [processing, setProcessing] = useState(false);
+    const [showStartBtn, setShowStartBtn] = useState(false);
 
     useEffect(() => {
         props.fetchPaymentIntent([{ id: "prod_ItM3Rl00ARmZwI" }]);
@@ -37,10 +37,15 @@ function Payment(props: any) {
 
     useEffect(() => {
         if (succeeded) {
-            props.fetchUpdatedPaymentData(props.user.email, () => setRedirect(true));
-            setProcessing(false);
+            props.fetchUpdatedPaymentData(props.user.email);
         }
     }, [succeeded])
+
+    useEffect(() => {
+        if (moment(props.user.payment.subscription).diff(moment(), 'days') > 0) {
+            setShowStartBtn(true);
+        }
+    }, [props.user, props.user.payment.subscription])
 
     return (
         <div>
@@ -63,19 +68,21 @@ function Payment(props: any) {
                     <TitleText>Player with Chip Leader AI</TitleText>
                 </div>
                 <div className="paymentButtonWrapper">
-                    {moment(props.user.payment.subscription).diff(moment(), 'days') > 0 ?
+                    {showStartBtn ?
                         <Button onClick={() => {
                             setTimeout(() => history.push('home'), 500)
                         }} width="30%" height={64} text="Start" glow/>
                          :
                         <Elements stripe={promise}>
                             <CheckoutForm
-                                callback={(value: boolean) => setProcessing(value)}
+                                setProcessing={(value: boolean) => setProcessing(value)}
                                 processing={processing}
                                 clientSecret={props.clientSecret}
                                 email={props.user.email}
                                 succeeded={succeeded}
-                                setSucceeded={setSucceeded}/>
+                                setSucceeded={(value: boolean) => setSucceeded(true)}
+                                fetchPaymentSubscription={props.fetchPaymentSubscription}
+                            />
                         </Elements>
                     }
                 </div>
@@ -94,7 +101,8 @@ const mapStateToProps = (state: any) => {
 const bindActions = (dispatch: any) => {
     return {
         fetchPaymentIntent: (items: {id: string}[]) => dispatch(ACTIONS.fetchPaymentIntent(items)),
-        fetchUpdatedPaymentData: (email: string, callback: () => void) => dispatch(ACTIONS.fetchUpdatedPaymentData(email, callback))
+        fetchUpdatedPaymentData: (email: string) => dispatch(ACTIONS.fetchUpdatedPaymentData(email)),
+        fetchPaymentSubscription: (email: string, paymentMethod: any) => dispatch(ACTIONS.fetchPaymentSubscription(email, paymentMethod))
     };
 };
 

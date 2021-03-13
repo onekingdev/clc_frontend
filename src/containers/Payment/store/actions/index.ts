@@ -1,6 +1,6 @@
 import {SET_CLIENT_SECRET} from "./types";
 import api from "../../../../services/apiMiddleware";
-import {apiGetUserByEmail} from "../../../../helpers/constants";
+import {apiGetUserByEmail, apiPaymentSubscription} from "../../../../helpers/constants";
 import {setUserData} from "../../../Authentication/store/actions";
 
 export const setClientSecret = (data: string) => {
@@ -24,14 +24,26 @@ export const fetchPaymentIntent = (items: {id: string}[]) => async(
     }
 }
 
-export const fetchUpdatedPaymentData = (email: string, callback: () => void) => async(
+export const fetchPaymentSubscription = (email: string, paymentMethod: any) => async(
+    dispatch: (data: any) => void,
+    getState: any,
+) => {
+    try {
+        return await api.post(apiPaymentSubscription, {email, paymentMethod});
+    } catch (e) {
+
+    } finally {
+
+    }
+}
+
+export const fetchUpdatedPaymentData = (email: string) => async(
     dispatch: (data: any) => void,
     getState: any,
 ) => {
     try {
         const user = await api.post(apiGetUserByEmail, {email});
         dispatch(setUserData(user));
-        callback();
     } catch (e) {
         alert('user not found')
     } finally {
