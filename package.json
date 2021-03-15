@@ -25,6 +25,7 @@
     "react-awesome-modal": "^2.0.5",
     "react-awesome-reveal": "^3.4.0",
     "react-circular-progressbar": "^2.0.3",
+    "react-credit-cards": "^0.8.3",
     "react-dom": "^17.0.1",
     "react-draggable": "^4.4.3",
     "react-move": "^6.4.0",

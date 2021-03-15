@@ -9,7 +9,14 @@ export interface IUser {
         id: string,
         amount: number,
         created: number,
-        subscription: string
+        subscription: string,
+        paymentMethod: {
+            id: string,
+            brand: string,
+            expMonth: string,
+            expYear: string,
+            last4: string
+        }
     },
     dailyChallenge?: {questions: number, counter: number, lastUpdate: string}
 }

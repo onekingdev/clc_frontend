@@ -256,15 +256,17 @@ function Game(props: any) {
                     correct: 0
                 });
             }
-            props.updateMyTopics(
-                pathname,
-                questions.array[questionIndex].question.questionID,
-                correct,
-                questions.array[questionIndex].topicData
-            );
+            if (pathname !== '/assessment') {
+                props.updateMyTopics(
+                    pathname,
+                    questions.array[questionIndex].question.questionID,
+                    correct,
+                    questions.array[questionIndex].topicData
+                );
+            }
         }, 500)
 
-        if (props.dailyChallenge.counter !== props.dailyChallenge.questions) {
+        if (pathname === '/game' || props.dailyChallenge.counter !== props.dailyChallenge.questions) {
             let p: any = progressData;
             p[pathname === '/game' ? questionIndex : progressIndex] = {
                 id: questions.array[questionIndex].question.questionID,
@@ -298,7 +300,7 @@ function Game(props: any) {
                 if (questionIndex < questions.array.length - 1) {
                     setQuestionIndex(questionIndex += 1);
 
-                    if (props.dailyChallenge.counter !== props.dailyChallenge.questions) {
+                    if (pathname === '/game' || props.dailyChallenge.counter !== props.dailyChallenge.questions) {
                         let i = progressIndex;
                         setProgressIndex(i += 1);
                     }

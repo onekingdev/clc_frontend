@@ -31,6 +31,8 @@ export const apiUpdateUser = 'updateUser';
 export const apiUpdateMasteredLessons = 'updateMasteredLessons';
 export const apiBuyTopic = 'buyTopic';
 export const apiPaymentSubscription = 'paymentSubscription';
+export const apiCancelSubscription = 'cancelSubscription';
+export const apiUpdatePaymentDetails = 'updatePaymentDetails';
 
 // front end messages
 export const emptyEmailString = 'Email required';

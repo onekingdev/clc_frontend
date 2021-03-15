@@ -4,6 +4,7 @@ import {connect} from 'react-redux';
 import './styles.css';
 import * as ACTIONS from "../Settings/store/actions";
 import * as AUTH_ACTIONS from "../Authentication/store/actions";
+import * as PAYMENT_ACTIONS from "../Payment/store/actions";
 // @ts-ignore
 import {useHistory} from 'react-router-dom';
 import XLSX from 'xlsx';
@@ -26,7 +27,16 @@ import TextInput from "../../components/TextInput";
 import {validateEmail} from "../../helpers/validations";
 import ScreenTemplate from "../ScreenTemplate";
 import {IUpdateUserData} from "./interfaces";
+import moment from "moment";
+import {PulseLoader} from "react-spinners";
+import CheckoutForm from "../../components/CheckoutForm";
+import {Elements} from "@stripe/react-stripe-js";
+import {loadStripe} from "@stripe/stripe-js";
+// @ts-ignore
+import Cards from 'react-credit-cards';
+import 'react-credit-cards/es/styles-compiled.css'
 
+const promise = loadStripe("pk_test_RqGIvgu49sLej0wM4rycOkJh");
 const host = new URL(window.location.href).host;
 
 function Settings(props: any) {
@@ -37,6 +47,11 @@ function Settings(props: any) {
     const [oldPasswordObj, setOldPasswordObj] = useState({oldPassword: '', error: false});
     const [showErrorMsg, setShowErrorMsg] = useState('');
     const [selected, setSelected] = useState(props.user.avatar);
+    const [cancelSub, setCancelSub] = useState(false);
+
+    const [processing, setProcessing] = useState(false);
+    const [succeeded, setSucceeded] = useState(false)
+
 
     const inputRef = useRef(null);
 
@@ -230,6 +245,28 @@ function Settings(props: any) {
         }
     }
 
+    const renderBrand = (brand: string) => {
+        switch (brand) {
+            case 'visa':
+                return 4
+            case 'mastercard':
+                return 5
+            case 'discover':
+                return 6
+            default:
+                return 3
+
+        }
+    }
+
+    const renderNumber = (number: string) => {
+        if (parseInt(number) < 9) {
+            return '0'+ number;
+        }
+
+        return number;
+    }
+
     return (
         <ScreenTemplate>
             <div className="settingsContainer">
@@ -264,62 +301,134 @@ function Settings(props: any) {
                         </div>
                         <div style={{marginBottom: 35, marginTop: 48, marginRight: 50, marginLeft: 50}}>
                             <BodyText color="#FFF">MAIN INFO</BodyText>
-                            <TextInput
-                                value={emailObj.email}
-                                placeholder="Email"
-                                onChange={(event) => setEmailObj({email: event.target.value, error: false})}
-                                email={true}
-                                error={emailObj.error}
-                            />
-                            <TextInput
-                                value={passwordObj.password}
-                                placeholder="New Password"
-                                onChange={(event) => setPasswordObj({password: event.target.value, error: false})}
-                                password={true}
-                                error={passwordObj.error}
-                            />
-                            <TextInput
-                                value={oldPasswordObj.oldPassword}
-                                placeholder="Old Password"
-                                onChange={(event) => setOldPasswordObj({oldPassword: event.target.value, error: false})}
-                                password={true}
-                                error={oldPasswordObj.error}
-                            />
-                            <div className="settingsLogoutBtnWrapper">
-                                <Button
-                                    loading={props.isFetchingAuthentication}
-                                    onClick={handleSubmit}
-                                    width={300}
-                                    height={44}
-                                    text="Save"
-                                    glow
+                            <div style={{padding: 20}}>
+                                <TextInput
+                                    value={emailObj.email}
+                                    placeholder="Email"
+                                    onChange={(event) => setEmailObj({email: event.target.value, error: false})}
+                                    email={true}
+                                    error={emailObj.error}
                                 />
-                            </div>
+                                <TextInput
+                                    value={passwordObj.password}
+                                    placeholder="New Password"
+                                    onChange={(event) => setPasswordObj({password: event.target.value, error: false})}
+                                    password={true}
+                                    error={passwordObj.error}
+                                />
+                                <TextInput
+                                    value={oldPasswordObj.oldPassword}
+                                    placeholder="Old Password"
+                                    onChange={(event) => setOldPasswordObj({
+                                        oldPassword: event.target.value,
+                                        error: false
+                                    })}
+                                    password={true}
+                                    error={oldPasswordObj.error}
+                                />
+                                <div className="settingsButtonWrapper">
+                                    <Button
+                                        loading={props.isFetchingAuthentication}
+                                        onClick={handleSubmit}
+                                        width={300}
+                                        height={44}
+                                        text="Save"
+                                        glow
+                                    />
+                                </div>
 
-                            <ErrorDisplay message={showErrorMsg} show={showErrorMsg !== ''}/>
+                                <ErrorDisplay message={showErrorMsg} show={showErrorMsg !== ''}/>
+                            </div>
                         </div>
-                        {/*<div style={{marginBottom: 35}}>
+                        <div style={{marginBottom: 35}}>
                             <BodyText color="#FFF">BILLING INFO</BodyText>
-                        </div>*/}
+                            {props.user && props.user.payment && props.user.payment.canceled ?
+                                <ErrorDisplay
+                                    message={`Your subscription ends in ${moment(props.user.payment.subscription).diff(moment(), 'days')} days`}
+                                    show/>
+                                :
+                                props.isFetchingAuthentication ?
+                                    <div className="settingsButtonWrapper">
+                                        <PulseLoader loading color="#FFF"/>
+                                    </div>
+                                    :
+                                    <div>
+                                        <div style={{padding: 20}}>
+                                            <Cards
+                                                cvc={"***"}
+                                                expiry={`${renderNumber(props.user.payment.paymentMethod.expMonth)}/${props.user.payment.paymentMethod.expYear}`}
+                                                focused={""}
+                                                name={"Card"}
+                                                number={`${renderBrand(props.user.payment.paymentMethod.brand)}***********${props.user.payment.paymentMethod.last4}`}
+                                            />
+                                        </div>
+                                        <div className="settingsButtonWrapper">
+                                            <Elements stripe={promise}>
+                                                <CheckoutForm
+                                                    setProcessing={(value: boolean) => setProcessing(value)}
+                                                    processing={processing}
+                                                    email={props.user.email}
+                                                    succeeded={succeeded}
+                                                    setSucceeded={(value: boolean) => {
+                                                        setTimeout(() => {
+                                                            props.fetchUpdatedUserData(props.user.email);
+                                                            setSucceeded(value);
+                                                        }, 5000)
+                                                    }}
+                                                    updatePaymentDetails={props.updatePaymentDetails}
+                                                />
+                                            </Elements>
+                                        </div>
+                                        {cancelSub ?
+                                            <div className="settingsButtonWrapper">
+                                                <Button
+                                                    onClick={() => props.cancelSubscription()}
+                                                    width={80}
+                                                    height={44}
+                                                    text="Yes"
+                                                />
+                                                <div style={{marginRight: 25, marginLeft: 25}}>
+                                                    <BodyText color="#FFF">Are you sure?</BodyText>
+                                                </div>
+                                                <Button
+                                                    onClick={() => setCancelSub(false)}
+                                                    width={80}
+                                                    height={44}
+                                                    text="No"
+                                                />
+                                            </div>
+                                            :
+                                            <div className="settingsButtonWrapper">
+                                                <Button
+                                                    onClick={() => setCancelSub(true)}
+                                                    width={300}
+                                                    height={44}
+                                                    text="Cancel Subscription"
+                                                />
+                                            </div>}
+                                    </div>}
+                        </div>
 
                         {props.user.type === 'admin' ?
                             <div>
                                 <div style={{marginBottom: 35}}>
                                     <BodyText color="#FFF">CONTENT CONTROL</BodyText>
                                 </div>
-                                <div className="settingsUploadButtonsWrapper" style={{marginBottom: 0}}>
-                                    <FilePicker title={"Import Library"} onFileOpen={importLibrary}/>
-                                    <div style={{marginRight: 20, marginBottom: 20}}/>
-                                    <FilePicker title={"Import Questions"} onFileOpen={importQuestions}/>
-                                </div>
-                                <div className="settingsUploadButtonsWrapper">
-                                    <FilePicker title={"Import Glossary"} onFileOpen={importGlossary}/>
-                                    <div style={{marginRight: 20, marginBottom: 20}}/>
-                                    <FilePicker title={"Import Events"} onFileOpen={importEvents}/>
+                                <div style={{padding: 20}}>
+                                    <div className="settingsUploadButtonsWrapper" style={{marginBottom: 0}}>
+                                        <FilePicker title={"Import Library"} onFileOpen={importLibrary}/>
+                                        <div style={{marginRight: 20, marginBottom: 20}}/>
+                                        <FilePicker title={"Import Questions"} onFileOpen={importQuestions}/>
+                                    </div>
+                                    <div className="settingsUploadButtonsWrapper">
+                                        <FilePicker title={"Import Glossary"} onFileOpen={importGlossary}/>
+                                        <div style={{marginRight: 20, marginBottom: 20}}/>
+                                        <FilePicker title={"Import Events"} onFileOpen={importEvents}/>
+                                    </div>
                                 </div>
                             </div>
                             : null}
-                        <div className="settingsLogoutBtnWrapper">
+                        <div className="settingsButtonWrapper">
                             <Button
                                 loading={props.isFetchingAuthentication}
                                 width={300}
@@ -362,8 +471,11 @@ const bindActions = (dispatch: any) => {
         uploadQuestions: (questions: any) => dispatch(ACTIONS.uploadQuestions(questions)),
         uploadEvents: (events: any) => dispatch(ACTIONS.uploadEvents(events)),
         logout: (callback: (success: boolean) => void) => dispatch(AUTH_ACTIONS.logout(callback)),
+        fetchUpdatedUserData: (email: string) => dispatch(AUTH_ACTIONS.fetchUpdatedUserData(email)),
         updateUserData: (userData: IUpdateUserData) => dispatch(ACTIONS.updateUserData(userData)),
-        settingsErrorMessage: (msg: string) => dispatch(ACTIONS.setSettingsErrorMessage(msg))
+        settingsErrorMessage: (msg: string) => dispatch(ACTIONS.setSettingsErrorMessage(msg)),
+        cancelSubscription: () => dispatch(PAYMENT_ACTIONS.cancelSubscription()),
+        updatePaymentDetails: (paymentMethod: any) => dispatch(PAYMENT_ACTIONS.updatePaymentDetails(paymentMethod))
     };
 };
 

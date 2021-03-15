@@ -13,13 +13,14 @@ import 'react-toastify/dist/ReactToastify.css';
 toast.configure();
 
 export default function CheckoutForm({
-                                         clientSecret,
+                                         clientSecret = null,
                                          email,
                                          succeeded,
                                          setSucceeded,
                                          processing,
                                          setProcessing,
-                                         fetchPaymentSubscription
+                                         fetchPaymentSubscription = null,
+                                         updatePaymentDetails = null,
                                      }) {
     const [msg, setMsg] = useState(null);
     const [disabled, setDisabled] = useState(true);
@@ -81,25 +82,38 @@ export default function CheckoutForm({
             },
         });
 
-        if (result.error) {
-            setMsg(`Payment failed ${result.error.message}`);
-            setProcessing(false);
-        } else {
-            const res = await fetchPaymentSubscription(email, result.paymentMethod.id);
+        if (fetchPaymentSubscription !== null) {
 
-            if (res.status === 'requires_action') {
-                stripe.confirmCardPayment(res.client_secret).then((result) => {
-                    if (result.error) {
-                        setMsg(`Payment failed ${result.error}`);
-                        setProcessing(false);
-                    } else {
-                        setSucceeded(true);
-                    }
-                });
+            if (result.error) {
+                setMsg(`Payment failed ${result.error.message}`);
+                setProcessing(false);
             } else {
-                alert('lollipop')
-                setSucceeded(true);
+                const res = await fetchPaymentSubscription(email, result.paymentMethod);
+
+                if (res.status === 'error') {
+                    setMsg(`Stripe configuration changed. Please contanct admin`);
+                } else if (res.status === 'requires_action') {
+                    stripe.confirmCardPayment(res.client_secret).then((result) => {
+                        if (result.error) {
+                            setMsg(`Payment failed ${result.error}`);
+                            setProcessing(false);
+                        } else {
+                            setSucceeded(true)
+                        }
+                    });
+                } else {
+                    setSucceeded(true)
+                }
             }
+        } else if (updatePaymentDetails !== null) {
+           const res = await updatePaymentDetails(result.paymentMethod);
+           if(res.id) {
+               setSucceeded(true);
+               setProcessing(false);
+           } else {
+               setSucceeded(false);
+               setProcessing(false);
+           }
         }
     };
 
@@ -108,15 +122,17 @@ export default function CheckoutForm({
             <ToastContainer/>
             <CardElement id="card-element" options={cardStyle} onChange={handleChange}/>
             <br/>
-            <Button
-                loading={processing}
-                disabled={processing || disabled || succeeded}
-                id="submit"
-                onClick={handleSubmit}
-                width="100%" height={64}
-                glow
-                text="Sign Up Today"/>
-            {/* Show any error that happens when processing the payment */}
+            <div className="checkoutFormButtonWrapper">
+                <Button
+                    loading={processing}
+                    disabled={processing || disabled || succeeded}
+                    id="submit"
+                    onClick={handleSubmit}
+                    width={300}
+                    height={44}
+                    glow
+                    text={updatePaymentDetails !== null ? 'Update' : 'Sign Up Today'}/>
+            </div>
             {succeeded ?
                 <ErrorDisplay message={msg} show={msg} color="var(--primary)"/> :
                 <ErrorDisplay message={msg} show={msg}/>}

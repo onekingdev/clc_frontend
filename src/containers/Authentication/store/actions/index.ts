@@ -178,3 +178,17 @@ export const logout = (callback: (success: boolean) => void) => async(
         setTimeout(() => dispatch(setIsFetchingAuthentication(false)), 1000);
     }
 }
+
+export const fetchUpdatedUserData = (email: string) => async(
+    dispatch: (data: any) => void,
+    getState: any,
+) => {
+    try {
+        const user = await api.post(apiGetUserByEmail, {email});
+        dispatch(setUserData(user));
+    } catch (e) {
+        alert('user not found')
+    } finally {
+
+    }
+}

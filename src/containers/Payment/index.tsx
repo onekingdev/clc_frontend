@@ -9,6 +9,7 @@ import { loadStripe } from "@stripe/stripe-js";
 import { Elements } from "@stripe/react-stripe-js";
 import CheckoutForm from "../../components/CheckoutForm";
 import * as ACTIONS from './store/actions';
+import * as AUTH_ACTIONS from '../../containers/Authentication/store/actions';
 import moment from "moment";
 import Button from "../../components/Button";
 import IframeResizer from 'iframe-resizer-react'
@@ -31,15 +32,9 @@ function Payment(props: any) {
     const [showStartBtn, setShowStartBtn] = useState(false);
 
     useEffect(() => {
-        props.fetchPaymentIntent([{ id: "prod_ItM3Rl00ARmZwI" }]);
+        // props.fetchPaymentIntent([{ id: "prod_ItM3Rl00ARmZwI" }]);
         setTimeout(() => setShowIframe(true), 2000);
     }, [])
-
-    useEffect(() => {
-        if (succeeded) {
-            props.fetchUpdatedPaymentData(props.user.email);
-        }
-    }, [succeeded])
 
     useEffect(() => {
         if (moment(props.user.payment.subscription).diff(moment(), 'days') > 0) {
@@ -69,9 +64,11 @@ function Payment(props: any) {
                 </div>
                 <div className="paymentButtonWrapper">
                     {showStartBtn ?
-                        <Button onClick={() => {
-                            setTimeout(() => history.push('home'), 500)
-                        }} width="30%" height={64} text="Start" glow/>
+                        <div className="paymentButtonWrapper">
+                            <Button onClick={() => {
+                                setTimeout(() => history.push('home'), 500)
+                            }} width={300} height={44} text="Start" glow/>
+                        </div>
                          :
                         <Elements stripe={promise}>
                             <CheckoutForm
@@ -80,7 +77,10 @@ function Payment(props: any) {
                                 clientSecret={props.clientSecret}
                                 email={props.user.email}
                                 succeeded={succeeded}
-                                setSucceeded={(value: boolean) => setSucceeded(true)}
+                                setSucceeded={(value: boolean) => {
+                                    setSucceeded(value);
+                                    setTimeout(() => props.fetchUpdatedUserData(props.user.email), 5000)
+                                }}
                                 fetchPaymentSubscription={props.fetchPaymentSubscription}
                             />
                         </Elements>
@@ -101,7 +101,7 @@ const mapStateToProps = (state: any) => {
 const bindActions = (dispatch: any) => {
     return {
         fetchPaymentIntent: (items: {id: string}[]) => dispatch(ACTIONS.fetchPaymentIntent(items)),
-        fetchUpdatedPaymentData: (email: string) => dispatch(ACTIONS.fetchUpdatedPaymentData(email)),
+        fetchUpdatedUserData: (email: string) => dispatch(AUTH_ACTIONS.fetchUpdatedUserData(email)),
         fetchPaymentSubscription: (email: string, paymentMethod: any) => dispatch(ACTIONS.fetchPaymentSubscription(email, paymentMethod))
     };
 };
