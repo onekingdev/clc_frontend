@@ -52,12 +52,12 @@
 }
 
 @media (max-width: 900px) {
-    .headerBg {
+    /*.headerBg {
         height: 220px;
     }
     .fadedScroller_fade {
         margin-top: 220px;
-    }
+    }*/
 }
 
 @media (max-width: 515px) {

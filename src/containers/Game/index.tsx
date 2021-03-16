@@ -392,7 +392,7 @@ function Game(props: any) {
                 <div className="gameWrapper" style={{transform: `scale(${renderSize(width-100)})`}}>
                     {showTable ? <div>
                         <div className="gamePokerTableContainer">
-                            {!rerender && questions.array[questionIndex].players.length > 0 ?
+                            {!showModal && !rerender && questions.array[questionIndex].players.length > 0 ?
                                 questions.array[questionIndex].players.map((item: any, index: number) =>
                                     <div className={`gamePokerPlayerWrapper gameP${parseInt(item.number)}`}>
                                         <PokerPlayer
@@ -421,16 +421,16 @@ function Game(props: any) {
                                 />
                             </div> : null}
                             <img src={Table} width={700}/>
-                            <div className="gamePotWrapper">
+                            {!showModal && !rerender ? <div className="gamePotWrapper">
                                 <SmallText color="#FFF">POT <SmallText color="#FFF"
                                                                        bold>{`${numberWithCommas(pot)}`}</SmallText> ({`${numberWithCommas(questions.array[questionIndex].tableInfo.bb)} `}
                                     BB)</SmallText>
-                            </div>
+                            </div> : null}
 
                         </div>
                         <div className="gameFooterContainer">
                             <div className="gamePlayerWrapper">
-                                {!rerender ? <Player
+                                {!showModal && !rerender ? <Player
                                     init={initBlockPlayBtn}
                                     pause={pause}
                                     setPause={setPause}
@@ -468,12 +468,16 @@ function Game(props: any) {
             <div className="gameQuestionProgressbarWrapper">
                 <QuestionProgress loading={props.totalQuestions === 0} totalQuestions={props.totalQuestions} index={renderQuestionProgressbarIndex(pathname)} result={progressData} showFeedback={showFeedback} tooltip=""/>
             </div> : null}
-            <Modal visible={showModal} width="420px" height="100%" effect="fadeInUp" onClickAway={() => setShowModal(false)}>
-                <div style={{backgroundColor: '#000', display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
+            <Modal visible={showModal} width="420px" height="320px" effect="fadeInUp">
+                <div className="gameModalContentWrapper">
                     <div>
                         <BodyText>{`You finished all questions in this lesson. ${correctCounter}/${questions.array.length} correct`}</BodyText>
-                        <Button onClick={() => history.push('paths')} width={300} height={42} glow text="Go to Paths"/>
-                        {renderSkipLessonBtn()}
+                        <div className="gameModalContentWrapper" style={{marginTop: 20, marginBottom: 20}}>
+                            <Button onClick={() => history.push('paths')} width={300} height={42} glow text="Go to Paths"/>
+                        </div>
+                        <div className="gameModalContentWrapper">
+                            {renderSkipLessonBtn()}
+                        </div>
                     </div>
                 </div>
             </Modal>

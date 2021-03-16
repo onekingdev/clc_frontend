@@ -119,8 +119,10 @@ const TopicModal: React.FC<ITopicModal> = ({
                         <BodyText>{`buy for ${topic.chips} chips and ${topic.tickets} tickets`}</BodyText> : null}
                 </div>
                 {topic.status === 0 && topic.chips !== 0 && topic.tickets !== 0 ?
-                    <Button onClick={() => handleClick()} width="100%" height={44}
-                            text="Buy" glow />
+                    <div style={{marginTop: 20}}>
+                        <Button onClick={() => handleClick()} width="100%" height={44}
+                                text="Buy" glow />
+                    </div>
                     : null}
                 <ErrorDisplay message={showErrorMsg} show={showErrorMsg !== ''}/>
             </div>

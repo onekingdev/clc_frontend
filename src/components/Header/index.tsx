@@ -41,13 +41,13 @@ const Header: React.FC<IHeader> = ({
                             <div className="fadedScroller_fade"/>
                         </div>
                     </Fade> : null}
-                <div className="headerSectionContainer" style={width < 900 ? {marginTop: 90} : {}}>
+                <div className="headerSectionContainer">
                     {left}
                 </div>
-                <div className="headerSectionContainer" style={width < 900 ? {position: 'absolute', top: 40} : {}}>
+                {width > 800 ? <div className="headerSectionContainer">
                     {middle}
-                </div>
-                <div className="headerSectionContainer" style={width < 900 ? {marginTop: 90} : {}}>
+                </div> : null}
+                <div className="headerSectionContainer">
                     {right}
                 </div>
             </div>
