@@ -35,8 +35,9 @@ import {loadStripe} from "@stripe/stripe-js";
 // @ts-ignore
 import Cards from 'react-credit-cards';
 import 'react-credit-cards/es/styles-compiled.css'
+import {getStripeKey} from "../../services/stripe";
 
-const promise = loadStripe("pk_test_RqGIvgu49sLej0wM4rycOkJh");
+const promise = loadStripe(getStripeKey.stripe_publishable_key('dev'));
 const host = new URL(window.location.href).host;
 
 function Settings(props: any) {

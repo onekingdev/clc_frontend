@@ -16,12 +16,9 @@ import IframeResizer from 'iframe-resizer-react'
 import {PulseLoader} from "react-spinners";
 import TitleText from "../../components/TitleText";
 import SmallText from "../../components/SmallText";
+import {getStripeKey} from "../../services/stripe";
 
-const promise = loadStripe("pk_test_RqGIvgu49sLej0wM4rycOkJh");
-
-// id:              prod_ItM3Rl00ARmZwI
-// app id:          price_1IHZKzAT9ya87fpT4uf93joS
-// Publishable key: pk_test_RqGIvgu49sLej0wM4rycOkJh
+const promise = loadStripe(getStripeKey.stripe_publishable_key('dev'));
 
 function Payment(props: any) {
     const history = useHistory();
