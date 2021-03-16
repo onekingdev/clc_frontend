@@ -1,14 +1,5 @@
 {
   "projects": {
     "default": "chipleadercoaching-webapp"
-  },
-  "targets": {
-    "chipleadercoaching-webapp": {
-      "hosting": {
-        "dev": [
-          "clcdev"
-        ]
-      }
-    }
   }
 }
