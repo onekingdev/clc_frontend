@@ -256,14 +256,12 @@ function Game(props: any) {
                     correct: 0
                 });
             }
-            if (pathname !== '/assessment') {
-                props.updateMyTopics(
-                    pathname,
-                    questions.array[questionIndex].question.questionID,
-                    correct,
-                    questions.array[questionIndex].topicData
-                );
-            }
+            props.updateMyTopics(
+                pathname,
+                questions.array[questionIndex].question.questionID,
+                correct,
+                questions.array[questionIndex].topicData
+            );
         }, 500)
 
         if (pathname === '/game' || props.dailyChallenge.counter !== props.dailyChallenge.questions) {

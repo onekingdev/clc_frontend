@@ -45,8 +45,8 @@ export const getPathsList = (myTopics: any) => async(
 ) => {
     try {
         dispatch(setIsFetchingPathsData(true));
-        const email = await getState().authState.user.email;
-        const list = await api.post(apiPathsEndpoint, {myTopics, email});
+        const id = await getState().authState.user.id;
+        const list = await api.post(apiPathsEndpoint, {id, myTopics});
         dispatch(setPathsList(list));
     } catch (e) {
         dispatch(setPathsCode(e));

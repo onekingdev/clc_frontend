@@ -1,5 +1,6 @@
 // API paths
 export const apiCloudHostUrl = 'https://us-central1-chipleadercoaching-webapp.cloudfunctions.net';
+export const apiStagingHostUrl = 'https://us-central1-staging-clc.cloudfunctions.net';
 export const apiLocalhostUrl = '/chipleadercoaching-webapp/us-central1';
 export const apiGetUserByEmail = 'getUserByEmail';
 export const apiCreateUser = 'createUser';
