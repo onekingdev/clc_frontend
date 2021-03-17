@@ -295,7 +295,7 @@ function Game(props: any) {
 
         if (!blocker) {
             setTimeout(() => {
-                if (questionIndex < questions.array.length - 1) {
+                if (questionIndex < questions.array.length && pathname === '/assessment' || questionIndex < questions.array.length -1) {
                     setQuestionIndex(questionIndex += 1);
 
                     if (pathname === '/game' || props.dailyChallenge.counter !== props.dailyChallenge.questions) {
