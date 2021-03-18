@@ -65,10 +65,10 @@ export const buyItem = (item: any, callback: (data: any) => void) => async(
     const myTopics = await getState().screenTemplateState.myTopics;
 
     if (item.masteredLevel <= user.masteredLevel) {
-        const newUserData = await api.post(apiBuyTopic, {id: user.id, UID: item.UID});
-        if (newUserData.error) callback({correct: false, msg: 503})
-         else if (item.tickets <= realtimeTickets) {
+         if (item.tickets <= realtimeTickets) {
             if (item.chips <= realtimeChips) {
+                const newUserData = await api.post(apiBuyTopic, {id: user.id, UID: item.UID});
+                if (newUserData.error) callback({correct: false, msg: 503});
                 const chips = realtimeChips - item.chips;
                 const tickets = realtimeTickets - item.tickets;
 
