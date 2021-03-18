@@ -295,7 +295,7 @@ function Game(props: any) {
 
         if (!blocker) {
             setTimeout(() => {
-                if (questionIndex < questions.array.length && pathname === '/assessment' || questionIndex < questions.array.length -1) {
+                if (questionIndex < questions.array.length && pathname === '/ai' || questionIndex < questions.array.length -1) {
                     setQuestionIndex(questionIndex += 1);
 
                     if (pathname === '/game' || props.dailyChallenge.counter !== props.dailyChallenge.questions) {
@@ -385,7 +385,7 @@ function Game(props: any) {
     }
 
     return (
-        <ScreenTemplate type={pathname === '/assessment' ? 'assessment' : null} loading={!props.isFetchingGameData || props.questions.length === 0}>
+        <ScreenTemplate type={pathname.substr(1, pathname.length)} loading={!props.isFetchingGameData || props.questions.length === 0}>
             {questions.array.length === 0 ? null :
                 <div className="gameWrapper" style={{transform: `scale(${renderSize(width-100)})`}}>
                     {showTable ? <div>

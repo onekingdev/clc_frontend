@@ -81,7 +81,7 @@ function ScreenTemplate(props: any) {
 
     return (
         <div className="container">
-            {!props.type && slider !== null ? <Sidebar type="default" title="MENU" items={
+            {props.type !== 'assessment' && props.type !== 'results' && slider !== null ? <Sidebar type="default" title="MENU" items={
                 [<SidebarItem icon="home" text="Home" onClick={() => {
                     setSlider(false)
                     setTimeout(() => history.push('home'), 700);
@@ -125,7 +125,7 @@ function ScreenTemplate(props: any) {
                       closeButton={() => setSlider(false)}/> : null}
 
             {
-                !props.type ?
+                props.type !== 'assessment' && props.type !== 'results' && props.type !== 'assessment-screen' ?
                     <Header
                         scrolling={scrollTop}
                         left={
@@ -181,7 +181,11 @@ function ScreenTemplate(props: any) {
                     }
                 }}>
                 {isLoading ?
-                    <Loader topText={props.type === 'results' ? 'THE TOURNAMENT ASSESSMENT' : 'FETCHING DATA'} title={props.type === 'results' ? 'Your Assessment is Being Processed' : 'Loading...'}/>
+                    <Loader
+                        type={props.type}
+                        topText={props.type === 'results' ? 'THE TOURNAMENT ASSESSMENT' : 'FETCHING DATA'}
+                        title={props.type === 'results' ? 'Your Assessment is Being Processed' : 'Loading...'}
+                    />
                     :
                     <div style={{paddingTop: 50}}>
                         {props.children}

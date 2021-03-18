@@ -12,13 +12,15 @@ import TitleText from "../TitleText";
 interface ICircularProgress {
     type: string // default, speedometer, pie, fill
     values: number[],
-    text: string
+    text: string,
+    duration?: number
 }
 
 const CircularProgress: React.FC<ICircularProgress> = ({
     type,
     values,
-    text
+    text,
+    duration
 }) =>  {
 
     const renderType = (progressType: string) => {
@@ -28,7 +30,7 @@ const CircularProgress: React.FC<ICircularProgress> = ({
                     <AnimatedProgressProvider
                         valueStart={values[0]}
                         valueEnd={values[1]}
-                        duration={1.4}
+                        duration={duration ? duration : 1.4}
                         easingFunction={easeQuadInOut}
                     >
                         {(data: any) => {
