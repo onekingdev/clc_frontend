@@ -36,12 +36,12 @@ function Assessment(props: any) {
                 </div>
             </div>
             <div>
-                <BodyText>This assessment takes an average of 20 to 5 minutes.</BodyText>
+                <BodyText>The AI power tool will take you through a series of questions based on actual NLH tournament hands. Once completed you will receive a full breakdown of your strengths and weaknesses in addition to customized content for your game.</BodyText>
             </div>
             <div className="assessmentInfoCardWrapper">
-                <InfoCard title="TAKES ~8 MINUTES" text="Mauris varius felis at commodo imperdiet. Cras faucibus egestas urna, sed cursus massa cursus in. Ut aliquam lobortis arcu, non consectetur sapien interdum quis." image="timer" />
-                <InfoCard title="ARGUMENT 2" text="Mauris varius felis at commodo imperdiet. Cras faucibus egestas urna, sed cursus massa cursus in. Ut aliquam lobortis arcu, non consectetur sapien interdum quis." image="timer" />
-                <InfoCard title="ARGUMENT 3" text="Mauris varius felis at commodo imperdiet. Cras faucibus egestas urna, sed cursus massa cursus in. Ut aliquam lobortis arcu, non consectetur sapien interdum quis." image="timer" />
+                <InfoCard title="TAKE IT SERIOUSLY" text="Make sure you read think through each answer. This is an assessment of your ability to make decisions at the table. It only works if you actually consider your answers." image="timer" />
+                <InfoCard title="FULL BREAKDOWN AFTER" text="Once you finish the assessment we will send you a full report of your strengths and weaknesses. We will also send you customized content specifically for your game." image="timer" />
+                <InfoCard title="ALL REAL SPOTS" text="This assessment was created from real spots from Chance and Alex`s NLH hand archive. All hands are situations you can actually be when playing a live  or online tournament." image="timer" />
             </div>
             <div className="assessmentContainer">
                 <Button onClick={() => setTimeout(() => history.push('assessment'), 500)} width={200} height={47} glow text="START ASSESSMENT"/>

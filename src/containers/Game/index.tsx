@@ -298,9 +298,11 @@ function Game(props: any) {
                 if (questionIndex < questions.array.length && pathname === '/assessment' || questionIndex < questions.array.length -1) {
                     setQuestionIndex(questionIndex += 1);
 
-                    if (pathname === '/game' || props.dailyChallenge.counter <= props.dailyChallenge.questions) {
+                    if (pathname === '/game' || props.dailyChallenge.counter  < props.dailyChallenge.questions) {
                         let i = progressIndex;
                         setProgressIndex(i += 1);
+                    } else  if (pathname === '/ai' && props.dailyChallenge.counter  === props.dailyChallenge.questions) {
+                        setProgressIndex(props.dailyChallenge.questions);
                     }
                 } else {
                     // history.push('results')
