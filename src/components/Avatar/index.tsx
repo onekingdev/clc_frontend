@@ -42,6 +42,14 @@ const Avatar: React.FC<IAvatar> = ({
 
     const getImage = (image: string) => {
         switch (image) {
+           /* case 'S':
+                return Spade;
+            case 'H':
+                return Heart;
+            case 'D':
+                return Diamond;
+            case 'C':
+                return Club;*/
             default:
                 return "none";
         }

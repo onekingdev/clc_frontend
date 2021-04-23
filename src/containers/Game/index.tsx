@@ -149,12 +149,10 @@ function Game(props: any) {
     }
 
     const forward = () => {
-        if (useStartIndex) {
-            setUseStartIndex(false);
-            clearInterval(interval);
-            setPause(true)
-        }
-       
+        if (useStartIndex) return;
+        clearInterval(interval);
+        setPause(true)
+
         if (questions.array[questionIndex].hands.length-1 === handIndex) {
             stop();
             setFinished(true);
@@ -168,10 +166,8 @@ function Game(props: any) {
             setHandIndex(index);
             setTableAction(questions.array[questionIndex].hands[index].tableAction);
         }
-        console.log("adelante");
-        
+
     }
-    console.log(useStartIndex)
 
     const move = () => {
         if (questions.array[questionIndex].hands.length-1 === handIndex) {
