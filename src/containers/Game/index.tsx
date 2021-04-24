@@ -47,6 +47,7 @@ function Game(props: any) {
     const [showTable, setShowTable] = useState(true);
     const [progressData, setProgressData] = useState([]);
     const [progressIndex, setProgressIndex] = useState(0);
+   
 
     useEffect(() => {
         return () => {
@@ -149,10 +150,12 @@ function Game(props: any) {
     }
 
     const forward = () => {
-        if (useStartIndex) return;
-        clearInterval(interval);
-        setPause(true)
-
+        if (useStartIndex) {
+            setUseStartIndex(false);
+            clearInterval(interval);
+            setPause(true)
+        }
+       
         if (questions.array[questionIndex].hands.length-1 === handIndex) {
             stop();
             setFinished(true);
@@ -166,8 +169,10 @@ function Game(props: any) {
             setHandIndex(index);
             setTableAction(questions.array[questionIndex].hands[index].tableAction);
         }
-
+        
+        
     }
+    
 
     const move = () => {
         if (questions.array[questionIndex].hands.length-1 === handIndex) {
@@ -312,6 +317,9 @@ function Game(props: any) {
                 setRerender(false)
             }, 500);
         }
+        const resetScroll = document.getElementById("contentContainer")
+        resetScroll?.scrollTo(0,0)
+        
     }
 
     const handleSkipLesson = () => {
@@ -386,8 +394,10 @@ function Game(props: any) {
         else return progressIndex;
     }
 
+
+    
     return (
-        <ScreenTemplate type={pathname.substr(1, pathname.length)} loading={!props.isFetchingGameData || props.questions.length === 0}>
+        <ScreenTemplate id="screenTemplate" type={pathname.substr(1, pathname.length)} loading={!props.isFetchingGameData || props.questions.length === 0}>
             {questions.array.length === 0 ? null :
                 <div className="gameWrapper" style={{transform: `scale(${renderSize(width-100)})`}}>
                     {showTable ? <div>
@@ -460,7 +470,8 @@ function Game(props: any) {
                             topicData={questions.array[questionIndex].topicData}
                             callback={handleAnswerQuestion}
                             buttonText={questionIndex < questions.array.length-1  || pathname === '/ai' ? 'Next Question' : 'Finish!'}
-                            next={handleSubmit}/>
+                            next={handleSubmit}
+                            />
                     </div>
                 </div>
             }

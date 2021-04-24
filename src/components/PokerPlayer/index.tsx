@@ -218,7 +218,7 @@ const PokerPlayer: React.FC<IPokerPlayer> = ({
                 return giphy;
         }
     }
-
+    
     useEffect(() => {
         if (rightCard.current != null && rightCard.current != null) {
             if (me) {
@@ -249,6 +249,7 @@ const PokerPlayer: React.FC<IPokerPlayer> = ({
                 )
             }
         }
+         
         return array;
     }
 
