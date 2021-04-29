@@ -83,7 +83,9 @@ interface IPokerPlayer {
     dealer: number,
     action: string,
     amount: number,
-    pot: number
+    pot: number,
+    bb:number
+    
 }
 
 const PokerPlayer: React.FC<IPokerPlayer> = ({
@@ -99,7 +101,8 @@ const PokerPlayer: React.FC<IPokerPlayer> = ({
                                                  dealer,
                                                  action,
                                                  amount,
-                                                 pot
+                                                 pot,
+                                                bb
                                              }) => {
 
     const leftCard = useRef<HTMLImageElement>(null);
@@ -107,7 +110,7 @@ const PokerPlayer: React.FC<IPokerPlayer> = ({
 
     const badge = useRef<HTMLDivElement>(null);
     const container = useRef<HTMLDivElement>(null);
-
+                                            
     const renderCard = (value: string) => {
         switch (value) {
             case '2c':
@@ -252,7 +255,7 @@ const PokerPlayer: React.FC<IPokerPlayer> = ({
          
         return array;
     }
-
+    
     const renderLabel = (action: string) => {
         if (action === 'posts small blind' || action === 'posts the small blind') {
             return 'SB'
@@ -264,7 +267,7 @@ const PokerPlayer: React.FC<IPokerPlayer> = ({
 
         return action;
     }
-
+    
     return (
         <div className="pokerPlayerItemsWrapper" ref={container}>
             <div>
@@ -350,7 +353,7 @@ const PokerPlayer: React.FC<IPokerPlayer> = ({
                         </div>
                         <div style={mp > 999999 ? {transform: 'scale(.9)'} : {}}>
                             <SmallText
-                                color={dealer === player ? '#000' : '#FFF'}>{`${numberWithCommas(mp -= amount)}`}</SmallText>
+                                color={dealer === player ? '#000' : '#FFF'}>{`${numberWithCommas(Math.round((mp -= amount)/bb))}`}BB</SmallText>
                         </div>
                     </div>
                 </div>

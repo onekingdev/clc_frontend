@@ -21,12 +21,16 @@ export default function CheckoutForm({
                                          setProcessing,
                                          fetchPaymentSubscription = null,
                                          updatePaymentDetails = null,
+                                         user
                                      }) {
     const [msg, setMsg] = useState(null);
     const [disabled, setDisabled] = useState(true);
     const stripe = useStripe();
     const elements = useElements();
-
+    const member = {
+        type: "",
+        key: "123434",
+    }
     const cardStyle = {
         style: {
             base: {
@@ -50,11 +54,13 @@ export default function CheckoutForm({
         // and display any errors as the customer types their card details
         setDisabled(event.empty);
         setMsg(event.error ? event.error.message : "");
+        
     };
-
+    console.log(member.type)
     const handleSubmit = async ev => {
         ev.preventDefault();
         setProcessing(true);
+        
         /*const payload = await stripe.confirmCardPayment(clientSecret, {
             payment_method: {
                 card: elements.getElement(CardElement),
@@ -73,13 +79,14 @@ export default function CheckoutForm({
             //toast("Success! Check email for details", {type: "success"});
             setTimeout(() => setMsg(""), 1000)
         }*/
-
+        
         const result = await stripe.createPaymentMethod({
             type: 'card',
             card: elements.getElement(CardElement),
             billing_details: {
                 email: email,
             },
+           
         });
 
         if (fetchPaymentSubscription !== null) {
@@ -88,8 +95,8 @@ export default function CheckoutForm({
                 setMsg(`Payment failed ${result.error.message}`);
                 setProcessing(false);
             } else {
-                const res = await fetchPaymentSubscription(email, result.paymentMethod);
-
+                const res = await fetchPaymentSubscription(email, result.paymentMethod,member);
+                 
                 if (res.status === 'error') {
                     setMsg(`Stripe configuration changed. Please contanct admin`);
                 } else if (res.status === 'requires_action') {
@@ -100,9 +107,11 @@ export default function CheckoutForm({
                         } else {
                             setSucceeded(true)
                         }
+                        
                     });
                 } else {
                     setSucceeded(true)
+                   
                 }
             }
         } else if (updatePaymentDetails !== null) {
@@ -110,15 +119,30 @@ export default function CheckoutForm({
            if(res.id) {
                setSucceeded(true);
                setProcessing(false);
+               
            } else {
                setSucceeded(false);
                setProcessing(false);
+               
            }
         }
+        
     };
+    const handleSelectPlan = e => {
+        e.preventDefault();
+
+        member.type = e.target.value;
+
+        console.log(member.type)
+    }
 
     return (
         <form id="payment-form">
+            <label htmlFor="member">Select your plan</label>
+            <select name="member" id="member" onClick={handleSelectPlan}>
+            <option value="silver">Silver $100/month</option>
+            <option selected value="gold">Gold $150/month</option>
+            </select>
             <ToastContainer/>
             <CardElement id="card-element" options={cardStyle} onChange={handleChange}/>
             <br/>

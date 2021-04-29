@@ -25,7 +25,10 @@ const api = {
         await axios.post(`${getApi()}/${path}`, data, headers ? headers : {headers: {
                 'Content-Type': 'application/json',
             }})
-            .then((res: any) => res.data)
+            .then((res: any) => {
+                console.log(res.data)
+                return res.data
+            })
             .catch(error => error),
     put: async (path: string, data: any) =>
         await axios.put(`${getApi()}/${path}`, data, {headers: {

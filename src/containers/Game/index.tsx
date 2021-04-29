@@ -56,7 +56,7 @@ function Game(props: any) {
             props.clearResultsData();
         }
     }, []);
-
+   
     useEffect(() => {
         if (props.myTopics.length > 0) {
             props.fetchGameData(props.myTopics);
@@ -78,7 +78,7 @@ function Game(props: any) {
             setTimeout(() => setInitBlockPlayBtn(false), 2000);
         }
     }, [initBlockPlayBtn])
-
+    
     useEffect(() => {
         if (props.questions && props.questions.length > 0) {
             setQuestions({array: props.questions, render: !questions.render})
@@ -88,6 +88,7 @@ function Game(props: any) {
             setProgressData(props.progressData);
             setProgressIndex(props.progressIndex);
         }
+        
     },[props.questions, props.progressData])
 
     useEffect(() => {
@@ -185,9 +186,11 @@ function Game(props: any) {
             setHandIndex(handIndex += 1);
             pot += questions.array[questionIndex].hands[handIndex].amount
             setPot(pot);
+            
             setTableAction(questions.array[questionIndex].hands[handIndex].tableAction);
         }
         else stop();
+        
     }
 
     const start = () => {
@@ -278,7 +281,7 @@ function Game(props: any) {
             setProgressData(p);
         }
     }
-
+    
     const handleSubmit = () => {
         let blocker = false;
         setRerender(true);
@@ -419,6 +422,7 @@ function Game(props: any) {
                                             action={parseInt(item.number) === questions.array[questionIndex].hands[useStartIndex ? index :handIndex].player ? questions.array[questionIndex].hands[useStartIndex ? index :handIndex].action : questions.array[questionIndex].hands[getPastPlayerIndex(questions.array[questionIndex].hands, parseInt(item.number), useStartIndex ? index :handIndex)].action}
                                             amount={parseInt(item.number) === questions.array[questionIndex].hands[useStartIndex ? index :handIndex].player ? questions.array[questionIndex].hands[useStartIndex ? index :handIndex].amount : questions.array[questionIndex].hands[getPastPlayerIndex(questions.array[questionIndex].hands, parseInt(item.number), useStartIndex ? index :handIndex)].amount}
                                             pot={pot}
+                                            bb={questions.array[questionIndex].tableInfo.bb}
                                         />
                                     </div>
                                 ) : null}
