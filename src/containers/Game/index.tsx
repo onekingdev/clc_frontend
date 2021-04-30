@@ -169,8 +169,9 @@ function Game(props: any) {
             setPot(pot);
             setHandIndex(index);
             setTableAction(questions.array[questionIndex].hands[index].tableAction);
+           
         }
-        
+       
         
     }
     
@@ -188,6 +189,7 @@ function Game(props: any) {
             setPot(pot);
             
             setTableAction(questions.array[questionIndex].hands[handIndex].tableAction);
+            
         }
         else stop();
         

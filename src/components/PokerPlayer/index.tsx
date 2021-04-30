@@ -110,7 +110,6 @@ const PokerPlayer: React.FC<IPokerPlayer> = ({
 
     const badge = useRef<HTMLDivElement>(null);
     const container = useRef<HTMLDivElement>(null);
-                                            
     const renderCard = (value: string) => {
         switch (value) {
             case '2c':
