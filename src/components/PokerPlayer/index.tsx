@@ -86,7 +86,8 @@ interface IPokerPlayer {
     pot: number,
     bb:number
     tableAction: string,
-    foldStatus: boolean
+    foldStatus: boolean,
+    changeMoney: boolean
 }
 
 const PokerPlayer: React.FC<IPokerPlayer> = ({
@@ -105,7 +106,8 @@ const PokerPlayer: React.FC<IPokerPlayer> = ({
                                                  pot,
                                                  bb,
                                                  tableAction,
-                                                 foldStatus
+                                                 foldStatus,
+                                                 changeMoney
                                              }) => {
 
     const leftCard = useRef<HTMLImageElement>(null);
@@ -372,8 +374,12 @@ const PokerPlayer: React.FC<IPokerPlayer> = ({
                             <SmallText color={dealer === player ? '#000' : '#FFF'}>{`${UTGLabels[index]}`}</SmallText>
                         </div>
                         <div style={mp > 999999 ? {transform: 'scale(.9)'} : {}}>
-                            <SmallText
-                                color={dealer === player ? '#000' : '#FFF'}>{`${numberWithCommas(Math.round((mp -= amount)/bb))} `}BB</SmallText>
+                         
+                                 <SmallText
+                                     color={dealer === player ? '#000' : '#FFF'}>{changeMoney ? `${numberWithCommas(Math.round((mp -= amount)/bb))} BB` : `${numberWithCommas(mp -= amount)}`}
+                                 </SmallText>
+                            
+                            
                         </div>
                     </div>
                 </div>

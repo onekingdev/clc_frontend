@@ -15,7 +15,8 @@ interface IPlayer {
     fastForward: () => void,
     setSpeed: (speed: number) => void,
     share: () => void,
-    finished: boolean
+    finished: boolean,
+    cash: () => void,
 }
 
 const Player: React.FC<IPlayer> = ({
@@ -30,8 +31,10 @@ const Player: React.FC<IPlayer> = ({
     fastForward,
     setSpeed,
     share,
-    finished
+    finished,
+    cash
 }) =>  {
+    const [typeMoney, setTypeMoney] = useState(false);
     return (
         <div className="playerContainer">
             <Button onClick={rewind} width={53} height={53} iconName="faBackward" transparent/>
@@ -47,6 +50,10 @@ const Player: React.FC<IPlayer> = ({
             <Button onClick={() => {}} width={53} height={53} iconName="faVolumeUp" transparent/>
             {/*<Button onClick={() => {
             }} width={53} height={53} iconName="faStar" transparent selected={favorite}/>*/}
+            <Button onClick={() => {
+                cash();
+                typeMoney ? setTypeMoney(false) : setTypeMoney(true);
+                }} width={40} height={40} text={typeMoney ? "$" : "BB"} circular/>
         </div>
     );
 }

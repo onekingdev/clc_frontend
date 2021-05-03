@@ -48,6 +48,7 @@ function Game(props: any) {
     const [progressData, setProgressData] = useState([]);
     const [progressIndex, setProgressIndex] = useState(0);
     const [deleteFolds, setDeleteFolds] = useState(true);
+    const [changeMoney, setChangeMoney] = useState(false);
 
     useEffect(() => {
         return () => {
@@ -401,7 +402,9 @@ function Game(props: any) {
         if (path === '/game') return questionIndex;
         else return progressIndex;
     }
-
+    const handleChangeMoney = () => {
+        changeMoney ? setChangeMoney(false) : setChangeMoney(true);
+    }
 
     
     return (
@@ -430,7 +433,8 @@ function Game(props: any) {
                                             bb={parseInt(questions.array[questionIndex].tableInfo.bb)}
                                             tableAction={tableAction}
                                             foldStatus={deleteFolds}
-                                      />
+                                            changeMoney={changeMoney}
+                                     />
                                     </div>
                                 ) : null}
                             {showTable ? <div className="gameHouseOfCardsWrapper">
@@ -464,6 +468,7 @@ function Game(props: any) {
                                     fastForward={forward}
                                     finished={finished}
                                     share={share}
+                                    cash={handleChangeMoney}
                                 /> : null}
                             </div>
                         </div>
