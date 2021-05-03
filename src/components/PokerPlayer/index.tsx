@@ -85,7 +85,8 @@ interface IPokerPlayer {
     amount: number,
     pot: number,
     bb:number
-    
+    tableAction: string,
+    foldStatus: boolean
 }
 
 const PokerPlayer: React.FC<IPokerPlayer> = ({
@@ -102,12 +103,14 @@ const PokerPlayer: React.FC<IPokerPlayer> = ({
                                                  action,
                                                  amount,
                                                  pot,
-                                                bb
+                                                 bb,
+                                                 tableAction,
+                                                 foldStatus
                                              }) => {
 
     const leftCard = useRef<HTMLImageElement>(null);
     const rightCard = useRef<HTMLImageElement>(null);
-
+    const [deleteFolds, setDeleteFolds] = useState(false);                 
     const badge = useRef<HTMLDivElement>(null);
     const container = useRef<HTMLDivElement>(null);
     const renderCard = (value: string) => {
@@ -266,7 +269,25 @@ const PokerPlayer: React.FC<IPokerPlayer> = ({
 
         return action;
     }
-    
+    console.log(foldStatus)
+    useEffect(() => {
+        if(tableAction === "flop" && renderLabel(action) === "folds" && foldStatus)
+        {
+            setDeleteFolds(true);
+        }
+        else if(tableAction === "turn" && renderLabel(action) === "folds" && foldStatus)
+        {
+            setDeleteFolds(true);
+        }
+        else if(tableAction === "river" && renderLabel(action) === "folds" && foldStatus)
+        {
+            setDeleteFolds(true);
+        }
+        else if(!foldStatus && tableAction=== "")
+        {
+            setDeleteFolds(false);
+        }
+    }, [tableAction])
     return (
         <div className="pokerPlayerItemsWrapper" ref={container}>
             <div>
@@ -277,7 +298,7 @@ const PokerPlayer: React.FC<IPokerPlayer> = ({
                         </Rotate>
                         <div className={`pokerChips gameChipBBWrapper${player}`}>
                             {(renderLabel(action) === 'ante' && turn) || (renderLabel(action) !== 'ante' &&  action !== '?') ?
-                                <SmallText color="#FFF">{`${renderLabel(action)} `}
+                                <SmallText color="#FFF">{`${ deleteFolds ? "" : renderLabel(action)} `}
                                     <SmallText color="#FFF" bold>{`${amount ? numberWithCommas(amount) : ''}`}</SmallText>
                                 </SmallText> : action === '?' ?
                                     <div>
@@ -363,7 +384,7 @@ const PokerPlayer: React.FC<IPokerPlayer> = ({
                         </Rotate>
                         <div className={`pokerChips gameChipBBWrapper${player}`}>
                             {(renderLabel(action) === 'ante' && turn) || (renderLabel(action) !== 'ante' &&  action !== '?') ?
-                                <SmallText color="#FFF">{`${renderLabel(action)} `}
+                                <SmallText color="#FFF">{`${deleteFolds ? "" : renderLabel(action)} `}
                                     <SmallText color="#FFF" bold>{`${amount ? numberWithCommas(amount) : ''}`}</SmallText>
                                 </SmallText> : action === '?' ?
                                     <div>
