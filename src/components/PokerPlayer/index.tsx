@@ -269,7 +269,7 @@ const PokerPlayer: React.FC<IPokerPlayer> = ({
 
         return action;
     }
-    console.log(foldStatus)
+    
     useEffect(() => {
         if(tableAction === "flop" && renderLabel(action) === "folds" && foldStatus)
         {

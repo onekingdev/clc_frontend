@@ -160,6 +160,7 @@ function Game(props: any) {
         if (questions.array[questionIndex].hands.length-1 === handIndex) {
             stop();
             setFinished(true);
+            
             return;
         }
         if (handIndex < questions.array[questionIndex].hands.length -1) {
@@ -170,6 +171,7 @@ function Game(props: any) {
             setHandIndex(index);
             setTableAction(questions.array[questionIndex].hands[index].tableAction);
             setDeleteFolds(true);
+            setPause(true)
         }
        
         
