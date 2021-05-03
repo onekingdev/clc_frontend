@@ -352,7 +352,7 @@ const PokerPlayer: React.FC<IPokerPlayer> = ({
                         </div>
                         <div style={mp > 999999 ? {transform: 'scale(.9)'} : {}}>
                             <SmallText
-                                color={dealer === player ? '#000' : '#FFF'}>{`${numberWithCommas(Math.round((mp -= amount)/bb))}`}BB</SmallText>
+                                color={dealer === player ? '#000' : '#FFF'}>{`${numberWithCommas(Math.round((mp -= amount)/bb))} `}BB</SmallText>
                         </div>
                     </div>
                 </div>

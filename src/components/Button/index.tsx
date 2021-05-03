@@ -23,7 +23,8 @@ interface IButton {
     closeMenuButtonRight?: boolean,
     answer?: string,
     loading?: boolean,
-    disabled?: boolean
+    disabled?: boolean,
+    fontSize?: string
 }
 
 const Button: React.FC<IButton> = ({
@@ -44,7 +45,8 @@ const Button: React.FC<IButton> = ({
     closeMenuButtonRight,
     answer,
     loading,
-    disabled
+    disabled,
+    fontSize
                                    }) =>  {
     const [count, setCount] = useState(0);
     const [spanStyles, setSpanStyles] = useState({});
@@ -115,6 +117,7 @@ const Button: React.FC<IButton> = ({
                     height: height,
                     backgroundColor: !transparent ?  'var(--primary)' : 'transparent',
                     justifyContent: answer ? 'flex-start' : 'center'
+                    
                 } :
                 {
                     borderTopLeftRadius: circular ? 100 : closeMenuButton ? 0 : 8,
@@ -125,6 +128,7 @@ const Button: React.FC<IButton> = ({
                     width: width,
                     height: height,
                     justifyContent: answer ? 'flex-start' : 'center'
+                    
                 }}
             onClick={disabled ? () => {} : onClick}
             onMouseOver={() => {
@@ -151,8 +155,8 @@ const Button: React.FC<IButton> = ({
                             icon={Icon[iconName]}
                             transform={{rotate: rotation}}/> : null}
                     {answer ? <SubtitleText bold={true} color="#B5B3AE" marginLeft={16}
-                                            marginRight={7}>{answer}</SubtitleText> : null}
-                    <SubtitleText bold={true} color={textColor}>{text}</SubtitleText>
+                                            marginRight={7} fontSize={fontSize}>{answer}</SubtitleText> : null}
+                    <SubtitleText bold={true} color={textColor} fontSize={fontSize}>{text}</SubtitleText>
                     {image ? <img src={require(image)} width={imgType === 'phone' ? 50 : 90}
                                   height={imgType === 'phone' ? 90 : 50} style={{borderRadius: 5}} alt="image"/> : null}
                     <div className="rippleContainer" onMouseDown={showRipple} onMouseUp={callCleanUp(cleanUp, 2000)}>

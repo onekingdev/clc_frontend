@@ -9,6 +9,7 @@ import Button from "../Button";
 import ErrorDisplay from "../ErrorDisplay";
 import {ToastContainer, toast} from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
+import SuscriptionCard from "../SuscriptionCard";
 
 toast.configure();
 
@@ -131,18 +132,31 @@ export default function CheckoutForm({
     const handleSelectPlan = e => {
         e.preventDefault();
 
-        member.type = e.target.value;
+        member.type = e;
 
         console.log(member.type)
     }
 
     return (
+    <>
+        <div className="payment-container">
+        <div className="suscriptions-container">  
+                <SuscriptionCard 
+                    title="CL AI"
+                    price={59}
+                    benefitsActive={false}
+                    value="silver"
+                   
+                />
+                <SuscriptionCard 
+                    title="CL AI+"
+                    price={129}
+                    benefitsActive={true}
+                    value="gold"
+                />
+            </div> 
         <form id="payment-form">
-            <label htmlFor="member">Select your plan</label>
-            <select name="member" id="member" onClick={handleSelectPlan}>
-            <option value="silver">Silver $100/month</option>
-            <option selected value="gold">Gold $150/month</option>
-            </select>
+           
             <ToastContainer/>
             <CardElement id="card-element" options={cardStyle} onChange={handleChange}/>
             <br/>
@@ -161,5 +175,7 @@ export default function CheckoutForm({
                 <ErrorDisplay message={msg} show={msg} color="var(--primary)"/> :
                 <ErrorDisplay message={msg} show={msg}/>}
         </form>
+        </div>
+    </>
     );
 }
