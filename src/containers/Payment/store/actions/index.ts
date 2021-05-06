@@ -29,13 +29,13 @@ export const fetchPaymentIntent = (items: {id: string}[]) => async(
     }
 }
 
-export const fetchPaymentSubscription = (email: string, paymentMethod: any, memberType: any) => async(
+export const fetchPaymentSubscription = (email: string, paymentMethod: any, subscriptionType: any) => async(
     dispatch: (data: any) => void,
     getState: any,
 ) => {
     try {
        
-        return await api.post(apiPaymentSubscription, {email, paymentMethod,memberType});
+        return await api.post(apiPaymentSubscription, {email, paymentMethod,subscriptionType});
     } catch (e) {
 
     } finally {

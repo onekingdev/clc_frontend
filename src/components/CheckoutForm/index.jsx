@@ -26,12 +26,9 @@ export default function CheckoutForm({
                                      }) {
     const [msg, setMsg] = useState(null);
     const [disabled, setDisabled] = useState(true);
+    const [subscriptionType,setSubscriptionType] = useState("");
     const stripe = useStripe();
     const elements = useElements();
-    const member = {
-        type: "",
-        key: "123434",
-    }
     const cardStyle = {
         style: {
             base: {
@@ -49,7 +46,7 @@ export default function CheckoutForm({
             }
         }
     };
-
+    
     const handleChange = async (event) => {
         // Listen for changes in the CardElement
         // and display any errors as the customer types their card details
@@ -57,7 +54,6 @@ export default function CheckoutForm({
         setMsg(event.error ? event.error.message : "");
         
     };
-    console.log(member.type)
     const handleSubmit = async ev => {
         ev.preventDefault();
         setProcessing(true);
@@ -96,7 +92,7 @@ export default function CheckoutForm({
                 setMsg(`Payment failed ${result.error.message}`);
                 setProcessing(false);
             } else {
-                const res = await fetchPaymentSubscription(email, result.paymentMethod,member);
+                const res = await fetchPaymentSubscription(email, result.paymentMethod,subscriptionType);
                  
                 if (res.status === 'error') {
                     setMsg(`Stripe configuration changed. Please contanct admin`);
@@ -129,14 +125,10 @@ export default function CheckoutForm({
         }
         
     };
-    const handleSelectPlan = e => {
-        e.preventDefault();
-
-        member.type = e;
-
-        console.log(member.type)
+    const handleSelectPlan = value => {
+        setSubscriptionType(value)
     }
-
+    
     return (
     <>
         <div className="payment-container">
@@ -145,14 +137,15 @@ export default function CheckoutForm({
                     title="CL AI"
                     price={59}
                     benefitsActive={false}
-                    value="silver"
-                   
+                    value="CL AI"
+                   handleGetMemberType={handleSelectPlan}
                 />
                 <SuscriptionCard 
                     title="CL AI+"
                     price={129}
                     benefitsActive={true}
-                    value="gold"
+                    value="CL AI+"
+                   handleGetMemberType={handleSelectPlan}
                 />
             </div> 
         <form id="payment-form">

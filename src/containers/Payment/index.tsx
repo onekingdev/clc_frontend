@@ -35,7 +35,7 @@ function Payment(props: any) {
 
     useEffect(() => {
         if (moment(props.user.payment.subscription).diff(moment(), 'days') > 0) {
-            //setShowStartBtn(true);
+            setShowStartBtn(true);
             
         }
     }, [props.user, props.user.payment.subscription])
@@ -101,7 +101,7 @@ const bindActions = (dispatch: any) => {
     return {
         fetchPaymentIntent: (items: {id: string}[]) => dispatch(ACTIONS.fetchPaymentIntent(items)),
         fetchUpdatedUserData: (email: string) => dispatch(AUTH_ACTIONS.fetchUpdatedUserData(email)),
-        fetchPaymentSubscription: (email: string, paymentMethod: any, memberType: any) => dispatch(ACTIONS.fetchPaymentSubscription(email, paymentMethod, memberType))
+        fetchPaymentSubscription: (email: string, paymentMethod: any, subscriptionType: any) => dispatch(ACTIONS.fetchPaymentSubscription(email, paymentMethod, subscriptionType))
     };
 };
 

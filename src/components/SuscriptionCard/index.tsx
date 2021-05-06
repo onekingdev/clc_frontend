@@ -9,6 +9,7 @@ interface ISuscriptionCard {
     price?: number,
     benefitsActive?: boolean,
     value?: string,
+    handleGetMemberType: (value:string | undefined) => void,
     
 }
 
@@ -17,11 +18,9 @@ const SuscriptionCard : React.FC<ISuscriptionCard> = ({
     price,
     benefitsActive,
     value,
+    handleGetMemberType
     }) =>  {
-
-    const handleClick = () => {
-        console.log(value)
-    }
+    
     return(
         <>
             <div className="suscription-cards-container">
@@ -68,7 +67,7 @@ const SuscriptionCard : React.FC<ISuscriptionCard> = ({
                         <div className="card-plan-button">
                             <Button
                                  
-                                onClick={handleClick}
+                                onClick={() => {handleGetMemberType(value)}}
                                 width={170}
                                 height={35}
                                 glow
