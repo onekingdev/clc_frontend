@@ -49,6 +49,7 @@ function Game(props: any) {
     const [progressIndex, setProgressIndex] = useState(0);
     const [deleteFolds, setDeleteFolds] = useState(true);
     const [changeMoney, setChangeMoney] = useState(false);
+    const [callMoney,setCallMoney] = useState(0);
 
     useEffect(() => {
         return () => {
@@ -174,6 +175,11 @@ function Game(props: any) {
             setDeleteFolds(true);
             setPause(true)
         }
+
+        if(questions.array[questionIndex].hands[handIndex].amount > callMoney)
+        {
+            setCallMoney(questions.array[questionIndex].hands[handIndex].amount)
+        }
        
         
     }
@@ -188,16 +194,21 @@ function Game(props: any) {
         if (pause) return;
         if (handIndex < questions.array[questionIndex].hands.length -1) {
             setHandIndex(handIndex += 1);
-            pot += questions.array[questionIndex].hands[handIndex].amount
+            pot += questions.array[questionIndex].hands[handIndex].amount;
             setPot(pot);
             setDeleteFolds(true);
             setTableAction(questions.array[questionIndex].hands[handIndex].tableAction);
             
         }
         else stop();
+
+        if(questions.array[questionIndex].hands[handIndex].amount > callMoney)
+        {
+            setCallMoney(questions.array[questionIndex].hands[handIndex].amount)
+        }
         
     }
-
+    
     const start = () => {
         setPause(false);
         interval = setInterval(move, speed);
@@ -207,6 +218,7 @@ function Game(props: any) {
     const stop = () => {
         setPause(true);
         clearInterval(interval);
+        
     }
 
     const reset = () => {
@@ -218,6 +230,7 @@ function Game(props: any) {
         setUseStartIndex(true);
         setInitBlockPlayBtn(true);
         setTimeout(() => calculateAllAnte(), 1000);
+        setCallMoney(0);
     }
 
     const speedHandler = (s: number) => {
@@ -434,6 +447,7 @@ function Game(props: any) {
                                             tableAction={tableAction}
                                             foldStatus={deleteFolds}
                                             changeMoney={changeMoney}
+                                            callMoney={callMoney}
                                      />
                                     </div>
                                 ) : null}

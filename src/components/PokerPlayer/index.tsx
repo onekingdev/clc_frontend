@@ -87,7 +87,8 @@ interface IPokerPlayer {
     bb:number
     tableAction: string,
     foldStatus: boolean,
-    changeMoney: boolean
+    changeMoney: boolean,
+    callMoney: number,
 }
 
 const PokerPlayer: React.FC<IPokerPlayer> = ({
@@ -107,7 +108,8 @@ const PokerPlayer: React.FC<IPokerPlayer> = ({
                                                  bb,
                                                  tableAction,
                                                  foldStatus,
-                                                 changeMoney
+                                                 changeMoney,
+                                                 callMoney
                                              }) => {
 
     const leftCard = useRef<HTMLImageElement>(null);
@@ -290,6 +292,7 @@ const PokerPlayer: React.FC<IPokerPlayer> = ({
             setDeleteFolds(false);
         }
     }, [tableAction])
+    
     return (
         <div className="pokerPlayerItemsWrapper" ref={container}>
             <div>
@@ -301,7 +304,7 @@ const PokerPlayer: React.FC<IPokerPlayer> = ({
                         <div className={`pokerChips gameChipBBWrapper${player}`}>
                             {(renderLabel(action) === 'ante' && turn) || (renderLabel(action) !== 'ante' &&  action !== '?') ?
                                 <SmallText color="#FFF">{`${ deleteFolds ? "" : renderLabel(action)} `}
-                                    <SmallText color="#FFF" bold>{`${amount ? numberWithCommas(amount) : ''}`}</SmallText>
+                                    <SmallText color="#FFF" bold>{`${action === "calls" ? numberWithCommas(callMoney): amount ? numberWithCommas(amount) : ''}`}</SmallText>
                                 </SmallText> : action === '?' ?
                                     <div>
                                         <FontAwesomeIcon color="var(--primary)" size="1x" icon={Icon['faQuestionCircle']} style={{marginLeft: 10}}/>
@@ -391,7 +394,7 @@ const PokerPlayer: React.FC<IPokerPlayer> = ({
                         <div className={`pokerChips gameChipBBWrapper${player}`}>
                             {(renderLabel(action) === 'ante' && turn) || (renderLabel(action) !== 'ante' &&  action !== '?') ?
                                 <SmallText color="#FFF">{`${deleteFolds ? "" : renderLabel(action)} `}
-                                    <SmallText color="#FFF" bold>{`${amount ? numberWithCommas(amount) : ''}`}</SmallText>
+                                    <SmallText color="#FFF" bold>{`${action === "calls" ? numberWithCommas(callMoney): amount ? numberWithCommas(amount) : ''}`}</SmallText>
                                 </SmallText> : action === '?' ?
                                     <div>
                                         <FontAwesomeIcon color="var(--primary)" size="1x" icon={Icon['faQuestionCircle']} style={{marginLeft: 10}}/>
