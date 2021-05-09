@@ -18,7 +18,7 @@ import TitleText from "../../components/TitleText";
 import SmallText from "../../components/SmallText";
 import {getStripeKey} from "../../services/stripe";
 
-const promise = loadStripe(getStripeKey.stripe_publishable_key('production'));
+const promise = loadStripe(getStripeKey.stripe_publishable_key(process.env.NODE_ENV));
 
 function Payment(props: any) {
     const history = useHistory();

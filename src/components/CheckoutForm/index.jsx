@@ -27,6 +27,7 @@ export default function CheckoutForm({
     const [msg, setMsg] = useState(null);
     const [disabled, setDisabled] = useState(true);
     const [subscriptionType,setSubscriptionType] = useState("");
+    const [isSelected,setIsSelected] = useState(false);
     const stripe = useStripe();
     const elements = useElements();
     const cardStyle = {
@@ -127,6 +128,7 @@ export default function CheckoutForm({
     };
     const handleSelectPlan = value => {
         setSubscriptionType(value)
+        setIsSelected(true)
     }
     
     return (
@@ -138,36 +140,42 @@ export default function CheckoutForm({
                     price={59}
                     benefitsActive={false}
                     value="CL AI"
-                   handleGetMemberType={handleSelectPlan}
+                    glow
+                    handleGetMemberType={handleSelectPlan}
                 />
                 <SuscriptionCard 
                     title="CL AI+"
                     price={129}
+                    glow
                     benefitsActive={true}
                     value="CL AI+"
-                   handleGetMemberType={handleSelectPlan}
+                    handleGetMemberType={handleSelectPlan}
                 />
             </div> 
-        <form id="payment-form">
+            {isSelected ? 
+                 <form id="payment-form">
            
-            <ToastContainer/>
-            <CardElement id="card-element" options={cardStyle} onChange={handleChange}/>
-            <br/>
-            <div className="checkoutFormButtonWrapper">
-                <Button
-                    loading={processing}
-                    disabled={processing || disabled || succeeded}
-                    id="submit"
-                    onClick={handleSubmit}
-                    width={300}
-                    height={44}
-                    glow
-                    text={updatePaymentDetails !== null ? 'Update' : 'Sign Up Today'}/>
-            </div>
-            {succeeded ?
-                <ErrorDisplay message={msg} show={msg} color="var(--primary)"/> :
-                <ErrorDisplay message={msg} show={msg}/>}
-        </form>
+                 <ToastContainer/>
+                 <CardElement id="card-element" options={cardStyle} onChange={handleChange}/>
+                 <br/>
+                 <div className="checkoutFormButtonWrapper">
+                     <Button
+                         loading={processing}
+                         disabled={processing || disabled || succeeded}
+                         id="submit"
+                         onClick={handleSubmit}
+                         width={300}
+                         height={44}
+                         glow
+                         text={updatePaymentDetails !== null ? 'Update' : 'Sign Up Today'}/>
+                 </div>
+                 {succeeded ?
+                     <ErrorDisplay message={msg} show={msg} color="var(--primary)"/> :
+                     <ErrorDisplay message={msg} show={msg}/>}
+             </form>
+                :
+                null
+            }
         </div>
     </>
     );

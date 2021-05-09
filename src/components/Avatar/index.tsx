@@ -4,10 +4,10 @@ import SmallText from '../SmallText';
 import BodyText from "../BodyText";
 import * as Icon from '@fortawesome/free-solid-svg-icons'
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-//import Spade from '../../assets/images/avatar_spade.png';
-//import Club from '../../assets/images/avatar_club.png';
-//import Diamond from '../../assets/images/avatar_diamond.png';
-//import Heart from '../../assets/images/avatar_heart.png';
+import Spade from '../../assets/images/avatar_spade.png';
+import Club from '../../assets/images/avatar_club.png';
+import Diamond from '../../assets/images/avatar_diamond.png';
+import Heart from '../../assets/images/avatar_heart.png';
 
 interface IAvatar {
     size: string, // small, medium, large
@@ -42,16 +42,16 @@ const Avatar: React.FC<IAvatar> = ({
 
     const getImage = (image: string) => {
         switch (image) {
-           /* case 'S':
+            case 'S':
                 return Spade;
             case 'H':
                 return Heart;
             case 'D':
                 return Diamond;
             case 'C':
-                return Club;*/
+                return Club;
             default:
-                return "none";
+                return Spade;
         }
     }
 
