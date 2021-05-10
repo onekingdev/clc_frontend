@@ -423,7 +423,7 @@ function Game(props: any) {
     return (
         <ScreenTemplate id="screenTemplate" type={pathname.substr(1, pathname.length)} loading={!props.isFetchingGameData || props.questions.length === 0}>
             {questions.array.length === 0 ? null :
-                <div className="gameWrapper" style={{transform: `scale(${renderSize(width-100)})`}}>
+                <div className="gameWrapper">
                     {showTable ? <div>
                         <div className="gamePokerTableContainer">
                             {!showModal && !rerender && questions.array[questionIndex].players.length > 0 ?

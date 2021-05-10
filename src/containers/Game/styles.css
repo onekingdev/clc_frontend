@@ -11,10 +11,12 @@
 
 .gameWrapper {
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
-    height: 70vh;
+    height: 75vh;
     width: 100%;
+    transform: scale(0.4);
 }
 
 .gamePokerTableContainer {
@@ -121,14 +123,14 @@
 }
 
 .gameQuestionWrapper {
+    margin-top: 20px;
     margin-left: 60px;
     z-index: 1;
 }
 
 .gameQuestionProgressbarWrapper {
     padding-top: 30px;
-    margin-left: 120px;
-    margin-right: 120px;
+    width: 100%;
 }
 
 @media (max-width: 900px) {
@@ -156,4 +158,38 @@
     align-items: center;
     width: 100%;
     height: 100%;
+}
+@media screen and (min-width:400px){
+    .gameWrapper{
+        transform: scale(0.5);
+    }
+    
+}
+@media screen and (min-width:500px){
+    .gameWrapper{
+        transform: scale(0.4);
+        flex-direction: row;
+    }
+    
+}
+@media screen and (min-width:700px){
+    .gameWrapper{
+        transform: scale(0.6);
+        
+    }
+    
+}
+@media screen and (min-width:900px){
+    .gameWrapper{
+        transform: scale(0.8);
+    }
+    
+}
+@media screen and (min-width:1100px){
+    .gameWrapper{
+        transform: scale(1);
+    }
+    .gameQuestionWrapper{
+        margin-top: 0;
+    }
 }
