@@ -24,9 +24,7 @@ interface IQuestionCard {
     topicData: any,
     callback: (correct: boolean) => void,
     buttonText: string,
-    next: () => void,
-  
-    
+    next: () => void
 }
 
 const QuestionCard: React.FC<IQuestionCard> = ({
@@ -41,9 +39,7 @@ const QuestionCard: React.FC<IQuestionCard> = ({
                                                    topicData,
                                                    callback,
                                                    buttonText,
-                                                   next,
-                                                  
-                                                   
+                                                   next
                                                }) => {
     const pathname = new URL(window.location.href).pathname;
     const [status, setStatus] = useState(0); // 0 = not answered, 1 = correct, 2 = wrong,
@@ -174,7 +170,7 @@ const QuestionCard: React.FC<IQuestionCard> = ({
                             /> : null}
                     </BodyText> : null}
                     <div style={{marginTop: 50}}>
-                        <Button onClick={() => {                
+                        <Button onClick={() => {
                             next();
                             setPressed({index: 0, pressed: false})
                         }} width={343} height={47} text={buttonText} selected glow/>

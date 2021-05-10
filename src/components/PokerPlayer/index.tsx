@@ -83,12 +83,7 @@ interface IPokerPlayer {
     dealer: number,
     action: string,
     amount: number,
-    pot: number,
-    bb:number
-    tableAction: string,
-    foldStatus: boolean,
-    changeMoney: boolean,
-    callMoney: number,
+    pot: number
 }
 
 const PokerPlayer: React.FC<IPokerPlayer> = ({
@@ -104,19 +99,15 @@ const PokerPlayer: React.FC<IPokerPlayer> = ({
                                                  dealer,
                                                  action,
                                                  amount,
-                                                 pot,
-                                                 bb,
-                                                 tableAction,
-                                                 foldStatus,
-                                                 changeMoney,
-                                                 callMoney
+                                                 pot
                                              }) => {
 
     const leftCard = useRef<HTMLImageElement>(null);
     const rightCard = useRef<HTMLImageElement>(null);
-    const [deleteFolds, setDeleteFolds] = useState(false);                 
+
     const badge = useRef<HTMLDivElement>(null);
     const container = useRef<HTMLDivElement>(null);
+
     const renderCard = (value: string) => {
         switch (value) {
             case '2c':
@@ -227,7 +218,7 @@ const PokerPlayer: React.FC<IPokerPlayer> = ({
                 return giphy;
         }
     }
-    
+
     useEffect(() => {
         if (rightCard.current != null && rightCard.current != null) {
             if (me) {
@@ -258,10 +249,9 @@ const PokerPlayer: React.FC<IPokerPlayer> = ({
                 )
             }
         }
-         
         return array;
     }
-    
+
     const renderLabel = (action: string) => {
         if (action === 'posts small blind' || action === 'posts the small blind') {
             return 'SB'
@@ -273,26 +263,7 @@ const PokerPlayer: React.FC<IPokerPlayer> = ({
 
         return action;
     }
-    
-    useEffect(() => {
-        if(tableAction === "flop" && renderLabel(action) === "folds" && foldStatus)
-        {
-            setDeleteFolds(true);
-        }
-        else if(tableAction === "turn" && renderLabel(action) === "folds" && foldStatus)
-        {
-            setDeleteFolds(true);
-        }
-        else if(tableAction === "river" && renderLabel(action) === "folds" && foldStatus)
-        {
-            setDeleteFolds(true);
-        }
-        else if(!foldStatus && tableAction=== "")
-        {
-            setDeleteFolds(false);
-        }
-    }, [tableAction])
-    
+
     return (
         <div className="pokerPlayerItemsWrapper" ref={container}>
             <div>
@@ -303,8 +274,8 @@ const PokerPlayer: React.FC<IPokerPlayer> = ({
                         </Rotate>
                         <div className={`pokerChips gameChipBBWrapper${player}`}>
                             {(renderLabel(action) === 'ante' && turn) || (renderLabel(action) !== 'ante' &&  action !== '?') ?
-                                <SmallText color="#FFF">{`${ deleteFolds ? "" : renderLabel(action)} `}
-                                    <SmallText color="#FFF" bold>{`${action === "calls" ? numberWithCommas(callMoney): amount ? numberWithCommas(amount) : ''}`}</SmallText>
+                                <SmallText color="#FFF">{`${renderLabel(action)} `}
+                                    <SmallText color="#FFF" bold>{`${amount ? numberWithCommas(amount) : ''}`}</SmallText>
                                 </SmallText> : action === '?' ?
                                     <div>
                                         <FontAwesomeIcon color="var(--primary)" size="1x" icon={Icon['faQuestionCircle']} style={{marginLeft: 10}}/>
@@ -377,12 +348,8 @@ const PokerPlayer: React.FC<IPokerPlayer> = ({
                             <SmallText color={dealer === player ? '#000' : '#FFF'}>{`${UTGLabels[index]}`}</SmallText>
                         </div>
                         <div style={mp > 999999 ? {transform: 'scale(.9)'} : {}}>
-                         
-                                 <SmallText
-                                     color={dealer === player ? '#000' : '#FFF'}>{changeMoney ? `${numberWithCommas(Math.round((mp -= amount)/bb))} BB` : `${numberWithCommas(mp -= amount)}`}
-                                 </SmallText>
-                            
-                            
+                            <SmallText
+                                color={dealer === player ? '#000' : '#FFF'}>{`${numberWithCommas(mp -= amount)}`}</SmallText>
                         </div>
                     </div>
                 </div>
@@ -393,8 +360,8 @@ const PokerPlayer: React.FC<IPokerPlayer> = ({
                         </Rotate>
                         <div className={`pokerChips gameChipBBWrapper${player}`}>
                             {(renderLabel(action) === 'ante' && turn) || (renderLabel(action) !== 'ante' &&  action !== '?') ?
-                                <SmallText color="#FFF">{`${deleteFolds ? "" : renderLabel(action)} `}
-                                    <SmallText color="#FFF" bold>{`${action === "calls" ? numberWithCommas(callMoney): amount ? numberWithCommas(amount) : ''}`}</SmallText>
+                                <SmallText color="#FFF">{`${renderLabel(action)} `}
+                                    <SmallText color="#FFF" bold>{`${amount ? numberWithCommas(amount) : ''}`}</SmallText>
                                 </SmallText> : action === '?' ?
                                     <div>
                                         <FontAwesomeIcon color="var(--primary)" size="1x" icon={Icon['faQuestionCircle']} style={{marginLeft: 10}}/>

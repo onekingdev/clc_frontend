@@ -37,7 +37,7 @@ import Cards from 'react-credit-cards';
 import 'react-credit-cards/es/styles-compiled.css'
 import {getStripeKey} from "../../services/stripe";
 
-const promise = loadStripe(getStripeKey.stripe_publishable_key(process.env.NODE_ENV));
+const promise = loadStripe(getStripeKey.stripe_publishable_key('production'));
 const host = new URL(window.location.href).host;
 
 function Settings(props: any) {
@@ -93,7 +93,6 @@ function Settings(props: any) {
 
             props.updateUserData(request);
         }
-       
     }
 
 
@@ -378,7 +377,6 @@ function Settings(props: any) {
                                                         }, 5000)
                                                     }}
                                                     updatePaymentDetails={props.updatePaymentDetails}
-                                                    user={props.user}
                                                 />
                                             </Elements>
                                         </div>

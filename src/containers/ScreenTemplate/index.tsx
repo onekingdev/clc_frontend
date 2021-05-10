@@ -26,10 +26,11 @@ function ScreenTemplate(props: any) {
     const [width, setWidth] = useState(window.innerWidth);
     const [scrollTop, setScrollTop] = useState(0);
     const [isLoading, setIsLoading] = useState(props.loading);
-   
+
     useEffect(() => {
         props.getGlossary();
     }, [])
+
     useEffect(() => {
         if (props.user && props.user.type === 'admin') {
             const script = document.createElement('script');
@@ -77,7 +78,7 @@ function ScreenTemplate(props: any) {
         window.addEventListener("resize", updateDimensions);
         return () => window.removeEventListener("resize", updateDimensions);
     }, [width]);
-   
+
     return (
         <div className="container">
             {props.type !== 'assessment' && props.type !== 'results' && slider !== null ? <Sidebar type="default" title="MENU" items={
@@ -168,22 +169,18 @@ function ScreenTemplate(props: any) {
             <div
                 ref={scrollRef}
                 className="contentContainer"
-                id="contentContainer"
 
                 onScroll={() => {
                     const scrollY = window.scrollY //Don't get confused by what's scrolling - It's not the window
                     const scrollTop = scrollRef.current.scrollTop
                     setScrollTop(scrollTop);
-                    
-                    
                 }}
                 onClick={() => {
                     if (slider !== null) {
                         setSlider(false)
                     }
-                   
                 }}>
-                {isLoading ? 
+                {isLoading ?
                     <Loader
                         type={props.type}
                         topText={props.type === 'results' ? 'THE TOURNAMENT ASSESSMENT' : 'FETCHING DATA'}

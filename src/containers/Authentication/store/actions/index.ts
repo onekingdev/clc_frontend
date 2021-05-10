@@ -185,7 +185,6 @@ export const fetchUpdatedUserData = (email: string) => async(
 ) => {
     try {
         const user = await api.post(apiGetUserByEmail, {email});
-       
         dispatch(setUserData(user));
     } catch (e) {
         alert('user not found')

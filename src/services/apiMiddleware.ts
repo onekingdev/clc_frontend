@@ -3,8 +3,8 @@ import {apiCloudHostUrl, apiLocalhostUrl, apiStagingHostUrl} from '../helpers/co
 const staging = false;
 
 const getApi = () => {
-    let parts = window.location.hostname.split('.');
-    let subDomain = parts.slice(-2).join('.');
+    /*let parts = window.location.hostname.split('.');
+    let subDomain = parts.slice(-2).join('.');*/
     if (window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1") {
         return apiLocalhostUrl;
     } else if (staging) {
@@ -12,9 +12,6 @@ const getApi = () => {
     }
 
     return apiCloudHostUrl;
-
-    
-    
 }
 
 const api = {
@@ -28,10 +25,7 @@ const api = {
         await axios.post(`${getApi()}/${path}`, data, headers ? headers : {headers: {
                 'Content-Type': 'application/json',
             }})
-            .then((res: any) => {
-                console.log(res.data)
-                return res.data
-            })
+            .then((res: any) => res.data)
             .catch(error => error),
     put: async (path: string, data: any) =>
         await axios.put(`${getApi()}/${path}`, data, {headers: {

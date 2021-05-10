@@ -6,8 +6,7 @@ interface ISmallText {
     color?: string,
     bold?: boolean,
     fontStyle?: string,
-    textDecoration?: string,
-    fontSize?: string
+    textDecoration?: string
 }
 
 const SmallText: React.FC<ISmallText> = ({
@@ -15,8 +14,7 @@ const SmallText: React.FC<ISmallText> = ({
                                              color,
                                              bold,
                                              fontStyle,
-                                             textDecoration,
-                                             fontSize
+                                             textDecoration
                                          }) =>  {
 
     return (
@@ -26,8 +24,7 @@ const SmallText: React.FC<ISmallText> = ({
                 color: color ? color : 'var(--primary-small-text)',
                 fontWeight: bold ? 'bold' : 'normal',
                 fontStyle: fontStyle ? fontStyle : 'none',
-                textDecoration: textDecoration ? textDecoration : 'none',
-                fontSize : fontSize ? fontSize : "12px"
+                textDecoration: textDecoration ? textDecoration : 'none'
             }}>
             {children}
         </span>
