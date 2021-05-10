@@ -18,7 +18,7 @@ import TitleText from "../../components/TitleText";
 import SmallText from "../../components/SmallText";
 import {getStripeKey} from "../../services/stripe";
 
-const promise = loadStripe(getStripeKey.stripe_publishable_key('production'));
+const promise = loadStripe(getStripeKey.stripe_publishable_key(process.env.NODE_ENV));
 
 function Payment(props: any) {
     const history = useHistory();
@@ -36,9 +36,10 @@ function Payment(props: any) {
     useEffect(() => {
         if (moment(props.user.payment.subscription).diff(moment(), 'days') > 0) {
             setShowStartBtn(true);
+            
         }
     }, [props.user, props.user.payment.subscription])
-
+   
     return (
         <div>
             {showIframe ? <IframeResizer
@@ -79,7 +80,8 @@ function Payment(props: any) {
                                     setTimeout(() => props.fetchUpdatedUserData(props.user.email), 5000)
                                 }}
                                 fetchPaymentSubscription={props.fetchPaymentSubscription}
-                            />
+                                user={props.user}
+                           />
                         </Elements>
                     }
                 </div>
@@ -99,7 +101,7 @@ const bindActions = (dispatch: any) => {
     return {
         fetchPaymentIntent: (items: {id: string}[]) => dispatch(ACTIONS.fetchPaymentIntent(items)),
         fetchUpdatedUserData: (email: string) => dispatch(AUTH_ACTIONS.fetchUpdatedUserData(email)),
-        fetchPaymentSubscription: (email: string, paymentMethod: any) => dispatch(ACTIONS.fetchPaymentSubscription(email, paymentMethod))
+        fetchPaymentSubscription: (email: string, paymentMethod: any, subscriptionType: any) => dispatch(ACTIONS.fetchPaymentSubscription(email, paymentMethod, subscriptionType))
     };
 };
 

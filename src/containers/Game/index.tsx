@@ -47,6 +47,9 @@ function Game(props: any) {
     const [showTable, setShowTable] = useState(true);
     const [progressData, setProgressData] = useState([]);
     const [progressIndex, setProgressIndex] = useState(0);
+    const [deleteFolds, setDeleteFolds] = useState(true);
+    const [changeMoney, setChangeMoney] = useState(false);
+    const [callMoney,setCallMoney] = useState(0);
 
     useEffect(() => {
         return () => {
@@ -55,7 +58,7 @@ function Game(props: any) {
             props.clearResultsData();
         }
     }, []);
-
+   
     useEffect(() => {
         if (props.myTopics.length > 0) {
             props.fetchGameData(props.myTopics);
@@ -77,7 +80,7 @@ function Game(props: any) {
             setTimeout(() => setInitBlockPlayBtn(false), 2000);
         }
     }, [initBlockPlayBtn])
-
+    
     useEffect(() => {
         if (props.questions && props.questions.length > 0) {
             setQuestions({array: props.questions, render: !questions.render})
@@ -87,6 +90,7 @@ function Game(props: any) {
             setProgressData(props.progressData);
             setProgressIndex(props.progressIndex);
         }
+        
     },[props.questions, props.progressData])
 
     useEffect(() => {
@@ -137,7 +141,7 @@ function Game(props: any) {
         setPause(true);
         setFinished(false);
         clearInterval(interval);
-
+        setDeleteFolds(false);
         if (animationBlocker < handIndex && handIndex > 0) {
             let index = handIndex;
             index -= 1;
@@ -147,15 +151,18 @@ function Game(props: any) {
             setTableAction(questions.array[questionIndex].hands[index].tableAction);
         }
     }
-
+    
     const forward = () => {
-        if (useStartIndex) return;
-        clearInterval(interval);
-        setPause(true)
-
+        if (useStartIndex) {
+            setUseStartIndex(false);
+            clearInterval(interval);
+            setPause(true)
+        }
+       
         if (questions.array[questionIndex].hands.length-1 === handIndex) {
             stop();
             setFinished(true);
+            
             return;
         }
         if (handIndex < questions.array[questionIndex].hands.length -1) {
@@ -165,9 +172,18 @@ function Game(props: any) {
             setPot(pot);
             setHandIndex(index);
             setTableAction(questions.array[questionIndex].hands[index].tableAction);
+            setDeleteFolds(true);
+            setPause(true)
         }
 
+        if(questions.array[questionIndex].hands[handIndex].amount > callMoney)
+        {
+            setCallMoney(questions.array[questionIndex].hands[handIndex].amount)
+        }
+       
+        
     }
+    
 
     const move = () => {
         if (questions.array[questionIndex].hands.length-1 === handIndex) {
@@ -178,21 +194,31 @@ function Game(props: any) {
         if (pause) return;
         if (handIndex < questions.array[questionIndex].hands.length -1) {
             setHandIndex(handIndex += 1);
-            pot += questions.array[questionIndex].hands[handIndex].amount
+            pot += questions.array[questionIndex].hands[handIndex].amount;
             setPot(pot);
+            setDeleteFolds(true);
             setTableAction(questions.array[questionIndex].hands[handIndex].tableAction);
+            
         }
         else stop();
-    }
 
+        if(questions.array[questionIndex].hands[handIndex].amount > callMoney)
+        {
+            setCallMoney(questions.array[questionIndex].hands[handIndex].amount)
+        }
+        
+    }
+    
     const start = () => {
         setPause(false);
         interval = setInterval(move, speed);
+        setDeleteFolds(true);
     }
 
     const stop = () => {
         setPause(true);
         clearInterval(interval);
+        
     }
 
     const reset = () => {
@@ -204,6 +230,7 @@ function Game(props: any) {
         setUseStartIndex(true);
         setInitBlockPlayBtn(true);
         setTimeout(() => calculateAllAnte(), 1000);
+        setCallMoney(0);
     }
 
     const speedHandler = (s: number) => {
@@ -273,7 +300,7 @@ function Game(props: any) {
             setProgressData(p);
         }
     }
-
+    
     const handleSubmit = () => {
         let blocker = false;
         setRerender(true);
@@ -312,6 +339,9 @@ function Game(props: any) {
                 setRerender(false)
             }, 500);
         }
+        const resetScroll = document.getElementById("contentContainer")
+        resetScroll?.scrollTo(0,0)
+        
     }
 
     const handleSkipLesson = () => {
@@ -385,9 +415,13 @@ function Game(props: any) {
         if (path === '/game') return questionIndex;
         else return progressIndex;
     }
+    const handleChangeMoney = () => {
+        changeMoney ? setChangeMoney(false) : setChangeMoney(true);
+    }
 
+    
     return (
-        <ScreenTemplate type={pathname.substr(1, pathname.length)} loading={!props.isFetchingGameData || props.questions.length === 0}>
+        <ScreenTemplate id="screenTemplate" type={pathname.substr(1, pathname.length)} loading={!props.isFetchingGameData || props.questions.length === 0}>
             {questions.array.length === 0 ? null :
                 <div className="gameWrapper" style={{transform: `scale(${renderSize(width-100)})`}}>
                     {showTable ? <div>
@@ -402,14 +436,19 @@ function Game(props: any) {
                                             player={parseInt(item.number)}
                                             me={parseInt(item.number) === questions.array[questionIndex].hands[useStartIndex ? index :handIndex].player ? questions.array[questionIndex].hands[useStartIndex ? index :handIndex].cards.length > 0 : false}
                                             cards={parseInt(item.number) === questions.array[questionIndex].hands[useStartIndex ? index :handIndex].player ? questions.array[questionIndex].hands[useStartIndex ? index :handIndex].cards : questions.array[questionIndex].hands[getPastPlayerIndex(questions.array[questionIndex].hands, parseInt(item.number), useStartIndex ? index :handIndex)].cards}
-                                            mp={item.initAmount}
+                                            mp={(item.initAmount)}
                                             chipPos={parseInt(item.number) === questions.array[questionIndex].hands[useStartIndex ? index :handIndex].player ? handleChipPos(questions.array[questionIndex].hands[useStartIndex ? index :handIndex].player) : handleChipPos(questions.array[questionIndex].hands[getPastPlayerIndex(questions.array[questionIndex].hands, parseInt(item.number), useStartIndex ? index :handIndex)].player)}
                                             turn={parseInt(item.number) === questions.array[questionIndex].hands[useStartIndex ? index :handIndex].player}
                                             dealer={questions.array[questionIndex].tableInfo.dealer}
                                             action={parseInt(item.number) === questions.array[questionIndex].hands[useStartIndex ? index :handIndex].player ? questions.array[questionIndex].hands[useStartIndex ? index :handIndex].action : questions.array[questionIndex].hands[getPastPlayerIndex(questions.array[questionIndex].hands, parseInt(item.number), useStartIndex ? index :handIndex)].action}
                                             amount={parseInt(item.number) === questions.array[questionIndex].hands[useStartIndex ? index :handIndex].player ? questions.array[questionIndex].hands[useStartIndex ? index :handIndex].amount : questions.array[questionIndex].hands[getPastPlayerIndex(questions.array[questionIndex].hands, parseInt(item.number), useStartIndex ? index :handIndex)].amount}
                                             pot={pot}
-                                        />
+                                            bb={parseInt(questions.array[questionIndex].tableInfo.bb)}
+                                            tableAction={tableAction}
+                                            foldStatus={deleteFolds}
+                                            changeMoney={changeMoney}
+                                            callMoney={callMoney}
+                                     />
                                     </div>
                                 ) : null}
                             {showTable ? <div className="gameHouseOfCardsWrapper">
@@ -443,6 +482,7 @@ function Game(props: any) {
                                     fastForward={forward}
                                     finished={finished}
                                     share={share}
+                                    cash={handleChangeMoney}
                                 /> : null}
                             </div>
                         </div>
@@ -460,7 +500,8 @@ function Game(props: any) {
                             topicData={questions.array[questionIndex].topicData}
                             callback={handleAnswerQuestion}
                             buttonText={questionIndex < questions.array.length-1  || pathname === '/ai' ? 'Next Question' : 'Finish!'}
-                            next={handleSubmit}/>
+                            next={handleSubmit}
+                            />
                     </div>
                 </div>
             }

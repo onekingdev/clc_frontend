@@ -8,7 +8,8 @@ interface ISubtitleText {
     fontStyle?: string,
     textDecoration?: string
     marginLeft?: number,
-    marginRight?: number
+    marginRight?: number,
+    fontSize?: string
 }
 
 const SubtitleText: React.FC<ISubtitleText> = ({
@@ -18,7 +19,8 @@ const SubtitleText: React.FC<ISubtitleText> = ({
     fontStyle,
     textDecoration,
     marginRight,
-    marginLeft
+    marginLeft,
+    fontSize
                                        }) =>  {
 
     return (
@@ -30,7 +32,8 @@ const SubtitleText: React.FC<ISubtitleText> = ({
                 color: color ? color : 'var(--primary-subtitle-text)',
                 fontWeight: bold ? 'bold' : 'normal',
                 fontStyle: fontStyle ? fontStyle : 'none',
-                textDecoration: textDecoration ? textDecoration : 'none'
+                textDecoration: textDecoration ? textDecoration : 'none',
+                fontSize: fontSize ? fontSize : "16px"
             }}>
             {children}
         </span>

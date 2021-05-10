@@ -59,6 +59,7 @@ export const fetchGameData = (myTopics: any) => async(
             const user = await getState().authState.user;
 
             let questions = await api.post(apiGetAIQuestions, {user});
+           
             if (questions) dispatch(setQuestions(questions));
 
         } else if (pathname === '/assessment') {

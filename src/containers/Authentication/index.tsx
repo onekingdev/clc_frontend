@@ -88,8 +88,14 @@ function Login(props: any) {
         }
     }
 
+    const handleKeyDown = (event: React.KeyboardEvent<HTMLDivElement>) => {
+        if (event.key === 'Enter') {
+            handleSubmit()
+        }
+    }
+
     return (
-        <div className="loginContainer">
+        <div className="loginContainer" onKeyDown={handleKeyDown}>
             {width > 900 ?
                 <div className="loginVideoContainer">
                     <Fade duration={3000}>
