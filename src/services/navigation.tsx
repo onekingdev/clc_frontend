@@ -1,8 +1,8 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 // @ts-ignore
 import {connect} from 'react-redux';
 // @ts-ignore
-import {Route, Redirect, useHistory } from 'react-router-dom';
+import {Route, Redirect} from 'react-router-dom';
 import Login from '../containers/Authentication';
 import Paths from '../containers/Paths';
 import Library from '../containers/Library';
@@ -17,13 +17,6 @@ import Settings from '../containers/Settings';
 import moment from "moment";
 
 function Navigation(props: any) {
-    const history = useHistory();
-
-    useEffect(() => {
-        if (!props.user.assessment && window.location.pathname.includes("assessment")) {
-            history.push(`/home`);
-        }
-    }, [])
 
     return (
         <div>

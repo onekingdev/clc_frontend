@@ -76,7 +76,7 @@ const Avatar: React.FC<IAvatar> = ({
             </div>
                 :
             <div className="avatarContainer" onClick={onClick}>
-                <div className={`avatarImage ${selected ? 'avatarSelected' : ''}`} style={{marginRight: 16, width: getSize(size), height: getSize(size)}}>
+                <div className={`avatarImage ${selected ? 'avatarSelected' : ''}`} style={{ width: getSize(size), height: getSize(size)}}>
                     <img src={getImage(image)} width={getSize(size, size === 'large' ? 50 : 10)} height={getSize(size, size === 'large' ? 50 : 10)}/>
                     {selected ? <div className="avatarCircle">
                         <FontAwesomeIcon color="#FFF" size="1x" icon={Icon['faCheck']}
