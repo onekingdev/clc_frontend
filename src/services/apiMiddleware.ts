@@ -3,18 +3,10 @@ import {apiCloudHostUrl, apiLocalhostUrl, apiStagingHostUrl} from '../helpers/co
 const staging = false;
 
 const getApi = () => {
-    let parts = window.location.hostname.split('.');
-    let subDomain = parts.slice(-2).join('.');
-    if (window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1") {
-        return apiLocalhostUrl;
-    } else if (staging) {
+    if (staging) {
         return apiStagingHostUrl;
     }
-
     return apiCloudHostUrl;
-
-    
-    
 }
 
 const api = {
