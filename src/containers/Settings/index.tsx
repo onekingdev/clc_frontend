@@ -283,7 +283,7 @@ function Settings(props: any) {
                     </div>
                     :
                     <div>
-                        <div className="main-settingsAvatarWrapper">
+                        <div className="settingsAvatarWrapper">
                             <div>
                                 <Banner topText="Settings" title={props.user.userName}/>
                                 <div style={{marginBottom: 35}}>
