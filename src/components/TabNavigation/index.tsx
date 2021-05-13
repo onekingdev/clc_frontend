@@ -2,7 +2,6 @@ import React, {useEffect, useState} from 'react';
 import './styles.css';
 import BodyText from '../BodyText';
 import {Slide} from 'react-awesome-reveal';
-import { on } from 'cluster';
 
 interface ITabNavigation {
     selectedIndex: number,
@@ -29,7 +28,7 @@ const TabNavigation: React.FC<ITabNavigation> = ({
 
     return (
         <div className="tabsContainer">
-            {filterTabs(tabs).map((item, index) =>
+            {tabs.map((item, index) =>
                 <div key={index} className="tabWrapper" onClick={() => callback(index)}>
                     <div className="tabTextWrapper">
                         <BodyText
@@ -47,9 +46,5 @@ const TabNavigation: React.FC<ITabNavigation> = ({
         </div>
     );
 }
-
-const onlyUnique = (value: string, index: number, self: Array<string>) => self.indexOf(value) === index;
-
-const filterTabs = ( tabs: Array<string> ) => tabs.map((tab: string) => tab.trim()).filter(onlyUnique);
 
 export default TabNavigation;
