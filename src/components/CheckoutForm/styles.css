@@ -1,76 +1,61 @@
 #payment-form {
-  width: 35vw;
-  align-self: center;
-  box-shadow: 0px 0px 0px 0.5px rgba(50, 50, 93, 0.1),
+    width: 35vw;
+    align-self: center;
+    box-shadow: 0px 0px 0px 0.5px rgba(50, 50, 93, 0.1),
     0px 2px 5px 0px rgba(50, 50, 93, 0.1), 0px 1px 1.5px 0px rgba(0, 0, 0, 0.07);
-  border-radius: 7px;
-  padding: 20px;
-  margin: 0 auto;
+    border-radius: 7px;
+    padding: 20px;
 }
 
 .hidden {
-  display: none;
+    display: none;
 }
 
 #card-error {
-  color: rgb(105, 115, 134);
-  font-size: 16px;
-  line-height: 20px;
-  margin-top: 12px;
-  text-align: center;
+    color: rgb(105, 115, 134);
+    font-size: 16px;
+    line-height: 20px;
+    margin-top: 12px;
+    text-align: center;
 }
 #card-element {
-  border-radius: 4px 4px 0 0;
-  padding: 12px;
-  border: 1px solid rgba(50, 50, 93, 0.1);
-  max-height: 44px;
-  width: 100%;
-  background: white;
-  box-sizing: border-box;
+    border-radius: 4px 4px 0 0;
+    padding: 12px;
+    border: 1px solid rgba(50, 50, 93, 0.1);
+    max-height: 44px;
+    width: 100%;
+    background: white;
+    box-sizing: border-box;
 }
 #submit {
-  margin-bottom: 32px;
+    margin-bottom: 32px;
 }
 
 .checkoutFormButtonWrapper {
-  display: flex;
-  justify-content: center;
-  width: 100%;
+    display: flex;
+    justify-content: center;
+    width: 100%;
 }
 
 @keyframes loading {
-  0% {
-    -webkit-transform: rotate(0deg);
-    transform: rotate(0deg);
-  }
-  100% {
-    -webkit-transform: rotate(360deg);
-    transform: rotate(360deg);
-  }
+    0% {
+        -webkit-transform: rotate(0deg);
+        transform: rotate(0deg);
+    }
+    100% {
+        -webkit-transform: rotate(360deg);
+        transform: rotate(360deg);
+    }
 }
-.payment-container {
-  width: 100%;
-  margin: 0 auto;
-}
-.suscriptions-container {
-  width: 300px;
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  grid-column-gap: 30px;
-  justify-items: center;
-  margin: 20px auto;
-  overflow-x: scroll;
-}
-.suscriptions-container::-webkit-scrollbar {
-  display: none;
+.suscriptions-container{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+    
 }
 @media only screen and (max-width: 600px) {
-  #payment-form {
-    width: 80vw;
-  }
-}
-@media screen and (min-width: 700px) {
-  .suscriptions-container {
-    width: 100%;
-  }
+    #payment-form {
+        width: 80vw;
+    }
 }

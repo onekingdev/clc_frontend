@@ -365,6 +365,28 @@ function Game(props: any) {
         )
     }
 
+    const renderSize = (width: number) => {
+        const digits = width.toString();
+
+        if (width < 600) {
+            return `${0}.${parseInt(digits[0])-1}`;
+        } if (width < 1000) {
+            return `${0}.${parseInt(digits[0])-2}`;
+        } else if (width < 1100) {
+            return `${0}.${parseInt(digits[0])+7}`;
+        } else if (width < 1300) {
+            return `${parseInt(digits[0])}.${parseInt(digits[1])-6}`;
+        } else if (width < 2000) {
+            return `${parseInt(digits[0])}.${parseInt(digits[1])-3}${parseInt(digits[2])-3}`;
+        } else if (width < 2700) {
+            return `${parseInt(digits[0])-1}.${parseInt(digits[1])+3}`;
+        } else if (width < 3000) {
+            return `${parseInt(digits[0])}.${parseInt(digits[1])-6}`;
+        }
+
+        return `${parseInt(digits[0])-1}.${parseInt(digits[1])}${parseInt(digits[2])}`;
+    }
+
     const calculateAllAnte = () => {
         let amount = 0;
         questions.array[questionIndex].hands.forEach((hand: any, index: number) => {
@@ -401,7 +423,7 @@ function Game(props: any) {
     return (
         <ScreenTemplate id="screenTemplate" type={pathname.substr(1, pathname.length)} loading={!props.isFetchingGameData || props.questions.length === 0}>
             {questions.array.length === 0 ? null :
-                <div className="gameWrapper">
+                <div className="gameWrapper" style={{transform: `scale(${renderSize(width-100)})`}}>
                     {showTable ? <div>
                         <div className="gamePokerTableContainer">
                             {!showModal && !rerender && questions.array[questionIndex].players.length > 0 ?
