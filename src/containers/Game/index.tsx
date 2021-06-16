@@ -153,12 +153,13 @@ function Game(props: any) {
     }
     
     const forward = () => {
+
         if (useStartIndex) {
             setUseStartIndex(false);
             clearInterval(interval);
             setPause(true)
         }
-       
+
         if (questions.array[questionIndex].hands.length-1 === handIndex) {
             stop();
             setFinished(true);
@@ -173,14 +174,14 @@ function Game(props: any) {
             setHandIndex(index);
             setTableAction(questions.array[questionIndex].hands[index].tableAction);
             setDeleteFolds(true);
-            setPause(true)
+            // setPause(true) // !! not sure about this
         }
 
         if(questions.array[questionIndex].hands[handIndex].amount > callMoney)
         {
             setCallMoney(questions.array[questionIndex].hands[handIndex].amount)
         }
-       
+
         
     }
     
