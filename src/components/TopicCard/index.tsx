@@ -108,6 +108,12 @@ const TopicCard: React.FC<ITopicCard> = ({
                     <div className="topicCardTextWrapper">
                         <SmallText>{label}</SmallText>
                     </div>
+                    <div className="topicCardTextWrapper" style={{marginBottom: 12}}>
+                        <SubtitleText>{title}</SubtitleText>
+                    </div>
+                    <div className="topicCardTextWrapper">
+                        <BodyText>{description}</BodyText>
+                    </div>
                 </div>
             </div>
             <div className="rippleContainer" onMouseDown={showRipple} onMouseUp={callCleanUp(cleanUp, 2000)}>

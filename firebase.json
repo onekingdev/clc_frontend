@@ -1,5 +1,6 @@
 {
   "hosting": {
+    "target": "clcdev",
     "public": "build",
     "ignore": [
       "firebase.json",

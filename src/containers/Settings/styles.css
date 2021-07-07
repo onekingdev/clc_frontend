@@ -16,12 +16,8 @@
 }
 
 .settingsAvatarWrapper {
-    width: 70%;
-    margin: 0 auto;
-    display: grid;
-    justify-items: center;
-    grid-template-columns: repeat(2,1fr);
-    grid-row-gap: 20px;
+    display: flex;
+    justify-content: center;
 }
 
 .settingsButtonWrapper {
@@ -34,12 +30,4 @@
     .settingsUploadButtonsWrapper {
         display: grid;
     }
-}
-@media screen and (min-width:700px){
-    .settingsAvatarWrapper{
-        width: 100%;
-        grid-template-columns: repeat(4,1fr);
-        grid-column-gap: 15px;
-       
-    } 
 }
