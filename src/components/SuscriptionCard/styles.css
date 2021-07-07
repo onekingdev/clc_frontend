@@ -3,7 +3,7 @@
 }
 .suscription-card{
     width: 220px;
-    padding-top: 10px;
+    padding: 10px 0;
     background-color: #101112;
     border-radius: 5px;
 }
