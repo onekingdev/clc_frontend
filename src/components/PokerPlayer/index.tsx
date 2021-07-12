@@ -247,8 +247,6 @@ const PokerPlayer: React.FC<IPokerPlayer> = ({
         }
     }, [rightCard.current]);
 
-    const correctRaiseSemantics = (action: string) => (action === 'raises') ? 'raise to ' : `${action} `;
-
     const renderChips = (quantity: number) => {
         let array = []
         for (let i: number = 0; i < quantity; i++) {
@@ -305,7 +303,7 @@ const PokerPlayer: React.FC<IPokerPlayer> = ({
                         </Rotate>
                         <div className={`pokerChips gameChipBBWrapper${player}`}>
                             {(renderLabel(action) === 'ante' && turn) || (renderLabel(action) !== 'ante' &&  action !== '?') ?
-                                <SmallText color="#FFF">{`${ deleteFolds ? "" : correctRaiseSemantics(renderLabel(action))} `}
+                                <SmallText color="#FFF">{`${ deleteFolds ? "" : renderLabel(action)} `}
                                     <SmallText color="#FFF" bold>{`${action === "calls" ? numberWithCommas(callMoney): amount ? numberWithCommas(amount) : ''}`}</SmallText>
                                 </SmallText> : action === '?' ?
                                     <div>
@@ -395,7 +393,7 @@ const PokerPlayer: React.FC<IPokerPlayer> = ({
                         </Rotate>
                         <div className={`pokerChips gameChipBBWrapper${player}`}>
                             {(renderLabel(action) === 'ante' && turn) || (renderLabel(action) !== 'ante' &&  action !== '?') ?
-                                <SmallText color="#FFF">{`${deleteFolds ? "" : correctRaiseSemantics(renderLabel(action))} `}
+                                <SmallText color="#FFF">{`${deleteFolds ? "" : renderLabel(action)} `}
                                     <SmallText color="#FFF" bold>{`${action === "calls" ? numberWithCommas(callMoney): amount ? numberWithCommas(amount) : ''}`}</SmallText>
                                 </SmallText> : action === '?' ?
                                     <div>

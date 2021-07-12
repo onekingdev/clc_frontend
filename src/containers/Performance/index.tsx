@@ -40,10 +40,6 @@ function Performance(props: any) {
         }
     }, [tab])
 
-    const setCurrentTab = (index: any) => {
-        setBottomTab(index)
-    }
-
     // adjust dimensions
     useEffect(() => {
         window.addEventListener("resize", updateDimensions);
@@ -133,29 +129,25 @@ function Performance(props: any) {
                         </div>
                     </div>
                 </div>
-                <TabNavigation
-                    selectedIndex={bottomTab}
-                    tabs={renderTopicTabs(props.myTopics)}
-                    callback={(index) => setCurrentTab(index)}
-                />
-                {/* performance cards */}
+                <TabNavigation selectedIndex={bottomTab} tabs={renderTopicTabs(props.myTopics)}
+                               callback={(index) => setBottomTab(index)}/>
                 <div className="assessmentResultsPerformanceCardWrapper">
-                    {props.myTopics.length > 0 ?
+                    {props.myTopics && props.myTopics.length > 0 ?
+                        props.myTopics.map((topic: any, index: number) =>
                             <div className="assessmentResultsProgressGroupWrapper">
-                                {props.myTopics[bottomTab + 1].lessons ? props.myTopics[bottomTab + 1].lessons.map((lesson: any) => {
-                                    console.log("DEBBUGER!", props.myTopics[5], bottomTab)
-                                    return <div className="assessmentResultsProgressCardWrapper">
+                                {index-1 === bottomTab && index !== 0 && props.myTopics[index].lessons.map((lesson: any) =>
+                                    <div className="assessmentResultsProgressCardWrapper">
                                         <ProgressCard
                                             values={[0, getPercentage(lesson.correct, lesson.questions.length)]}
                                             progressText={`${lesson.correct}/${lesson.questions.length}`}
-                                            upperText={props.myTopics[bottomTab + 1].name}
+                                            upperText={props.myTopics[index].name}
                                             title={lesson.lessonName}
                                             text={lesson.description}
                                         />
                                     </div>
-                                    } 
-                                ) : null }
+                                )}
                             </div>
+                        )
                         : null}
                 </div>
             </div>

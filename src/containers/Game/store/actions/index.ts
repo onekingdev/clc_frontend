@@ -12,12 +12,6 @@ import api from '../../../../services/apiMiddleware';
 import {app} from "../../../../services/firebase";
 import moment from "moment";
 
-const hasKeyValue = (array: Array<any>, key: string, value: string) => {
-    return (array.filter(e => e[key] === value).length) 
-    ? true
-    : false
-}
-
 export const clearGameData = () => {
     return {
         type: TYPES.CLEAR_GAME_DATA
@@ -206,17 +200,16 @@ export const updateMyTopics = (path: string, questionID: number, correct: boolea
             })
         }
     } else {
-        if ( !hasKeyValue(myTopics, 'name', topic.name) ) {
-            myTopics.push({
-                id: topic.id,
-                UID: topic.UID,
-                name: topic.name,
-                masteredLevel: topic.masteredLevel,
-                chips: topic.chips,
-                tickets: topic.tickets,
-                status: topic.status,
-                mastered: false,
-                lessons: [{
+        myTopics.push({
+            id: topic.id,
+            UID: topic.UID,
+            name: topic.name,
+            masteredLevel: topic.masteredLevel,
+            chips: topic.chips,
+            tickets: topic.tickets,
+            status: topic.status,
+            mastered: false,
+            lessons: [{
                     rule: topic.rule,
                     mastered: false,
                     UID: topic.lessonUID,
@@ -230,9 +223,8 @@ export const updateMyTopics = (path: string, questionID: number, correct: boolea
                             correct: correct
                         }
                     ]
-                }]
-            })
-        }
+            }]
+        })
     }
 
     await app

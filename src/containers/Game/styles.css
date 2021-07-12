@@ -1,140 +1,141 @@
-
 .gamePlayerWrapper {
-    width: 90%;
+  width: 90%;
 }
 
 .gameFooterContainer {
-    display: flex;
-    justify-content: center;
-    margin-top: 80px;
+  display: flex;
+  justify-content: center;
+  margin-top: 80px;
 }
 
 .gameWrapper {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 70vh;
-    width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 75vh;
+  width: 100%;
+  transform: scale(0.4);
 }
 
 .gamePokerTableContainer {
-    position: relative;
-    padding: 40px;
+  position: relative;
+  padding: 40px;
 }
 
 .gameHouseOfCardsWrapper {
-    margin: 0;
-    position: absolute;
-    top: 160px;
-    left: 20px;
-    right: 0;
-    bottom: 0;
+  margin: 0;
+  position: absolute;
+  top: 160px;
+  left: 20px;
+  right: 0;
+  bottom: 0;
 }
 
 .gamePokerPlayerWrapper {
-    list-style: none;
-    margin: 0;
-    overflow-y: auto;
-    position: absolute;
+  list-style: none;
+  margin: 0;
+  overflow-y: auto;
+  position: absolute;
 }
 
 .gamePokerPlayerWrapper::-webkit-scrollbar {
-    display: none;
+  display: none;
 }
 
 .gameP1 {
-    top: -33px;
-    left: 0;
-    right: 362px;
-    bottom: 0;
+  top: -33px;
+  left: 0;
+  right: 362px;
+  bottom: 0;
 }
 
 .gameP2 {
-    top: -33px;
-    left: 0;
-    right: 0;
-    bottom: 0;
+  top: -33px;
+  left: 0;
+  right: 0;
+  bottom: 0;
 }
 
 .gameP3 {
-    top: -33px;
-    left: 362px;
-    right: 0;
-    bottom: 0;
+  top: -33px;
+  left: 362px;
+  right: 0;
+  bottom: 0;
 }
 
 .gameP4 {
-    top: 80px;
-    left: 546px;
-    right: -115px;
-    bottom: 0;
+  top: 80px;
+  left: 546px;
+  right: -115px;
+  bottom: 0;
 }
 
 .gameP5 {
-    top: 200px;
-    left: 546px;
-    right: -115px;
-    bottom: 0;
+  top: 200px;
+  left: 546px;
+  right: -115px;
+  bottom: 0;
 }
 
 .gameP6 {
-    display: grid;
-    top: 225px;
-    left: 362px;
-    right: 0;
-    bottom: -100px;
+  display: grid;
+  top: 225px;
+  left: 362px;
+  right: 0;
+  bottom: -100px;
 }
 
 .gameP7 {
-    display: grid;
-    top: 225px;
-    left: 0;
-    right: 362px;
-    bottom: -100px;
+  display: grid;
+  top: 225px;
+  left: 0;
+  right: 362px;
+  bottom: -100px;
 }
 
 .gameP8 {
-    top: 200px;
-    left: -51px;
-    right: 595px;
-    bottom: 0;
+  top: 200px;
+  left: -51px;
+  right: 595px;
+  bottom: 0;
 }
 
 .gameP9 {
-    top: 80px;
-    left: -51px;
-    right: 595px;
-    bottom: 0;
+  top: 80px;
+  left: -51px;
+  right: 595px;
+  bottom: 0;
 }
 
 .gamePotWrapper {
-    width: 145px;
-    height: 26px;
-    border-radius: 8px;
-    background-color: #1B1B1C;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: absolute;
-    bottom: 108px;
-    left: 321px;
+  width: 145px;
+  height: 26px;
+  border-radius: 8px;
+  background-color: #1b1b1c;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  bottom: 108px;
+  left: 321px;
 }
 
 .gameQuestionWrapper {
-    margin-left: 60px;
-    z-index: 1;
+  margin-top: 20px;
+  margin-left: 60px;
+  z-index: 1;
 }
 
 .gameQuestionProgressbarWrapper {
-    padding-top: 30px;
-    margin-left: 120px;
-    margin-right: 120px;
+  padding-top: 30px;
+  width: 100%;
 }
 
 @media (max-width: 900px) {
-    .gameWrapper {
-        margin-top: 0;
-    }
+  .gameWrapper {
+    margin-top: 0;
+  }
 }
 
 /*@media (max-width: 540px) {
@@ -150,10 +151,39 @@
 }*/
 
 .gameModalContentWrapper {
-    background-color: #000;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-    height: 100%;
+  background-color: #000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+}
+@media screen and (min-width: 400px) {
+  .gameWrapper {
+    transform: scale(0.5);
+  }
+}
+@media screen and (min-width: 500px) {
+  .gameWrapper {
+    transform: scale(0.4);
+    flex-direction: row;
+  }
+}
+@media screen and (min-width: 700px) {
+  .gameWrapper {
+    transform: scale(0.6);
+  }
+}
+@media screen and (min-width: 900px) {
+  .gameWrapper {
+    transform: scale(0.8);
+  }
+}
+@media screen and (min-width: 1100px) {
+  .gameWrapper {
+    transform: scale(0.9);
+  }
+  .gameQuestionWrapper {
+    margin-top: 0;
+  }
 }

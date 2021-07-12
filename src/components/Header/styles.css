@@ -1,14 +1,12 @@
 .headerContainer {
-    margin-top: 30px;
     display: flex;
     align-items: center;
     justify-content: center;
-    padding-bottom: 20px;
-    margin-left: 60px;
-    margin-right: 60px;
     border-bottom-color: #505050;
     border-bottom-style: solid;
     border-bottom-width: 1px;
+    width: 90%;
+    margin: 30px auto;
 }
 
 .headerSectionContainer {
@@ -45,10 +43,10 @@
 .headerBg {
     background-color: #000;
     width: 100%;
-    margin-left: -60px;
     height: 122px;
     position: absolute;
     top: 0;
+    left: 0;
 }
 
 @media (max-width: 900px) {
