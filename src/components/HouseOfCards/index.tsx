@@ -240,7 +240,7 @@ const HouseOfCards: React.FC<IHouseOfCards> = ({
                 display.map((item, index) =>
                     <div key={index} className="houseOfCardsEmpty">
                         {item.show ?
-                            <Flip delay={200} duration={1000}>
+                            <Flip duration={1000}>
                                 <img src={renderCard(item.card)} width={54}
                                   height={76}/>
                             </Flip>
