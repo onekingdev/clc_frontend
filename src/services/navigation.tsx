@@ -28,7 +28,6 @@ function Navigation(props: any) {
     return (
         <div>
             <Route exact path="/" component={Login}/>
-            <Redirect from='*' to='/home' />
             {props.user.id ?
                 <div>
                     {props.user.assessment ?

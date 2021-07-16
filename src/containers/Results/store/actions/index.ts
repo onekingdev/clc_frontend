@@ -94,6 +94,20 @@ export const fetchQuestionProgressbar = (type: string, dailyQuestions?: number, 
     dispatch(setProgressData(result.progressData));
     dispatch(setProgressIndex(result.progressIndex))
 
+    fetch(`${process.env.REACT_APP_CONVERTKIT_API_URL}forms/${process.env.REACT_APP_CONVERTKIT_FORM_ID}/subscribe`, {
+        method: "POST",
+        headers: {
+          "Accept": "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          api_key: process.env.REACT_APP_CONVERTKIT_API_KEY,
+          email: user.email
+          // Add boolean answers array          
+        })
+      });
+      
+
     await endOfMonthHandler(user.stringID);
     await endOfDayHandler(user.stringID);
 }
