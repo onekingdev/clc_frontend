@@ -1,6 +1,7 @@
 import * as TYPES from './types';
 import {app} from '../../../../services/firebase';
-import firebase from "firebase";
+import firebase from "firebase/app";
+import 'firebase/firestore'
 import moment from 'moment';
 import {formatGraphData} from '../../../../helpers/formatter';
 const timestamp = firebase.firestore.FieldValue.serverTimestamp();

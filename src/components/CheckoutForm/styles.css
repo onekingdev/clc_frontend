@@ -61,10 +61,6 @@
   margin: 20px auto;
   overflow-x: scroll;
 }
-.sub-card-title{
-  width: 90%;
-  margin: 10px auto;
-}
 .suscriptions-container::-webkit-scrollbar {
   display: none;
 }

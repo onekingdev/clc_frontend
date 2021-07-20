@@ -51,7 +51,7 @@ const QuestionCard: React.FC<IQuestionCard> = ({
   useEffect(() => {
     setStatus(0);
     setExplanation("");
-    //options = options.sort(() => .5 - Math.random());
+    options = options.sort(() => .5 - Math.random());
     if (pathname !== "/assessment") {
       const topic = topicData
         ? topicData

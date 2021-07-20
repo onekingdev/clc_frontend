@@ -26,42 +26,42 @@ const SuscriptionCard : React.FC<ISuscriptionCard> = ({
             <div className="suscription-cards-container">
                 <div className="suscription-card">
                     <div className="price-container">
-                        <SmallText fontSize="22px" bold>{title}</SmallText>
-                        <SubtitleText fontSize="20px" bold>${price}</SubtitleText> 
+                        <SmallText>{title}</SmallText>
+                        <SubtitleText bold>${price}</SubtitleText> 
                     </div>
                     <div className="suscription-card-list">
                         <ul>
                             <li className="card-list-item">
                                 <i className="fas fa-check card-check"></i>
-                                <SmallText color="white" fontSize="14px">Access to 3000+ and Growing Questions</SmallText>
+                                <SmallText color="white" fontSize="10px">Access to 3000+ and Growing Questions</SmallText>
                             </li>
                             <li className="card-list-item">
                                 <i className="fas fa-check card-check"></i>
-                                <SmallText color="white" fontSize="14px">Access to 3000+ and Growing Questions</SmallText>
+                                <SmallText color="white" fontSize="10px">Access to 3000+ and Growing Questions</SmallText>
                             </li>
                             <li className="card-list-item">
                                 <i className="fas fa-check card-check"></i>
-                                <SmallText color="white" fontSize="14px">Access to 3000+ and Growing Questions</SmallText>
+                                <SmallText color="white" fontSize="10px">Access to 3000+ and Growing Questions</SmallText>
                             </li>
                             <li className="card-list-item">
                                 <i className="fas fa-check card-check"></i>
-                                <SmallText color="white" fontSize="14px">Weekly Hand Breakdown</SmallText>
+                                <SmallText color="white" fontSize="10px">Weekly Hand Breakdown</SmallText>
                             </li>
                             <li className="card-list-item">
                                 <i className="fas fa-check card-check"></i>
-                                <SmallText color="white" fontSize="14px">Monthly Live Workshop</SmallText>
+                                <SmallText color="white" fontSize="10px">Monthly Live Workshop</SmallText>
                             </li>
                             <li className="card-list-item">
                                 <i className="fas fa-check card-check"></i>
-                                <SmallText color="white" fontSize="14px">ClC Coaching Video Archive</SmallText>
+                                <SmallText color="white" fontSize="10px">ClC Coaching Video Archive</SmallText>
                             </li>
                             <li className="card-list-item" style={{ opacity: benefitsActive ? 1 : 0.2}}>
                                 <i className="fas fa-check card-check"></i>
-                                <SmallText color="white" fontSize="14px">The Chip Leader 24/7 Community</SmallText>
+                                <SmallText color="white" fontSize="10px">The Chip Leader 24/7 Community</SmallText>
                             </li>
                             <li className="card-list-item" style={{ opacity: benefitsActive ? 1 : 0.2}}>
                                 <i className="fas fa-check card-check"></i>
-                                <SmallText color="white" fontSize="14px">Ability to Submit a Hand for Review</SmallText>
+                                <SmallText color="white" fontSize="10px">Ability to Submit a Hand for Review</SmallText>
                             </li>
                         </ul>
                         <div className="card-plan-button">
