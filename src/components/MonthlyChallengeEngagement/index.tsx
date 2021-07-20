@@ -22,15 +22,16 @@ const MonthlyChallengeEngagement: React.FC<IMonthlyChallengeEngagement> = ({
 
     const renderSpots = (d: number[], t: number, templateDays: number) => {
         let items: any = [];
-
+        const firstDay = moment().startOf("month").day();
+        
         for (let i = 1; i <= templateDays; i++) {
-            if(i <= moment().startOf("month").day()){
+            if(i <= firstDay){
                 items.push(<div className="monthlyChallengeEngagementNullWrapper" />)
             }
-            else if (d.includes(i - moment().startOf("month").day())) {
+            else if (d.includes(i - firstDay)) {
                 items.push(<div className="monthlyChallengeEngagementActiveWrapper" />)
             } 
-            else if (i <= (t + moment().startOf("month").day())){
+            else if (i <= (t + firstDay)){
                 items.push(<div className="monthlyChallengeEngagementInActiveWrapper" />)
             }
             else{
@@ -40,7 +41,7 @@ const MonthlyChallengeEngagement: React.FC<IMonthlyChallengeEngagement> = ({
 
         return items;
     }
-    console.log(moment().startOf("month").day())
+   
     return (
         <div className="monthlyChallengeEngagementWrapper">
             <div style={{marginRight: 20}}>
