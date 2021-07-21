@@ -1,7 +1,6 @@
 import * as TYPES from './types';
 import {app} from '../../../../services/firebase';
-import firebase from "firebase/app";
-import 'firebase/firestore'
+import firebase from "firebase";
 import moment from 'moment';
 import {formatGraphData} from '../../../../helpers/formatter';
 const timestamp = firebase.firestore.FieldValue.serverTimestamp();
@@ -195,7 +194,7 @@ export const updateDailyEarnings = (data: { chips: number, tickets: number }) =>
 
     const weeklyUpdate = (increment: number, field: string) => {
         if (moment.unix(document.week.started).month() <= weekDayNumber) return document.week[field] += increment;
-        return increment;
+        return document.week[field] += increment;
     }
 
     const monthlyUpdate = (increment: number, field: string) => {

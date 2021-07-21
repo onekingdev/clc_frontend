@@ -23,9 +23,15 @@
     height: 14px;
     margin: 3px;
     border-radius: 100px;
-    background-color: #2E2F31;
+    background-color: #454647;
 }
-
+.monthlyChallengeEngagementNullWrapper {
+    width: 14px;
+    height: 14px;
+    margin: 3px;
+    border-radius: 100px;
+    background-color: rgb(29, 29, 29);
+}
 .monthlyChallengeEngagementCalendarWrapper {
     display: flex;
     flex-wrap: wrap;

@@ -3,10 +3,7 @@ import {app} from '../../../../services/firebase';
 import {apiCreateUser, apiValidateCode, apiGetUserByEmail} from '../../../../helpers/constants';
 import api from '../../../../services/apiMiddleware';
 import {IUser} from '../../interfaces';
-
-import firebase from "firebase/app";
-import 'firebase/firestore'
-
+import firebase from "firebase";
 const timestamp = firebase.firestore.FieldValue.serverTimestamp();
 
 export const clearAuthenticationData = () => {

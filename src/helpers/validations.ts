@@ -1,7 +1,6 @@
 import {app} from "../services/firebase";
 import moment from 'moment';
-import firebase from "firebase/app";
-import 'firebase/firestore'
+import firebase from "firebase";
 const timestamp = firebase.firestore.FieldValue.serverTimestamp();
 
 export const endOfMonthHandler = async (uid: string) => {

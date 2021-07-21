@@ -35,10 +35,11 @@
 .card-check{
     color: white;
     background-color: #698a42;
-    height: 20px;
-    line-height: 20px;
+    height: 25px;
+    width: 25px;
+    line-height: 25px;
     border-radius: 100%;
-    font-size: 8px;
+    font-size: 10px;
     text-align: center;
 }
 .card-plan-button{
