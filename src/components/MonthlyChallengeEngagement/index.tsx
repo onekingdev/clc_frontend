@@ -1,5 +1,4 @@
 import React, {useState} from 'react';
-import moment from "moment";
 import './styles.css';
 import SmallText from "../SmallText";
 import TitleText from "../TitleText";
@@ -20,28 +19,20 @@ const MonthlyChallengeEngagement: React.FC<IMonthlyChallengeEngagement> = ({
     totalDays
                                    }) => {
 
-    const renderSpots = (d: number[], t: number, templateDays: number) => {
+    const renderSpots = (d: number[], t: number) => {
         let items: any = [];
-        const firstDay = moment().startOf("month").day();
-        
-        for (let i = 1; i <= templateDays; i++) {
-            if(i <= firstDay){
-                items.push(<div className="monthlyChallengeEngagementNullWrapper" />)
-            }
-            else if (d.includes(i - firstDay)) {
+
+        for (let i = 1; i <= t; i++) {
+            if (d.includes(i)) {
                 items.push(<div className="monthlyChallengeEngagementActiveWrapper" />)
-            } 
-            else if (i <= (t + firstDay)){
+            } else {
                 items.push(<div className="monthlyChallengeEngagementInActiveWrapper" />)
-            }
-            else{
-                items.push(<div className="monthlyChallengeEngagementNullWrapper" />)
             }
         }
 
         return items;
     }
-   
+
     return (
         <div className="monthlyChallengeEngagementWrapper">
             <div style={{marginRight: 20}}>
@@ -63,16 +54,16 @@ const MonthlyChallengeEngagement: React.FC<IMonthlyChallengeEngagement> = ({
                     <BodyText color="#FFF" bold>{`${month} ${year}`}</BodyText>
                 </div>
                 <div className="monthlyChallengeEngagementDayWrapper">
-                    <BodyText color="#FFF">S</BodyText>
                     <BodyText color="#FFF">M</BodyText>
                     <BodyText color="#FFF">T</BodyText>
                     <BodyText color="#FFF">W</BodyText>
                     <BodyText color="#FFF">T</BodyText>
                     <BodyText color="#FFF">F</BodyText>
                     <BodyText color="#FFF">S</BodyText>
+                    <BodyText color="#FFF">S</BodyText>
                 </div>
                 <div className="monthlyChallengeEngagementCalendarWrapper">
-                    {renderSpots(days, totalDays, 35)}
+                    {renderSpots(days, totalDays)}
                 </div>
             </div>
         </div>
