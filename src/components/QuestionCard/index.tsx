@@ -81,7 +81,7 @@ const QuestionCard: React.FC<IQuestionCard> = ({
   };
 
   useEffect(scrollToBottom);
-
+  console.log(explanation);
   return (
     <div className="questionCardContainer">
       {!rerender ? (

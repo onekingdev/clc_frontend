@@ -40,7 +40,7 @@ import "react-credit-cards/es/styles-compiled.css";
 import { getStripeKey } from "../../services/stripe";
 
 const promise = loadStripe(
-  getStripeKey.stripe_publishable_key(process.env.NODE_ENV)
+  getStripeKey.stripe_publishable_key("development")
 );
 const host = new URL(window.location.href).host;
 
