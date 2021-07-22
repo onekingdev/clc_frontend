@@ -195,7 +195,7 @@ export const updateDailyEarnings = (data: { chips: number, tickets: number }) =>
 
     const weeklyUpdate = (increment: number, field: string) => {
         if (moment.unix(document.week.started).month() <= weekDayNumber) return document.week[field] += increment;
-        return increment;
+        return document.week[field] += increment;
     }
 
     const monthlyUpdate = (increment: number, field: string) => {
