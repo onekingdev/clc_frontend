@@ -19,7 +19,7 @@ import SmallText from "../../components/SmallText";
 import { getStripeKey } from "../../services/stripe";
 
 const promise = loadStripe(
-  getStripeKey.stripe_publishable_key("development")
+  getStripeKey.stripe_publishable_key(process.env.NODE_ENV)
 );
 
 function Payment(props: any) {
@@ -40,7 +40,7 @@ function Payment(props: any) {
       setShowStartBtn(true);
     }
   }, [props.user, props.user.payment.subscription]);
- 
+
   return (
     <div>
       {showIframe ? (

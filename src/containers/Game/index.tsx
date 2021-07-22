@@ -448,7 +448,11 @@ function Game(props: any) {
     changeMoney ? setChangeMoney(false) : setChangeMoney(true);
   };
 
-  const changeLingo = (str: string) => (str === "raises" ? "raise to" : str);
+  const changeLingo = (str: string) => {
+    if (str === "raises") return "raise to";
+    else if (str === "allIn") return "All-In";
+    else return str;
+  };
 
   const [wallets, setWallets] = useState<Object>({});
 
