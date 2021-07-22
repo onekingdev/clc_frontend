@@ -119,10 +119,6 @@ export const embedVideo = (url: string) => {
     return ''
 };
 
-const spanWord = (word:string,definition:string) => {
-   return `<span style={{zIndex: 99}} id='keyWord' data-tip=${definition}> ${word} </span>`
-}
-
 export const parseResponse = (response: string) => {
     if (response[response.length] !== '.' && response[response.length] !== '?' && response[response.length-1] !== '.' && response[response.length-1] !== '?') {
         response += '.';
@@ -131,13 +127,13 @@ export const parseResponse = (response: string) => {
     if (glossary != null) {
         JSON.parse(glossary).forEach((item: any) => {
             if (response.includes(' ' + item.word + ' ' || ',' + item.word + ' ' || '?' + item.word + ' ' || '.' + item.word + ' ' || ';' + item.word + ' ' || ' ' + item.word + ' ' || ' ' + item.word + ',' || ' ' + item.word + '.' || ' ' + item.word + ';' || ' ' + item.word + '?' || ' ' + item.word + 'ed')) {
-                response = response.replace(item.word,spanWord(item.word, item.definition));
+                response = response.replace(item.word, `<span data-tip=${item.definition} style={{zIndex: 99}} id='keyWord'> ${item.word} </span>`);
             }
         })
     }
 
     return response;
-} 
+}
 
 export const UTGLabeling = (dealer: number, players: any) => {
     const totalPlayers = players.length;

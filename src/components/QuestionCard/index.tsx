@@ -51,7 +51,7 @@ const QuestionCard: React.FC<IQuestionCard> = ({
   useEffect(() => {
     setStatus(0);
     setExplanation("");
-    options = options.sort(() => .5 - Math.random());
+    // options = options.sort(() => .5 - Math.random());
     if (pathname !== "/assessment") {
       const topic = topicData
         ? topicData
@@ -81,7 +81,7 @@ const QuestionCard: React.FC<IQuestionCard> = ({
   };
 
   useEffect(scrollToBottom);
-  console.log(explanation);
+
   return (
     <div className="questionCardContainer">
       {!rerender ? (
@@ -134,7 +134,7 @@ const QuestionCard: React.FC<IQuestionCard> = ({
         </div>
       ) : null}
       {!rerender && options.length > 0 ? (
-        options.map((item, index) => (
+        options.sort(() => (Math.random() > .5) ? 1 : -1).map((item, index) => (
           <div key={index} style={{ marginBottom: 16 }}>
             {item.text ? (
               <Button

@@ -450,7 +450,7 @@ function Game(props: any) {
 
   const changeLingo = (str: string) => {
     if (str === "raises") return "raise to";
-    else if (str === "allIn") return "All-In";
+    else if (str === "allIn") return "all-in";
     else return str;
   };
 
