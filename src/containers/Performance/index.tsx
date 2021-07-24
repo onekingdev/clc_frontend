@@ -18,7 +18,7 @@ function Performance(props: any) {
     const [tab, setTab] = useState(0);
     const [bottomTab, setBottomTab] = useState(0);
     const [query, setQuery] = useState('season');
-
+    
     useEffect(() => {
         switch (tab) {
             case 0:

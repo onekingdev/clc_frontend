@@ -43,15 +43,25 @@
     height: 100%;
 }
 
-span[id^=keyWord] {
+a.tooltip {
     color: var(--primary);
     text-decoration: underline;
-}
-
-span[id^=keyWord]:hover {
+  }
+  a.tooltip:hover {
     cursor: pointer;
-}
+    position: relative;
+  }
+  a.tooltip span {
+    display: none;
+  }
+  a.tooltip:hover span {
+    padding: 10px;
+    display: block;
+    background:black;
+    border-radius: 5px;
+    width: 200px;
+    position: absolute;
+    z-index: 99;
+    color: white;
+  }
 
-.questionCardTooltipContainer {
-    width: 248px;
-}
