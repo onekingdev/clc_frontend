@@ -450,7 +450,7 @@ function Game(props: any) {
 
   const changeLingo = (str: string) => {
     if (str === "raises") return "raise to";
-    else if (str === "allIn") return "All-In";
+    else if (str === "allIn") return "all-in";
     else return str;
   };
 
@@ -468,13 +468,9 @@ function Game(props: any) {
     let betted = 0
     if (arrayExists && handExists()) {
       const game = questions.array[questionIndex].hands;
-      console.log(game)
-      console.log(game[2].player)
       for (let i = 0; i < move; i++) {
-        console.log(game[i].player, player)
         if (game[i].player == player) {
           betted += game[i].amount
-          console.log("total chips played", betted)
         }
       }
     }
