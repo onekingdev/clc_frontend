@@ -47,17 +47,11 @@ const QuestionCard: React.FC<IQuestionCard> = ({
   const [mastered, setMastered] = useState(false);
   const [pressed, setPressed] = useState({ index: 0, pressed: false });
   const descriptionRef = useRef(null);
-  const [randomized_options, set_randomized_options] = useState(options)
-
+  
   useEffect(() => {
     setStatus(0);
     setExplanation("");
-    const computed_options = options
-      .filter(elem => elem.text)
-      .sort(() => (Math.random() > 0.5 ? 1 : -1))
-
-    set_randomized_options(computed_options)
-
+    // options = options.sort(() => .5 - Math.random());
     if (pathname !== "/assessment") {
       const topic = topicData
         ? topicData
@@ -87,7 +81,7 @@ const QuestionCard: React.FC<IQuestionCard> = ({
   };
 
   useEffect(scrollToBottom);
-
+  
   return (
     <div className="questionCardContainer">
       {!rerender ? (
@@ -127,20 +121,12 @@ const QuestionCard: React.FC<IQuestionCard> = ({
             {description && description !== ""
               ? parse(parseResponse(description))
               : null}
-            {description && description !== "" ? (
-              <ReactTooltip
-                place="left"
-                type="light"
-                effect="solid"
-                multiline={true}
-                className="questionCardTooltipContainer"
-              />
-            ) : null}
+            
           </BodyText>
         </div>
       ) : null}
-      {!rerender && randomized_options.length > 0 ? (
-        randomized_options.map((item, index) => (
+      {!rerender && options.length > 0 ? (
+        options.sort(() => (Math.random() > .5) ? 1 : -1).map((item, index) => (
           <div key={index} style={{ marginBottom: 16 }}>
             {item.text ? (
               <Button
@@ -151,10 +137,11 @@ const QuestionCard: React.FC<IQuestionCard> = ({
                   setStatus(item.correct ? 1 : 2);
                   setExplanation(item.explanation);
                   setPressed({ index: index, pressed: true });
+               
                 }}
                 width={343}
                 height={47}
-                text={`${item.text}`}
+                text={item.text}
                 answer={
                   index === 0
                     ? "A."
@@ -214,15 +201,7 @@ const QuestionCard: React.FC<IQuestionCard> = ({
                 {explanation && explanation !== ""
                   ? parse(parseResponse(explanation))
                   : null}
-                {explanation && explanation !== "" ? (
-                  <ReactTooltip
-                    place="left"
-                    type="light"
-                    effect="solid"
-                    multiline={true}
-                    className="questionCardTooltipContainer"
-                  />
-                ) : null}
+               
               </BodyText>
             ) : null}
             <div style={{ marginTop: 50 }}>

@@ -120,7 +120,9 @@ export const embedVideo = (url: string) => {
 };
 
 const spanWord = (word:string,definition:string) => {
-   return `<span style={{zIndex: 99}} id='keyWord' data-tip=${definition}> ${word} </span>`
+   return `<a class="tooltip">${word}
+                <span>${definition}</span>
+            </a>`
 }
 
 export const parseResponse = (response: string) => {
@@ -129,13 +131,16 @@ export const parseResponse = (response: string) => {
     }
     const glossary = localStorage.getItem('glossary')
     if (glossary != null) {
-        JSON.parse(glossary).forEach((item: any) => {
+        const responseParser = JSON.parse(glossary)
+      
+        responseParser.forEach((item: any) => {
             if (response.includes(' ' + item.word + ' ' || ',' + item.word + ' ' || '?' + item.word + ' ' || '.' + item.word + ' ' || ';' + item.word + ' ' || ' ' + item.word + ' ' || ' ' + item.word + ',' || ' ' + item.word + '.' || ' ' + item.word + ';' || ' ' + item.word + '?' || ' ' + item.word + 'ed')) {
                 response = response.replace(item.word,spanWord(item.word, item.definition));
             }
+           
         })
     }
-
+   
     return response;
 } 
 

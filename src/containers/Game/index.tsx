@@ -195,15 +195,9 @@ function Game(props: any) {
     if (pause) return;
 
     if (handIndex < questions.array[questionIndex].hands.length - 1) {
-      if (questions.array[questionIndex].hands[handIndex].tableAction !== "") {
-        clearInterval(interval);
-        setTimeout(() => {
-          start();
-          setHandIndex((handIndex += 1));
-        }, 1000);
-      } else {
+      
         setHandIndex((handIndex += 1));
-      }
+    
       pot += questions.array[questionIndex].hands[handIndex].amount;
       setPot(pot);
       setDeleteFolds(true);
@@ -468,9 +462,13 @@ function Game(props: any) {
     let betted = 0
     if (arrayExists && handExists()) {
       const game = questions.array[questionIndex].hands;
+      console.log(game)
+      console.log(game[2].player)
       for (let i = 0; i < move; i++) {
+        console.log(game[i].player, player)
         if (game[i].player == player) {
           betted += game[i].amount
+          console.log("total chips played", betted)
         }
       }
     }
