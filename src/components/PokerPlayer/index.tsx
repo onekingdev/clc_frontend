@@ -85,8 +85,6 @@ interface IPokerPlayer {
   amount: number;
   pot: number;
   bb: number;
-  tableAction: string;
-  foldStatus: boolean;
   changeMoney: boolean;
   callMoney: number;
 }
@@ -106,14 +104,11 @@ const PokerPlayer: React.FC<IPokerPlayer> = ({
   amount,
   pot,
   bb,
-  tableAction,
-  foldStatus,
   changeMoney,
   callMoney,
 }) => {
   const leftCard = useRef<HTMLImageElement>(null);
   const rightCard = useRef<HTMLImageElement>(null);
-  const [deleteFolds, setDeleteFolds] = useState(false);
   const badge = useRef<HTMLDivElement>(null);
   const container = useRef<HTMLDivElement>(null);
   const renderCard = (value: string) => {
@@ -273,7 +268,7 @@ const PokerPlayer: React.FC<IPokerPlayer> = ({
 
     return array;
   };
-
+  
   const renderLabel = (action: string) => {
     if (action === "posts small blind" || action === "posts the small blind") {
       return "SB";
@@ -289,29 +284,6 @@ const PokerPlayer: React.FC<IPokerPlayer> = ({
     return action;
   };
 
-  useEffect(() => {
-    if (
-      tableAction === "flop" &&
-      renderLabel(action) === "folds" &&
-      foldStatus
-    ) {
-      setDeleteFolds(true);
-    } else if (
-      tableAction === "turn" &&
-      renderLabel(action) === "folds" &&
-      foldStatus
-    ) {
-      setDeleteFolds(true);
-    } else if (
-      tableAction === "river" &&
-      renderLabel(action) === "folds" &&
-      foldStatus
-    ) {
-      setDeleteFolds(true);
-    } else if (!foldStatus && tableAction === "") {
-      setDeleteFolds(false);
-    }
-  }, [tableAction]);
 
   return (
     <div className="pokerPlayerItemsWrapper" ref={container}>
@@ -336,11 +308,9 @@ const PokerPlayer: React.FC<IPokerPlayer> = ({
               {(renderLabel(action) === "ante" && turn) ||
               (renderLabel(action) !== "ante" && action !== "?") ? (
                 <SmallText color="#FFF">
-                  {`${deleteFolds ? "" : renderLabel(action)} `}
+                  {`${renderLabel(action) === "fold" ? "": renderLabel(action)} `}
                   <SmallText color="#FFF" bold>{`${
-                    action === "calls"
-                      ? numberWithCommas(callMoney)
-                      : amount
+                    amount
                       ? numberWithCommas(amount)
                       : ""
                   }`}</SmallText>
@@ -417,7 +387,7 @@ const PokerPlayer: React.FC<IPokerPlayer> = ({
           ) : (
             <Roll>
               <img
-                style={action === "folds" ? { opacity: 0.3 } : {}}
+                style={action === "folds" || action === "fold"  ? { opacity: 0.3 } : {}}
                 ref={leftCard}
                 className={"cardImage"}
                 src={cardBack}
@@ -425,7 +395,7 @@ const PokerPlayer: React.FC<IPokerPlayer> = ({
                 height={56}
               />
               <img
-                style={action === "folds" ? { opacity: 0.3 } : {}}
+                style={action === "folds" || action === "fold"  ? { opacity: 0.3 } : {}}
                 ref={rightCard}
                 className={"cardImage"}
                 src={cardBack}
@@ -457,7 +427,7 @@ const PokerPlayer: React.FC<IPokerPlayer> = ({
                 : "pokerPlayerMPWrapper"
             } badge`}
             ref={badge}
-            style={action === "folds" ? { opacity: 0.3 } : {}}
+            style={action === "folds" || action === "fold" ? { opacity: 0.3 } : {}}
           >
             <div
               style={
@@ -498,11 +468,9 @@ const PokerPlayer: React.FC<IPokerPlayer> = ({
               {(renderLabel(action) === "ante" && turn) ||
               (renderLabel(action) !== "ante" && action !== "?") ? (
                 <SmallText color="#FFF">
-                  {`${deleteFolds ? "" : renderLabel(action)} `}
+                  {`${renderLabel(action) === "fold" ? "": renderLabel(action)} `}
                   <SmallText color="#FFF" bold>{`${
-                    action === "calls"
-                      ? numberWithCommas(callMoney)
-                      : amount
+                    amount
                       ? numberWithCommas(amount)
                       : ""
                   }`}</SmallText>
