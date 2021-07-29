@@ -63,7 +63,7 @@ export const fetchHomeCards = () => async(
         dispatch(setIsFetchingCards(true));
         const contentSpotlight = await api.get(apiGetSpotlight);
         const weeklyHandBreakdown = await api.get(apiGetWeeklyHandBreakdown);
-        
+
         dispatch(setContentSpotlight(contentSpotlight));
         dispatch(setWeeklyHandBreakdown(weeklyHandBreakdown));
 

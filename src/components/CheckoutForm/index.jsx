@@ -79,12 +79,16 @@ export default function CheckoutForm({
             setTimeout(() => setMsg(""), 1000)
         }*/
 
+        const today = new Date()
+        const firstPaymentDate = new Date(today.getFullYear(), today.getMonth() + 3, today.getDay())
+
         const result = await stripe.createPaymentMethod({
             type: 'card',
             card: elements.getElement(CardElement),
             billing_details: {
                 email: email,
             },
+            
 
         });
 
