@@ -161,6 +161,26 @@ function Game(props: any) {
   };
 
   const forward = () => {
+    if(questions.array[questionIndex].hands[handIndex].tableAction !== "")
+    {
+      for(let i = handIndex; i >= 0; i--)
+      { 
+        if(questions.array[questionIndex].hands[i].action === "folds")
+        {
+          questions.array[questionIndex].hands[i].action = "fold"
+        }
+        else if(questions.array[questionIndex].hands[i].action === "fold")
+        {
+          questions.array[questionIndex].hands[i].action = "fold"
+        }
+        else
+        {
+          questions.array[questionIndex].hands[i].action = ""
+        }
+        questions.array[questionIndex].hands[i].amount = ""
+      }
+    }
+    
     if (useStartIndex) {
       setUseStartIndex(false);
       clearInterval(interval);
@@ -186,17 +206,7 @@ function Game(props: any) {
     if (questions.array[questionIndex].hands[handIndex].amount > callMoney) {
       setCallMoney(questions.array[questionIndex].hands[handIndex].amount);
     }
-    if(questions.array[questionIndex].hands[handIndex].tableAction !== "")
-    {
-      for(let i = handIndex; i >= 0; i--)
-      { 
-        if(questions.array[questionIndex].hands[i].action === "folds")
-        {
-          questions.array[questionIndex].hands[i].action = "fold"
-        }
-        questions.array[questionIndex].hands[i].amount = ""
-      }
-    }
+   
   };
 
   const move = () => {
@@ -228,6 +238,14 @@ function Game(props: any) {
         if(questions.array[questionIndex].hands[i].action === "folds")
         {
           questions.array[questionIndex].hands[i].action = "fold"
+        }
+        else if(questions.array[questionIndex].hands[i].action === "fold")
+        {
+          questions.array[questionIndex].hands[i].action = "fold"
+        }
+        else
+        {
+          questions.array[questionIndex].hands[i].action = ""
         }
         questions.array[questionIndex].hands[i].amount = ""
       }
@@ -475,6 +493,7 @@ function Game(props: any) {
   };
 
   const changeLingo = (str: string) => {
+    
     if (str === "raises") return "raise to";
     else if (str === "allIn") return "all-in";
     else return str;
