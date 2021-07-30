@@ -7,8 +7,10 @@ import {
 const staging = false;
 
 const getApi = () => {
- 
-  return apiLocalhostUrl;
+if (staging) {
+    return apiStagingHostUrl;
+}
+return apiCloudHostUrl;
 };
 
 const api = {
