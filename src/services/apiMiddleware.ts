@@ -6,12 +6,13 @@ import {
 } from "../helpers/constants";
 const staging = false;
 
-const getApi = () => {
-if (staging) {
-    return apiStagingHostUrl;
-}
-return apiCloudHostUrl;
-};
+  const getApi = () => {
+    if (staging) {
+        return apiStagingHostUrl;
+    }
+    return apiCloudHostUrl;
+    };
+    
 
 const api = {
   get: async (path: string) =>
