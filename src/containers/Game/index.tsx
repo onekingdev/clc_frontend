@@ -153,11 +153,14 @@ function Game(props: any) {
       setHandIndex(index);
       setTableAction(questions.array[questionIndex].hands[index].tableAction);
     }
-    for(let i = 0; i <= handIndex; i++)
-    { 
-      questions.array[questionIndex].hands[i].action =  questions.array[questionIndex].hands[i].copyAction
-      questions.array[questionIndex].hands[i].amount =  questions.array[questionIndex].hands[i].copyAmount
-    }
+      for(let i = 0; i <= handIndex; i++)
+      { 
+        
+          questions.array[questionIndex].hands[i].action =  questions.array[questionIndex].hands[i].copyAction
+          questions.array[questionIndex].hands[i].amount =  questions.array[questionIndex].hands[i].copyAmount
+        
+      }
+    
   };
 
   const forward = () => {
@@ -495,7 +498,7 @@ function Game(props: any) {
   const changeLingo = (str: string) => {
     
     if (str === "raises") return "raise to";
-    else if (str === "allIn") return "all-in";
+    else if (str === "is allIn") return "all-in";
     else return str;
   };
 
