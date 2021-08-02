@@ -36,7 +36,7 @@ function Home(props: any) {
             props.clearPerformanceData()
         }
     }, []);
-
+    
     useEffect(() => {
         props.fetchHomeCards();
         props.fetchEarnings('month');

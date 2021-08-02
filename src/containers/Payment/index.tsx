@@ -17,11 +17,11 @@ import { PulseLoader } from "react-spinners";
 import TitleText from "../../components/TitleText";
 import SmallText from "../../components/SmallText";
 import { getStripeKey } from "../../services/stripe";
+import { env } from "node:process";
 
 const promise = loadStripe(
-  getStripeKey.stripe_publishable_key("development")
+  getStripeKey.stripe_publishable_key(process.env.NODE_ENV)
 );
-
 function Payment(props: any) {
   const history = useHistory();
 
