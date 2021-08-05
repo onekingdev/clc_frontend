@@ -493,9 +493,16 @@ function Game(props: any) {
   };
 
   const changeLingo = (str: string) => {
-    const hasAmountInAllIn = str.split(" ").length > 3 // weird bug cause by google sheet breaking the parse Ex: action: raises to 342847 and is allIn
+    // weird bug cause by google sheet breaking the parse Ex: action: raises to 342847 and is allIn
+    let hasAmountInAction;
+    str.split(" ").forEach(elem => {
+      if (!isNaN(parseInt(elem))) hasAmountInAction = true;
+      console.log(!isNaN(parseInt(elem)))
+    }) 
+    console.log(hasAmountInAction)
+    // ends amount edge case
     if (str === "raises") return "raise to";
-    else if (str === "is allIn" || hasAmountInAllIn) return "all-in";
+    else if (str === "is allIn" || hasAmountInAction) return "all-in";
     else return str;
   };
 
