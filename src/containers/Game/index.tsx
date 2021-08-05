@@ -493,8 +493,9 @@ function Game(props: any) {
   };
 
   const changeLingo = (str: string) => {
+    const hasAmountInAllIn = str.split(" ").length > 3 // weird bug cause by google sheet breaking the parse Ex: action: raises to 342847 and is allIn
     if (str === "raises") return "raise to";
-    else if (str === "is allIn") return "all-in";
+    else if (str === "is allIn" || hasAmountInAllIn) return "all-in";
     else return str;
   };
 
