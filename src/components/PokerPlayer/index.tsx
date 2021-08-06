@@ -89,6 +89,7 @@ interface IPokerPlayer {
   callMoney: number;
   acount: number;
   changeAmount: boolean;
+  copyAmount: boolean;
 }
 
 const PokerPlayer: React.FC<IPokerPlayer> = ({
@@ -110,10 +111,10 @@ const PokerPlayer: React.FC<IPokerPlayer> = ({
   callMoney,
   acount,
   changeAmount,
+  copyAmount,
 }) => {
   const leftCard = useRef<HTMLImageElement>(null);
   const [currentChips, setCurrentChips] = useState(mp);
-  const [isReady, setIsReady] = useState(false);
   const rightCard = useRef<HTMLImageElement>(null);
   const badge = useRef<HTMLDivElement>(null);
   const container = useRef<HTMLDivElement>(null);
@@ -230,18 +231,11 @@ const PokerPlayer: React.FC<IPokerPlayer> = ({
 
   useEffect(() => {
     if (changeAmount) {
-      if (
-        action === "ante" ||
-        action === "posts ante" ||
-        action === "posts the ante"
-      ) {
-        setCurrentChips(currentChips);
-      } else {
-        setCurrentChips(currentChips + amount);
-      }
+      setCurrentChips(mp - amount);
     } else {
       setCurrentChips(currentChips - amount);
     }
+    console.log(amount, "cyrrent");
   }, [amount]);
   useEffect(() => {
     if (rightCard.current != null && rightCard.current != null) {

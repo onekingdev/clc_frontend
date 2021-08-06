@@ -50,6 +50,7 @@ function Game(props: any) {
   const [changeMoney, setChangeMoney] = useState(false);
   const [callMoney, setCallMoney] = useState(0);
   const [changeAmount, setChangeAmount] = useState(false);
+  const [copyAmount, setCopyAmount] = useState(false);
 
   useEffect(() => {
     return () => {
@@ -149,10 +150,9 @@ function Game(props: any) {
     if (animationBlocker < handIndex && handIndex > 0) {
       let index = handIndex;
       index -= 1;
-      setChangeAmount(true);
       pot -= questions.array[questionIndex].hands[index].amount;
       setPot(pot);
-
+      setChangeAmount(true);
       setHandIndex(index);
       setTableAction(questions.array[questionIndex].hands[index].tableAction);
     }
@@ -192,6 +192,7 @@ function Game(props: any) {
     }
     if (handIndex < questions.array[questionIndex].hands.length - 1) {
       let index = handIndex + 1;
+      setCopyAmount(true);
       setChangeAmount(false);
       if (questions.array[questionIndex].hands[handIndex].tableAction !== "") {
         setPot(pot);
@@ -229,6 +230,7 @@ function Game(props: any) {
       setTableAction(
         questions.array[questionIndex].hands[handIndex].tableAction
       );
+      setCopyAmount(true);
       setChangeAmount(false);
       setHandIndex((handIndex += 1));
     } else stop();
@@ -254,6 +256,7 @@ function Game(props: any) {
     setPause(false);
     interval = setInterval(move, speed);
     setChangeAmount(false);
+    setCopyAmount(true);
   };
 
   const stop = () => {
@@ -271,10 +274,11 @@ function Game(props: any) {
     setInitBlockPlayBtn(true);
     setTimeout(() => calculateAllAnte(), 1000);
     setCallMoney(0);
-    setChangeAmount(false);
   };
 
   const resetGame = () => {
+    setChangeAmount(true);
+    setCopyAmount(true);
     for (let i = 0; i <= handIndex; i++) {
       questions.array[questionIndex].hands[i].action =
         questions.array[questionIndex].hands[i].copyAction;
@@ -495,11 +499,11 @@ function Game(props: any) {
   const changeLingo = (str: string) => {
     // weird bug cause by google sheet breaking the parse Ex: action: raises to 342847 and is allIn
     let hasAmountInAction;
-    str.split(" ").forEach(elem => {
+    str.split(" ").forEach((elem) => {
       if (!isNaN(parseInt(elem))) hasAmountInAction = true;
-      console.log(!isNaN(parseInt(elem)))
-    }) 
-    console.log(hasAmountInAction)
+      console.log(!isNaN(parseInt(elem)));
+    });
+    console.log(hasAmountInAction);
     // ends amount edge case
     if (str === "raises") return "raise to";
     else if (str === "is allIn" || hasAmountInAction) return "all-in";
@@ -681,6 +685,7 @@ function Game(props: any) {
                             callMoney={callMoney}
                             acount={item.number}
                             changeAmount={changeAmount}
+                            copyAmount={copyAmount}
                           />
                         </div>
                       )
