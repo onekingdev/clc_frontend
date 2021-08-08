@@ -87,9 +87,7 @@ interface IPokerPlayer {
   bb: number;
   changeMoney: boolean;
   callMoney: number;
-  acount: number;
   changeAmount: boolean;
-  copyAmount: boolean;
 }
 
 const PokerPlayer: React.FC<IPokerPlayer> = ({
@@ -109,12 +107,11 @@ const PokerPlayer: React.FC<IPokerPlayer> = ({
   bb,
   changeMoney,
   callMoney,
-  acount,
   changeAmount,
-  copyAmount,
 }) => {
   const leftCard = useRef<HTMLImageElement>(null);
   const [currentChips, setCurrentChips] = useState(mp);
+  const [currentCalls, setCurrentCalls] = useState(callMoney);
   const rightCard = useRef<HTMLImageElement>(null);
   const badge = useRef<HTMLDivElement>(null);
   const container = useRef<HTMLDivElement>(null);
@@ -235,8 +232,12 @@ const PokerPlayer: React.FC<IPokerPlayer> = ({
     } else {
       setCurrentChips(currentChips - amount);
     }
-    console.log(amount, "cyrrent");
+    console.log(callMoney, "cyrrent");
+    console.log(amount, "amount");
   }, [amount]);
+  useEffect(() => {
+    setCurrentCalls(callMoney);
+  }, [callMoney]);
   useEffect(() => {
     if (rightCard.current != null && rightCard.current != null) {
       if (me) {
@@ -294,7 +295,9 @@ const PokerPlayer: React.FC<IPokerPlayer> = ({
       return "BB";
     } else if (action === "posts ante" || action === "posts the ante") {
       return "ante";
-    }
+    } /*else if (action === "calls") {
+      return "calls to";
+    }*/
 
     return action;
   };
@@ -326,7 +329,11 @@ const PokerPlayer: React.FC<IPokerPlayer> = ({
                     renderLabel(action) === "fold" ? "" : renderLabel(action)
                   } `}
                   <SmallText color="#FFF" bold>{`${
-                    amount ? numberWithCommas(amount) : ""
+                    action === "calls"
+                      ? numberWithCommas(currentCalls)
+                      : amount
+                      ? numberWithCommas(amount)
+                      : ""
                   }`}</SmallText>
                 </SmallText>
               ) : action === "?" ? (
@@ -496,7 +503,11 @@ const PokerPlayer: React.FC<IPokerPlayer> = ({
                     renderLabel(action) === "fold" ? "" : renderLabel(action)
                   } `}
                   <SmallText color="#FFF" bold>{`${
-                    amount ? numberWithCommas(amount) : ""
+                    action === "calls"
+                      ? numberWithCommas(currentCalls)
+                      : amount
+                      ? numberWithCommas(amount)
+                      : ""
                   }`}</SmallText>
                 </SmallText>
               ) : action === "?" ? (

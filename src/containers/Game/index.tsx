@@ -48,9 +48,7 @@ function Game(props: any) {
   const [progressData, setProgressData] = useState([]);
   const [progressIndex, setProgressIndex] = useState(0);
   const [changeMoney, setChangeMoney] = useState(false);
-  const [callMoney, setCallMoney] = useState(0);
   const [changeAmount, setChangeAmount] = useState(false);
-  const [copyAmount, setCopyAmount] = useState(false);
 
   useEffect(() => {
     return () => {
@@ -192,7 +190,6 @@ function Game(props: any) {
     }
     if (handIndex < questions.array[questionIndex].hands.length - 1) {
       let index = handIndex + 1;
-      setCopyAmount(true);
       setChangeAmount(false);
       if (questions.array[questionIndex].hands[handIndex].tableAction !== "") {
         setPot(pot);
@@ -205,10 +202,6 @@ function Game(props: any) {
       );
       setPause(true);
       setHandIndex(index);
-    }
-
-    if (questions.array[questionIndex].hands[handIndex].amount > callMoney) {
-      setCallMoney(questions.array[questionIndex].hands[handIndex].amount);
     }
   };
 
@@ -230,14 +223,9 @@ function Game(props: any) {
       setTableAction(
         questions.array[questionIndex].hands[handIndex].tableAction
       );
-      setCopyAmount(true);
       setChangeAmount(false);
       setHandIndex((handIndex += 1));
     } else stop();
-
-    if (questions.array[questionIndex].hands[handIndex].amount > callMoney) {
-      setCallMoney(questions.array[questionIndex].hands[handIndex].amount);
-    }
     if (questions.array[questionIndex].hands[handIndex].tableAction !== "") {
       for (let i = handIndex; i >= 0; i--) {
         if (questions.array[questionIndex].hands[i].action === "folds") {
@@ -256,7 +244,6 @@ function Game(props: any) {
     setPause(false);
     interval = setInterval(move, speed);
     setChangeAmount(false);
-    setCopyAmount(true);
   };
 
   const stop = () => {
@@ -273,12 +260,10 @@ function Game(props: any) {
     setUseStartIndex(true);
     setInitBlockPlayBtn(true);
     setTimeout(() => calculateAllAnte(), 1000);
-    setCallMoney(0);
   };
 
   const resetGame = () => {
     setChangeAmount(true);
-    setCopyAmount(true);
     for (let i = 0; i <= handIndex; i++) {
       questions.array[questionIndex].hands[i].action =
         questions.array[questionIndex].hands[i].copyAction;
@@ -473,6 +458,18 @@ function Game(props: any) {
     });
   };
 
+  const callsChange = (amount: number, hands: any) => {
+    let handPrev = hands[0].amount;
+    for (let i = 0; i <= handIndex; i++) {
+      if (hands[i].amount > handPrev) {
+        handPrev = hands[i].amount;
+        amount = handPrev;
+      }
+    }
+
+    return amount;
+  };
+
   const share = () => {
     if (questions.array[questionIndex].topicData) {
       console.log(questions.array[questionIndex].topicData.UID);
@@ -501,9 +498,9 @@ function Game(props: any) {
     let hasAmountInAction;
     str.split(" ").forEach((elem) => {
       if (!isNaN(parseInt(elem))) hasAmountInAction = true;
-      console.log(!isNaN(parseInt(elem)));
+      //console.log(!isNaN(parseInt(elem)));
     });
-    console.log(hasAmountInAction);
+    //console.log(hasAmountInAction);
     // ends amount edge case
     if (str === "raises") return "raise to";
     else if (str === "is allIn" || hasAmountInAction) return "all-in";
@@ -682,10 +679,24 @@ function Game(props: any) {
                               questions.array[questionIndex].tableInfo.bb
                             )}
                             changeMoney={changeMoney}
-                            callMoney={callMoney}
-                            acount={item.number}
+                            callMoney={callsChange(
+                              parseInt(item.number) ===
+                                questions.array[questionIndex].hands[
+                                  useStartIndex ? index : handIndex
+                                ].player
+                                ? questions.array[questionIndex].hands[
+                                    useStartIndex ? index : handIndex
+                                  ].amount
+                                : questions.array[questionIndex].hands[
+                                    getPastPlayerIndex(
+                                      questions.array[questionIndex].hands,
+                                      parseInt(item.number),
+                                      useStartIndex ? index : handIndex
+                                    )
+                                  ].amount,
+                              questions.array[questionIndex].hands
+                            )}
                             changeAmount={changeAmount}
-                            copyAmount={copyAmount}
                           />
                         </div>
                       )
