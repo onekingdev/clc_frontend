@@ -36,6 +36,7 @@
     "react-spinners": "^0.9.0",
     "react-toastify": "^7.0.3",
     "react-tooltip": "^4.2.13",
+    "react-use-intercom": "^1.4.0",
     "recharts": "^1.8.5",
     "redux": "^4.0.5",
     "redux-logger": "^3.0.6",
