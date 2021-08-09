@@ -14,18 +14,21 @@ const App = () => {
 
   const INTERCOM_APP_ID = "e526e903-fcc2-49f8-915d-77cdfed9e0ce";
 
-  const { boot, shutdown, hide, show, update } = useIntercom();
+  const { boot } = useIntercom();
 
   return (
-    <Provider store={persist.store}>
-      <PersistGate loading={loading} persistor={persist.persistor}>
-        <BrowserRouter>
-          <IntercomProvider appId={INTERCOM_APP_ID}>
-            <Navigation />
-          </IntercomProvider>
-        </BrowserRouter>
-      </PersistGate>
-    </Provider>
+    <div>
+      <Provider store={persist.store}>
+        <PersistGate loading={loading} persistor={persist.persistor}>
+          <BrowserRouter>
+            <IntercomProvider appId={INTERCOM_APP_ID}>
+              <Navigation />
+            </IntercomProvider>
+          </BrowserRouter>
+        </PersistGate>
+      </Provider>
+      <button onClick={() => boot()}>Boot intercom! ☎️</button>
+    </div>
   );
 };
 
