@@ -541,7 +541,7 @@ function Game(props: any) {
   };
 
   const isAllIn = (player: any, amount: any, action: any, wallets: any) => {
-    return wallets[player] - amount <= 0 ? "all-in" : changeLingo(action);
+    return changeLingo(action);
   };
 
   return (
