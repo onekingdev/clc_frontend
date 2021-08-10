@@ -232,8 +232,6 @@ const PokerPlayer: React.FC<IPokerPlayer> = ({
     } else {
       setCurrentChips(currentChips - amount);
     }
-    console.log(callMoney, "cyrrent");
-    console.log(amount, "amount");
   }, [amount]);
   useEffect(() => {
     setCurrentCalls(callMoney);
@@ -310,7 +308,8 @@ const PokerPlayer: React.FC<IPokerPlayer> = ({
             <Rotate>
               {renderChips(
                 (renderLabel(action) === "ante" && turn) ||
-                  renderLabel(action) === "SB"
+                  renderLabel(action) === "SB" ||
+                  renderLabel(action) === "all-in"
                   ? 1
                   : renderLabel(action) === "calls" ||
                     renderLabel(action) === "BB" ||

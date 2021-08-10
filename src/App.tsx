@@ -11,23 +11,19 @@ import { IntercomProvider, useIntercom } from "react-use-intercom";
 const App = () => {
   const [loading, setLoading] = useState(true);
   const [persist] = useState(store(() => setLoading(false)));
-
-  const INTERCOM_APP_ID = "e526e903-fcc2-49f8-915d-77cdfed9e0ce";
-
-  const { boot } = useIntercom();
+  const INTERCOM_APP_ID = "stkorlo9";
 
   return (
     <div>
       <Provider store={persist.store}>
         <PersistGate loading={loading} persistor={persist.persistor}>
           <BrowserRouter>
-            <IntercomProvider appId={INTERCOM_APP_ID}>
+            <IntercomProvider appId={INTERCOM_APP_ID} autoBoot>
               <Navigation />
             </IntercomProvider>
           </BrowserRouter>
         </PersistGate>
       </Provider>
-      <button onClick={() => boot()}>Boot intercom! ☎️</button>
     </div>
   );
 };
