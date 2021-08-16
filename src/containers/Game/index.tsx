@@ -493,17 +493,27 @@ function Game(props: any) {
     changeMoney ? setChangeMoney(false) : setChangeMoney(true);
   };
 
-  const changeLingo = (str: string) => {
-    // weird bug cause by google sheet breaking the parse Ex: action: raises to 342847 and is allIn
-    let hasAmountInAction;
-    str.split(" ").forEach((elem) => {
-      if (!isNaN(parseInt(elem))) hasAmountInAction = true;
-      //console.log(!isNaN(parseInt(elem)));
-    });
-    //console.log(hasAmountInAction);
-    // ends amount edge case
+  const changeLingo = (str: string, item: any, index: number) => {
+    let amt =
+      parseInt(item.number) ===
+      questions.array[questionIndex].hands[useStartIndex ? index : handIndex]
+        .player
+        ? questions.array[questionIndex].hands[
+            useStartIndex ? index : handIndex
+          ].amount
+        : questions.array[questionIndex].hands[
+            getPastPlayerIndex(
+              questions.array[questionIndex].hands,
+              parseInt(item.number),
+              useStartIndex ? index : handIndex
+            )
+          ].amount;
+    console.log('bet amount', amt)
+    console.log("initial amount", item.initAmount);
+    console.log();
+    let hasNoMoney = item.initAmount === 0;
     if (str === "raises") return "raise to";
-    else if (str === "is allIn" || hasAmountInAction) return "all-in";
+    else if (str === "is allIn" || hasNoMoney) return "all-in";
     else return str;
   };
 
@@ -538,10 +548,6 @@ function Game(props: any) {
       setWallets({ ...wallets, player: wallets[player] + amount });
     else setWallets({ ...wallets, player: amount });
     return amount;
-  };
-
-  const isAllIn = (player: any, amount: any, action: any, wallets: any) => {
-    return changeLingo(action);
   };
 
   return (
@@ -636,17 +642,14 @@ function Game(props: any) {
                               questions.array[questionIndex].hands[
                                 useStartIndex ? index : handIndex
                               ].player
-                                ? isAllIn(
-                                    item.number,
-                                    () => getCurrentBalance(index, item.number),
+                                ? changeLingo(
                                     questions.array[questionIndex].hands[
                                       useStartIndex ? index : handIndex
                                     ].action,
-                                    wallets
+                                    item,
+                                    index
                                   )
-                                : isAllIn(
-                                    item.number,
-                                    () => getCurrentBalance(index, item.number),
+                                : changeLingo(
                                     questions.array[questionIndex].hands[
                                       getPastPlayerIndex(
                                         questions.array[questionIndex].hands,
@@ -654,7 +657,8 @@ function Game(props: any) {
                                         useStartIndex ? index : handIndex
                                       )
                                     ].action,
-                                    wallets
+                                    item,
+                                    index
                                   )
                             }
                             // amount
