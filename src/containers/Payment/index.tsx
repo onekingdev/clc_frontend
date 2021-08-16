@@ -40,7 +40,7 @@ function Payment(props: any) {
       setShowStartBtn(true);
     }
   }, [props.user, props.user.payment.subscription]);
-
+ 
   return (
     <div>
       {showIframe ? (
