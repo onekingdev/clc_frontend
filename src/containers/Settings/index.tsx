@@ -205,6 +205,7 @@ function Settings(props: any) {
       (value: any) => {
         return {
           lessonUID: value["LESSON_UID"],
+          handNumber: value["HAND_NO"],
           questionText: value["QUESTION_TEXT"],
           answers: {
             correct: value["ANSWER_CORRECT"],

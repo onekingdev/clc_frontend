@@ -14,15 +14,17 @@ const App = () => {
   const INTERCOM_APP_ID = "stkorlo9";
 
   return (
-    <Provider store={persist.store}>
-      <PersistGate loading={loading} persistor={persist.persistor}>
-        <BrowserRouter>
-          <IntercomProvider appId={INTERCOM_APP_ID} autoBoot>
-            <Navigation />
-          </IntercomProvider>
-        </BrowserRouter>
-      </PersistGate>
-    </Provider>
+    <div>
+      <Provider store={persist.store}>
+        <PersistGate loading={loading} persistor={persist.persistor}>
+          <BrowserRouter>
+            <IntercomProvider appId={INTERCOM_APP_ID} autoBoot>
+              <Navigation />
+            </IntercomProvider>
+          </BrowserRouter>
+        </PersistGate>
+      </Provider>
+    </div>
   );
 };
 

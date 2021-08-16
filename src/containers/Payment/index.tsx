@@ -40,12 +40,12 @@ function Payment(props: any) {
       setShowStartBtn(true);
     }
   }, [props.user, props.user.payment.subscription]);
- 
+
   return (
     <div>
       {showIframe ? (
         <IframeResizer
-          src="https://www.clcpoker.com/ai"
+          src="https://www.clcpoker.com/clai"
           style={{ height: "90vh", width: "100%" }}
           onResized={(e) => alert(JSON.stringify(e))}
         />
