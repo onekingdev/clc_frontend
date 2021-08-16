@@ -345,5 +345,5 @@ export const UTGLabeling = (dealer: number, players: any) => {
 };
 
 export const getPercentage = (nominator: number, denominator: number) => {
-  return (nominator / denominator) * 100;
+  return parseFloat(`${(nominator / denominator) * 100}`).toFixed(2);
 };
