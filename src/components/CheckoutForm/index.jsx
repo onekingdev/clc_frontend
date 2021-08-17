@@ -104,6 +104,7 @@ export default function CheckoutForm({
                     setMsg(`Stripe configuration changed. Please contanct admin`);
                 } else if (res.status === 'requires_action') {
                     stripe.confirmCardPayment(res.client_secret).then((result) => {
+                        console.log(res.clientSecret)
                         if (result.error) {
                             setMsg(`Payment failed ${result.error}`);
                             setProcessing(false);
