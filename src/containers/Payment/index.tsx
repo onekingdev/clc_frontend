@@ -36,17 +36,8 @@ function Payment(props: any) {
   }, []);
 
   useEffect(() => {
-    console.log(
-      moment(props.user.payment.subscription).diff(moment(), "days"),
-      "suscripcion"
-    );
-    if (props.user.payment) {
-      if (props.user.payment.paymentMethod) {
-        if (props.user.payment.paymentMethod.id) {
-          console.log(props.user.payment.paymentMethod.id, "xd");
-          setShowStartBtn(true);
-        }
-      }
+    if (moment(props.user.payment.subscription).diff(moment(), "days") > 0) {
+      setShowStartBtn(true);
     }
   }, [props.user, props.user.payment.subscription]);
 
