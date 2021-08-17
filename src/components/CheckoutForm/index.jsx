@@ -90,7 +90,7 @@ export default function CheckoutForm({
             },
             
 
-        });
+        }).catch(console.log)
 
         if (fetchPaymentSubscription !== null) {
 
@@ -98,7 +98,7 @@ export default function CheckoutForm({
                 setMsg(`Payment failed ${result.error.message}`);
                 setProcessing(false);
             } else {
-                const res = await fetchPaymentSubscription(email, result.paymentMethod, subscriptionType);
+                const res = await fetchPaymentSubscription(email, result.paymentMethod, subscriptionType).catch(console.log);
 
                 if (res.status === 'error') {
                     setMsg(`Stripe configuration changed. Please contanct admin`);
@@ -118,7 +118,7 @@ export default function CheckoutForm({
                 }
             }
         } else if (updatePaymentDetails !== null) {
-            const res = await updatePaymentDetails(result.paymentMethod);
+            const res = await updatePaymentDetails(result.paymentMethod).catch(console.log);
             if (res.id) {
                 setSucceeded(true);
                 setProcessing(false);
