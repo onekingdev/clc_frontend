@@ -50,7 +50,7 @@ export default function CheckoutForm({
             }
         }
     };
-    console.log(selector,'this is the fucking selector')
+    
     const handleChange = async (event) => {
         // Listen for changes in the CardElement
         // and display any errors as the customer types their card details
