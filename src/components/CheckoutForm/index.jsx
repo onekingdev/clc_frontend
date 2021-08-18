@@ -88,27 +88,23 @@ export default function CheckoutForm({
             billing_details: {
                 email: email,
             },
-            trail_end: firstPaymentDate
-        }).catch(err => console.log());
+            
 
-        if (fetchPaymentSubscription === null) {
-            setSucceeded(true);
-            setProcessing(false);
-        }
+        }).catch(console.log)
+
         if (fetchPaymentSubscription !== null) {
 
             if (result.error) {
                 setMsg(`Payment failed ${result.error.message}`);
                 setProcessing(false);
             } else {
-                const res = await fetchPaymentSubscription(email, result.paymentMethod, subscriptionType);
-                console.log(res)
+                const res = await fetchPaymentSubscription(email, result.paymentMethod, subscriptionType).catch(console.log);
 
                 if (res.status === 'error') {
                     setMsg(`Stripe configuration changed. Please contanct admin`);
                 } else if (res.status === 'requires_action') {
                     stripe.confirmCardPayment(res.client_secret).then((result) => {
-                        console.log(result)
+                        console.log(res.clientSecret)
                         if (result.error) {
                             setMsg(`Payment failed ${result.error}`);
                             setProcessing(false);
@@ -123,7 +119,7 @@ export default function CheckoutForm({
                 }
             }
         } else if (updatePaymentDetails !== null) {
-            const res = await updatePaymentDetails(result.paymentMethod);
+            const res = await updatePaymentDetails(result.paymentMethod).catch(console.log);
             if (res.id) {
                 setSucceeded(true);
                 setProcessing(false);
