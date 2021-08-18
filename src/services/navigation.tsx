@@ -41,7 +41,8 @@ function Navigation(props: any) {
             </div>
           ) : (
             <div>
-              {props.user.payment ? (
+              {moment(props.user.payment.subscription).diff(moment(), "days") >
+              0 ? (
                 <div>
                   <Route exact path="/home" component={Home} />
                   <Route exact path="/paths" component={Paths} />
