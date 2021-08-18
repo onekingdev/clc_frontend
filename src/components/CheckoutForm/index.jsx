@@ -11,6 +11,7 @@ import { ToastContainer, toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import SuscriptionCard from "../SuscriptionCard";
 import SmallText from "../SmallText";
+import { useSelector } from "react-redux";
 
 toast.configure();
 
@@ -26,6 +27,7 @@ export default function CheckoutForm({
     user
 }) {
     const [msg, setMsg] = useState(null);
+    const selector = useSelector(store => store.authState)
     const [disabled, setDisabled] = useState(true);
     const [subscriptionType, setSubscriptionType] = useState("");
     const [isSelected, setIsSelected] = useState(false);
@@ -48,7 +50,7 @@ export default function CheckoutForm({
             }
         }
     };
-
+    console.log(selector,'this is the fucking selector')
     const handleChange = async (event) => {
         // Listen for changes in the CardElement
         // and display any errors as the customer types their card details
@@ -141,22 +143,35 @@ export default function CheckoutForm({
         <>
             <div className="payment-container">
                 <div className="suscriptions-container">
-                    <SuscriptionCard
-                        title="CL AI"
-                        price={59}
+                    {selector.user.type === 'admin' ? 
+                        <SuscriptionCard
+                        title="CL TEST"
+                        price={5}
                         benefitsActive={false}
-                        value="CL AI"
+                        value="CL TEST"
                         glow
                         handleGetMemberType={handleSelectPlan}
-                    />
-                    <SuscriptionCard
-                        title="CL AI+"
-                        price={129}
-                        glow
-                        benefitsActive={true}
-                        value="CL AI+"
-                        handleGetMemberType={handleSelectPlan}
-                    />
+                        />
+                        :
+                        <div>
+                            <SuscriptionCard
+                                title="CL AI"
+                                price={59}
+                                benefitsActive={false}
+                                value="CL AI"
+                                glow
+                                handleGetMemberType={handleSelectPlan}
+                            />
+                            <SuscriptionCard
+                                title="CL AI+"
+                                price={129}
+                                glow
+                                benefitsActive={true}
+                                value="CL AI+"
+                                handleGetMemberType={handleSelectPlan}
+                            />
+                        </div>
+                    }
                 </div>
                 {isSelected ?
                     <form id="payment-form">
