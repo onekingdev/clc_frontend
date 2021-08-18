@@ -142,7 +142,7 @@ export default function CheckoutForm({
     return (
         <>
             <div className="payment-container">
-                <div className="suscriptions-container">
+                <div >
                     {selector.user.type === 'admin' ? 
                         <SuscriptionCard
                         title="CL TEST"
@@ -153,7 +153,7 @@ export default function CheckoutForm({
                         handleGetMemberType={handleSelectPlan}
                         />
                         :
-                        <div>
+                        <div className="suscriptions-container">
                             <SuscriptionCard
                                 title="CL AI"
                                 price={59}
