@@ -508,7 +508,7 @@ function Game(props: any) {
               useStartIndex ? index : handIndex
             )
           ].amount;
-    console.log('bet amount', amt)
+    console.log("bet amount", amt);
     console.log("initial amount", item.initAmount);
     console.log();
     let hasNoMoney = item.initAmount === 0;
@@ -531,7 +531,7 @@ function Game(props: any) {
     let betted = 0;
     if (arrayExists && handExists()) {
       const game = questions.array[questionIndex].hands;
-      for (let i = 0; i < move; i++) {
+      for (let i = 0; i <= game; i++) {
         if (game[i].player == player) {
           betted += game[i].amount;
         }
