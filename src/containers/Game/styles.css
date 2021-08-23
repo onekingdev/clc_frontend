@@ -79,7 +79,8 @@
 }
 
 .gameP6 {
-  display: grid;
+  display: flex;
+  justify-content: center;
   top: 225px;
   left: 362px;
   right: 0;
@@ -87,7 +88,8 @@
 }
 
 .gameP7 {
-  display: grid;
+  display: flex;
+  justify-content: center;
   top: 225px;
   left: 0;
   right: 362px;
