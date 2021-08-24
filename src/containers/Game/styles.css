@@ -90,6 +90,15 @@
 .gameP7 {
   display: flex;
   justify-content: center;
+  top: 260px;
+  left: 0;
+  right: 0;
+  bottom: -100px;
+}
+
+.gameP8 {
+  display: flex;
+  justify-content: center;
   top: 225px;
   left: 0;
   right: 362px;
@@ -104,6 +113,12 @@
 }
 
 .gameP9 {
+  top: 200px;
+  left: -51px;
+  right: 595px;
+  bottom: 0;
+}
+.gameP10 {
   top: 80px;
   left: -51px;
   right: 595px;
