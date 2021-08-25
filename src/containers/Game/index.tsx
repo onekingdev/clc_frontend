@@ -249,6 +249,7 @@ function Game(props: any) {
   const stop = () => {
     setPause(true);
     clearInterval(interval);
+    setTableAction("");
   };
 
   const reset = () => {
