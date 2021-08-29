@@ -7,7 +7,7 @@ import TextInput from "../../../components/TextInput";
 import Button from "../../../components/Button";
 import ErrorDisplay from "../../../components/ErrorDisplay";
 import SubtitleText from "../../../components/SubtitleText";
-import {Role} from "../../../helpers/constants";
+import { Role } from "../../../helpers/constants";
 
 import {
   emptyEmailString,
@@ -25,7 +25,7 @@ import { IUser } from "../interfaces";
 import * as ACTIONS from "../store/actions";
 import { formatMessageCode } from "../../../helpers/formatter";
 // @ts-ignore
-import { useHistory } from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
 
 interface IRegisterModal {
   reset: boolean;
@@ -42,6 +42,8 @@ const RegisterModal: React.FC<IRegisterModal> = ({
   messageCode,
   isFetchingAuthentication,
 }) => {
+  const { code } = useParams();
+
   const history = useHistory();
   const [activationCodeObj, setActivationCodeObj] = useState({
     activationCode: "",
@@ -200,7 +202,11 @@ const RegisterModal: React.FC<IRegisterModal> = ({
 
         <div style={{ marginTop: 20 }}>
           <TextInput
-            value={activationCodeObj.activationCode}
+            value={
+              code !== undefined
+                ? code.toUpperCase()
+                : activationCodeObj.activationCode
+            }
             placeholder="Coupon Code" // coupon esta bien o como le pongo?
             onChange={(event) => {
               setShowErrorMsg("");

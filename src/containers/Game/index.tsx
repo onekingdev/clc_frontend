@@ -509,9 +509,7 @@ function Game(props: any) {
               useStartIndex ? index : handIndex
             )
           ].amount;
-    console.log("bet amount", amt);
-    console.log("initial amount", item.initAmount);
-    console.log();
+
     let hasNoMoney = item.initAmount === 0;
     if (str === "raises") return "raise to";
     else if (str === "is allIn" || hasNoMoney) return "all-in";

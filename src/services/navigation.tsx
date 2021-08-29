@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 // @ts-ignore
 import { connect } from "react-redux";
 // @ts-ignore
-import { Route, Redirect, useHistory } from "react-router-dom";
+import { Route, Redirect, useHistory, Switch } from "react-router-dom";
 import Login from "../containers/Authentication";
 import Paths from "../containers/Paths";
 import Library from "../containers/Library";
@@ -15,10 +15,11 @@ import Version from "../containers/Version";
 import Home from "../containers/Home";
 import Settings from "../containers/Settings";
 import moment from "moment";
+import EmailResetModal from "../containers/Authentication/EmailResetModal";
+import RegisterModal from "../containers/Authentication/RegisterModal";
 
 function Navigation(props: any) {
   const history = useHistory();
-
   useEffect(() => {
     if (
       !props.user.assessment &&
@@ -27,10 +28,11 @@ function Navigation(props: any) {
       history.push(`/home`);
     }
   }, []);
-
+  console.log(window.location.pathname);
   return (
-    <div>
+    <Switch>
       <Route exact path="/" component={Login} />
+      <Route exact path="/code=:code" component={Login} />
       {props.user.id ? (
         <div>
           {props.user.assessment ? (
@@ -65,7 +67,7 @@ function Navigation(props: any) {
       ) : (
         <Redirect to="/" />
       )}
-    </div>
+    </Switch>
   );
 }
 
