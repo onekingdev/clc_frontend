@@ -114,16 +114,16 @@ export const fetchQuestionProgressbar =
         {
         method: "POST",
         headers: {
-            Accept: "application/json",
+            "Accept": "application/json",
             "Content-Type": "application/json",
         },
         body: JSON.stringify({
             api_key: process.env.REACT_APP_CONVERTKIT_API_KEY,
             email: user.email,
-            fields: { assesment },
-        }),
-        }
-    );
+            fields: { 0: 1, 2: 0 }
+        })
+    });
+      
 
     await endOfMonthHandler(user.stringID);
     await endOfDayHandler(user.stringID);
