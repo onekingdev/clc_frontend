@@ -68,7 +68,7 @@ function Assessment(props: any) {
       </div>
       <div className="assessmentContainer">
         <Button
-          onClick={() => setTimeout(() => history.push("assessment"), 500)}
+          onClick={() => {}}
           width={200}
           height={47}
           glow
