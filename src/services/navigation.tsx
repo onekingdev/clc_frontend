@@ -28,6 +28,7 @@ function Navigation(props: any) {
       history.push(`/home`);
     }
   }, []);
+  console.log(window.location.pathname);
   return (
     <Switch>
       <Route exact path="/" component={Login} />

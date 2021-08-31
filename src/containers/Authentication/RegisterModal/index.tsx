@@ -7,8 +7,7 @@ import TextInput from "../../../components/TextInput";
 import Button from "../../../components/Button";
 import ErrorDisplay from "../../../components/ErrorDisplay";
 import SubtitleText from "../../../components/SubtitleText";
-import { apiValidateCode, Role } from "../../../helpers/constants";
-import api from "../../../services/apiMiddleware";
+import { Role } from "../../../helpers/constants";
 
 import {
   emptyEmailString,
@@ -28,23 +27,9 @@ import { formatMessageCode } from "../../../helpers/formatter";
 // @ts-ignore
 import { useHistory, useParams } from "react-router-dom";
 
-type UserType = {
-  activationCodeID: number;
-  assessment: boolean;
-  avatar: string;
-  userName: string;
-  email: string;
-  type: string;
-  masteredLevel: number;
-  createdAt: Date;
-  stringID: string;
-  payment: Object;
-  path: Object;
-  isAssessment: boolean;
-}
 interface IRegisterModal {
   reset: boolean;
-  register: (data: IUser, callback: (success: boolean) => void) => UserType;
+  register: (data: IUser, callback: (success: boolean) => void) => void;
   clearAuthenticationData: () => void;
   messageCode: number | string;
   isFetchingAuthentication: boolean;
@@ -113,7 +98,7 @@ const RegisterModal: React.FC<IRegisterModal> = ({
     }
   }, [messageCode]);
 
-  const handleSubmit = async () => {
+  const handleSubmit = () => {
     // if (activationCodeObj.activationCode === "") {
     //   setActivationCodeObj({
     //     activationCode: activationCodeObj.activationCode,
@@ -152,16 +137,11 @@ const RegisterModal: React.FC<IRegisterModal> = ({
         email: emailObj.email,
       };
 
-      const { isAssessment } = await register(request, (success) => {
+      register(request, (success) => {
         if (success) {
-          console.log(request);
+          history.push("assessment-screen");
         }
       });
-
-      isAssessment 
-        ? history.push('assessment-screen')
-        : history.push('payment')
-
     }
   };
 
@@ -227,10 +207,9 @@ const RegisterModal: React.FC<IRegisterModal> = ({
                 ? code.toUpperCase()
                 : activationCodeObj.activationCode
             }
-            placeholder="Coupon Code"
+            placeholder="Coupon Code" // coupon esta bien o como le pongo?
             onChange={(event) => {
               setShowErrorMsg("");
-
               setActivationCodeObj({
                 activationCode: event.target.value,
                 error: false,

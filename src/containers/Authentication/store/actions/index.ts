@@ -6,7 +6,6 @@ import {IUser} from '../../interfaces';
 
 import firebase from "firebase/app";
 import 'firebase/firestore'
-import { faCode } from '@fortawesome/free-solid-svg-icons';
 
 const timestamp = firebase.firestore.FieldValue.serverTimestamp();
 
@@ -71,7 +70,6 @@ export const register = (data: IUser, callback: (success: boolean) => void) => a
         setTimeout(() => dispatch(setIsFetchingAuthentication(true)), 500);
 
         const code = await api.post(apiValidateCode, data);
-        console.log(code)
 
         if (code.id && data.email && data.password) {
             await app
@@ -133,7 +131,6 @@ export const register = (data: IUser, callback: (success: boolean) => void) => a
             dispatch(setAuthenticationCode(code.error));
             setTimeout(() => callback(false), 500);
         }
-        return code;
     } catch (e) {
         dispatch(setAuthenticationCode(e));
     } finally {
