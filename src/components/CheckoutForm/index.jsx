@@ -90,8 +90,6 @@ export default function CheckoutForm({
             billing_details: {
                 email: email,
             },
-            
-
         }).catch(console.log)
 
         if (fetchPaymentSubscription === null) {
@@ -105,7 +103,6 @@ export default function CheckoutForm({
                 setProcessing(false);
             } else {
                 const res = await fetchPaymentSubscription(email, result.paymentMethod, subscriptionType).catch(console.log);
-
                 if (res.status === 'error') {
                     setMsg(`Stripe configuration changed. Please contanct admin`);
                 } else if (res.status === 'requires_action') {
