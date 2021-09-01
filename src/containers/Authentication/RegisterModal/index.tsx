@@ -48,6 +48,7 @@ interface IRegisterModal {
   clearAuthenticationData: () => void;
   messageCode: number | string;
   isFetchingAuthentication: boolean;
+  user: any;
 }
 
 const RegisterModal: React.FC<IRegisterModal> = ({
@@ -56,6 +57,7 @@ const RegisterModal: React.FC<IRegisterModal> = ({
   clearAuthenticationData,
   messageCode,
   isFetchingAuthentication,
+  user
 }) => {
   const { code } = useParams();
 
@@ -152,15 +154,24 @@ const RegisterModal: React.FC<IRegisterModal> = ({
         email: emailObj.email,
       };
 
-      const { isAssessment } = await register(request, (success) => {
-        if (success) {
-          console.log(request);
+      register(request, (success) => {
+        if(success) {
+          if (user.assessment) {
+            history.push('assessment-screen')
+          }
+          else {
+            history.push('payment')
+          }
         }
       });
 
-      isAssessment 
-        ? history.push('assessment-screen')
-        : history.push('payment')
+      // console.log("aaaaaaaaaaa")      
+      // console.log(payload)
+      // console.log("aaaaaaaaaaa")      
+
+      // payload.isAssessment 
+      //   ? history.push('assessment-screen')
+      //   : history.push('payment')
 
     }
   };
@@ -268,6 +279,7 @@ const mapStateToProps = (state: any) => {
   return {
     isFetchingAuthentication: state.authState.isFetchingAuthentication,
     messageCode: state.authState.messageCode,
+    user: state.authState.user,
   };
 };
 

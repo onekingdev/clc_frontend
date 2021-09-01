@@ -20,54 +20,42 @@ import RegisterModal from "../containers/Authentication/RegisterModal";
 
 function Navigation(props: any) {
   const history = useHistory();
-  // useEffect(() => {
-  //   console.log("AAaaaaaaaaaaaaaaaaaaaaaaaaSSSSSSSSs");
-  //   console.log(props.user.assessment);
-  //   console.log(props.user);
-  //   console.log("AAaaaaaaaaaaaaaaaaaaaaaaaaSSSSSSSSs");
-  //   if (
-  //     !props.user.assessment &&
-  //     window.location.pathname.includes("assessment")
-  //   ) {
-  //     history.push(`/home`);
-  //   }
-  // }, []);
+
   return (
     <Switch>
       <Route exact path="/" component={Login} />
       <Route exact path="/code=:code" component={Login} />
       {props.user.id ? (
         <div>
-          {moment(props.user.payment.subscription).diff(moment(), "days") > 0 ? (
+          {props.user.assessment ? (
             <div>
               <Redirect to="/assessment-screen" />
               <Route exact path="/assessment-screen" component={Assessment} />
               <Route exact path="/assessment" component={Game} />
             </div>
           ) : (
-                <div>
-                  <Route
-                    exact
-                    path="/assessment-screen"
-                    component={Assessment}
-                  />
-                  <Route exact path="/assessment" component={Game} />
-                  <Route exact path="/home" component={Home} />
-                  <Route exact path="/paths" component={Paths} />
-                  <Route exact path="/library" component={Library} />
-                  <Route exact path="/performance" component={Performance} />
-                  <Route exact path="/game" component={Game} />
-                  <Route exact path="/ai" component={Game} />
-                  <Route exact path="/share" component={Game} />
-                  <Route exact path="/version" component={Version} />
-                  <Route exact path="/settings" component={Settings} />
-                </div> )
-                }
+            (props.user.payment && moment(props.user.payment.subscription).diff(moment(), "days") > 0) ? (
+              <div>
+                <Route exact path="/assessment-screen" component={Assessment} />
+                <Route exact path="/assessment" component={Game} />
+                <Route exact path="/home" component={Home} />
+                <Route exact path="/paths" component={Paths} />
+                <Route exact path="/library" component={Library} />
+                <Route exact path="/performance" component={Performance} />
+                <Route exact path="/game" component={Game} />
+                <Route exact path="/ai" component={Game} />
+                <Route exact path="/share" component={Game} />
+                <Route exact path="/version" component={Version} />
+                <Route exact path="/settings" component={Settings} />
+              </div>
+            ) : (
               <div>
                 <Route exact path="/results" component={Results} />
                 <Route exact path="/payment" component={Payment} />
               </div>
-            </div>
+            )
+          )}
+        </div>
       ) : (
         <Redirect to="/" />
       )}
