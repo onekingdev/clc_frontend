@@ -47,6 +47,7 @@ function Navigation(props: any) {
                 <Route exact path="/share" component={Game} />
                 <Route exact path="/version" component={Version} />
                 <Route exact path="/settings" component={Settings} />
+                <Route exact path="/payment" component={Payment} />
               </div>
             ) : (
               <div>
