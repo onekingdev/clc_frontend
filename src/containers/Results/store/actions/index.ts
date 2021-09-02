@@ -120,7 +120,7 @@ export const fetchQuestionProgressbar =
         body: JSON.stringify({
             api_key: process.env.REACT_APP_CONVERTKIT_API_KEY,
             email: user.email,
-            fields: { 0: 1, 2: 0 }
+            fields: { dailyQuestions }
         })
     });
       
