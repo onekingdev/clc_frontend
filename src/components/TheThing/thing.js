@@ -204,7 +204,7 @@ export const Thing = () => {
         <div className="nav-bg"></div>
       </nav>
       <div className="site-container">
-        <main style={{ opacity: 0 }} className="b-section is--hero wf-section">
+        <main style={{ opacity: 1 }} className="b-section is--hero wf-section">
           <div className="b-container is--centered">
             <div className="b-header c-centered">
               <div className="b-meta">
