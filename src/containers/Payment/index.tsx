@@ -17,7 +17,8 @@ import { PulseLoader } from "react-spinners";
 import TitleText from "../../components/TitleText";
 import SmallText from "../../components/SmallText";
 import { getStripeKey } from "../../services/stripe";
-import { env } from "node:process";
+// import { env } from "node:process";
+import { Thing } from "../../components/TheThing/thing";
 
 const promise = loadStripe(
   getStripeKey.stripe_publishable_key(process.env.NODE_ENV)
@@ -28,7 +29,7 @@ function Payment(props: any) {
   const [succeeded, setSucceeded] = useState(false);
   const [showIframe, setShowIframe] = useState(false);
   const [processing, setProcessing] = useState(false);
-  const [showStartBtn, setShowStartBtn] = useState(false);
+  const [showStartBtn, setShowStartBtn] = useState(true);
 
   useEffect(() => {
     // props.fetchPaymentIntent([{ id: "prod_ItM3Rl00ARmZwI" }]);
@@ -44,11 +45,7 @@ function Payment(props: any) {
   return (
     <div>
       {showIframe ? (
-        <IframeResizer
-          src="https://www.clcpoker.com/clai"
-          style={{ height: "90vh", width: "100%" }}
-          onResized={(e) => alert(JSON.stringify(e))}
-        />
+        <Thing />
       ) : (
         <div className="paymentLoaderWrapper">
           <PulseLoader loading color="#FFF" />
