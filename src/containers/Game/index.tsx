@@ -720,10 +720,19 @@ function Game(props: any) {
                   <div className="gamePotWrapper">
                     <SmallText color="#FFF">
                       POT{" "}
-                      <SmallText color="#FFF" bold>{`${numberWithCommas(
-                        pot
-                      )}`}</SmallText>{" "}
-                      (
+                      <SmallText color="#FFF" bold>
+                        {numberWithCommas(
+                          changeMoney
+                            ? Math.round(
+                                pot /
+                                  parseInt(
+                                    questions.array[questionIndex].tableInfo.bb
+                                  )
+                              )
+                            : pot
+                        )}
+                      </SmallText>
+                      <SmallText>{changeMoney ? " BB" : ""}</SmallText>(
                       {`${numberWithCommas(
                         questions.array[questionIndex].tableInfo.bb
                       )} `}

@@ -329,11 +329,20 @@ const PokerPlayer: React.FC<IPokerPlayer> = ({
                   } `}
                   <SmallText color="#FFF" bold>{`${
                     action === "calls"
-                      ? numberWithCommas(currentCalls)
+                      ? numberWithCommas(
+                          changeMoney
+                            ? Number((currentCalls / bb).toFixed(2))
+                            : currentCalls
+                        )
                       : amount
-                      ? numberWithCommas(amount)
+                      ? numberWithCommas(
+                          changeMoney
+                            ? Number((amount / bb).toFixed(2))
+                            : amount
+                        )
                       : ""
                   }`}</SmallText>
+                  <SmallText>{changeMoney && amount ? " BB" : ""}</SmallText>
                 </SmallText>
               ) : action === "?" ? (
                 <div>
@@ -503,11 +512,20 @@ const PokerPlayer: React.FC<IPokerPlayer> = ({
                   } `}
                   <SmallText color="#FFF" bold>{`${
                     action === "calls"
-                      ? numberWithCommas(currentCalls)
+                      ? numberWithCommas(
+                          changeMoney
+                            ? Number((currentCalls / bb).toFixed(2))
+                            : currentCalls
+                        )
                       : amount
-                      ? numberWithCommas(amount)
+                      ? numberWithCommas(
+                          changeMoney
+                            ? Number((amount / bb).toFixed(2))
+                            : amount
+                        )
                       : ""
                   }`}</SmallText>
+                  <SmallText>{changeMoney && amount ? " BB" : ""}</SmallText>
                 </SmallText>
               ) : action === "?" ? (
                 <div>
