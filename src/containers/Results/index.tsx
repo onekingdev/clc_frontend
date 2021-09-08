@@ -47,9 +47,9 @@ function Results(props: any) {
       <br />
       <div className="assessmentResultsPerformanceCardWrapper">
         <PerformanceCard
-          topText="YOUR PERSONAL TRAINING PROGRAM"
-          title="“Pre-Flop Strategies”"
-          bodyText="Mauris varius felis at commodo imperdiet. Cras faucibus egestas urna, sed cursus massa cursus in. apien interdum quis. Fusce id arcu eget nisl porta blandit. Etiam mollis massa et ipsum tincidunt, at luctus velit ultrices. Aliquam posuere mi ac risus scelerisque, in aliquam nunc molestie. Ut aliquam lobortis arcu, non "
+          topText="Chip Leader AI"
+          title="“The Most Powerful Tournament Training Available”"
+          bodyText="An AI driven platform designed to react to YOUR game and teach you what you need to work on the most. It features personal input from Chance Kornuth and Alex Foxen who spent thousands of hours writing explanations to over 3,000 specific spots. As you answer questions the AI learns exactly what you need to work on and adapts to you personally."
           questions="4 / 5"
           percentage="78"
         />
