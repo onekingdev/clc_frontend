@@ -38,6 +38,8 @@ function Payment(props) {
   }, []);
 
   useEffect(() => {
+    console.log(moment(props.user.payment.subscription).diff(moment(), "days") > 0)
+    console.log(moment(props.user.payment.subscription).diff(moment()))
     if (moment(props.user.payment.subscription).diff(moment(), "days") > 0) {
       setShowStartBtn(true);
     }
@@ -45,6 +47,11 @@ function Payment(props) {
 
   return (
     <body>
+      <link
+        href="https://assets.website-files.com/5f57d25e2a09e77e0cd3d7dc/css/chip-leader-coaching.webflow.f198469fe.css"
+        rel="stylesheet"
+        type="text/css"
+      />
       <div className="global">
         <div className="html w-embed">
           <Style>{`
@@ -1278,7 +1285,7 @@ function Payment(props) {
               <TitleText>Player with Chip Leader AI</TitleText>
             </div>
             <div className="paymentButtonWrapper">
-              {showStartBtn ? (
+              {!showStartBtn ? (
                 <div className="paymentButtonWrapper">
                   <Button
                     onClick={() => {

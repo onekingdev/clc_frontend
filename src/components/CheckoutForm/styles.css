@@ -21,9 +21,9 @@
 }
 #card-element {
   border-radius: 4px 4px 0 0;
-  padding: 12px;
   border: 1px solid rgba(50, 50, 93, 0.1);
-  max-height: 44px;
+  height: 50px;
+  padding: 14px;
   width: 100%;
   background: white;
   box-sizing: border-box;
