@@ -59,7 +59,8 @@ function Navigation(props: any) {
           )}
         </div>
       ) : (
-        <Redirect to="/" />
+        // <Redirect to="/" />
+        null
       )}
     </Switch>
   );

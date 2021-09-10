@@ -41,7 +41,7 @@ type UserType = {
   payment: Object;
   path: Object;
   isAssessment: boolean;
-}
+};
 interface IRegisterModal {
   reset: boolean;
   register: (data: IUser, callback: (success: boolean) => void) => UserType;
@@ -49,6 +49,8 @@ interface IRegisterModal {
   messageCode: number | string;
   isFetchingAuthentication: boolean;
   user: any;
+  handleCreate?: () => {};
+  btnIsHidden?: boolean;
 }
 
 const RegisterModal: React.FC<IRegisterModal> = ({
@@ -57,7 +59,9 @@ const RegisterModal: React.FC<IRegisterModal> = ({
   clearAuthenticationData,
   messageCode,
   isFetchingAuthentication,
-  user
+  user,
+  handleCreate,
+  btnIsHidden,
 }) => {
   const { code } = useParams();
 
@@ -155,24 +159,22 @@ const RegisterModal: React.FC<IRegisterModal> = ({
       };
 
       register(request, (success) => {
-        if(success) {
+        if (success) {
           if (user.assessment) {
-            history.push('assessment-screen')
-          }
-          else {
-            history.push('payment')
+            history.push("assessment-screen");
+          } else {
+            history.push("payment");
           }
         }
       });
 
-      // console.log("aaaaaaaaaaa")      
+      // console.log("aaaaaaaaaaa")
       // console.log(payload)
-      // console.log("aaaaaaaaaaa")      
+      // console.log("aaaaaaaaaaa")
 
-      // payload.isAssessment 
+      // payload.isAssessment
       //   ? history.push('assessment-screen')
       //   : history.push('payment')
-
     }
   };
 
@@ -251,14 +253,16 @@ const RegisterModal: React.FC<IRegisterModal> = ({
           />
         </div>
         <div style={{ marginTop: 20 }}>
-          <Button
-            loading={isFetchingAuthentication}
-            onClick={() => handleSubmit()}
-            width="100%"
-            height={45}
-            glow={true}
-            text="Sign up"
-          />
+          {btnIsHidden ? null : (
+            <Button
+              loading={isFetchingAuthentication}
+              onClick={() => handleSubmit()}
+              width="100%"
+              height={45}
+              glow={true}
+              text="Sign up"
+            />
+          )}
         </div>
         <div
           style={{ marginTop: 16, cursor: "pointer", textAlign: "left" }}

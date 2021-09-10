@@ -39,14 +39,26 @@ function Payment(props) {
   }, []);
 
   useEffect(() => {
-    console.log(props.user)
-  }, [props.user])
+    console.log(props.user);
+  }, [props.user]);
 
   useEffect(() => {
-    console.log(moment(getShit(['user', 'payment', 'subscription'], props)).diff(moment(), "days") > 0)
-    console.log(moment(getShit(['user', 'payment', 'subscription'], props)).diff(moment()))
+    console.log(
+      moment(getShit(["user", "payment", "subscription"], props)).diff(
+        moment(),
+        "days"
+      ) > 0
+    );
+    console.log(
+      moment(getShit(["user", "payment", "subscription"], props)).diff(moment())
+    );
 
-    if (moment(getShit(['user', 'payment', 'subscription'], props)).diff(moment(), "days") > 0) {
+    if (
+      moment(getShit(["user", "payment", "subscription"], props)).diff(
+        moment(),
+        "days"
+      ) > 0
+    ) {
       setShowStartBtn(true);
     }
   }, [props.user]);
@@ -55,12 +67,12 @@ function Payment(props) {
     // props.user.payment.subscription
     let shit = {};
     for (let i = 0; i < arr.length; i++) {
-      if(shit.hasOwnProperty(arr[i])) {
-        shit = shit[arr[i]]
+      if (shit.hasOwnProperty(arr[i])) {
+        shit = shit[arr[i]];
       }
     }
     return shit;
-  }
+  };
 
   return (
     <body>
@@ -1302,10 +1314,15 @@ function Payment(props) {
               <TitleText>Player with Chip Leader AI</TitleText>
             </div>
             <div>
-              { Object.keys(props.user).length === 0 ? null : <RegisterModal /> }
+              {Object.keys(props.user).length === 0 ? (
+                <RegisterModal btnIsHidden={true} handleCreate={()=>{console.log('hi')}} />
+              ) : null}
             </div>
             <div className="paymentButtonWrapper">
-              {(moment(getShit(['user', 'payment', 'subscription'], props)).diff(moment(), "days") > 0) ? (
+              {moment(getShit(["user", "payment", "subscription"], props)).diff(
+                moment(),
+                "days"
+              ) > 0 ? (
                 <div className="paymentButtonWrapper">
                   <Button
                     onClick={() => {
