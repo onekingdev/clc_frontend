@@ -25,6 +25,7 @@ function Navigation(props: any) {
     <Switch>
       <Route exact path="/" component={Login} />
       <Route exact path="/code=:code" component={Login} />
+      <Route exact path="/payment" component={Payment} />
       {props.user.id ? (
         <div>
           {props.user.assessment ? (

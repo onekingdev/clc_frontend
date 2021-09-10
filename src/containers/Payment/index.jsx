@@ -18,6 +18,7 @@ import TitleText from "../../components/TitleText";
 import SmallText from "../../components/SmallText";
 import { getStripeKey } from "../../services/stripe";
 import { Style } from "react-style-tag";
+import RegisterModal from "../Authentication/RegisterModal";
 // import { env } from "node:process";
 // import { Thing } from "../../components/TheThing/thing";
 
@@ -38,12 +39,28 @@ function Payment(props) {
   }, []);
 
   useEffect(() => {
-    console.log(moment(props.user.payment.subscription).diff(moment(), "days") > 0)
-    console.log(moment(props.user.payment.subscription).diff(moment()))
-    if (moment(props.user.payment.subscription).diff(moment(), "days") > 0) {
+    console.log(props.user)
+  }, [props.user])
+
+  useEffect(() => {
+    console.log(moment(getShit(['user', 'payment', 'subscription'], props)).diff(moment(), "days") > 0)
+    console.log(moment(getShit(['user', 'payment', 'subscription'], props)).diff(moment()))
+
+    if (moment(getShit(['user', 'payment', 'subscription'], props)).diff(moment(), "days") > 0) {
       setShowStartBtn(true);
     }
-  }, [props.user, props.user.payment.subscription]);
+  }, [props.user]);
+
+  const getShit = (arr) => {
+    // props.user.payment.subscription
+    let shit = {};
+    for (let i = 0; i < arr.length; i++) {
+      if(shit.hasOwnProperty(arr[i])) {
+        shit = shit[arr[i]]
+      }
+    }
+    return shit;
+  }
 
   return (
     <body>
@@ -1284,8 +1301,11 @@ function Payment(props) {
             <div style={{ marginBottom: 20 }}>
               <TitleText>Player with Chip Leader AI</TitleText>
             </div>
+            <div>
+              { Object.keys(props.user).length === 0 ? null : <RegisterModal /> }
+            </div>
             <div className="paymentButtonWrapper">
-              {!showStartBtn ? (
+              {(moment(getShit(['user', 'payment', 'subscription'], props)).diff(moment(), "days") > 0) ? (
                 <div className="paymentButtonWrapper">
                   <Button
                     onClick={() => {
@@ -1301,12 +1321,12 @@ function Payment(props) {
                 <div className="settingsButtonWrapper">
                   <Elements stripe={promise}>
                     <CheckoutForm
-                      setProcessing={(value: boolean) => setProcessing(value)}
+                      setProcessing={(value) => setProcessing(value)}
                       processing={processing}
                       clientSecret={props.clientSecret}
                       email={props.user.email}
                       succeeded={succeeded}
-                      setSucceeded={(value: boolean) => {
+                      setSucceeded={(value) => {
                         setSucceeded(value);
                         setTimeout(
                           () => props.fetchUpdatedUserData(props.user.email),
