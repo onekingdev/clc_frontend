@@ -120,12 +120,6 @@ const RegisterModal: React.FC<IRegisterModal> = ({
   }, [messageCode]);
 
   const handleSubmit = async () => {
-    // if (activationCodeObj.activationCode === "") {
-    //   setActivationCodeObj({
-    //     activationCode: activationCodeObj.activationCode,
-    //     error: false,
-    //   });
-    //   setShowErrorMsg(emptyActivationCode);
     if (usernameObj.username === "") {
       setUsernameObj({ username: usernameObj.username, error: true });
       setShowErrorMsg(emptyUserName);
@@ -167,14 +161,6 @@ const RegisterModal: React.FC<IRegisterModal> = ({
           }
         }
       });
-
-      // console.log("aaaaaaaaaaa")
-      // console.log(payload)
-      // console.log("aaaaaaaaaaa")
-
-      // payload.isAssessment
-      //   ? history.push('assessment-screen')
-      //   : history.push('payment')
     }
   };
 

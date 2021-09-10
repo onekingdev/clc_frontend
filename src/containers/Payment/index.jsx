@@ -1315,10 +1315,10 @@ function Payment(props) {
             </div>
             <div>
               {Object.keys(props.user).length === 0 ? (
-                <RegisterModal btnIsHidden={true} handleCreate={()=>{console.log('hi')}} />
-              ) : null}
-            </div>
-            <div className="paymentButtonWrapper">
+                <RegisterModal
+              />
+              ) : 
+                <div className="paymentButtonWrapper">
               {moment(getShit(["user", "payment", "subscription"], props)).diff(
                 moment(),
                 "days"
@@ -1357,6 +1357,9 @@ function Payment(props) {
                 </div>
               )}
             </div>
+              }
+            </div>
+            
           </div>
         </div>
 
