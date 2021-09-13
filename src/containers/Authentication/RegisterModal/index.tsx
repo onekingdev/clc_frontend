@@ -154,7 +154,7 @@ const RegisterModal: React.FC<IRegisterModal> = ({
 
       register(request, (success) => {
         if (success) {
-          if (user.assessment) {
+          if (user.assessment || false) {
             history.push("assessment-screen");
           } else {
             history.push("payment");
