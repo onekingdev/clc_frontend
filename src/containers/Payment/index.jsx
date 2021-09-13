@@ -39,7 +39,9 @@ function Payment(props) {
   }, []);
 
   useEffect(() => {
-    console.log(props.user);
+    if (props.user.assessment) {
+      history.push('/assessment-screen')
+    }
   }, [props.user]);
 
   useEffect(() => {
