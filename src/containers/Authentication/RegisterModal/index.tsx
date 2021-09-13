@@ -146,7 +146,7 @@ const RegisterModal: React.FC<IRegisterModal> = ({
       // setShowErrorMsg(notFoundEmailString);
 
       const request = {
-        activationCode: activationCodeObj.activationCode || Role.Free,
+        activationCode: activationCodeObj.activationCode || Role.Premium,
         userName: usernameObj.username,
         password: passwordObj.password,
         email: emailObj.email,
