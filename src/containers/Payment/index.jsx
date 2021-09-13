@@ -33,10 +33,33 @@ function Payment(props) {
   const [processing, setProcessing] = useState(false);
   const [showStartBtn, setShowStartBtn] = useState(true);
 
+  const userDidPay = () => {
+
+    console.log('aKJSNDCKJNSDKJCNSDKJNC')
+    console.log((moment(getShit(["user", "payment", "subscription"], props)).diff(
+      moment(),
+      "days"
+    ) > 0))
+
+    return moment(getShit(["user", "payment", "subscription"], props)).diff(
+      moment(30),
+      "days"
+    ) 
+  }
+
   useEffect(() => {
     // props.fetchPaymentIntent([{ id: "prod_ItM3Rl00ARmZwI" }]);
     setTimeout(() => setShowIframe(true), 2000);
+    
+    userDidPay()
+
+    console.log('asdcasdcasdcasdcasdc')
+
+    console.log(userDidPay())
+
   }, []);
+
+  
 
   useEffect(() => {
     if (props.user.assessment) {
@@ -73,7 +96,7 @@ function Payment(props) {
         shit = shit[arr[i]];
       }
     }
-    return shit;
+    return Object.keys(shit).length === 0 ? 0 : shit;
   };
 
   return (
@@ -1321,10 +1344,8 @@ function Payment(props) {
               />
               ) : 
                 <div className="paymentButtonWrapper">
-              {moment(getShit(["user", "payment", "subscription"], props)).diff(
-                moment(),
-                "days"
-              ) > 0 ? (
+                  {/* getShit(["user", "payment", "subscription"]) */}
+              {(getShit(["user", "payment", "subscription"]) || moment(props.user.payment.subscription).diff(moment(), "days") > 0) ? (
                 <div className="paymentButtonWrapper">
                   <Button
                     onClick={() => {
