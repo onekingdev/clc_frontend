@@ -723,11 +723,13 @@ function Game(props: any) {
                       <SmallText color="#FFF" bold>
                         {numberWithCommas(
                           changeMoney
-                            ? Math.round(
-                                pot /
+                            ? Number(
+                                (
+                                  pot /
                                   parseInt(
                                     questions.array[questionIndex].tableInfo.bb
                                   )
+                                ).toFixed(2)
                               )
                             : pot
                         )}
