@@ -734,11 +734,12 @@ function Game(props: any) {
                             : pot
                         )}
                       </SmallText>
-                      <SmallText>{changeMoney ? " BB" : ""}</SmallText>(
-                      {`${numberWithCommas(
-                        questions.array[questionIndex].tableInfo.bb
-                      )} `}
-                      BB)
+                      <SmallText>{changeMoney ? " BB" : ""}</SmallText>
+                      {!changeMoney
+                        ? `(${numberWithCommas(
+                            questions.array[questionIndex].tableInfo.bb
+                          )} BB)`
+                        : null}
                     </SmallText>
                   </div>
                 ) : null}
