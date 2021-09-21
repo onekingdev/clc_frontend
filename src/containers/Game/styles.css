@@ -197,3 +197,9 @@
     margin-top: 0;
   }
 }
+
+@media screen and (min-width: 1300px) {
+  .gameQuestionWrapper {
+    margin-top: 0;
+  }
+}
