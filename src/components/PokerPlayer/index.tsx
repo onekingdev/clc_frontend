@@ -300,8 +300,6 @@ const PokerPlayer: React.FC<IPokerPlayer> = ({
     return action;
   };
 
-  useEffect(() => console.log("shity shit", renderLabel(action)), []);
-
   return (
     <div className="pokerPlayerItemsWrapper" ref={container}>
       <div>
