@@ -47,7 +47,7 @@ function Game(props: any) {
   const [showTable, setShowTable] = useState(true);
   const [progressData, setProgressData] = useState([]);
   const [progressIndex, setProgressIndex] = useState(0);
-  const [changeMoney, setChangeMoney] = useState(false);
+  const [changeMoney, setChangeMoney] = useState(true);
   const [changeAmount, setChangeAmount] = useState(false);
 
   useEffect(() => {
