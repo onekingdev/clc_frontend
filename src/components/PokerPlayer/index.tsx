@@ -274,7 +274,7 @@ const PokerPlayer: React.FC<IPokerPlayer> = ({
               marginLeft: i === 2 ? 12 : 0,
             }}
           >
-            <img src={chip} width={20} height={20} />
+            <img src={chip} width={20} height={20} style={{ zIndex: 99 }} />
           </div>
         );
       }
@@ -300,11 +300,14 @@ const PokerPlayer: React.FC<IPokerPlayer> = ({
     return action;
   };
 
+  useEffect(() => console.log("shity shit", renderLabel(action)), []);
+
   return (
     <div className="pokerPlayerItemsWrapper" ref={container}>
       <div>
         {chipPos === "left" || chipPos === "top" ? (
           <div className={`pokerChips chipP${player}`}>
+            <p>{renderLabel(action)}</p>
             <Rotate>
               {renderChips(
                 (renderLabel(action) === "ante" && turn) ||
@@ -312,10 +315,10 @@ const PokerPlayer: React.FC<IPokerPlayer> = ({
                   renderLabel(action) === "all-in"
                   ? 1
                   : renderLabel(action) === "calls" ||
-                    renderLabel(action) === "BB" ||
-                    renderLabel(action) === "bets"
+                    renderLabel(action) === "BB"
                   ? 2
-                  : renderLabel(action) === "raises"
+                  : renderLabel(action) === "raise to" ||
+                    renderLabel(action) === "bets"
                   ? 3
                   : 0
               )}

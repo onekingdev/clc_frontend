@@ -723,23 +723,20 @@ function Game(props: any) {
                       <SmallText color="#FFF" bold>
                         {numberWithCommas(
                           changeMoney
-                            ? Number(
-                                (
-                                  pot /
+                            ? Math.round(
+                                pot /
                                   parseInt(
                                     questions.array[questionIndex].tableInfo.bb
                                   )
-                                ).toFixed(2)
                               )
                             : pot
                         )}
                       </SmallText>
-                      <SmallText>{changeMoney ? " BB" : ""}</SmallText>
-                      {!changeMoney
-                        ? `(${numberWithCommas(
-                            questions.array[questionIndex].tableInfo.bb
-                          )} BB)`
-                        : null}
+                      <SmallText>{changeMoney ? " BB" : ""}</SmallText>(
+                      {`${numberWithCommas(
+                        questions.array[questionIndex].tableInfo.bb
+                      )} `}
+                      BB)
                     </SmallText>
                   </div>
                 ) : null}
