@@ -3,16 +3,15 @@ import {
   apiCloudHostUrl,
   apiLocalhostUrl,
   apiStagingHostUrl,
+  apiCloudDevUrl,
 } from "../helpers/constants";
-const staging = false;
 
-  const getApi = () => {
-    if (staging) {
-        return apiStagingHostUrl;
-    }
-    return apiCloudHostUrl;
-    };
-    
+const getApi = () => {
+  if (process.env.NODE_ENV === "development") {
+    return apiCloudDevUrl;
+  }
+  return apiCloudHostUrl;
+};
 
 const api = {
   get: async (path: string) =>
