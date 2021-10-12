@@ -25,7 +25,7 @@ function Navigation(props: any) {
   console.log(selector.userName ? selector.userName : 'user','patata')
   boot({
     name: selector.userName ? selector.userName : 'user',
-    customAttributes: {custom_attribute_key: 'hello friend'},
+    // customAttributes: {custom_attribute_key: 'hello friend'},
   })
   return (
     <Switch>
