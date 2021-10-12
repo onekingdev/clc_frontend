@@ -20,12 +20,12 @@ import RegisterModal from "../containers/Authentication/RegisterModal";
 import {useIntercom} from 'react-use-intercom';
 function Navigation(props: any) {
   const history = useHistory();
-  const selector = useSelector(store => store.authState.user)
+  const selector = useSelector((store:any) => store.authState.user)
   const {boot} = useIntercom()
   console.log(selector.userName ? selector.userName : 'user','patata')
   boot({
     name: selector.userName ? selector.userName : 'user',
-    customAttributes: {custom_attribute_key: 'hi there'},
+    customAttributes: {custom_attribute_key: 'hello friend'},
   })
   return (
     <Switch>
