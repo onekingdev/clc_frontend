@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 // @ts-ignore
-import { connect } from "react-redux";
+import { connect, useSelector } from "react-redux";
 // @ts-ignore
 import { Route, Redirect, useHistory, Switch } from "react-router-dom";
 import Login from "../containers/Authentication";
@@ -17,10 +17,16 @@ import Settings from "../containers/Settings";
 import moment from "moment";
 import EmailResetModal from "../containers/Authentication/EmailResetModal";
 import RegisterModal from "../containers/Authentication/RegisterModal";
-
+import {useIntercom} from 'react-use-intercom';
 function Navigation(props: any) {
   const history = useHistory();
-
+  const selector = useSelector(store => store.authState.user)
+  const {boot} = useIntercom()
+  console.log(selector.userName ? selector.userName : 'user','patata')
+  boot({
+    name: selector.userName ? selector.userName : 'user',
+    customAttributes: {custom_attribute_key: 'hi there'},
+  })
   return (
     <Switch>
       <Route exact path="/" component={Login} />
