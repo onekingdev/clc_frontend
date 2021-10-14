@@ -305,18 +305,17 @@ const PokerPlayer: React.FC<IPokerPlayer> = ({
       <div>
         {chipPos === "left" || chipPos === "top" ? (
           <div className={`pokerChips chipP${player}`}>
-            <p>{renderLabel(action)}</p>
             <Rotate>
               {renderChips(
                 (renderLabel(action) === "ante" && turn) ||
-                  renderLabel(action) === "SB" ||
-                  renderLabel(action) === "all-in"
+                  renderLabel(action) === "SB"
                   ? 1
                   : renderLabel(action) === "calls" ||
                     renderLabel(action) === "BB"
                   ? 2
                   : renderLabel(action) === "raise to" ||
-                    renderLabel(action) === "bets"
+                    renderLabel(action) === "bets" ||
+                    renderLabel(action) === "all-in"
                   ? 3
                   : 0
               )}
@@ -492,14 +491,14 @@ const PokerPlayer: React.FC<IPokerPlayer> = ({
             <Rotate>
               {renderChips(
                 (renderLabel(action) === "ante" && turn) ||
-                  renderLabel(action) === "all-in" ||
                   renderLabel(action) === "SB"
                   ? 1
                   : renderLabel(action) === "calls" ||
-                    renderLabel(action) === "BB" ||
-                    renderLabel(action) === "bets"
+                    renderLabel(action) === "BB"
                   ? 2
-                  : renderLabel(action) === "raises"
+                  : renderLabel(action) === "raise to" ||
+                    renderLabel(action) === "bets" ||
+                    renderLabel(action) === "all-in"
                   ? 3
                   : 0
               )}
