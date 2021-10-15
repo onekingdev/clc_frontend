@@ -12,6 +12,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import SuscriptionCard from "../SuscriptionCard";
 import SmallText from "../SmallText";
 import { useSelector } from "react-redux";
+import { useIntercom } from "react-use-intercom";
 
 toast.configure();
 
@@ -33,6 +34,7 @@ export default function CheckoutForm({
     const [isSelected, setIsSelected] = useState(false);
     const stripe = useStripe();
     const elements = useElements();
+    const {trackEvent} = useIntercom();
     const cardStyle = {
         style: {
             base: {
@@ -118,7 +120,7 @@ export default function CheckoutForm({
                     });
                 } else {
                     setSucceeded(true)
-
+                    trackEvent(`${subscriptionType} plan purchased`)
                 }
             }
         } else if (updatePaymentDetails !== null) {
@@ -126,6 +128,7 @@ export default function CheckoutForm({
             if (res.id) {
                 setSucceeded(true);
                 setProcessing(false);
+                trackEvent(`${subscriptionType} plan updated`)
 
             } else {
                 setSucceeded(false);
@@ -138,6 +141,7 @@ export default function CheckoutForm({
     const handleSelectPlan = value => {
         setSubscriptionType(value)
         setIsSelected(true)
+        trackEvent(`${value} plan selected`)
     }
 
     return (
