@@ -7,6 +7,7 @@ import computer from '../../assets/images/computer.png';
 import Button from "../Button";
 // @ts-ignore
 import {useHistory} from 'react-router-dom';
+import { useIntercom } from 'react-use-intercom';
 
 interface IPerformanceCard {
     topText: string,
@@ -24,6 +25,11 @@ const PerformanceCard: React.FC<IPerformanceCard> = ({
                                                          percentage
                                                      }) => {
     const history = useHistory();
+    const { trackEvent} = useIntercom()
+    const handleClick = () => {
+        history.push('payment')
+        trackEvent('Completed assessment')
+    }
     return (
         <div className="performanceCardWrapper">
             <div className="performanceCardLeftWrapper">
@@ -40,7 +46,7 @@ const PerformanceCard: React.FC<IPerformanceCard> = ({
             <div className="performanceCardRightWrapper">
                 <img src={computer} width="80%"/>
                 <div className="performanceCardButtonWrapper">
-                    <Button onClick={() => history.push('payment')} width={300} height={55} text="Learn More About Our Programs" glow/>
+                    <Button onClick={handleClick} width={300} height={55} text="Learn More About Our Programs" glow/>
                 </div>
             </div>
         </div>

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 // @ts-ignore
-import { connect } from "react-redux";
+import { connect, useSelector } from "react-redux";
 import "./styles.css";
 import { validateEmail } from "../../../helpers/validations";
 import TextInput from "../../../components/TextInput";
@@ -9,6 +9,7 @@ import ErrorDisplay from "../../../components/ErrorDisplay";
 import SubtitleText from "../../../components/SubtitleText";
 import { apiValidateCode, Role } from "../../../helpers/constants";
 import api from "../../../services/apiMiddleware";
+import { useIntercom } from "react-use-intercom";
 
 import {
   emptyEmailString,
@@ -64,7 +65,8 @@ const RegisterModal: React.FC<IRegisterModal> = ({
   btnIsHidden,
 }) => {
   const { code } = useParams();
-
+  const selector = useSelector((store: any) => store.authState.user)
+  const { trackEvent} = useIntercom();
   const history = useHistory();
   const [activationCodeObj, setActivationCodeObj] = useState({
     activationCode: "",
@@ -154,10 +156,17 @@ const RegisterModal: React.FC<IRegisterModal> = ({
 
       register(request, (success) => {
         if (success) {
+          if(selector.activationCodeID > 4)
+              {
+                trackEvent('Sign up for trial')
+              }
           if (user.assessment || false) {
             history.push("assessment-screen");
+            trackEvent('Sign up for assessment')
+            
           } else {
             history.push("payment");
+            trackEvent('Sign up for payment')
           }
         }
       });
