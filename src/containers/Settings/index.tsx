@@ -38,6 +38,7 @@ import { loadStripe } from "@stripe/stripe-js";
 import Cards from "react-credit-cards";
 import "react-credit-cards/es/styles-compiled.css";
 import { getStripeKey } from "../../services/stripe";
+import { useIntercom } from "react-use-intercom";
 
 const promise = loadStripe(
   getStripeKey.stripe_publishable_key(process.env.NODE_ENV)
@@ -65,7 +66,7 @@ function Settings(props: any) {
 
   const [processing, setProcessing] = useState(false);
   const [succeeded, setSucceeded] = useState(false);
-
+  const { trackEvent} = useIntercom();
   const inputRef = useRef(null);
 
   useEffect(() => {
@@ -80,7 +81,10 @@ function Settings(props: any) {
       setShowErrorMsg(props.errorMessage);
     }
   }, [props.errorMessage]);
-
+  const handleCancel = () => {
+    setCancelSub(true)
+    trackEvent('Cancel membership')
+  }
   const handleSubmit = () => {
     if (emailObj.email === "") {
       setEmailObj({ email: emailObj.email, error: true });
@@ -473,7 +477,7 @@ function Settings(props: any) {
                   ) : (
                     <div className="settingsButtonWrapper">
                       <Button
-                        onClick={() => setCancelSub(true)}
+                        onClick={handleCancel}
                         width={300}
                         height={44}
                         text="Cancel Subscription"
