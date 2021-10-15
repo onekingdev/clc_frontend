@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import * as Icon from '@fortawesome/free-solid-svg-icons'
 import SubtitleText from '../SubtitleText';
 import PulseLoader from 'react-spinners/PulseLoader';
+import { useIntercom } from "react-use-intercom";
 
 interface IButton {
     transparent?: boolean,
@@ -49,9 +50,10 @@ const Button: React.FC<IButton> = ({
     fontSize
                                    }) =>  {
     const [count, setCount] = useState(0);
+    const { trackEvent } = useIntercom();
     const [spanStyles, setSpanStyles] = useState({});
     const [textColor, setTextColor] = useState(glow || transparent ? 'var(--button-solid-text)' : 'var(--button-simple-text)');
-
+    const handleTrackEvent = () => trackEvent(window.location.pathname.toString());
     useEffect(() => {
         if (!selected && !glow && !closeMenuButton && !closeMenuButtonRight && !transparent) {
             setTextColor('var(--button-simple-text)');
@@ -130,7 +132,15 @@ const Button: React.FC<IButton> = ({
                     justifyContent: answer ? 'flex-start' : 'center'
                     
                 }}
-            onClick={disabled ? () => {} : onClick}
+            onClick={() => {
+                if(disabled){
+                    return
+                }
+                else{
+                    onClick()
+                    handleTrackEvent();
+                }
+            }}
             onMouseOver={() => {
                 if (!disabled && !selected && !glow && !closeMenuButton && !closeMenuButtonRight && !transparent) {
                     setTextColor('var(--button-solid-text)')

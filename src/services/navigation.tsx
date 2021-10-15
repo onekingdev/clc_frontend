@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 // @ts-ignore
-import { connect } from "react-redux";
+import { connect, useSelector } from "react-redux";
 // @ts-ignore
 import { Route, Redirect, useHistory, Switch } from "react-router-dom";
 import Login from "../containers/Authentication";
@@ -15,27 +15,36 @@ import Version from "../containers/Version";
 import Home from "../containers/Home";
 import Settings from "../containers/Settings";
 import moment from "moment";
-import EmailResetModal from "../containers/Authentication/EmailResetModal";
-import RegisterModal from "../containers/Authentication/RegisterModal";
-
+import { IntercomProvider} from "react-use-intercom";
 function Navigation(props: any) {
-  const history = useHistory();
+  const selector = useSelector((store:any) => store.authState.user)
+  const INTERCOM_APP_ID = "stkorlo9";
 
   return (
+    <IntercomProvider
+        appId={INTERCOM_APP_ID}
+        autoBoot
+        autoBootProps={{
+          name: selector.userName ? selector.userName : "user",
+          customAttributes: { custom_attribute_key: "Hi There!" },
+        }}
+      >
     <Switch>
       <Route exact path="/" component={Login} />
-      <Route exact path="/code=:code" component={Login} />
-      <Route exact path="/payment" component={Payment} />
-      {props.user.id ? (
-        <div>
-          {props.user.assessment ? (
-            <div>
-              <Redirect to="/assessment-screen" />
-              <Route exact path="/assessment-screen" component={Assessment} />
-              <Route exact path="/assessment" component={Game} />
-            </div>
-          ) : (
-            (props.user.payment && moment(props.user.payment.subscription).diff(moment(), "days") > 0) ? (
+      
+        <Route exact path="/code=:code" component={Login} />
+        <Route exact path="/payment" component={Payment} />
+        {props.user.id ? (
+          <div>
+            {props.user.assessment ? (
+              <div>
+                <Redirect to="/assessment-screen" />
+                <Route exact path="/assessment-screen" component={Assessment} />
+                <Route exact path="/assessment" component={Game} />
+              </div>
+            ) : props.user.payment &&
+              moment(props.user.payment.subscription).diff(moment(), "days") >
+                0 ? (
               <div>
                 <Route exact path="/assessment-screen" component={Assessment} />
                 <Route exact path="/assessment" component={Game} />
@@ -55,14 +64,13 @@ function Navigation(props: any) {
                 <Route exact path="/results" component={Results} />
                 <Route exact path="/payment" component={Payment} />
               </div>
-            )
-          )}
-        </div>
-      ) : (
-        // <Redirect to="/" />
-        null
-      )}
+            )}
+          </div>
+        ) : // <Redirect to="/" />
+        null}
+     
     </Switch>
+    </IntercomProvider>
   );
 }
 
