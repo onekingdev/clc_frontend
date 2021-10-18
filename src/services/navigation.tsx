@@ -21,19 +21,20 @@ function Navigation(props: any) {
   const INTERCOM_APP_ID = "stkorlo9";
 
   return (
-    <IntercomProvider
+    <Switch>
+      <Route exact path="/" component={Login} />
+      <Route exact path="/code=:code" component={Login} />
+      <IntercomProvider
         appId={INTERCOM_APP_ID}
         autoBoot
         autoBootProps={{
-          name: selector.userName ? selector.userName : "user",
-          email: selector.email ? selector.email : "email",
+          name: selector.userName,
+          email: selector.email,
+          userId: selector.stringID,
           customAttributes: { custom_attribute_key: "Hi There!" },
         }}
       >
-    <Switch>
-      <Route exact path="/" component={Login} />
-      
-        <Route exact path="/code=:code" component={Login} />
+
         <Route exact path="/payment" component={Payment} />
         {props.user.id ? (
           <div>
@@ -69,9 +70,9 @@ function Navigation(props: any) {
           </div>
         ) : // <Redirect to="/" />
         null}
-     
+       </IntercomProvider>
     </Switch>
-    </IntercomProvider>
+  
   );
 }
 
