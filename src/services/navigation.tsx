@@ -26,6 +26,7 @@ function Navigation(props: any) {
         autoBoot
         autoBootProps={{
           name: selector.userName ? selector.userName : "user",
+          email: selector.email ? selector.email : "email",
           customAttributes: { custom_attribute_key: "Hi There!" },
         }}
       >
