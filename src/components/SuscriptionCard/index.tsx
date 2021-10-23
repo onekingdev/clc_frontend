@@ -26,54 +26,55 @@ const SuscriptionCard : React.FC<ISuscriptionCard> = ({
             <div className="suscription-cards-container">
                 <div className="suscription-card">
                     <div className="price-container">
-                        <SmallText fontSize="22px" bold>{title}</SmallText>
+                        <SmallText fontSize="14px" bold color={'rgb(232, 185, 113)'}>{title}</SmallText>
                         <SubtitleText fontSize="20px" bold>${price}</SubtitleText> 
+                        <SmallText fontSize="16px">7 DAY FREE TRIAL. Cancel at anytime</SmallText> 
                     </div>
                     <div className="suscription-card-list">
                         <ul>
                             <li className="card-list-item">
                                 <i className="fas fa-check card-check"></i>
-                                <SmallText color="white" fontSize="14px">Access to 3000+ and Growing Questions</SmallText>
+                                <SmallText color="white" fontSize="16px">Full Access to Chip Leader AI Platform</SmallText>
                             </li>
                             <li className="card-list-item">
                                 <i className="fas fa-check card-check"></i>
-                                <SmallText color="white" fontSize="14px">Access to 3000+ and Growing Questions</SmallText>
+                                <SmallText color="white" fontSize="16px">Access to 3000+ and Growing Questions</SmallText>
                             </li>
                             <li className="card-list-item">
                                 <i className="fas fa-check card-check"></i>
-                                <SmallText color="white" fontSize="14px">Access to 3000+ and Growing Questions</SmallText>
+                                <SmallText color="white" fontSize="16px">CLC Coaching Video Archive</SmallText>
                             </li>
                             <li className="card-list-item">
                                 <i className="fas fa-check card-check"></i>
-                                <SmallText color="white" fontSize="14px">Weekly Hand Breakdown</SmallText>
+                                <SmallText color="white" fontSize="16px">Weekly Hand Breakdown</SmallText>
                             </li>
                             <li className="card-list-item">
                                 <i className="fas fa-check card-check"></i>
-                                <SmallText color="white" fontSize="14px">Monthly Live Workshop</SmallText>
+                                <SmallText color="white" fontSize="16px">2  Live Workshops Each Month</SmallText>
                             </li>
                             <li className="card-list-item">
                                 <i className="fas fa-check card-check"></i>
-                                <SmallText color="white" fontSize="14px">ClC Coaching Video Archive</SmallText>
+                                <SmallText color="white" fontSize="16px">Full Tournament Assessment Engine</SmallText>
                             </li>
                             <li className="card-list-item" style={{ opacity: benefitsActive ? 1 : 0.2}}>
                                 <i className="fas fa-check card-check"></i>
-                                <SmallText color="white" fontSize="14px">The Chip Leader 24/7 Community</SmallText>
+                                <SmallText color="white" fontSize="16px">Attend all Workshops Live</SmallText>
                             </li>
                             <li className="card-list-item" style={{ opacity: benefitsActive ? 1 : 0.2}}>
                                 <i className="fas fa-check card-check"></i>
-                                <SmallText color="white" fontSize="14px">Ability to Submit a Hand for Review</SmallText>
+                                <SmallText color="white" fontSize="16px">The Chip Leader 24/7 Community lead by Alex and Chance</SmallText>
                             </li>
                         </ul>
                         <div className="card-plan-button">
                             <Button
                                  
                                 onClick={() => {handleGetMemberType(value)}}
-                                width={170}
-                                height={35}
+                                width={240}
+                                height={52}
                                 glow
                                 circular={false}
-                                text={'Start now'}
-                                fontSize="10px"
+                                text={'Start Now (FREE 7 DAY TRIAL)'}
+                                fontSize="12px"
                                  />
                         </div>
                     </div>

@@ -211,7 +211,7 @@ function Payment(props) {
               </div>
               <div className="b-nav__right">
                 <a href="#" className="b-nav__link-copy w-inline-block">
-                  <div>Sign Up Today</div>
+                  <div>SIGN UP FOR YOUR FREE TRIAL</div>
                 </a>
               </div>
             </div>
@@ -662,7 +662,7 @@ function Payment(props) {
             </div>
             <div className="t-btn">
               <a href="#" className="c-btn-primary cta w-inline-block">
-                <div>Sign Up Today</div>
+                <div>Start Your Free Trial Today</div>
               </a>
               <div className="t-btn--tertiary-line-top">
                 <div className="t-btn--tertiary-line-top-before"></div>
@@ -1329,16 +1329,18 @@ function Payment(props) {
       )} */}
           <div className="paymentButtonTextWrapper">
             {/*<Banner topText="IT'S TIME TO" title="Become a Better Poker Player with Chip Leader AI"/>*/}
-            <div>
-              <SmallText>IT'S TIME TO</SmallText>
-            </div>
-            <div>
-              <TitleText>Become a Better Poker Player</TitleText>
-            </div>
-            <div style={{ marginBottom: 20 }}>
-              <TitleText>Player with Chip Leader AI</TitleText>
-            </div>
-            <div>
+           <div className='c-centered b-header'>
+            <div className='b-meta'>
+                <SmallText>PRICING</SmallText>
+              </div>
+              <div>
+                <h3 className='h3'>The Most Extensive Program at an Affordable Rate</h3>
+              </div>
+              <div style={{ marginBottom: 20 }}>
+                <div className="dk" style={{display:"flex",'justifyContent':'center'}}>We have a wide range of pricing options. Cancel at any time. CL AI is only a month to month commitment.</div>
+              </div>
+              <div>
+           </div>
               {Object.keys(props.user).length === 0 ? (
                 <RegisterModal
               />
@@ -1790,23 +1792,23 @@ function Payment(props) {
   );
 }
 
-const mapStateToProps = (state: any) => {
+const mapStateToProps = (state) => {
   return {
     user: state.authState.user,
     clientSecret: state.paymentState.clientSecret,
   };
 };
 
-const bindActions = (dispatch: any) => {
+const bindActions = (dispatch) => {
   return {
-    fetchPaymentIntent: (items: { id: string }[]) =>
+    fetchPaymentIntent: (items) =>
       dispatch(ACTIONS.fetchPaymentIntent(items)),
-    fetchUpdatedUserData: (email: string) =>
+    fetchUpdatedUserData: (email) =>
       dispatch(AUTH_ACTIONS.fetchUpdatedUserData(email)),
     fetchPaymentSubscription: (
-      email: string,
-      paymentMethod: any,
-      subscriptionType: any
+      email,
+      paymentMethod,
+      subscriptionType
     ) =>
       dispatch(
         ACTIONS.fetchPaymentSubscription(email, paymentMethod, subscriptionType)

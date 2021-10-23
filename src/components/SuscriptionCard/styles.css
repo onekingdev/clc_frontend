@@ -2,35 +2,40 @@
     display: block;
 }
 .suscription-card{
-    width: 220px;
+    width: 100%;
     padding: 10px 0;
     background-color: #101112;
-    border-radius: 5px;
+    border-radius: 16px;
+    background: radial-gradient(99.31% 94.34% at 49.88% -2.58%, rgba(232, 186, 115, 0.15) 0%, rgba(232, 186, 115, 0) 72.18%), #15171A;
 }
+
 .price-container{
-    width: 200px;
+    width: 95%;
     margin: 0 auto;
     background-color: black;
     border-radius: 5px;
-    height: 90px;
-    display: grid;
-    grid-template-rows: 40px 1fr;
+    min-height: 185px;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
     align-items: center;
+    grid-gap:20px;
 }
 .suscription-card-list > ul{
-    width: 150px;
+    width: 70%;
     padding: 0;
-    margin: 10px auto;
+    margin: 50px auto;
 }
 .card-list-item{
     list-style: none;
     width: 100%;
-    margin: 29px auto;
+    margin: 50px auto;
     display: grid;
     grid-template-columns: 20px 1fr;
     grid-gap: 10px;
     align-items: center;
-    text-align: left;
+    text-align: center;
 }
 .card-check{
     color: white;
