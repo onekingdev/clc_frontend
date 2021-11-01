@@ -68,8 +68,7 @@ function Navigation(props: any) {
               </div>
             )}
           </div>
-        ) : // <Redirect to="/" />
-        null}
+        ) :  <Redirect to="/" />}
        </IntercomProvider>
     </Switch>
   
