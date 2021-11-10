@@ -50,10 +50,9 @@ const Button: React.FC<IButton> = ({
     fontSize
                                    }) =>  {
     const [count, setCount] = useState(0);
-    const { trackEvent } = useIntercom();
+
     const [spanStyles, setSpanStyles] = useState({});
     const [textColor, setTextColor] = useState(glow || transparent ? 'var(--button-solid-text)' : 'var(--button-simple-text)');
-    const handleTrackEvent = () => trackEvent(window.location.pathname.toString());
     useEffect(() => {
         if (!selected && !glow && !closeMenuButton && !closeMenuButtonRight && !transparent) {
             setTextColor('var(--button-simple-text)');
@@ -138,7 +137,6 @@ const Button: React.FC<IButton> = ({
                 }
                 else{
                     onClick()
-                    handleTrackEvent();
                 }
             }}
             onMouseOver={() => {
