@@ -19,6 +19,8 @@ import { useHistory } from "react-router-dom";
 import Modal from "react-awesome-modal";
 import BodyText from "../../components/BodyText";
 import Button from "../../components/Button";
+import { useIntercom } from 'react-use-intercom';
+
 import QuestionProgress from "../../components/QuestionsProgress";
 
 let interval: any;
@@ -49,6 +51,7 @@ function Game(props: any) {
   const [progressIndex, setProgressIndex] = useState(0);
   const [changeMoney, setChangeMoney] = useState(true);
   const [changeAmount, setChangeAmount] = useState(false);
+  const { trackEvent} = useIntercom()
 
   useEffect(() => {
     return () => {
@@ -376,6 +379,7 @@ function Game(props: any) {
         () => {
           props.clearResultsData();
           history.push("results");
+          trackEvent('finish assessment')
         }
       );
     }
