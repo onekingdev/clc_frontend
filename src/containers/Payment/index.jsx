@@ -1746,13 +1746,6 @@ function Payment(props) {
       </footer>
       <div className="popup">
         <div className="w-embed w-iframe w-script">
-          <html>
-            <head>
-              <meta
-                name="viewport"
-                content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"
-              />
-              <title>CLC Tournament Assessment</title>
               <Style>{`
           html {
             margin: 0;
@@ -1767,22 +1760,7 @@ function Payment(props) {
             border: 0;
           }
         `}</Style>
-            </head>
-            <body>
-              <iframe
-                id="typeform-full"
-                width="100%"
-                height="100%"
-                frameborder="0"
-                allow="camera; microphone; autoplay; encrypted-media;"
-                src="https://form.typeform.com/to/YSXZUxBx"
-              ></iframe>
-              <script
-                type="text/javascript"
-                src="https://embed.typeform.com/embed.js"
-              ></script>
-            </body>
-          </html>
+           
         </div>
         <div scroll="enable" className="u-btn-close">
           <div>Close</div>
