@@ -32,6 +32,7 @@ function Payment(props) {
   const [showIframe, setShowIframe] = useState(false);
   const [processing, setProcessing] = useState(false);
   const [showStartBtn, setShowStartBtn] = useState(true);
+  const [playVideo, setPlayVideo] = useState(false)
 
   const userDidPay = () => {
 
@@ -359,23 +360,24 @@ function Payment(props) {
                 className="videocomponent__playcontainer"
               >
                 <div className="videocomponent__playborder">
-                  <div className="videocomponent__playborderinner"></div>
+                  <div className="videocomponent__playborderinner" onClick={() => setPlayVideo(true)}></div>
                 </div>
                 <div className="videocomponent__playarrow"></div>
               </div>
             </div>
             <div
-              style={{ display: "none", opacity: 0 }}
+              style={playVideo ? { display: "flex", opacity: 1 } : { display: "none", opacity: 0 }}
               className="div-block-45"
             >
               <div
                 data-w-id="64594b4a-39d6-ad4a-cb36-326372f07378"
                 className="videocomponent__closecontainer"
+                onClick={() => setPlayVideo(false)}
               >
                 <div className="videocomponent__playborder">
                   <div className="videocomponent__playborderinner"></div>
                 </div>
-                <div className="videocomponent__closebutton">
+                <div className="videocomponent__closebutton" >
                   <div>X</div>
                 </div>
               </div>
