@@ -24,6 +24,7 @@ function Navigation(props: any) {
     <Switch>
       <Route exact path="/" component={Login} />
       <Route exact path="/code=:code" component={Login} />
+      <Route exact path="/payment" component={Payment} />
       <IntercomProvider
         appId={INTERCOM_APP_ID}
         autoBoot
@@ -34,7 +35,6 @@ function Navigation(props: any) {
           customAttributes: { custom_attribute_key: "Hi There!" },
         }}
       >
-
         {props.user.id ? (
           <div>
             {props.user.assessment ? (
