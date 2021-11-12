@@ -60,8 +60,8 @@ export default function CheckoutForm({
         setMsg(event.error ? event.error.message : "");
 
     };
-    const handleSubmit = async ev => {
-        ev.preventDefault();
+    const handleSubmit = async e => {
+        //e.preventDefault();
         setProcessing(true);
 
         /*const payload = await stripe.confirmCardPayment(clientSecret, {
