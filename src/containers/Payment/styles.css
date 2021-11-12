@@ -21,3 +21,91 @@
     height: 100vh;
     width: 100%;
 }
+.is--accordion{
+  
+        height: 96px;
+        animation-name: cardReverse;
+        animation-duration: 1s;
+
+}
+.is--accordion:hover{
+    
+        animation-name: cardHover;
+        animation-duration: 1s;
+        transform: scale(1.03);
+             
+}
+
+@keyframes cardHover{
+    from{
+        transform: scale(1);
+    }
+    to{
+        transform: scale(1.03);
+    }
+}
+
+
+@keyframes cardReverse{
+    from{
+        transform: scale(1.03);
+    }
+    to{
+        transform: scale(1);
+    }
+}
+.c-card-checkbox{
+    display: none;
+}
+.c-card-checkbox:checked ~ .is--accordion{
+    animation: cardDown 0.5s;
+    height: 240px;
+}
+.c-card-checkbox:checked ~ .is--accordion .is--smaller{
+    animation: circleUp 1s;
+    transform: rotateZ(180deg);
+}
+.c-card-checkbox ~ .is--accordion{
+    animation: cardUp 0.5s;
+    height: 96px;
+}
+.c-card-checkbox ~ .is--accordion .is--smaller{
+    animation: circleDown 0.5s;
+}
+
+@keyframes cardDown{
+    from{
+        height: 96px;
+    }
+    to{
+        height: 240px;
+    }
+}
+@keyframes cardUp{
+    from{
+        height: 240px;
+    }
+    to{
+        height: 96px;
+    }
+}
+@keyframes circleUp{
+    from{
+        transform: rotateZ(0);
+    }
+    to{
+        transform: rotateZ(180deg);
+    }
+}
+@keyframes circleDown{
+    from{
+        transform: rotateZ(180deg);
+    }
+    to{
+        transform: rotateZ(0);
+    }
+}
+
+
+
+

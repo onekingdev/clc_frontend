@@ -35,7 +35,6 @@ function Navigation(props: any) {
         }}
       >
 
-        <Route exact path="/payment" component={Payment} />
         {props.user.id ? (
           <div>
             {props.user.assessment ? (

@@ -1398,10 +1398,14 @@ function Payment(props) {
             </div>
             <ul role="list" className="l-list-1f u-marg-t-lr">
               <li className="l-list-item">
-                <div className="c-card is--accordion">
+                <label htmlFor="card1">
+                  <input type="checkbox" name="card1" className="c-card-checkbox" id="card1"/>
+                <div className="c-card is--accordion" >
                   <div className="c-card-inner">
+                
                     <div className="div-block-31">
-                      <h6 className="h5">How does Chip Leader AI Work?</h6>
+                      <h6 className="h5">Is this for online or live?</h6>
+                      
                       <div className="circle-yellow is--smaller">
                         <div className="c-arrow-up w-embed">
                           <svg
@@ -1423,26 +1427,27 @@ function Payment(props) {
                       </div>
                     </div>
                     <div className="c-card-hide u-marg-t-lr">
-                      <p className="dk is-small">
-                        Mauris varius felis at commodo imperdiet. Cras faucibus
-                        egestas urna, sed cursus massa cursus in.apien interdum
-                        quis. Fusce id arcu eget nisl porta blandit. Etiam
-                        mollis massa et ipsum tincidunt, at luctus velit
-                        ultrices. Aliquam posuere mi ac risus scelerisque, in
-                        aliquam nunc molestie.
+                      <p className="dk is-small" style={{textAlign:"left"}}>
+                      Chip Leader AI was built for both online and live tournaments. The hands that power the CL AI Engine are generated from real hands Chance Kornuth and Alex Foxen played.
                       </p>
                     </div>
                   </div>
                   <div className="c-card-wrapper">
                     <div className="c-card-bg"></div>
+      
                   </div>
                 </div>
+                </label>
               </li>
               <li className="l-list-item">
-                <div className="c-card is--accordion">
+              <label htmlFor="card2">
+                  <input type="checkbox" name="card2" className="c-card-checkbox" id="card2"/>
+                <div className="c-card is--accordion" >
                   <div className="c-card-inner">
+                
                     <div className="div-block-31">
-                      <h6 className="h5">How does Chip Leader AI Work?</h6>
+                      <h6 className="h5">Was this actually created by Alex and Chance? </h6>
+                      
                       <div className="circle-yellow is--smaller">
                         <div className="c-arrow-up w-embed">
                           <svg
@@ -1464,26 +1469,27 @@ function Payment(props) {
                       </div>
                     </div>
                     <div className="c-card-hide u-marg-t-lr">
-                      <p className="dk is-small">
-                        Mauris varius felis at commodo imperdiet. Cras faucibus
-                        egestas urna, sed cursus massa cursus in.apien interdum
-                        quis. Fusce id arcu eget nisl porta blandit. Etiam
-                        mollis massa et ipsum tincidunt, at luctus velit
-                        ultrices. Aliquam posuere mi ac risus scelerisque, in
-                        aliquam nunc molestie.
+                      <p className="dk is-small" style={{textAlign:"left"}}>
+                      All hands and answers in the CL AI platform were fully written by either Chance or Alex. However, we partnered with experts in AI, Design, and Web development to fully create CL AI. 
                       </p>
                     </div>
                   </div>
                   <div className="c-card-wrapper">
                     <div className="c-card-bg"></div>
+      
                   </div>
                 </div>
+                </label>
               </li>
               <li className="l-list-item">
-                <div className="c-card is--accordion">
+              <label htmlFor="card3">
+                  <input type="checkbox" name="card3" className="c-card-checkbox" id="card3"/>
+                <div className="c-card is--accordion" >
                   <div className="c-card-inner">
+                
                     <div className="div-block-31">
-                      <h6 className="h5">How does Chip Leader AI Work?</h6>
+                      <h6 className="h5">How did you get the hands? </h6>
+                      
                       <div className="circle-yellow is--smaller">
                         <div className="c-arrow-up w-embed">
                           <svg
@@ -1505,26 +1511,27 @@ function Payment(props) {
                       </div>
                     </div>
                     <div className="c-card-hide u-marg-t-lr">
-                      <p className="dk is-small">
-                        Mauris varius felis at commodo imperdiet. Cras faucibus
-                        egestas urna, sed cursus massa cursus in.apien interdum
-                        quis. Fusce id arcu eget nisl porta blandit. Etiam
-                        mollis massa et ipsum tincidunt, at luctus velit
-                        ultrices. Aliquam posuere mi ac risus scelerisque, in
-                        aliquam nunc molestie.
+                      <p className="dk is-small" style={{textAlign:"left"}}>
+                      The hands were taken directly from a database of hands both Alex and Chance played. They were specifically chosen to represent the wide range of spots that you will encounter in tournaments of every stakes. More hands are added on a monthly basis. 
                       </p>
                     </div>
                   </div>
                   <div className="c-card-wrapper">
                     <div className="c-card-bg"></div>
+      
                   </div>
                 </div>
+                </label>
               </li>
               <li className="l-list-item">
-                <div className="c-card is--accordion">
+              <label htmlFor="card4">
+                  <input type="checkbox" name="card4" className="c-card-checkbox" id="card4"/>
+                <div className="c-card is--accordion" >
                   <div className="c-card-inner">
+                
                     <div className="div-block-31">
-                      <h6 className="h5">How does Chip Leader AI Work?</h6>
+                      <h6 className="h5">Can I cancel at any time?</h6>
+                      
                       <div className="circle-yellow is--smaller">
                         <div className="c-arrow-up w-embed">
                           <svg
@@ -1546,26 +1553,27 @@ function Payment(props) {
                       </div>
                     </div>
                     <div className="c-card-hide u-marg-t-lr">
-                      <p className="dk is-small">
-                        Mauris varius felis at commodo imperdiet. Cras faucibus
-                        egestas urna, sed cursus massa cursus in.apien interdum
-                        quis. Fusce id arcu eget nisl porta blandit. Etiam
-                        mollis massa et ipsum tincidunt, at luctus velit
-                        ultrices. Aliquam posuere mi ac risus scelerisque, in
-                        aliquam nunc molestie.
+                      <p className="dk is-small" style={{textAlign:"left"}}>
+                      Yes. CL AI is a monthly subscription. Once you pay you have access to the content for a month starting from your initial payment date. You can cancel anytime by contacting us inside the application. 
                       </p>
                     </div>
                   </div>
                   <div className="c-card-wrapper">
                     <div className="c-card-bg"></div>
+      
                   </div>
                 </div>
+                </label>
               </li>
               <li className="l-list-item">
-                <div className="c-card is--accordion">
+              <label htmlFor="card5">
+                  <input type="checkbox" name="card5" className="c-card-checkbox" id="card5"/>
+                <div className="c-card is--accordion" >
                   <div className="c-card-inner">
+                
                     <div className="div-block-31">
-                      <h6 className="h5">How does Chip Leader AI Work?</h6>
+                      <h6 className="h5">Will content and hands be added?</h6>
+                      
                       <div className="circle-yellow is--smaller">
                         <div className="c-arrow-up w-embed">
                           <svg
@@ -1587,61 +1595,17 @@ function Payment(props) {
                       </div>
                     </div>
                     <div className="c-card-hide u-marg-t-lr">
-                      <p className="dk is-small">
-                        Mauris varius felis at commodo imperdiet. Cras faucibus
-                        egestas urna, sed cursus massa cursus in.apien interdum
-                        quis. Fusce id arcu eget nisl porta blandit. Etiam
-                        mollis massa et ipsum tincidunt, at luctus velit
-                        ultrices. Aliquam posuere mi ac risus scelerisque, in
-                        aliquam nunc molestie.
+                      <p className="dk is-small" style={{textAlign:"left"}}>
+                      Of course! We are constantly adding content and new features to the CL AI platform. Roughly 8-10 videos are added each month. 
                       </p>
                     </div>
                   </div>
                   <div className="c-card-wrapper">
                     <div className="c-card-bg"></div>
+      
                   </div>
                 </div>
-              </li>
-              <li className="l-list-item">
-                <div className="c-card is--accordion">
-                  <div className="c-card-inner">
-                    <div className="div-block-31">
-                      <h6 className="h5">How does Chip Leader AI Work?</h6>
-                      <div className="circle-yellow is--smaller">
-                        <div className="c-arrow-up w-embed">
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            width="14"
-                            height="9"
-                            fill="none"
-                            viewBox="0 0 14 9"
-                          >
-                            <path
-                              stroke="#fff"
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              stroke-width="2"
-                              d="M12.6 1.9L7 7.5 1.4 1.9"
-                            />
-                          </svg>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="c-card-hide u-marg-t-lr">
-                      <p className="dk is-small">
-                        Mauris varius felis at commodo imperdiet. Cras faucibus
-                        egestas urna, sed cursus massa cursus in.apien interdum
-                        quis. Fusce id arcu eget nisl porta blandit. Etiam
-                        mollis massa et ipsum tincidunt, at luctus velit
-                        ultrices. Aliquam posuere mi ac risus scelerisque, in
-                        aliquam nunc molestie.
-                      </p>
-                    </div>
-                  </div>
-                  <div className="c-card-wrapper">
-                    <div className="c-card-bg"></div>
-                  </div>
-                </div>
+                </label>
               </li>
             </ul>
           </div>
@@ -1746,6 +1710,13 @@ function Payment(props) {
       </footer>
       <div className="popup">
         <div className="w-embed w-iframe w-script">
+          <html>
+            <head>
+              <meta
+                name="viewport"
+                content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"
+              />
+              <title>CLC Tournament Assessment</title>
               <Style>{`
           html {
             margin: 0;
@@ -1760,12 +1731,28 @@ function Payment(props) {
             border: 0;
           }
         `}</Style>
-           
+            </head>
+            <body>
+              <iframe
+                id="typeform-full"
+                width="100%"
+                height="100%"
+                frameborder="0"
+                allow="camera; microphone; autoplay; encrypted-media;"
+                src="https://form.typeform.com/to/YSXZUxBx"
+              ></iframe>
+              <script
+                type="text/javascript"
+                src="https://embed.typeform.com/embed.js"
+              ></script>
+            </body>
+          </html>
         </div>
         <div scroll="enable" className="u-btn-close">
           <div>Close</div>
         </div>
       </div>
+      
     </body>
   );
 }
