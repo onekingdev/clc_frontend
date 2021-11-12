@@ -210,9 +210,7 @@ function Payment(props) {
                 </a>
               </div>
               <div className="b-nav__right">
-                <a href="#" className="b-nav__link-copy w-inline-block">
-                  <div>SIGN UP FOR YOUR FREE TRIAL</div>
-                </a>
+                  <div className="b-nav__link-copy w-inline-block" onClick={() => history.push("/results")}>Results</div>
               </div>
             </div>
             <div className="b-nav__spacer"></div>
