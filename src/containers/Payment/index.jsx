@@ -19,6 +19,8 @@ import SmallText from "../../components/SmallText";
 import { getStripeKey } from "../../services/stripe";
 import { Style } from "react-style-tag";
 import RegisterModal from "../Authentication/RegisterModal";
+import Modal from "react-awesome-modal";
+
 // import { env } from "node:process";
 // import { Thing } from "../../components/TheThing/thing";
 
@@ -33,6 +35,7 @@ function Payment(props) {
   const [processing, setProcessing] = useState(false);
   const [showStartBtn, setShowStartBtn] = useState(true);
   const [playVideo, setPlayVideo] = useState(false)
+  const [showRegisterModal, setShowRegisterModal] = useState(false);
 
   const userDidPay = () => {
 
@@ -661,7 +664,7 @@ function Payment(props) {
               </div>
             </div>
             <div className="t-btn">
-              <a href="#" className="c-btn-primary cta w-inline-block">
+              <a href="#" className="c-btn-primary cta w-inline-block" onClick={() => {setShowRegisterModal(true)}}>
                 <div>Start Your Free Trial Today</div>
               </a>
               <div className="t-btn--tertiary-line-top">
@@ -1753,6 +1756,15 @@ function Payment(props) {
         </div>
       </div>
       
+      <Modal
+          visible={showRegisterModal}
+          width="420px"
+          height="100%"
+          effect="fadeInUp"
+          onClickAway={() => setShowRegisterModal(false)}
+        >
+        <RegisterModal reset={!showRegisterModal} />
+      </Modal>
     </body>
   );
 }
