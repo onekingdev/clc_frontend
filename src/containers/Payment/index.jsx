@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 // @ts-ignore
-import { connect } from "react-redux";
+import { connect, useSelector } from "react-redux";
 import "./styles.css";
 // @ts-ignore
 import { useHistory } from "react-router-dom";
@@ -214,7 +214,7 @@ function Payment(props) {
                 </a>
               </div>
               <div className="b-nav__right">
-                  <div className="b-nav__link-copy w-inline-block" onClick={() => history.push("/results")}>Results</div>
+                  <div className="b-nav__link-copy w-inline-block" onClick={() => history.push("/results")}>{props.user.id ? "Results" : "Sign Up Now"}</div>
               </div>
             </div>
             <div className="b-nav__spacer"></div>
