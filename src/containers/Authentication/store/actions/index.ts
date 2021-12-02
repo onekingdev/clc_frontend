@@ -49,6 +49,7 @@ export const login = (data: IUser, callback: (success: boolean, userData: IUser)
                 .auth()
                 .signInWithEmailAndPassword(data.email, data.password)
                 .then(async result => {
+                    console.log("sign in wih email and password result ", data.email, data.password, result);
                     const user = await api.post(apiGetUserByEmail, data);
                     dispatch(setUserData(user))
                     setTimeout(() => callback(true, user), 1000);

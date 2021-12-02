@@ -17,6 +17,7 @@ const App = () => {
           <Navigation />
         </BrowserRouter>
       </PersistGate>
+
     </Provider>
   );
 };

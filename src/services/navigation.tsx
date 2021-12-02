@@ -34,7 +34,9 @@ function Navigation(props: any) {
           userId: selector.stringID,
           customAttributes: { custom_attribute_key: "Hi There!" },
         }}
-      >
+      >{
+        console.log(props.user)
+      }
         {props.user.id ? (
           <div>
             {props.user.assessment ? (

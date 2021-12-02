@@ -156,11 +156,12 @@ const RegisterModal: React.FC<IRegisterModal> = ({
 
       register(request, (success) => {
         if (success) {
+          console.log("success");
           if(selector.activationCodeID > 4)
               {
                 trackEvent('Sign up for trial')
               }
-          if (user.assessment || false) {
+          if (user.assessment || true) {
             history.push("assessment-screen");
             trackEvent('Sign up for assessment')
             

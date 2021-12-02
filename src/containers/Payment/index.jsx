@@ -37,60 +37,60 @@ function Payment(props) {
   const [playVideo, setPlayVideo] = useState(false)
   const [showRegisterModal, setShowRegisterModal] = useState(false);
 
-  const userDidPay = () => {
+  // const userDidPay = () => {
 
-    console.log('aKJSNDCKJNSDKJCNSDKJNC')
-    console.log((moment(getShit(["user", "payment", "subscription"], props)).diff(
-      moment(),
-      "days"
-    ) > 0))
+  //   console.log('aKJSNDCKJNSDKJCNSDKJNC')
+  //   console.log((moment(getShit(["user", "payment", "subscription"], props)).diff(
+  //     moment(),
+  //     "days"
+  //   ) > 0))
 
-    return moment(getShit(["user", "payment", "subscription"], props)).diff(
-      moment(30),
-      "days"
-    ) 
-  }
+  //   return moment(getShit(["user", "payment", "subscription"], props)).diff(
+  //     moment(30),
+  //     "days"
+  //   ) 
+  // }
 
-  useEffect(() => {
-    // props.fetchPaymentIntent([{ id: "prod_ItM3Rl00ARmZwI" }]);
-    setTimeout(() => setShowIframe(true), 2000);
+  // useEffect(() => {
+  //   // props.fetchPaymentIntent([{ id: "prod_ItM3Rl00ARmZwI" }]);
+  //   setTimeout(() => setShowIframe(true), 2000);
     
-    userDidPay()
+  //   userDidPay()
 
-    console.log('asdcasdcasdcasdcasdc')
+  //   console.log('asdcasdcasdcasdcasdc')
 
-    console.log(userDidPay())
+  //   console.log(userDidPay())
 
-  }, []);
+  // }, []);
 
   
 
-  useEffect(() => {
-    if (props.user.assessment) {
-      history.push('/assessment-screen')
-    }
-  }, [props.user]);
+  // useEffect(() => {
+  //   if (props.user.assessment) {
+  //     history.push('/assessment-screen')
+  //   }
+  // }, [props.user]);
 
-  useEffect(() => {
-    console.log(
-      moment(getShit(["user", "payment", "subscription"], props)).diff(
-        moment(),
-        "days"
-      ) > 0
-    );
-    console.log(
-      moment(getShit(["user", "payment", "subscription"], props)).diff(moment())
-    );
+  // useEffect(() => {
+  //   console.log(
+  //     moment(getShit(["user", "payment", "subscription"], props)).diff(
+  //       moment(),
+  //       "days"
+  //     ) > 0
+  //   );
+  //   console.log(
+  //     moment(getShit(["user", "payment", "subscription"], props)).diff(moment())
+  //   );
 
-    if (
-      moment(getShit(["user", "payment", "subscription"], props)).diff(
-        moment(),
-        "days"
-      ) > 0
-    ) {
-      setShowStartBtn(true);
-    }
-  }, [props.user]);
+  //   if (
+  //     moment(getShit(["user", "payment", "subscription"], props)).diff(
+  //       moment(),
+  //       "days"
+  //     ) > 0
+  //   ) {
+  //     setShowStartBtn(true);
+  //   }
+  // }, [props.user]);
 
   const getShit = (arr) => {
     // props.user.payment.subscription
@@ -194,12 +194,12 @@ function Payment(props) {
                   <a href="/about" className="b-nav__link w-inline-block">
                     <div>about</div>
                   </a>
-                  <a
+                  {/* <a
                     href="/galfond-challenge"
                     className="b-nav__link w-inline-block"
                   >
                     <div>galfond challenge</div>
-                  </a>
+                  </a> */}
                 </div>
               </div>
               <div className="b-nav__logo">
@@ -215,6 +215,7 @@ function Payment(props) {
               </div>
               <div className="b-nav__right">
                   <div className="b-nav__link-copy w-inline-block" onClick={() => history.push("/results")}>{props.user.id ? "Results" : "Sign Up Now"}</div>
+                 {console.log("user info ", props.user)}             
               </div>
             </div>
             <div className="b-nav__spacer"></div>
@@ -273,14 +274,14 @@ function Payment(props) {
                         <div>About</div>
                       </a>
                     </li>
-                    <li className="nav-item-to-stag-wr">
+                    {/* <li className="nav-item-to-stag-wr">
                       <a
                         href="/galfond-challenge"
                         className="nav-main-page-link w-inline-block"
                       >
                         <div>Galfond Challenge</div>
                       </a>
-                    </li>
+                    </li> */}
                   </ul>
                   <ul className="navigation__secondary-pages w-list-unstyled">
                     <li className="nav-item-to-stag-wr">
@@ -663,19 +664,22 @@ function Payment(props) {
                 </div>
               </div>
             </div>
-            <div className="t-btn">
-              <a href="#" className="c-btn-primary cta w-inline-block" onClick={() => {setShowRegisterModal(true)}}>
-                <div>Start Your Free Trial Today</div>
-              </a>
-              <div className="t-btn--tertiary-line-top">
-                <div className="t-btn--tertiary-line-top-before"></div>
-                <div className="t-btn--tertiary-line-top-after"></div>
+            {!props.user.id && (
+              <div className="t-btn">
+                <a href="#" className="c-btn-primary cta w-inline-block" onClick={() => {setShowRegisterModal(true)}}>
+                  <div>Start Your Free Trial Today</div>
+                </a>
+                <div className="t-btn--tertiary-line-top">
+                  <div className="t-btn--tertiary-line-top-before"></div>
+                  <div className="t-btn--tertiary-line-top-after"></div>
+                </div>
+                <div className="t-btn--tertiary-line-bottom">
+                  <div className="t-btn--tertiary-line-bottom-before"></div>
+                  <div className="t-btn--tertiary-line-bottom-after"></div>
+                </div>
               </div>
-              <div className="t-btn--tertiary-line-bottom">
-                <div className="t-btn--tertiary-line-bottom-before"></div>
-                <div className="t-btn--tertiary-line-bottom-after"></div>
-              </div>
-            </div>
+            )}
+            
           </div>
           <img
             src="https://assets.website-files.com/5f57d25e2a09e77e0cd3d7dc/606cb271c127593f13b917cc_clai-4.jpg"
@@ -1346,7 +1350,7 @@ function Payment(props) {
            </div>
               {Object.keys(props.user).length === 0 ? (
                 <RegisterModal
-              />
+                />
               ) : 
                 <div className="paymentButtonWrapper">
                   {/* getShit(["user", "payment", "subscription"]) */}
@@ -1643,12 +1647,12 @@ function Payment(props) {
                 <a href="/about" className="b-nav__link w-inline-block">
                   <div>about</div>
                 </a>
-                <a
+                {/* <a
                   href="/galfond-challenge"
                   className="b-nav__link w-inline-block"
                 >
                   <div>galfond challenge</div>
-                </a>
+                </a> */}
               </div>
             </div>
             <div
@@ -1755,16 +1759,18 @@ function Payment(props) {
           <div>Close</div>
         </div>
       </div>
-      
-      <Modal
+      {showRegisterModal  && (
+        <Modal
           visible={showRegisterModal}
           width="420px"
           height="100%"
           effect="fadeInUp"
           onClickAway={() => setShowRegisterModal(false)}
         >
-        <RegisterModal reset={!showRegisterModal} />
-      </Modal>
+          <RegisterModal reset={!showRegisterModal} />
+        </Modal>
+      )}
+      
     </body>
   );
 }
