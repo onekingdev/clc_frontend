@@ -104,6 +104,7 @@ export default function CheckoutForm({
                 setMsg(`Payment failed ${result.error.message}`);
                 setProcessing(false);
             } else {
+                console.log("card",result);
                 const res = await fetchPaymentSubscription(email, result.paymentMethod, subscriptionType).catch(console.log);
                 if (res.status === 'error') {
                     setMsg(`Stripe configuration changed. Please contanct admin`);

@@ -22,6 +22,7 @@ function Navigation(props: any) {
 
   return (
     <Switch>
+
       <Route exact path="/" component={Login} />
       <Route exact path="/code=:code" component={Login} />
       <Route exact path="/payment" component={Payment} />
@@ -34,13 +35,13 @@ function Navigation(props: any) {
           userId: selector.stringID,
           customAttributes: { custom_attribute_key: "Hi There!" },
         }}
-      >{
-        console.log(props.user)
-      }
+      >
+        {/* {console.log("=========================================",props.user.payment,moment(props.user.payment.subscription).diff(moment(), "days") )} */}
         {props.user.id ? (
           <div>
             {props.user.assessment ? (
               <div>
+                
                 <Redirect to="/assessment-screen" />
                 <Route exact path="/assessment-screen" component={Assessment} />
                 <Route exact path="/assessment" component={Game} />

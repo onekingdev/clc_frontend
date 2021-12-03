@@ -45,7 +45,7 @@ type UserType = {
 };
 interface IRegisterModal {
   reset: boolean;
-  register: (data: IUser, callback: (success: boolean) => void) => UserType;
+  register: (data: IUser, callback: (success: boolean,registeredUser:any) => void) => UserType;
   clearAuthenticationData: () => void;
   messageCode: number | string;
   isFetchingAuthentication: boolean;
@@ -154,14 +154,14 @@ const RegisterModal: React.FC<IRegisterModal> = ({
         email: emailObj.email,
       };
 
-      register(request, (success) => {
+      register(request, (success,registeredUser) => {
         if (success) {
-          console.log("success");
+          console.log("success========================================================", registeredUser);
           if(selector.activationCodeID > 4)
               {
                 trackEvent('Sign up for trial')
               }
-          if (user.assessment || true) {
+          if (registeredUser.assessment || false) {
             history.push("assessment-screen");
             trackEvent('Sign up for assessment')
             
@@ -285,7 +285,7 @@ const mapStateToProps = (state: any) => {
 
 const bindActions = (dispatch: any) => {
   return {
-    register: (data: IUser, callback: (success: boolean) => void) =>
+    register: (data: IUser, callback: (success: boolean,registeredUser:any) => void) =>
       dispatch(ACTIONS.register(data, callback)),
     clearAuthenticationData: () => dispatch(ACTIONS.clearAuthenticationData()),
   };

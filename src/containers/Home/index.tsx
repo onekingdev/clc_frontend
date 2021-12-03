@@ -140,6 +140,7 @@ function Home(props: any) {
                 CONTENT <SmallText bold>SPOTLIGHT</SmallText>
               </SmallText>
             </div>
+            {console.log("SPOTLIGHT", props.contentSpotlight.link)}
             <MediaCard
               link
               image="https://firebasestorage.googleapis.com/v0/b/chipleadercoaching-webapp.appspot.com/o/image1.png?alt=media&token=9b6d0aff-a401-42d1-8f07-43bb46764e1d"
@@ -155,6 +156,7 @@ function Home(props: any) {
             />
           </div>
           <div>
+           {console.log("BREAKDOWN", props.weeklyHandBreakdown.url)}
             <div className="homeTextWrapper">
               <SmallText color="#FFF">
                 WEEKLY <SmallText bold>HAND BREAKDOWN</SmallText>
@@ -170,7 +172,8 @@ function Home(props: any) {
                   () =>
                     setShowModal({
                       show: true,
-                      url: props.weeklyHandBreakdown.url,
+                      // url: props.weeklyHandBreakdown.url,
+                      url: "https://vimeo.com/638584012"
                     }),
                   500
                 )

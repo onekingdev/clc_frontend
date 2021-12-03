@@ -13,6 +13,7 @@ import * as RESULT_ACTIONS from "../Results/store/actions";
 import assessmentBG from "../../assets/images/assessment-start.png";
 
 function Assessment(props: any) {
+
   const history = useHistory();
 
   useEffect(() => {

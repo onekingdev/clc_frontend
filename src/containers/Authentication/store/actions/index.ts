@@ -63,7 +63,7 @@ export const login = (data: IUser, callback: (success: boolean, userData: IUser)
     }
 }
 
-export const register = (data: IUser, callback: (success: boolean) => void) => async(
+export const register = (data: IUser, callback: (success: boolean, registeredUser: any) => void) => async(
     dispatch: (data: any) => void,
     getState: any,
 ) => {
@@ -128,11 +128,11 @@ export const register = (data: IUser, callback: (success: boolean) => void) => a
                             }
                         });
                     dispatch(setUserData(user))
-                    setTimeout(() => callback(true), 1000);
+                    setTimeout(() => callback(true, user), 1000);
                 }).catch(e => dispatch(setAuthenticationCode(e.message)))
         } else if (code.error) {
             dispatch(setAuthenticationCode(code.error));
-            setTimeout(() => callback(false), 500);
+            setTimeout(() => callback(false, {}), 500);
         }
         return code;
     } catch (e) {
