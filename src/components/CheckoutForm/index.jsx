@@ -85,7 +85,6 @@ export default function CheckoutForm({
 
         const today = new Date()
         const firstPaymentDate = new Date(today.getFullYear(), today.getMonth() + 3, today.getDay())
-
         const result = await stripe.createPaymentMethod({
             type: 'card',
             card: elements.getElement(CardElement),
@@ -104,11 +103,14 @@ export default function CheckoutForm({
                 setMsg(`Payment failed ${result.error.message}`);
                 setProcessing(false);
             } else {
-                console.log("card",result);
                 const res = await fetchPaymentSubscription(email, result.paymentMethod, subscriptionType).catch(console.log);
                 if (res.status === 'error') {
                     setMsg(`Stripe configuration changed. Please contanct admin`);
-                } else if (res.status === 'requires_action') {
+                } 
+                else if(res.status == "invalid_creditcard") {
+                    setMsg(`Invalid credit card`);
+                }
+                else if (res.status === 'requires_action') {
                     stripe.confirmCardPayment(res.client_secret).then((result) => {
                         console.log(res.clientSecret)
                         if (result.error) {
@@ -124,19 +126,22 @@ export default function CheckoutForm({
                     trackEvent(`${subscriptionType} plan purchased`)
                 }
             }
-        } else if (updatePaymentDetails !== null) {
-            const res = await updatePaymentDetails(result.paymentMethod).catch(console.log);
-            if (res.id) {
-                setSucceeded(true);
-                setProcessing(false);
-                trackEvent(`${subscriptionType} plan updated`)
-
-            } else {
-                setSucceeded(false);
-                setProcessing(false);
-
-            }
         }
+        setProcessing(false)
+
+        //  else if (updatePaymentDetails !== null) {
+        //     const res = await updatePaymentDetails(result.paymentMethod).catch(console.log);
+        //     if (res.id) {
+        //         setSucceeded(true);
+        //         setProcessing(false);
+        //         trackEvent(`${subscriptionType} plan updated`)
+
+        //     } else {
+        //         setSucceeded(false);
+        //         setProcessing(false);
+
+        //     }
+        // }
 
     };
     const handleSelectPlan = value => {

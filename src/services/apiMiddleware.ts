@@ -8,7 +8,8 @@ import {
 
 const getApi = () => {
   if (process.env.NODE_ENV === "development") {
-    return apiCloudDevUrl;
+    // return apiCloudDevUrl;
+    return apiLocalhostUrl;
   }
   return apiCloudHostUrl;
 };

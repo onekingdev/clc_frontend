@@ -425,19 +425,23 @@ function Settings(props: any) {
                 </div>
               ) : (
                 <div>
-                  <div style={{ padding: 20 }}>
-                    <Cards
-                      cvc={"***"}
-                      expiry={`${renderNumber(
-                        props.user.payment.paymentMethod.expMonth
-                      )}/${props.user.payment.paymentMethod.expYear}`}
-                      focused={""}
-                      name={"Card"}
-                      number={`${renderBrand(
-                        props.user.payment.paymentMethod.brand
-                      )}***********${props.user.payment.paymentMethod.last4}`}
-                    />
+                  <div className="cardContainer">
+                    <div className="selfCard">
+                      <Cards
+                        cvc={"***"}
+                        expiry={`${renderNumber(
+                          props.user.payment.paymentMethod.expMonth
+                        )}/${props.user.payment.paymentMethod.expYear}`}
+                        focused={""}
+                        name={"Card"}
+                        number={`${renderBrand(
+                          props.user.payment.paymentMethod.brand
+                        )}***********${props.user.payment.paymentMethod.last4}`}
+                      />
+                    </div>
+                    <div className="upgradeCardForm"></div>
                   </div>
+                  
                   <div className="settingsButtonWrapper">
                     <Elements stripe={promise}>
                       <CheckoutForm

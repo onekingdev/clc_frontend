@@ -140,10 +140,9 @@ function Home(props: any) {
                 CONTENT <SmallText bold>SPOTLIGHT</SmallText>
               </SmallText>
             </div>
-            {console.log("SPOTLIGHT", props.contentSpotlight.link)}
             <MediaCard
               link
-              image="https://firebasestorage.googleapis.com/v0/b/chipleadercoaching-webapp.appspot.com/o/image1.png?alt=media&token=9b6d0aff-a401-42d1-8f07-43bb46764e1d"
+              image="https://firebasestorage.googleapis.com/v0/b/chipleadercoaching-webapp.appspot.com/o/image4.png?alt=media&token=9b6d0aff-a401-42d1-8f07-43bb46764e1d"
               title={props.contentSpotlight.title}
               description={props.contentSpotlight.body}
               onClick={() =>
@@ -156,10 +155,9 @@ function Home(props: any) {
             />
           </div>
           <div>
-           {console.log("BREAKDOWN", props.weeklyHandBreakdown.url)}
             <div className="homeTextWrapper">
               <SmallText color="#FFF">
-                WEEKLY <SmallText bold>HAND BREAKDOWN</SmallText>
+                LEARN <SmallText bold>ABOUT CLCAI</SmallText>
               </SmallText>
             </div>
             <MediaCard

@@ -4,7 +4,8 @@ export const apiCloudHostUrl =
 export const apiStagingHostUrl =
   "https://us-central1-staging-clc.cloudfunctions.net";
 export const apiCloudDevUrl = 'https://us-central1-devenvclc.cloudfunctions.net'
-export const apiLocalhostUrl = "/chipleadercoaching-webapp/us-central1";
+// export const apiLocalhostUrl = "/chipleadercoaching-webapp/us-central1";
+export const apiLocalhostUrl = "http://localhost:3003/devenvclc/us-central1";
 export const apiGetUserByEmail = "getUserByEmail";
 export const apiCreateUser = "createUser";
 export const apiValidateCode = "validateCode";
