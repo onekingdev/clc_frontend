@@ -1,7 +1,7 @@
 import firebase from 'firebase/app';
 import 'firebase/auth';
 
-/*----------------- Production firebase config -S-------------------------*
+/*----------------- Production firebase config -S-------------------------*/
 const app = firebase.initializeApp( {
     apiKey: "AIzaSyDjDLYRdraVPdvJDV6GjpWfaiRM0XJHrys",
     authDomain: "chipleadercoaching-webapp.firebaseapp.com",
@@ -15,7 +15,7 @@ const app = firebase.initializeApp( {
 /*----------------- Production firebase config -E-------------------------*/
 
 
-/*----------------- developement firebase config -S-------------------------*/
+/*----------------- developement firebase config -S-------------------------*
 const app = firebase.initializeApp( {
     apiKey: "AIzaSyBRoGNgYCTGL7jZnQZ_wDq2OkibJP_L-gE",
     authDomain: "devenvclc.firebaseapp.com",
