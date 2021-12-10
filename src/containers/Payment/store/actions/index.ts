@@ -4,9 +4,11 @@ import {
     apiGetUserByEmail,
     apiPaymentSubscription,
     apiUpdatePaymentDetails,
-    apiCancelSubscription
+    apiCancelSubscription,
+    apiReActiveSubscription,
 } from "../../../../helpers/constants";
 import * as AUTH_TYPES from '../../../Authentication/store/actions'
+import Results from "../../../Results";
 
 export const setClientSecret = (data: string) => {
     return {
@@ -47,21 +49,67 @@ export const cancelSubscription = () => async(
     dispatch: (data: any) => void,
     getState: any,
 ) => {
+    let result={success: false, data: null, message: null}
     try {
         let user = getState().authState.user;
 
         dispatch(AUTH_TYPES.setIsFetchingAuthentication(true))
-        const {status} = await api.post(apiCancelSubscription, {id: user.id});
-        if (status === 'canceled')
+        const {success, data, message} = await api.post(apiCancelSubscription, {id: user.id});
+        
+        if (success && data.cancel_at_period_end){
             user.payment['canceled'] = true;
-
+            user.payment['subscription'] = new Date(data.current_period_end * 1000);
+        } else {
+            console.log("err", message);
+            alert(message)
+        }
         dispatch(AUTH_TYPES.setUserData(user));
         dispatch(AUTH_TYPES.setIsFetchingAuthentication(false))
-    } catch (e) {
+        result.success = true;
+        result.data = data;
+    } catch (e: any) {
+        dispatch(AUTH_TYPES.setIsFetchingAuthentication(false))
+        alert('Error')
+        result.success = false;
+        result.message = e.raw.message;
+    } finally {
+
+    }
+    return result;
+}
+
+export const reActiveSubscription = () => async(
+    dispatch: (data: any) => void,
+    getState: any,
+) => {
+    let result = {success:false,data:null,message:null}
+    try {
+        let user = getState().authState.user;
+
+        dispatch(AUTH_TYPES.setIsFetchingAuthentication(true))
+        const {success, data, message} = await api.post(apiReActiveSubscription, {id: user.id});
+        // const {cancel_at_period_end, current_period_end} = await api.post(apiReActiveSubscription, {id: user.id});
+        if (success && !data.cancel_at_period_end){
+            user.payment['canceled'] = false;
+            user.payment['subscription'] = new Date(data.current_period_end * 1000);
+            dispatch(AUTH_TYPES.setUserData(user));
+            dispatch(AUTH_TYPES.setIsFetchingAuthentication(false))
+        } else {
+            console.log("err", message);
+            alert(message)
+            dispatch(AUTH_TYPES.setIsFetchingAuthentication(false))
+        }
+        result.success = true;
+        result.data = data;
+        
+    } catch (e:any) {
+        result.success = false;
+        result.message = e.raw.message;
         alert('Error')
     } finally {
 
     }
+    return result;
 }
 
 export const updatePaymentDetails = (paymentMethod: any) => async(

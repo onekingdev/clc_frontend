@@ -170,8 +170,8 @@ function Home(props: any) {
                   () =>
                     setShowModal({
                       show: true,
-                      // url: props.weeklyHandBreakdown.url,
-                      url: "https://vimeo.com/638584012"
+                      url: props.weeklyHandBreakdown.url,
+                      // url: "https://vimeo.com/638584012"
                     }),
                   500
                 )

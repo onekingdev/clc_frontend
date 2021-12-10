@@ -37,6 +37,7 @@ export const apiUpdateMasteredLessons = "updateMasteredLessons";
 export const apiBuyTopic = "buyTopic";
 export const apiPaymentSubscription = "paymentSubscription";
 export const apiCancelSubscription = "cancelSubscription";
+export const apiReActiveSubscription = "reActiveSubscription";
 export const apiUpdatePaymentDetails = "updatePaymentDetails";
 
 // front end messages

@@ -12,6 +12,7 @@ import * as ACTIONS from "./store/actions";
 import * as AUTH_ACTIONS from "../Authentication/store/actions";
 import moment from "moment";
 import Button from "../../components/Button";
+import ErrorDisplay from '../../components/ErrorDisplay'
 import IframeResizer from "iframe-resizer-react";
 import { PulseLoader } from "react-spinners";
 import TitleText from "../../components/TitleText";
@@ -1354,41 +1355,90 @@ function Payment(props) {
               ) : 
                 <div className="paymentButtonWrapper">
                   {/* getShit(["user", "payment", "subscription"]) */}
-              {(getShit(["user", "payment", "subscription"]) || moment(props.user.payment.subscription).diff(moment(), "days") > 0) ? (
-                <div className="paymentButtonWrapper">
-                  <Button
-                    onClick={() => {
-                      setTimeout(() => history.push("home"), 500);
-                    }}
-                    width={300}
-                    height={44}
-                    text="Start"
-                    glow
-                  />
+                  
+                  {/* {
+                    props.user &&
+                    props.user.payment &&
+                    props.user.payment.canceled &&
+                    moment(props.user.payment.subscription).diff(moment(), "days") < 1 ?
+                    (
+                      <>
+                      <ErrorDisplay message={"Your payment subscription has ended. Please reactivate your account."} show={true} />
+                      <div className="paymentButtonWrapper">
+                        <Button
+                          onClick={async () => {
+                            const res = await props.fetchPaymentSubscription(props.user.email, props.user.payment.paymentMethod, props.user.payment.subscriptionType).catch(console.log);
+                            console.log("reactive result is ",res); 
+                            // if (res.status === 'error') {
+                            //     setMsg(`Stripe configuration changed. Please contanct admin`);
+                            // } 
+                            // else if(res.status == "invalid_creditcard") {
+                            //     setMsg(`Invalid Credit Card or Network Connection Error`);
+                            //     setProcessing(false);
+                            // }
+                            // else if (res.status === 'requires_action') {
+                            //     stripe.confirmCardPayment(res.client_secret).then((result) => {
+                            //         console.log(res.clientSecret)
+                            //         if (result.error) {
+                            //             setMsg(`Payment failed ${result.error}`);
+                            //             setProcessing(false);
+                            //         } else {
+                            //             setSucceeded(true)
+                            //         }
+
+                            //     });
+                            // } else {
+                            //     setSucceeded(true)
+                            //     trackEvent(`${subscriptionType} plan purchased`)
+                            // }
+                          }}
+                          width={300}
+                          height={44}
+                          text="Reactivate"
+                          glow
+                        />
+                      </div>
+                      </>
+                    ) : ( */}
+                      <>
+                        {(getShit(["user", "payment", "subscription"]) || moment(props.user.payment.subscription).diff(moment(), "days") > 0) ? (
+                          <div className="paymentButtonWrapper">
+                            <Button
+                              onClick={() => {
+                                setTimeout(() => history.push("home"), 500);
+                              }}
+                              width={300}
+                              height={44}
+                              text="Start"
+                              glow
+                            />
+                          </div>
+                        ) : (
+                          <div className="settingsButtonWrapper">
+                            <Elements stripe={promise}>
+                              <CheckoutForm
+                                setProcessing={(value) => setProcessing(value)}
+                                processing={processing}
+                                clientSecret={props.clientSecret}
+                                email={props.user.email}
+                                succeeded={succeeded}
+                                setSucceeded={(value) => {
+                                  setSucceeded(value);
+                                  setTimeout(
+                                    () => props.fetchUpdatedUserData(props.user.email),
+                                    500
+                                  );
+                                }}
+                                fetchPaymentSubscription={props.fetchPaymentSubscription}
+                                user={props.user}
+                              />
+                            </Elements>
+                          </div>
+                        )}
+                      </>
+                    {/* )
+                  } */}
                 </div>
-              ) : (
-                <div className="settingsButtonWrapper">
-                  <Elements stripe={promise}>
-                    <CheckoutForm
-                      setProcessing={(value) => setProcessing(value)}
-                      processing={processing}
-                      clientSecret={props.clientSecret}
-                      email={props.user.email}
-                      succeeded={succeeded}
-                      setSucceeded={(value) => {
-                        setSucceeded(value);
-                        setTimeout(
-                          () => props.fetchUpdatedUserData(props.user.email),
-                          5000
-                        );
-                      }}
-                      fetchPaymentSubscription={props.fetchPaymentSubscription}
-                      user={props.user}
-                    />
-                  </Elements>
-                </div>
-              )}
-            </div>
               }
             </div>
             

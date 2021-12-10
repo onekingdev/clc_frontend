@@ -108,7 +108,8 @@ export default function CheckoutForm({
                     setMsg(`Stripe configuration changed. Please contanct admin`);
                 } 
                 else if(res.status == "invalid_creditcard") {
-                    setMsg(`Invalid credit card`);
+                    setMsg(`Invalid Credit Card or Network Connection Error`);
+                    setProcessing(false);
                 }
                 else if (res.status === 'requires_action') {
                     stripe.confirmCardPayment(res.client_secret).then((result) => {
@@ -155,14 +156,16 @@ export default function CheckoutForm({
             <div className="payment-container">
                 <div >
                     {selector.user.type === 'admin' ? 
-                        <SuscriptionCard
-                        title="CL TEST"
-                        price={5}
-                        benefitsActive={false}
-                        value="CL TEST"
-                        glow
-                        handleGetMemberType={handleSelectPlan}
-                        />
+                        <div className="subscriptions_container_one">
+                            <SuscriptionCard
+                            title="CL TEST"
+                            price={5}
+                            benefitsActive={false}
+                            value="CL TEST"
+                            glow
+                            handleGetMemberType={handleSelectPlan}
+                            />
+                        </div>
                         :
                         <div className="suscriptions-container">
                             <SuscriptionCard

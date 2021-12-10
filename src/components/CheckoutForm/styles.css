@@ -61,6 +61,11 @@
   margin: 20px auto;
   overflow-x: scroll;
 }
+.subscriptions_container_one {
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 560px;
+}
 .sub-card-title{
   width: 90%;
   margin: 10px auto;

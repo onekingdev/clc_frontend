@@ -7,11 +7,14 @@ import {
 } from "../helpers/constants";
 
 const getApi = () => {
+  console.log(process.env.NODE_ENV);
   if (process.env.NODE_ENV === "development") {
     // return apiCloudDevUrl;
     return apiLocalhostUrl;
   }
-  return apiCloudHostUrl;
+  // return apiCloudHostUrl;
+  return apiCloudDevUrl;
+
 };
 
 const api = {
