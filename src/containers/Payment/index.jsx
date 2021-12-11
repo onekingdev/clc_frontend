@@ -21,6 +21,7 @@ import { getStripeKey } from "../../services/stripe";
 import { Style } from "react-style-tag";
 import RegisterModal from "../Authentication/RegisterModal";
 import Modal from "react-awesome-modal";
+import { useIntercom } from "react-use-intercom";
 
 // import { env } from "node:process";
 // import { Thing } from "../../components/TheThing/thing";
@@ -37,6 +38,8 @@ function Payment(props) {
   const [showStartBtn, setShowStartBtn] = useState(true);
   const [playVideo, setPlayVideo] = useState(false)
   const [showRegisterModal, setShowRegisterModal] = useState(false);
+  const [reactivateMsg, setReactivateMsg] = useState("Your payment subscription has ended. Please reactivate your account.")
+  const {trackEvent} = useIntercom();
 
   // const userDidPay = () => {
 
@@ -1353,53 +1356,69 @@ function Payment(props) {
                 <RegisterModal
                 />
               ) : 
-                <div className="paymentButtonWrapper">
+                <div>
                   {/* getShit(["user", "payment", "subscription"]) */}
-                  
-                  {/* {
+                  {console.log(props.user.payment.canceled, moment(props.user.payment.subscription).diff(moment(), "days"))}
+                  {
                     props.user &&
                     props.user.payment &&
                     props.user.payment.canceled &&
                     moment(props.user.payment.subscription).diff(moment(), "days") < 1 ?
                     (
-                      <>
-                      <ErrorDisplay message={"Your payment subscription has ended. Please reactivate your account."} show={true} />
+                      <Elements stripe={promise}>
+                      {succeeded ? (<ErrorDisplay message={reactivateMsg} show={reactivateMsg} color="var(--primary)"/>) : (<ErrorDisplay message={reactivateMsg} show={reactivateMsg} />)}
                       <div className="paymentButtonWrapper">
                         <Button
                           onClick={async () => {
-                            const res = await props.fetchPaymentSubscription(props.user.email, props.user.payment.paymentMethod, props.user.payment.subscriptionType).catch(console.log);
+                            setProcessing(true);
+                            let stripe = promise;
+                            const res = await props.fetchPaymentSubscription(props.user.email, props.user.payment.paymentMethod, props.user.payment.subscriptionType, true).catch(console.log);
                             console.log("reactive result is ",res); 
-                            // if (res.status === 'error') {
-                            //     setMsg(`Stripe configuration changed. Please contanct admin`);
-                            // } 
-                            // else if(res.status == "invalid_creditcard") {
-                            //     setMsg(`Invalid Credit Card or Network Connection Error`);
-                            //     setProcessing(false);
-                            // }
-                            // else if (res.status === 'requires_action') {
-                            //     stripe.confirmCardPayment(res.client_secret).then((result) => {
-                            //         console.log(res.clientSecret)
-                            //         if (result.error) {
-                            //             setMsg(`Payment failed ${result.error}`);
-                            //             setProcessing(false);
-                            //         } else {
-                            //             setSucceeded(true)
-                            //         }
-
-                            //     });
-                            // } else {
-                            //     setSucceeded(true)
-                            //     trackEvent(`${subscriptionType} plan purchased`)
-                            // }
+                            if (res.status === 'error') {
+                              setReactivateMsg(`Stripe configuration changed. Please contanct admin`);
+                            } 
+                            else if(res.status == "invalid_creditcard") {
+                                setReactivateMsg(`Invalid Credit Card or Network Connection Error`);
+                                setProcessing(false);
+                            }
+                            else if (res.status === 'requires_action') {
+                                stripe.confirmCardPayment(res.client_secret).then((result) => {
+                                    console.log(res.clientSecret)
+                                    if (result.error) {
+                                      setReactivateMsg(`Payment failed ${result.error}`);
+                                        setProcessing(false);
+                                    } else {
+                                        setSucceeded(true)
+                                        setProcessing(false);
+                                        setReactivateMsg("Successfully reactivated.")
+                                        setTimeout(
+                                          () => props.fetchUpdatedUserData(props.user.email),
+                                          500
+                                        );
+                                    }
+                                });
+                            } else {
+                                setSucceeded(true)
+                                setProcessing(false);
+                                setReactivateMsg("Successfully reactivated.")
+                                setTimeout(
+                                  () => props.fetchUpdatedUserData(props.user.email),
+                                  500
+                                );
+                                trackEvent(`${props.user.payment.subscriptionType} plan purchased`)
+                            }
                           }}
+                          
                           width={300}
                           height={44}
                           text="Reactivate"
                           glow
+                          loading={processing}
+                          disabled={processing || succeeded}
                         />
                       </div>
-                      </>
-                    ) : ( */}
+                      </Elements>
+                    ) : (
                       <>
                         {(getShit(["user", "payment", "subscription"]) || moment(props.user.payment.subscription).diff(moment(), "days") > 0) ? (
                           <div className="paymentButtonWrapper">
@@ -1436,8 +1455,8 @@ function Payment(props) {
                           </div>
                         )}
                       </>
-                    {/* )
-                  } */}
+                    )
+                  } 
                 </div>
               }
             </div>
@@ -1841,10 +1860,11 @@ const bindActions = (dispatch) => {
     fetchPaymentSubscription: (
       email,
       paymentMethod,
-      subscriptionType
+      subscriptionType,
+      reactivate
     ) =>
       dispatch(
-        ACTIONS.fetchPaymentSubscription(email, paymentMethod, subscriptionType)
+        ACTIONS.fetchPaymentSubscription(email, paymentMethod, subscriptionType, reactivate)
       ),
   };
 };

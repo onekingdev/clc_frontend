@@ -65,7 +65,10 @@ export default function Upgrade({
     const handleSubmit = async e => {
 
         //e.preventDefault();
+        setSuccessMsg(null);
+        console.log("message is ", msg," card id ", elements.getElement(CardElement))
         if(msg) return;
+        setMsg(null);
         setProcessing(true);
 
         const today = new Date()
@@ -77,7 +80,11 @@ export default function Upgrade({
                 email: email,
             },
         }).catch(console.log)
-
+        console.log(result.paymentMethod);
+        if(!result.paymentMethod){
+            setProcessing(false);
+            return;
+        } 
         const {success,data, message} = await updatePaymentDetails(result.paymentMethod).catch(console.log);
         if (success && data.id) {
             setSucceeded(true);
@@ -92,7 +99,7 @@ export default function Upgrade({
             setProcessing(false);
             setMsg(message ? message : "UnKnown Error")
         }
-
+        // elements.getElement(CardElement).clear();
     };
     const handleSelectPlan = value => {
         setSubscriptionType(value)
@@ -122,7 +129,6 @@ export default function Upgrade({
                                 glow
                                 text={'Update'} />
                         </div>
-                        {msg}
                         {succeeded ?
                             <ErrorDisplay message={msg} show={msg} color="var(--primary)" /> :
                             <ErrorDisplay message={msg} show={msg} />}
