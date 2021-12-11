@@ -12,8 +12,8 @@ const getApi = () => {
     // return apiCloudDevUrl;
     return apiLocalhostUrl;
   }
-  // return apiCloudHostUrl;
-  return apiCloudDevUrl;
+  return apiCloudHostUrl;
+  // return apiCloudDevUrl;
 
 };
 
