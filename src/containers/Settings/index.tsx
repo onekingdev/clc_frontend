@@ -438,6 +438,25 @@ function Settings(props: any) {
                   ).diff(moment(), "days")} days`}
                   show
                 />
+                <div className="settingsButtonWrapper">
+                  <Elements stripe={promise}>
+                    <CheckoutForm
+                      setProcessing={(value: boolean) => setProcessing(value)}
+                      processing={processing}
+                      email={props.user.email}
+                      succeeded={succeeded}
+                      setSucceeded={(value: boolean) => {
+                        setTimeout(() => {
+                          props.fetchUpdatedUserData(props.user.email);
+                          setSucceeded(value);
+                        }, 1000);
+                      }}
+                      update={true}
+                      fetchPaymentSubscription={props.fetchPaymentSubscription}
+                      user={props.user}
+                    />
+                  </Elements>
+                </div>
                 </>
               ) : props.isFetchingAuthentication ? (
                 <div className="settingsButtonWrapper">
@@ -479,24 +498,7 @@ function Settings(props: any) {
                     </div>
                   </div>
                   
-                  <div className="settingsButtonWrapper">
-                    <Elements stripe={promise}>
-                      <CheckoutForm
-                        setProcessing={(value: boolean) => setProcessing(value)}
-                        processing={processing}
-                        email={props.user.email}
-                        succeeded={succeeded}
-                        setSucceeded={(value: boolean) => {
-                          setTimeout(() => {
-                            props.fetchUpdatedUserData(props.user.email);
-                            setSucceeded(value);
-                          }, 1000);
-                        }}
-                        updatePaymentDetails={props.updatePaymentDetails}
-                        user={props.user}
-                      />
-                    </Elements>
-                  </div>
+                  
                   {cancelSub ? (
                     <div className="settingsButtonWrapper">
                       <Button
@@ -625,6 +627,15 @@ const bindActions = (dispatch: any) => {
     reActiveSubscription: () => dispatch(PAYMENT_ACTIONS.reActiveSubscription()),
     updatePaymentDetails: (paymentMethod: any) =>
       dispatch(PAYMENT_ACTIONS.updatePaymentDetails(paymentMethod)),
+    fetchPaymentSubscription: (
+      email: any,
+      paymentMethod: any,
+      subscriptionType: any,
+      reactivate: any
+    ) =>
+      dispatch(
+        PAYMENT_ACTIONS.fetchPaymentSubscription(email, paymentMethod, subscriptionType, reactivate)
+      ),
   };
 };
 

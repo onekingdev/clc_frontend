@@ -25,6 +25,7 @@ export default function CheckoutForm({
     setProcessing,
     fetchPaymentSubscription = null,
     updatePaymentDetails = null,
+    update,
     user
 }) {
     const [msg, setMsg] = useState(null);
@@ -158,12 +159,13 @@ export default function CheckoutForm({
                     {selector.user.type === 'admin' ? 
                         <div className="subscriptions_container_one">
                             <SuscriptionCard
-                            title="CL TEST"
-                            price={5}
-                            benefitsActive={false}
-                            value="CL TEST"
-                            glow
-                            handleGetMemberType={handleSelectPlan}
+                                title="CL TEST"
+                                price={5}
+                                benefitsActive={false}
+                                value="CL TEST"
+                                glow
+                                handleGetMemberType={handleSelectPlan}
+                                update={update}
                             />
                         </div>
                         :
@@ -175,6 +177,7 @@ export default function CheckoutForm({
                                 value="CL AI"
                                 glow
                                 handleGetMemberType={handleSelectPlan}
+                                update={update}
                             />
                             <SuscriptionCard
                                 title="CL AI+"
@@ -183,6 +186,7 @@ export default function CheckoutForm({
                                 benefitsActive={true}
                                 value="CL AI+"
                                 handleGetMemberType={handleSelectPlan}
+                                update={update}
                             />
                         </div>
                     }

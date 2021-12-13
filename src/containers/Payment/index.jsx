@@ -409,7 +409,7 @@ function Payment(props) {
                         width="100%"
                         height="100%"
                       ></iframe>
-                      <script src="//fast.wistia.net/assets/external/iframe-api-v1.js"></script>
+                      {/* <script src="//fast.wistia.net/assets/external/iframe-api-v1.js"></script> */}
                     </div>
                   </div>
                 </div>
