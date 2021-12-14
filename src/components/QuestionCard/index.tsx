@@ -133,7 +133,9 @@ const QuestionCard: React.FC<IQuestionCard> = ({
       ) : null}
       {!rerender && randomized_options.length > 0 ? (
         randomized_options.map((item, index) => (
+
           <div key={index} style={{ marginBottom: 16 }}>
+            {console.log(item, pressed.pressed, item.correct && pressed.pressed)}
             {item.text ? (
               <Button
                 selected={pressed.index === index && pressed.pressed}
@@ -148,6 +150,7 @@ const QuestionCard: React.FC<IQuestionCard> = ({
                 width={343}
                 height={47}
                 text={`${item.text}`}
+                bgGreen={item.correct && pressed.pressed}
                 answer={
                   index === 0
                     ? "A."
