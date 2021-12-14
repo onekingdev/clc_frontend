@@ -681,6 +681,22 @@ function Game(props: any) {
                                     )
                                   ].amount
                             }
+                            displayAmount={
+                              parseInt(item.number) ===
+                              questions.array[questionIndex].hands[
+                                useStartIndex ? index : handIndex
+                              ].player
+                                ? questions.array[questionIndex].hands[
+                                    useStartIndex ? index : handIndex
+                                  ].displayAmount
+                                : questions.array[questionIndex].hands[
+                                    getPastPlayerIndex(
+                                      questions.array[questionIndex].hands,
+                                      parseInt(item.number),
+                                      useStartIndex ? index : handIndex
+                                    )
+                                  ].displayAmount
+                            }
                             pot={pot}
                             bb={parseInt(
                               questions.array[questionIndex].tableInfo.bb
