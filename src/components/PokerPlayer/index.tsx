@@ -344,7 +344,6 @@ const PokerPlayer: React.FC<IPokerPlayer> = ({
                         )
                       : ""
                   }`}</SmallText> */}
-                  <SmallText>{changeMoney && amount ? " BB" : ""}</SmallText>
                   <SmallText color="#FFF" bold>{`${
                     action === "calls"
                       ? numberWithCommas(
@@ -361,7 +360,9 @@ const PokerPlayer: React.FC<IPokerPlayer> = ({
                       : ""
                   }`}
                   {console.log(displayAmount)}</SmallText>
+                  <SmallText>{changeMoney && amount ? " BB" : ""}</SmallText>
                 </SmallText>
+                
               ) : action === "?" ? (
                 <div>
                   <FontAwesomeIcon
