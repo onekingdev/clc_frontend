@@ -351,7 +351,7 @@ const PokerPlayer: React.FC<IPokerPlayer> = ({
                             ? Number((displayAmount / bb).toFixed(2))
                             : displayAmount
                         )
-                      : displayAmount
+                      : amount
                       ? numberWithCommas(
                           changeMoney
                             ? Number((displayAmount / bb).toFixed(2))
@@ -548,10 +548,10 @@ const PokerPlayer: React.FC<IPokerPlayer> = ({
                     action === "calls"
                       ? numberWithCommas(
                           changeMoney
-                            ? Number((currentCalls / bb).toFixed(2))
-                            : currentCalls
+                            ? Number((displayAmount / bb).toFixed(2))
+                            : displayAmount
                         )
-                      : displayAmount
+                      : amount
                       ? numberWithCommas(
                           changeMoney
                             ? Number((displayAmount / bb).toFixed(2))
@@ -559,7 +559,6 @@ const PokerPlayer: React.FC<IPokerPlayer> = ({
                         )
                       : ""
                   }`}</SmallText>
-                  
                   <SmallText>{changeMoney && amount ? " BB" : ""}</SmallText>
                 </SmallText>
               ) : action === "?" ? (

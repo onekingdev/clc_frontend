@@ -516,6 +516,7 @@ function Game(props: any) {
 
     let hasNoMoney = item.initAmount === 0;
     if (str === "raises") return "raise to";
+    else if (str === "raises to") return "raise to"
     else if (str === "is allIn" || hasNoMoney) return "all-in";
     else return str;
   };

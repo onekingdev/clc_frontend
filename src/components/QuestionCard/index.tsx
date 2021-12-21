@@ -135,7 +135,6 @@ const QuestionCard: React.FC<IQuestionCard> = ({
         randomized_options.map((item, index) => (
 
           <div key={index} style={{ marginBottom: 16 }}>
-            {console.log(item, pressed.pressed, item.correct && pressed.pressed)}
             {item.text ? (
               <Button
                 selected={pressed.index === index && pressed.pressed}
