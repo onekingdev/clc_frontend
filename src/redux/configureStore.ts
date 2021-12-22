@@ -33,9 +33,10 @@ const enhancer = compose(
 );
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
-
+console.log("========================================================store file");
+export const store: any = createStore(persistedReducer, enhancer);
 export default function configureStore(onCompletion: any) {
-    let store: any = createStore(persistedReducer, enhancer);
+    // let store: any = createStore(persistedReducer, enhancer);
     let persistor = persistStore(store);
     return {store, persistor};
 }

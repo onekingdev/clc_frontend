@@ -1441,6 +1441,7 @@ function Payment(props) {
                                 clientSecret={props.clientSecret}
                                 email={props.user.email}
                                 succeeded={succeeded}
+                                update={ props.user.payment.customerID && moment(props.user.payment.subscription).diff(moment(), "days") < 1 ? true : false}
                                 setSucceeded={(value) => {
                                   setSucceeded(value);
                                   setTimeout(

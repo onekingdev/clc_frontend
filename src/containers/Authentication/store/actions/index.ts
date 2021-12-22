@@ -7,6 +7,7 @@ import {IUser} from '../../interfaces';
 import firebase from "firebase/app";
 import 'firebase/firestore'
 import { faCode } from '@fortawesome/free-solid-svg-icons';
+import { Console } from 'console';
 
 const timestamp = firebase.firestore.FieldValue.serverTimestamp();
 
@@ -169,6 +170,7 @@ export const logout = (callback: (success: boolean) => void) => async(
     getState: any,
 ) => {
     try {
+        console.log("log out ing");
         setTimeout(() => dispatch(setIsFetchingAuthentication(true)), 500);
         await app
             .auth()
