@@ -16,16 +16,27 @@ import Home from "../containers/Home";
 import Settings from "../containers/Settings";
 import moment from "moment";
 import { IntercomProvider} from "react-use-intercom";
+export const PrivateRoute = ({requireAuth=true, ...rest}) => {
+  const user = useSelector((store:any) => store.authState.user)
+  const isAuthenticated = !!user.id;
+  return (
+    <Route
+      {...rest}
+    >
+      {requireAuth ? (isAuthenticated ? rest.children : <Redirect to={{pathname: '/'}} />) : rest.children}
+      </Route>
+  )
+}
 function Navigation(props: any) {
   const selector = useSelector((store:any) => store.authState.user)
   const INTERCOM_APP_ID = "stkorlo9";
 
   return (
     <Switch>
-
+      {console.log("in router")}
       <Route exact path="/" component={Login} />
       <Route exact path="/code=:code" component={Login} />
-      <Route exact path="/payment" component={Payment} />
+      <PrivateRoute exact path="/payment" component={Payment} />
       <IntercomProvider
         appId={INTERCOM_APP_ID}
         autoBoot
@@ -36,37 +47,39 @@ function Navigation(props: any) {
           customAttributes: { custom_attribute_key: "Hi There!" },
         }}
       >
-        {/* {console.log("=========================================",props.user.payment,moment(props.user.payment.subscription).diff(moment(), "days") )} */}
         {props.user.id ? (
           <div>
             {props.user.assessment ? (
               <div>
-                
                 <Redirect to="/assessment-screen" />
-                <Route exact path="/assessment-screen" component={Assessment} />
-                <Route exact path="/assessment" component={Game} />
+                <PrivateRoute exact path="/assessment-screen" component={Assessment} />
+                <PrivateRoute exact path="/assessment" component={Game} />
+                <PrivateRoute exact path="/results" component={Results} />
               </div>
             ) : props.user.payment &&
-              moment(props.user.payment.subscription).diff(moment(), "days") >=
+              moment(props.user.payment.subscription).diff(moment(), "days") >
                 0 ? (
               <div>
-                <Route exact path="/assessment-screen" component={Assessment} />
-                <Route exact path="/assessment" component={Game} />
-                <Route exact path="/home" component={Home} />
-                <Route exact path="/paths" component={Paths} />
-                <Route exact path="/library" component={Library} />
-                <Route exact path="/performance" component={Performance} />
-                <Route exact path="/game" component={Game} />
-                <Route exact path="/ai" component={Game} />
-                <Route exact path="/share" component={Game} />
-                <Route exact path="/version" component={Version} />
-                <Route exact path="/settings" component={Settings} />
-                <Route exact path="/payment" component={Payment} />
+                <Redirect to="/home" />
+                <PrivateRoute exact path="/assessment-screen" component={Assessment} />
+                <PrivateRoute exact path="/assessment" component={Game} />
+                <PrivateRoute exact path="/home" component={Home} />
+                <PrivateRoute exact path="/paths" component={Paths} />
+                <PrivateRoute exact path="/library" component={Library} />
+                <PrivateRoute exact path="/performance" component={Performance} />
+                <PrivateRoute exact path="/game" component={Game} />
+                <PrivateRoute exact path="/ai" component={Game} />
+                <PrivateRoute exact path="/share" component={Game} />
+                <PrivateRoute exact path="/version" component={Version} />
+                <PrivateRoute exact path="/settings" component={Settings} />
+                <PrivateRoute exact path="/payment" component={Payment} />
+                <PrivateRoute exact path="/results" component={Results} />
               </div>
             ) : (
               <div>
-                <Route exact path="/results" component={Results} />
-                <Route exact path="/payment" component={Payment} />
+                <PrivateRoute exact path="/results" component={Results} />
+                <PrivateRoute exact path="/payment" component={Payment} />
+                <PrivateRoute exact path="/assessment" component={Game} />
               </div>
             )}
           </div>

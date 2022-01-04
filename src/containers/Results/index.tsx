@@ -31,6 +31,7 @@ function Results(props: any) {
       index={props.progressIndex}
       tooltip={"Good job!"}
     >
+    <>
       <Banner
         type="results"
         topText="THE TOURNAMENT ASSESSMENT"
@@ -87,6 +88,7 @@ function Results(props: any) {
             ))
           : null}
       </div>
+      </>
     </ScreenTemplate>
   );
 }

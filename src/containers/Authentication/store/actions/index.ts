@@ -50,7 +50,6 @@ export const login = (data: IUser, callback: (success: boolean, userData: IUser)
                 .auth()
                 .signInWithEmailAndPassword(data.email, data.password)
                 .then(async result => {
-                    console.log("sign in wih email and password result ", data.email, data.password, result);
                     const user = await api.post(apiGetUserByEmail, data);
                     dispatch(setUserData(user))
                     setTimeout(() => callback(true, user), 1000);
@@ -73,7 +72,6 @@ export const register = (data: IUser, callback: (success: boolean, registeredUse
         setTimeout(() => dispatch(setIsFetchingAuthentication(true)), 500);
 
         const code = await api.post(apiValidateCode, data);
-        console.log(code)
 
         if (code.id && data.email && data.password) {
             await app
@@ -170,7 +168,6 @@ export const logout = (callback: (success: boolean) => void) => async(
     getState: any,
 ) => {
     try {
-        console.log("log out ing");
         setTimeout(() => dispatch(setIsFetchingAuthentication(true)), 500);
         await app
             .auth()

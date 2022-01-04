@@ -25,7 +25,8 @@ const promise = () => (next: any) => (action: any) => (
 )
 
 const enhancer = compose(
-    applyMiddleware(thunk, promise, logger),
+    // applyMiddleware(thunk, promise, logger),
+    applyMiddleware(thunk, promise),
     devTools({
         name: 'Chip Leader AI',
         realtime: true,
@@ -33,7 +34,6 @@ const enhancer = compose(
 );
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
-console.log("========================================================store file");
 export const store: any = createStore(persistedReducer, enhancer);
 export default function configureStore(onCompletion: any) {
     // let store: any = createStore(persistedReducer, enhancer);

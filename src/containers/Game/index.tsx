@@ -477,16 +477,11 @@ function Game(props: any) {
 
   const share = () => {
     if (questions.array[questionIndex].topicData) {
-      console.log(questions.array[questionIndex].topicData.UID);
-      console.log(questions.array[questionIndex].topicData.lessonUID);
       console.log(questions.array[questionIndex].question.questionID);
     } else {
       const topic = JSON.parse(
         sessionStorage.getItem("selectedTopic") as string
       );
-      console.log(topic.UID);
-      console.log(topic.lessonUID);
-      console.log(questions.array[questionIndex].question.questionID);
     }
   };
 
@@ -545,6 +540,7 @@ function Game(props: any) {
 
   useEffect(() => {
     getCurrentBalance(10, 1);
+    
   }, [questionIndex]);
 
   const updateWallets = (amount: number, player: string, wallets: any) => {

@@ -359,7 +359,7 @@ const PokerPlayer: React.FC<IPokerPlayer> = ({
                         )
                       : ""
                   }`}
-                  {console.log(displayAmount)}</SmallText>
+                 </SmallText>
                   <SmallText>{changeMoney && amount ? " BB" : ""}</SmallText>
                 </SmallText>
                 

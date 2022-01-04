@@ -66,7 +66,6 @@ export default function Upgrade({
 
         //e.preventDefault();
         setSuccessMsg(null);
-        console.log("message is ", msg," card id ", elements.getElement(CardElement))
         if(msg) return;
         setMsg(null);
         setProcessing(true);
@@ -80,7 +79,6 @@ export default function Upgrade({
                 email: email,
             },
         }).catch(console.log)
-        console.log(result.paymentMethod);
         if(!result.paymentMethod){
             setProcessing(false);
             return;

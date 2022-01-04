@@ -219,7 +219,6 @@ function Payment(props) {
               </div>
               <div className="b-nav__right">
                   <div className="b-nav__link-copy w-inline-block" onClick={() => history.push("/results")}>{props.user.id ? "Results" : "Sign Up Now"}</div>
-                 {console.log("user info ", props.user)}             
               </div>
             </div>
             <div className="b-nav__spacer"></div>
@@ -1358,7 +1357,6 @@ function Payment(props) {
               ) : 
                 <div>
                   {/* getShit(["user", "payment", "subscription"]) */}
-                  {console.log(props.user.payment.canceled, moment(props.user.payment.subscription).diff(moment(), "days"))}
                   {
                     props.user &&
                     props.user.payment &&
@@ -1373,7 +1371,6 @@ function Payment(props) {
                             setProcessing(true);
                             let stripe = promise;
                             const res = await props.fetchPaymentSubscription(props.user.email, props.user.payment.paymentMethod, props.user.payment.subscriptionType, true).catch(console.log);
-                            console.log("reactive result is ",res); 
                             if (res.status === 'error') {
                               setReactivateMsg(`Stripe configuration changed. Please contanct admin`);
                             } 
@@ -1383,7 +1380,6 @@ function Payment(props) {
                             }
                             else if (res.status === 'requires_action') {
                                 stripe.confirmCardPayment(res.client_secret).then((result) => {
-                                    console.log(res.clientSecret)
                                     if (result.error) {
                                       setReactivateMsg(`Payment failed ${result.error}`);
                                         setProcessing(false);

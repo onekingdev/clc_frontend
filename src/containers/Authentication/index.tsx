@@ -40,6 +40,17 @@ function Login(props: any) {
   const [showRegisterModal, setShowRegisterModal] = useState(false);
   const [showEmailModal, setShowEmailModal] = useState(false);
   const [showErrorMsg, setShowErrorMsg] = useState("");
+  
+  /*--------------------------- Clear token -S----------------------------*
+  useEffect(()=> {
+    console.log("will clear token")
+    props.clearAuthenticationData();
+    console.log(history);
+    history.replace("/")
+    console.log(history);
+
+  }, [])
+  /*--------------------------- Clear token -E----------------------------*/
 
   // adjust dimensions
   useEffect(() => {
@@ -95,7 +106,7 @@ function Login(props: any) {
           if (user.assessment) history.push(`assessment-screen`);
           else if (
             user.payment &&
-            moment(user.payment.subscription).diff(moment(), "days") < 0
+            moment(user.payment.subscription).diff(moment(), "days") <= 0
           )
             history.push(`payment`);
           else history.push(`home`);
@@ -219,6 +230,8 @@ const bindActions = (dispatch: any) => {
       dispatch(ACTIONS.login(data, callback)),
     setAuthenticationCode: (code: string) =>
       dispatch(ACTIONS.setAuthenticationCode(code)),
+    clearAuthenticationData: () =>
+      dispatch(ACTIONS.clearAuthenticationData()),
   };
 };
 

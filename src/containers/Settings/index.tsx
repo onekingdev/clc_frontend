@@ -426,7 +426,6 @@ function Settings(props: any) {
                     onClick={async () => {
                       setSuccessMsg("");
                       const {success, data, message} = await props.reActiveSubscription()
-                      console.log(success, data);
                       if(success) setSuccessMsg("You have successfully reactivated.");
                     }}
                   />

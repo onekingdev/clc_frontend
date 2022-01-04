@@ -84,12 +84,14 @@ function ScreenTemplate(props: any) {
                 [<SidebarItem icon="home" text="Home" onClick={() => {
                     setSlider(false)
                     setTimeout(() => history.push('home'), 700);
+
                 }}/>,
                     <SidebarItem icon="ai" text="AI Learning" onClick={() => {
                         setSlider(false)
                         setTimeout(() => {
                             sessionStorage.setItem('selectedTopic', '{}');
                             history.push('ai');
+
                         }, 700);
                     }}/>,
                     <SidebarItem icon="path" text="Pick Your Path" onClick={() => {

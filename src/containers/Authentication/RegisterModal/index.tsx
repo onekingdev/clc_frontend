@@ -156,7 +156,6 @@ const RegisterModal: React.FC<IRegisterModal> = ({
 
       register(request, (success,registeredUser) => {
         if (success) {
-          console.log("success========================================================", registeredUser);
           if(selector.activationCodeID > 4)
               {
                 trackEvent('Sign up for trial')

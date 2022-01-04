@@ -60,7 +60,6 @@ export const cancelSubscription = () => async(
             user.payment['canceled'] = true;
             user.payment['subscription'] = new Date(data.current_period_end * 1000);
         } else {
-            console.log("err", message);
             alert(message)
         }
         dispatch(AUTH_TYPES.setUserData(user));
@@ -95,7 +94,6 @@ export const reActiveSubscription = () => async(
             dispatch(AUTH_TYPES.setUserData(user));
             dispatch(AUTH_TYPES.setIsFetchingAuthentication(false))
         } else {
-            console.log("err", message);
             alert(message)
             dispatch(AUTH_TYPES.setIsFetchingAuthentication(false))
         }

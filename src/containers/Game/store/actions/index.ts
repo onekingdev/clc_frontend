@@ -130,7 +130,6 @@ export const updateMyTopics = (path: string, questionID: number, correct: boolea
     const topic = topicData ? topicData : JSON.parse(<string>sessionStorage.getItem('selectedTopic'));
 
     const myTopicsIndex = myTopics.findIndex((t: any) => t.UID === topic.UID);
-
     if (myTopicsIndex !== -1) {
         const lessonIndex = myTopics[myTopicsIndex].lessons.findIndex((l: any) => l.UID === topic.lessonUID)
 
