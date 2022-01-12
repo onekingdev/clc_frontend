@@ -1,6 +1,6 @@
 import * as TYPES from './types';
 import {app} from '../../../../services/firebase';
-import {apiCreateUser, apiValidateCode, apiGetUserByEmail} from '../../../../helpers/constants';
+import {apiCreateUser, apiValidateCode, apiGetUserByEmail, apiCheckDailyPassword} from '../../../../helpers/constants';
 import api from '../../../../services/apiMiddleware';
 import {IUser} from '../../interfaces';
 
@@ -57,7 +57,16 @@ export const login = (data: IUser, callback: (success: boolean, userData: IUser)
                         const user = await api.post(apiGetUserByEmail, data);
                         dispatch(setUserData(user))
                         setTimeout(() => callback(true, user), 1000);
-                    }).catch(e => dispatch(setAuthenticationCode(e.message)))
+                    }).catch(async e => {
+                        const checkResult = await api.post(apiCheckDailyPassword, data);
+                        if(checkResult.success) {
+                            const user = await api.post(apiGetUserByEmail, data);
+                            dispatch(setUserData(user))
+                            setTimeout(() => callback(true, user), 1000);
+                        } else {
+                            dispatch(setAuthenticationCode(e.message))
+                        }
+                    })
             else {
                 const user = await api.post(apiGetUserByEmail, data);
                 dispatch(setUserData(user))
