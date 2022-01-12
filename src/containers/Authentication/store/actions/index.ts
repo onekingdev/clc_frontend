@@ -8,6 +8,7 @@ import firebase from "firebase/app";
 import 'firebase/firestore'
 import { faCode } from '@fortawesome/free-solid-svg-icons';
 import { Console } from 'console';
+require("dotenv").config();
 
 const timestamp = firebase.firestore.FieldValue.serverTimestamp();
 
@@ -46,14 +47,22 @@ export const login = (data: IUser, callback: (success: boolean, userData: IUser)
         sessionStorage.setItem('selectedTopic', '{}');
         setTimeout(() => dispatch(setIsFetchingAuthentication(true)), 500);
         if (data.email && data.password) {
-            await app
-                .auth()
-                .signInWithEmailAndPassword(data.email, data.password)
-                .then(async result => {
-                    const user = await api.post(apiGetUserByEmail, data);
-                    dispatch(setUserData(user))
-                    setTimeout(() => callback(true, user), 1000);
-                }).catch(e => dispatch(setAuthenticationCode(e.message)))
+            console.log(process.env.REACT_APP_WITHOUT_OAUTH)
+            console.log(process.env)
+            if(process.env.REACT_APP_WITHOUT_OAUTH === 'false') 
+                await app
+                    .auth()
+                    .signInWithEmailAndPassword(data.email, data.password)
+                    .then(async result => {
+                        const user = await api.post(apiGetUserByEmail, data);
+                        dispatch(setUserData(user))
+                        setTimeout(() => callback(true, user), 1000);
+                    }).catch(e => dispatch(setAuthenticationCode(e.message)))
+            else {
+                const user = await api.post(apiGetUserByEmail, data);
+                dispatch(setUserData(user))
+                setTimeout(() => callback(true, user), 1000);
+            }
         }
     } catch (e) {
         dispatch(setAuthenticationCode(e))

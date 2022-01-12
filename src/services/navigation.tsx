@@ -56,9 +56,9 @@ function Navigation(props: any) {
                 <PrivateRoute exact path="/assessment" component={Game} />
                 <PrivateRoute exact path="/results" component={Results} />
               </div>
-            ) : props.user.payment &&
+            ) : props.user.payment && props.user.payment.customerID &&
               moment(props.user.payment.subscription).diff(moment(), "days") >
-                0 ? (
+                -parseInt(process.env.REACT_APP_PAY_CHECK_CACHE_PERIOD ? process.env.REACT_APP_PAY_CHECK_CACHE_PERIOD : '0') ? (
               <div>
                 <Redirect to="/home" />
                 <PrivateRoute exact path="/assessment-screen" component={Assessment} />

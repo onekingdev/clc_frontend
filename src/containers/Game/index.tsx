@@ -54,6 +54,7 @@ function Game(props: any) {
   const { trackEvent} = useIntercom()
 
   useEffect(() => {
+    console.log(props);
     return () => {
       stop();
       props.clearGameData();
@@ -205,6 +206,7 @@ function Game(props: any) {
       );
       setPause(true);
       setHandIndex(index);
+
     }
   };
 
@@ -561,6 +563,7 @@ function Game(props: any) {
           {showTable ? (
             <div>
               <div className="gamePokerTableContainer">
+                {console.log("hand index is ", handIndex)}
                 {!showModal &&
                 !rerender &&
                 questions.array[questionIndex].players.length > 0
@@ -678,6 +681,7 @@ function Game(props: any) {
                                     )
                                   ].amount
                             }
+                            questionHistory={questions.array[questionIndex].hands.slice(0,handIndex)}
                             displayAmount={
                               parseInt(item.number) ===
                               questions.array[questionIndex].hands[

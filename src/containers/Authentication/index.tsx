@@ -106,10 +106,12 @@ function Login(props: any) {
           if (user.assessment) history.push(`assessment-screen`);
           else if (
             user.payment &&
-            moment(user.payment.subscription).diff(moment(), "days") <= 0
-          )
-            history.push(`payment`);
-          else history.push(`home`);
+            user.payment.customerID &&
+            moment(user.payment.subscription).diff(moment(), "days") > -parseInt(process.env.REACT_APP_PAY_CHECK_CACHE_PERIOD ? process.env.REACT_APP_PAY_CHECK_CACHE_PERIOD : '0')
+          ) history.push(`home`);
+          else history.push(`payment`);
+          
+
         }
       });
     }

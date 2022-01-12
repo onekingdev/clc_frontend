@@ -44,7 +44,14 @@ export const getRealtimeUserData = () => async(
 ) => {
     try {
         const uid = await getState().authState.user.stringID;
-        await app
+        if(process.env.REACT_APP_WITHOUT_OAUTH== "true") {
+            dispatch(setChips(1000));
+            dispatch(setTickets(1000));
+            dispatch(setMyTopics([]));
+            dispatch(setFavorites([]));
+            dispatch(setDailyChallenge([]));
+        } else {
+            await app
             .firestore()
             .collection('users')
             .doc(uid)
@@ -57,6 +64,7 @@ export const getRealtimeUserData = () => async(
                     dispatch(setDailyChallenge(snapshot.data().dailyChallenge));
                 },
             });
+        }
     } catch (e) {
         console.log('logged out')
     }

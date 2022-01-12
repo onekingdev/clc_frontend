@@ -14,9 +14,10 @@ const getApi = () => {
     // return apiCloudDevUrl;
     return apiLocalhostUrl;
   }
-  // return apiCloudHostUrl;
-  return apiCloudDevUrl;
-
+  if(process.env.GCLOUD_PROJECT == "devenvclc")  
+    return apiCloudDevUrl;
+  else
+    return apiCloudHostUrl;
 };
 
 const api = {
