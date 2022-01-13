@@ -3,7 +3,7 @@ import 'firebase/auth';
 let app:firebase.app.App;
 
 /*----------------- developement firebase config -S-------------------------*/
-if(process.env.GCLOUD_PROJECT == "devenvclc") 
+if(process.env.REACT_APP_GCLOUD_PROJECT == "devenvclc") 
     app = firebase.initializeApp( {
         apiKey: "AIzaSyBRoGNgYCTGL7jZnQZ_wDq2OkibJP_L-gE",
         authDomain: "devenvclc.firebaseapp.com",
