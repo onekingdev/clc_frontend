@@ -54,7 +54,6 @@ function Game(props: any) {
   const { trackEvent} = useIntercom()
 
   useEffect(() => {
-    console.log(props);
     return () => {
       stop();
       props.clearGameData();
@@ -479,7 +478,6 @@ function Game(props: any) {
 
   const share = () => {
     if (questions.array[questionIndex].topicData) {
-      console.log(questions.array[questionIndex].question.questionID);
     } else {
       const topic = JSON.parse(
         sessionStorage.getItem("selectedTopic") as string
@@ -563,7 +561,6 @@ function Game(props: any) {
           {showTable ? (
             <div>
               <div className="gamePokerTableContainer">
-                {console.log("hand index is ", handIndex)}
                 {!showModal &&
                 !rerender &&
                 questions.array[questionIndex].players.length > 0

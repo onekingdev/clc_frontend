@@ -43,7 +43,6 @@ function Payment(props) {
 
   // const userDidPay = () => {
 
-  //   console.log('aKJSNDCKJNSDKJCNSDKJNC')
   //   console.log((moment(getShit(["user", "payment", "subscription"], props)).diff(
   //     moment(),
   //     "days"
@@ -61,9 +60,6 @@ function Payment(props) {
     
   //   userDidPay()
 
-  //   console.log('asdcasdcasdcasdcasdc')
-
-  //   console.log(userDidPay())
 
   // }, []);
 
@@ -76,15 +72,7 @@ function Payment(props) {
   // }, [props.user]);
 
   // useEffect(() => {
-  //   console.log(
-  //     moment(getShit(["user", "payment", "subscription"], props)).diff(
-  //       moment(),
-  //       "days"
-  //     ) > 0
-  //   );
-  //   console.log(
-  //     moment(getShit(["user", "payment", "subscription"], props)).diff(moment())
-  //   );
+
 
   //   if (
   //     moment(getShit(["user", "payment", "subscription"], props)).diff(

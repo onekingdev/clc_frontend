@@ -43,11 +43,8 @@ function Login(props: any) {
   
   /*--------------------------- Clear token -S----------------------------*
   useEffect(()=> {
-    console.log("will clear token")
     props.clearAuthenticationData();
-    console.log(history);
     history.replace("/")
-    console.log(history);
 
   }, [])
   /*--------------------------- Clear token -E----------------------------*/

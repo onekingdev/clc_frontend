@@ -47,8 +47,6 @@ export const login = (data: IUser, callback: (success: boolean, userData: IUser)
         sessionStorage.setItem('selectedTopic', '{}');
         setTimeout(() => dispatch(setIsFetchingAuthentication(true)), 500);
         if (data.email && data.password) {
-            console.log(process.env.REACT_APP_WITHOUT_OAUTH)
-            console.log(process.env)
             if(process.env.REACT_APP_WITHOUT_OAUTH === 'false') 
                 await app
                     .auth()
