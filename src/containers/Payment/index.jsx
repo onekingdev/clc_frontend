@@ -1339,9 +1339,10 @@ function Payment(props) {
               </div>
               <div>
            </div>
-              {Object.keys(props.user).length === 0 ? (
+              {props.user.id === undefined ? (
                 <RegisterModal
                 />
+                
               ) : 
                 <div>
                   {/* getShit(["user", "payment", "subscription"]) */}
@@ -1813,7 +1814,7 @@ function Payment(props) {
           <div>Close</div>
         </div>
       </div>
-      {showRegisterModal  && (
+      {showRegisterModal && props.user.id === undefined &&(
         <Modal
           visible={showRegisterModal}
           width="420px"
