@@ -25,7 +25,8 @@ else
         storageBucket: "chipleadercoaching-webapp.appspot.com",
         messagingSenderId: "446390346165",
         appId: "1:446390346165:web:30ad9553d10dbb757ff9fc",
-        measurementId: "G-MJW9SW2Z64"
+        measurementId: "G-MJW9SW2Z64",
+        
     });
 /*----------------- Production firebase config -E-------------------------*/
 // const email = new firebase.auth.EmailAuthProvider();

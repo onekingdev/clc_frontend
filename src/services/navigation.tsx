@@ -33,10 +33,9 @@ function Navigation(props: any) {
 
   return (
     <Switch>
-      {console.log("in router")}
       <Route exact path="/" component={Login} />
       <Route exact path="/code=:code" component={Login} />
-      <PrivateRoute exact path="/payment" component={Payment} />
+      <Route exact path="/payment" component={Payment} />
       <IntercomProvider
         appId={INTERCOM_APP_ID}
         autoBoot
