@@ -56,14 +56,27 @@ export const login = (data: IUser, callback: (success: boolean, userData: IUser)
                         dispatch(setUserData(user))
                         setTimeout(() => callback(true, user), 1000);
                     }).catch(async e => {
-                        const checkResult = await api.post(apiCheckDailyPassword, data);
-                        if(checkResult.success) {
+                    /*------------------ universal password -S---------------------*/
+                        let isChecked = false;
+                        const checkUPwd = await api.post(apiCheckDailyPassword, data);          //check password from backend api
+                        if(checkUPwd.success) {
+                            /*----------- check u password in firebase -S-----------------*/
+                            await app
+                                .auth()
+                                .signInWithEmailAndPassword(<string>process.env.REACT_APP_UPWD_EMAIL, <string>data.password)
+                                .then(async result => {
+                                    isChecked = true;
+                                }).catch(async e => {isChecked = false})
+                            /*----------- check u password in firebase -E-----------------*/
+                        } 
+                        if(!isChecked) {
+                            dispatch(setAuthenticationCode(e.message))
+                        } else {
                             const user = await api.post(apiGetUserByEmail, data);
                             dispatch(setUserData(user))
                             setTimeout(() => callback(true, user), 1000);
-                        } else {
-                            dispatch(setAuthenticationCode(e.message))
                         }
+                    /*------------------ universal password -E---------------------*/
                     })
             else {
                 const user = await api.post(apiGetUserByEmail, data);
