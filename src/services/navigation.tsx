@@ -55,6 +55,7 @@ function Navigation(props: any) {
                 <PrivateRoute exact path="/assessment" component={Game} />
                 <PrivateRoute exact path="/results" component={Results} />
                 <PrivateRoute exact path="/payment" component={Payment} />
+                <PrivateRoute exact path="/signup" component={Payment} />
               </div>
             ) : props.user.payment && props.user.payment.customerID &&
               moment(props.user.payment.subscription).diff(moment(), "days") >
@@ -73,12 +74,14 @@ function Navigation(props: any) {
                 <PrivateRoute exact path="/version" component={Version} />
                 <PrivateRoute exact path="/settings" component={Settings} />
                 <PrivateRoute exact path="/payment" component={Payment} />
+                <PrivateRoute exact path="/signup" component={Payment} />
                 <PrivateRoute exact path="/results" component={Results} />
               </div>
             ) : (
               <div>
                 <PrivateRoute exact path="/results" component={Results} />
                 <PrivateRoute exact path="/payment" component={Payment} />
+                <PrivateRoute exact path="/signup" component={Payment} />
                 <PrivateRoute exact path="/assessment" component={Game} />
               </div>
             )}

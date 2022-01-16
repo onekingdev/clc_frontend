@@ -1329,13 +1329,13 @@ function Payment(props) {
             {/*<Banner topText="IT'S TIME TO" title="Become a Better Poker Player with Chip Leader AI"/>*/}
            <div className='c-centered b-header'>
             <div className='b-meta'>
-                <SmallText>PRICING</SmallText>
+                <SmallText>Free Tournament Assessment</SmallText>
               </div>
               <div>
-                <h3 className='h3'>The Most Extensive Program at an Affordable Rate</h3>
+                <h3 className='h3'>Get An Extensive Breakdown of Your Tournament Game For Free</h3>
               </div>
               <div style={{ marginBottom: 20 }}>
-                <div className="dk" style={{display:"flex",'justifyContent':'center'}}>We have a wide range of pricing options. Cancel at any time. CL AI is only a month to month commitment.</div>
+                <div className="dk" style={{display:"flex",'justifyContent':'center'}}>After creating an account, we will give you access to the AI Assessment engine. It's an effective way of assessing your biggest leaks. After your assessment you can dive into the CL AI platform and gain access to a 7 day free trial.</div>
               </div>
               <div>
            </div>
