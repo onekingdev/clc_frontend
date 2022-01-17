@@ -170,16 +170,20 @@ function Payment(props) {
                 </a>
               </div>
               <div className="b-nav__right">
-                  <div className="login-button" onClick={() => history.push("/")}>
-                    LOG IN
-                    <div class="html-embed">
-                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 16 16">
-                        <path fill="currentColor" d="M8.176 0C5.397-.007 2.952 1.46 1.554 3.678c-.062.099.007.229.122.229h1.281c.088 0 .17-.04.224-.108.128-.158.265-.31.409-.456a6.442 6.442 0 012.053-1.412 6.315 6.315 0 012.513-.517c.873 0 1.719.173 2.513.517.77.331 1.46.808 2.054 1.412a6.583 6.583 0 011.385 2.093c.337.811.507 1.673.507 2.564s-.172 1.753-.507 2.564a6.55 6.55 0 01-3.439 3.505 6.315 6.315 0 01-2.513.517 6.314 6.314 0 01-2.513-.517 6.44 6.44 0 01-2.053-1.412 7.29 7.29 0 01-.409-.456.288.288 0 00-.224-.108h-1.28a.148.148 0 00-.123.229C2.95 14.534 5.384 16 8.156 16c4.305 0 7.8-3.537 7.844-7.918C16.043 3.63 12.543.012 8.176 0zM5.868 10.084V8.67H.146A.148.148 0 010 8.52V7.48c0-.083.066-.15.146-.15h5.722V5.916c0-.124.142-.195.237-.117L8.69 7.883A.149.149 0 018.747 8a.151.151 0 01-.056.117l-2.586 2.084c-.095.076-.237.007-.237-.117z"></path>
-                      </svg>
+                  {props.user.id == undefined && (
+                    <>
+                    <div className="login-button" onClick={() => history.push("/")}>
+                      LOG IN
+                      <div class="html-embed">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 16 16">
+                          <path fill="currentColor" d="M8.176 0C5.397-.007 2.952 1.46 1.554 3.678c-.062.099.007.229.122.229h1.281c.088 0 .17-.04.224-.108.128-.158.265-.31.409-.456a6.442 6.442 0 012.053-1.412 6.315 6.315 0 012.513-.517c.873 0 1.719.173 2.513.517.77.331 1.46.808 2.054 1.412a6.583 6.583 0 011.385 2.093c.337.811.507 1.673.507 2.564s-.172 1.753-.507 2.564a6.55 6.55 0 01-3.439 3.505 6.315 6.315 0 01-2.513.517 6.314 6.314 0 01-2.513-.517 6.44 6.44 0 01-2.053-1.412 7.29 7.29 0 01-.409-.456.288.288 0 00-.224-.108h-1.28a.148.148 0 00-.123.229C2.95 14.534 5.384 16 8.156 16c4.305 0 7.8-3.537 7.844-7.918C16.043 3.63 12.543.012 8.176 0zM5.868 10.084V8.67H.146A.148.148 0 010 8.52V7.48c0-.083.066-.15.146-.15h5.722V5.916c0-.124.142-.195.237-.117L8.69 7.883A.149.149 0 018.747 8a.151.151 0 01-.056.117l-2.586 2.084c-.095.076-.237.007-.237-.117z"></path>
+                        </svg>
+                      </div>
                     </div>
-                  </div>
-                  <div className="b-nav__link-copy w-inline-block" onClick={() => history.push("/code=signup")}>{"SIGN UP FOR YOUR FREE TRIAL"}</div>
-                  {props.user.id && (
+                    <div className="b-nav__link-copy w-inline-block" onClick={() => history.push("/code=signup")}>{"SIGN UP FOR YOUR FREE TRIAL"}</div>
+                    </>
+                  )}
+                  {props.user.id !== undefined && (
                       <div className="b-nav__link-copy w-inline-block" onClick={() => history.push("/results")}>{"Results"}</div>
                   )}
               </div>
@@ -448,7 +452,7 @@ function Payment(props) {
                     </div>
                     <p className="paragraph">
                       Our coaches have collectively made over
-                      <span className="t-highlight">$46,621,091</span> and have
+                      <span className="t-highlight"> $46,621,091</span> and have
                       won a combined total of 41 live &amp; online tournaments.
                       <br />
                     </p>
@@ -466,9 +470,7 @@ function Payment(props) {
                       We have won practically every tournament event in poker.
                       <br />
                       Including the
-                      <span className="t-highlight">
-                        WSOP Main, WPT, Aussie Millions.
-                      </span>
+                      <span className="t-highlight"> WSOP Main, WPT, Aussie Millions.</span>
                       <br />
                     </p>
                   </div>
@@ -483,9 +485,7 @@ function Payment(props) {
                     </div>
                     <p className="paragraph">
                       CL AI creator Alex Foxen is the
-                      <span className="t-highlight">
-                        number one GPI player in the world.
-                      </span>
+                      <span className="t-highlight"> number one GPI player in the world.</span>
                       <br />
                     </p>
                   </div>
@@ -501,10 +501,10 @@ function Payment(props) {
                     <p className="paragraph">
                       We ran one of the largest tournament staking operations
                       and successfully taught
-                      <span className="t-highlight">120 players</span> our
+                      <span className="t-highlight"> 120 players</span> our
                       methods and that resulted in
                       <span className="t-highlight">
-                        $12,000,000+ in wins.{" "}
+                        {" "}$12,000,000+ in wins.{" "}
                       </span>
                       <br />
                     </p>
@@ -522,7 +522,7 @@ function Payment(props) {
                       We have experienced all the highs and lows of poker and
                       have built
                       <span className="t-highlight">
-                        bankrolls from 0 to well over 10 million.{" "}
+                        {" "}bankrolls from 0 to well over 10 million.{" "}
                       </span>
                       <br />
                     </p>
@@ -544,7 +544,7 @@ function Payment(props) {
                     <p className="paragraph">
                       Powered by Socrates, an
                       <span className="t-highlight">
-                        industry leading AI learning platform
+                      {" "}industry leading AI learning platform
                       </span>
                       <br />
                     </p>
@@ -562,7 +562,7 @@ function Payment(props) {
                       <span className="t-highlight">
                         Personalized experience,
                       </span>
-                      adjusting based on your strengths and areas in need of
+                      {" "}adjusting based on your strengths and areas in need of
                       reinforcement
                       <br />
                     </p>
@@ -579,7 +579,7 @@ function Payment(props) {
                     <p className="paragraph">
                       Guides users through a
                       <span className="t-highlight">
-                        customized learning journey
+                      {" "}customized learning journey
                       </span>
                       <br />
                     </p>
