@@ -26,7 +26,8 @@ export default function CheckoutForm({
     fetchPaymentSubscription = null,
     updatePaymentDetails = null,
     update,
-    user
+    user,
+    onSelectPlan = null,
 }) {
     const [msg, setMsg] = useState(null);
     const selector = useSelector(store => store.authState)
@@ -146,6 +147,10 @@ export default function CheckoutForm({
 
     };
     const handleSelectPlan = value => {
+        if(onSelectPlan !== null) {
+            onSelectPlan(value);
+            return;
+        }
         setSubscriptionType(value)
         setIsSelected(true)
         trackEvent(`${value} plan selected`)

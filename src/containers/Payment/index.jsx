@@ -41,49 +41,6 @@ function Payment(props) {
   const [reactivateMsg, setReactivateMsg] = useState("Your payment subscription has ended. Please reactivate your account.")
   const {trackEvent} = useIntercom();
 
-  // const userDidPay = () => {
-
-  //   console.log((moment(getShit(["user", "payment", "subscription"], props)).diff(
-  //     moment(),
-  //     "days"
-  //   ) > 0))
-
-  //   return moment(getShit(["user", "payment", "subscription"], props)).diff(
-  //     moment(30),
-  //     "days"
-  //   ) 
-  // }
-
-  // useEffect(() => {
-  //   // props.fetchPaymentIntent([{ id: "prod_ItM3Rl00ARmZwI" }]);
-  //   setTimeout(() => setShowIframe(true), 2000);
-    
-  //   userDidPay()
-
-
-  // }, []);
-
-  
-
-  // useEffect(() => {
-  //   if (props.user.assessment) {
-  //     history.push('/assessment-screen')
-  //   }
-  // }, [props.user]);
-
-  // useEffect(() => {
-
-
-  //   if (
-  //     moment(getShit(["user", "payment", "subscription"], props)).diff(
-  //       moment(),
-  //       "days"
-  //     ) > 0
-  //   ) {
-  //     setShowStartBtn(true);
-  //   }
-  // }, [props.user]);
-
   const getShit = (arr) => {
     // props.user.payment.subscription
     let shit = {};
@@ -1340,8 +1297,15 @@ function Payment(props) {
               <div>
            </div>
               {props.user.id === undefined ? (
-                <RegisterModal
-                />
+                <div className="settingsButtonWrapper">
+                  <Elements stripe={promise}>
+                    <CheckoutForm
+                      setProcessing={(value) => setProcessing(value)}
+                      processing={processing}
+                      onSelectPlan={(value) => setShowRegisterModal(true)}
+                    />
+                  </Elements>
+                </div>
                 
               ) : 
                 <div>
