@@ -35,6 +35,36 @@
         transform: scale(1.03);
              
 }
+.login-button {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    padding: 12px 12px 12px 12px;
+    margin-right:12px;
+    -webkit-box-align: center;
+    -webkit-align-items: center;
+    -ms-flex-align: center;
+    align-items: center;
+    -webkit-transition: all 300ms ease;
+    transition: all 300ms ease;
+    color: #fff;
+    font-size: 12px;
+    line-height: 1.2;
+    font-weight: 600;
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+    cursor: pointer;
+}
+.login-button:hover {
+    border: 1px solid #e8ba73;
+    border-radius: 8px;
+    color: #f6d171;
+}
+.html-embed {
+    margin-left: 16px;
+    margin-right: 0px !important;
+}
 
 @keyframes cardHover{
     from{

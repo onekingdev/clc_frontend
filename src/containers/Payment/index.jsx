@@ -59,16 +59,22 @@ function Payment(props) {
         rel="stylesheet"
         type="text/css"
       />
+      {/* <link
+        href="https://assets.website-files.com/5f57d25e2a09e77e0cd3d7dc/css/chip-leader-coaching.e37b87188.css"
+        rel="stylesheet"
+        type="text/css"
+      /> */}
       <div className="global">
         <div className="html w-embed">
           <Style>{`
-          .c-stroke-wrapper{
-            width: calc(100% - 100px);
+            .c-stroke-wrapper{
+              width: calc(100% - 100px);
             }
     
             .c-card-bg{
               background: radial-gradient(99.31% 94.34% at 49.88% -2.58%, rgba(232, 186, 115, 0.15) 0%, rgba(232, 186, 115, 0) 72.18%), #15171A;
-              border-radius: 16px;}
+              border-radius: 16px;
+            }
     
             /* Blending modes */
             .mbm-normal{mix-blend-mode: normal;}
@@ -99,6 +105,7 @@ function Payment(props) {
             .c-stroke-wrapper{
             width: calc(100% - 30px);
             }
+            
         `}</Style>
         </div>
       </div>
@@ -163,7 +170,18 @@ function Payment(props) {
                 </a>
               </div>
               <div className="b-nav__right">
-                  <div className="b-nav__link-copy w-inline-block" onClick={() => history.push("/results")}>{props.user.id ? "Results" : "Sign Up Now"}</div>
+                  <div className="login-button" onClick={() => history.push("/")}>
+                    LOG IN
+                    <div class="html-embed">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 16 16">
+                        <path fill="currentColor" d="M8.176 0C5.397-.007 2.952 1.46 1.554 3.678c-.062.099.007.229.122.229h1.281c.088 0 .17-.04.224-.108.128-.158.265-.31.409-.456a6.442 6.442 0 012.053-1.412 6.315 6.315 0 012.513-.517c.873 0 1.719.173 2.513.517.77.331 1.46.808 2.054 1.412a6.583 6.583 0 011.385 2.093c.337.811.507 1.673.507 2.564s-.172 1.753-.507 2.564a6.55 6.55 0 01-3.439 3.505 6.315 6.315 0 01-2.513.517 6.314 6.314 0 01-2.513-.517 6.44 6.44 0 01-2.053-1.412 7.29 7.29 0 01-.409-.456.288.288 0 00-.224-.108h-1.28a.148.148 0 00-.123.229C2.95 14.534 5.384 16 8.156 16c4.305 0 7.8-3.537 7.844-7.918C16.043 3.63 12.543.012 8.176 0zM5.868 10.084V8.67H.146A.148.148 0 010 8.52V7.48c0-.083.066-.15.146-.15h5.722V5.916c0-.124.142-.195.237-.117L8.69 7.883A.149.149 0 018.747 8a.151.151 0 01-.056.117l-2.586 2.084c-.095.076-.237.007-.237-.117z"></path>
+                      </svg>
+                    </div>
+                  </div>
+                  <div className="b-nav__link-copy w-inline-block" onClick={() => history.push("/code=signup")}>{"SIGN UP FOR YOUR FREE TRIAL"}</div>
+                  {props.user.id && (
+                      <div className="b-nav__link-copy w-inline-block" onClick={() => history.push("/results")}>{"Results"}</div>
+                  )}
               </div>
             </div>
             <div className="b-nav__spacer"></div>
@@ -1756,6 +1774,8 @@ function Payment(props) {
             top: 0;
             border: 0;
           }
+          
+          
         `}</Style>
             </head>
             <body>
