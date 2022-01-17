@@ -414,11 +414,9 @@ function Payment(props) {
                   </div>
                   <blockquote>
                     We took the lessons we learned while making
-                    <span className="t-highlight">$46,621,091 </span>and
-                    <span className="t-highlight">
-                      winning 41 tournaments
-                    </span>{" "}
-                    and combined them with world className AI technology to
+                    <span className="t-highlight"> $46,621,091 </span>and
+                    <span className="t-highlight"> winning 41 tournaments </span>{" "}
+                    and combined them with world class Learn with Socrates AI technology to
                     produce the most powerful tournament training platform
                     available.
                   </blockquote>
