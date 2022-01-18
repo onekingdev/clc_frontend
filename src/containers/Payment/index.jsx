@@ -97,7 +97,7 @@ function Payment(props) {
             /* On screens that are 991px wide or less, */
             @media screen and (max-width: 991px) {
             .c-stroke-wrapper{
-            width: calc(100% - 60px);
+              width: calc(100% - 60px);
             }
     
             /* On screens that are 767px wide or less, */
@@ -140,7 +140,29 @@ function Payment(props) {
                       </div>
                     </div>
                   </div>
-                  <div className="ui-button-circle-icon__label-wr">Menu</div>
+                  <div class="dropdown">
+                    <div className="ui-button-circle-icon__label-wr">Menu</div>
+                    <div class="dropdown-content">
+                      <a href="/" className="b-nav__link w-inline-block">
+                        <div>home</div>
+                      </a>
+                      <a href="/about" className="b-nav__link w-inline-block">
+                        <div>about</div>
+                      </a>
+                      {props.user.id == undefined && (
+                        <>
+                        <div className="b-nav__link w-inline-block" onClick={() => history.push("/")}>
+                          LOG IN
+                        </div>
+                        <div className="b-nav__link w-inline-block" onClick={() => history.push("/code=signup")}>{"SIGN UP"}</div>
+                        </>
+                      )}
+                      {props.user.id !== undefined && (
+                          <div className="b-nav__link-copy w-inline-block" onClick={() => history.push("/results")}>{"Results"}</div>
+                      )}
+                    </div>
+                  </div>
+                  {/* <div className="ui-button-circle-icon__label-wr">Menu</div> */}
                 </div>
                 <div className="b-nav__divider"></div>
                 <div className="b-nav__links">
