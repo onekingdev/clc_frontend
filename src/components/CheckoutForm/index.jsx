@@ -197,10 +197,10 @@ export default function CheckoutForm({
                 </div>
                 {isSelected ?
                     <form id="payment-form">
-
                         <ToastContainer />
                         <div className="sub-card-title">
-                            <SmallText fontSize="20px">{subscriptionType}</SmallText>
+                            {/* <SmallText fontSize="20px">{subscriptionType}</SmallText> */}
+                            <SmallText fontSize="20px">{"Your credit card won't be charged for 7 days, you can cancel at anytime "}</SmallText>
                         </div>
                         <CardElement id="card-element" options={cardStyle} onChange={handleChange} />
                         <br />

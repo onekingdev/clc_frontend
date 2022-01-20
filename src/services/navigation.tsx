@@ -36,6 +36,7 @@ function Navigation(props: any) {
       <Route exact path="/" component={Login} />
       <Route exact path="/code=:code" component={Login} />
       <Route exact path="/signup" component={Payment} />
+      <Route exact path="/payment" component={Payment} />
       <IntercomProvider
         appId={INTERCOM_APP_ID}
         autoBoot
@@ -54,8 +55,6 @@ function Navigation(props: any) {
                 <PrivateRoute exact path="/assessment-screen" component={Assessment} />
                 <PrivateRoute exact path="/assessment" component={Game} />
                 <PrivateRoute exact path="/results" component={Results} />
-                <PrivateRoute exact path="/payment" component={Payment} />
-                <PrivateRoute exact path="/signup" component={Payment} />
               </div>
             ) : props.user.payment && props.user.payment.customerID &&
               moment(props.user.payment.subscription).diff(moment(), "days") >
@@ -73,15 +72,11 @@ function Navigation(props: any) {
                 <PrivateRoute exact path="/share" component={Game} />
                 <PrivateRoute exact path="/version" component={Version} />
                 <PrivateRoute exact path="/settings" component={Settings} />
-                <PrivateRoute exact path="/payment" component={Payment} />
-                <PrivateRoute exact path="/signup" component={Payment} />
                 <PrivateRoute exact path="/results" component={Results} />
               </div>
             ) : (
               <div>
                 <PrivateRoute exact path="/results" component={Results} />
-                <PrivateRoute exact path="/payment" component={Payment} />
-                <PrivateRoute exact path="/signup" component={Payment} />
                 <PrivateRoute exact path="/assessment" component={Game} />
               </div>
             )}

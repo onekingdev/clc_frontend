@@ -820,7 +820,7 @@ function Payment(props) {
                     </svg>
                   </div>
                   <h6 className="h5">
-                    The average player doesn’t know what world className players
+                    The average player doesn’t know what world class players
                     are doing differently.
                   </h6>
                   <p className="dk is-small">
@@ -829,7 +829,7 @@ function Payment(props) {
                     enables you to see the gaps in your own process in addition
                     to learning from the best in the game. It will also make you
                     a tougher opponent as you will start to understand exactly
-                    how world-className players are thinking about poker.
+                    how world-class players are thinking about poker.
                   </p>
                 </div>
                 <div className="c-card-wrapper">
