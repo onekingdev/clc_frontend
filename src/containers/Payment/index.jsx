@@ -213,18 +213,6 @@ function Payment(props) {
             <div className="b-nav__spacer"></div>
           </div>
           <div
-            //     style="
-            //   -webkit-transform: translate3d(-60px, -60px, 0) scale3d(1, 1, 1)
-            //     rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);
-            //   -moz-transform: translate3d(-60px, -60px, 0) scale3d(1, 1, 1)
-            //     rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);
-            //   -ms-transform: translate3d(-60px, -60px, 0) scale3d(1, 1, 1)
-            //     rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);
-            //   transform: translate3d(-60px, -60px, 0) scale3d(1, 1, 1) rotateX(0)
-            //     rotateY(0) rotateZ(0) skew(0, 0);
-            //   display: none;
-            //   opacity: 0;
-            // "
             className="b-menu-parent-slide"
           >
             <div className="navigation__wr">
@@ -301,7 +289,137 @@ function Payment(props) {
         <div className="nav-bg"></div>
       </nav>
       <div className="site-container">
-        <main style={{ opacity: 1 }} className="b-section is--hero wf-section">
+        <div style={{paddingTop: '210px'}}>
+          <div className="paymentButtonTextWrapper">
+           <div className='c-centered b-header'>
+            <div className='b-meta'>
+                <SmallText>Free Tournament Assessment</SmallText>
+              </div>
+              <div>
+                <h3 className='h3'>Get An Extensive Breakdown of Your Tournament Game For Free</h3>
+              </div>
+              <div style={{ marginBottom: 20 }}>
+                <div className="dk" style={{display:"flex",'justifyContent':'center'}}>After creating an account, we will give you access to the AI Assessment engine. It's an effective way of assessing your biggest leaks. After your assessment you can dive into the CL AI platform and gain access to a 7 day free trial.</div>
+              </div>
+              <div>
+           </div>
+              {props.user.id === undefined ? (
+                <div className="settingsButtonWrapper">
+                  <Elements stripe={promise}>
+                    <CheckoutForm
+                      setProcessing={(value) => setProcessing(value)}
+                      processing={processing}
+                      onSelectPlan={(value) => setShowRegisterModal(true)}
+                    />
+                  </Elements>
+                </div>
+                
+              ) : 
+                <div>
+                  {/* getShit(["user", "payment", "subscription"]) */}
+                  {
+                    props.user &&
+                    props.user.payment &&
+                    props.user.payment.canceled &&
+                    moment(props.user.payment.subscription).diff(moment(), "days") < 1 ?
+                    (
+                      <Elements stripe={promise}>
+                      {succeeded ? (<ErrorDisplay message={reactivateMsg} show={reactivateMsg} color="var(--primary)"/>) : (<ErrorDisplay message={reactivateMsg} show={reactivateMsg} />)}
+                      <div className="paymentButtonWrapper">
+                        <Button
+                          onClick={async () => {
+                            setProcessing(true);
+                            let stripe = promise;
+                            const res = await props.fetchPaymentSubscription(props.user.email, props.user.payment.paymentMethod, props.user.payment.subscriptionType, true).catch(console.log);
+                            if (res.status === 'error') {
+                              setReactivateMsg(`Stripe configuration changed. Please contanct admin`);
+                            } 
+                            else if(res.status == "invalid_creditcard") {
+                                setReactivateMsg(`Invalid Credit Card or Network Connection Error`);
+                                setProcessing(false);
+                            }
+                            else if (res.status === 'requires_action') {
+                                stripe.confirmCardPayment(res.client_secret).then((result) => {
+                                    if (result.error) {
+                                      setReactivateMsg(`Payment failed ${result.error}`);
+                                        setProcessing(false);
+                                    } else {
+                                        setSucceeded(true)
+                                        setProcessing(false);
+                                        setReactivateMsg("Successfully reactivated.")
+                                        setTimeout(
+                                          () => props.fetchUpdatedUserData(props.user.email),
+                                          500
+                                        );
+                                    }
+                                });
+                            } else {
+                                setSucceeded(true)
+                                setProcessing(false);
+                                setReactivateMsg("Successfully reactivated.")
+                                setTimeout(
+                                  () => props.fetchUpdatedUserData(props.user.email),
+                                  500
+                                );
+                                trackEvent(`${props.user.payment.subscriptionType} plan purchased`)
+                            }
+                          }}
+                          
+                          width={300}
+                          height={44}
+                          text="Reactivate"
+                          glow
+                          loading={processing}
+                          disabled={processing || succeeded}
+                        />
+                      </div>
+                      </Elements>
+                    ) : (
+                      <>
+                        {(getShit(["user", "payment", "subscription"]) || moment(props?.user?.payment?.subscription).diff(moment(), "days") > 0) ? (
+                          <div className="paymentButtonWrapper">
+                            <Button
+                              onClick={() => {
+                                setTimeout(() => history.push("home"), 500);
+                              }}
+                              width={300}
+                              height={44}
+                              text="Start"
+                              glow
+                            />
+                          </div>
+                        ) : (
+                          <div className="settingsButtonWrapper">
+                            <Elements stripe={promise}>
+                              <CheckoutForm
+                                setProcessing={(value) => setProcessing(value)}
+                                processing={processing}
+                                clientSecret={props.clientSecret}
+                                email={props.user.email}
+                                succeeded={succeeded}
+                                update={ props?.user?.payment?.customerID && moment(props?.user?.payment?.subscription).diff(moment(), "days") < 1 ? true : false}
+                                setSucceeded={(value) => {
+                                  setSucceeded(value);
+                                  setTimeout(
+                                    () => props.fetchUpdatedUserData(props.user.email),
+                                    500
+                                  );
+                                }}
+                                fetchPaymentSubscription={props.fetchPaymentSubscription}
+                                user={props.user}
+                              />
+                            </Elements>
+                          </div>
+                        )}
+                      </>
+                    )
+                  } 
+                </div>
+              }
+            </div>
+          </div>
+        </div>
+        <main style={{ opacity: 1 }} className="b-section is--hero wf-section" style={{paddingTop: '10px'}}>
           <div className="b-container is--centered">
             <div className="b-header c-centered">
               <div className="b-meta">
@@ -1313,15 +1431,7 @@ function Payment(props) {
         {/* pricing begins */}
 
         <div>
-          {/* {showIframe ? (
-        <Thing />
-      ) : (
-        <div className="paymentLoaderWrapper">
-          <PulseLoader loading color="#FFF" />
-        </div>
-      )} */}
           <div className="paymentButtonTextWrapper">
-            {/*<Banner topText="IT'S TIME TO" title="Become a Better Poker Player with Chip Leader AI"/>*/}
            <div className='c-centered b-header'>
             <div className='b-meta'>
                 <SmallText>Free Tournament Assessment</SmallText>
@@ -1448,7 +1558,6 @@ function Payment(props) {
                 </div>
               }
             </div>
-            
           </div>
         </div>
 
