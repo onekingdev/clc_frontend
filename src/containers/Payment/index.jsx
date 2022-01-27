@@ -31,7 +31,7 @@ const promise = loadStripe(
 );
 function Payment(props) {
   const history = useHistory();
-
+  console.log(history)
   const [succeeded, setSucceeded] = useState(false);
   const [showIframe, setShowIframe] = useState(false);
   const [processing, setProcessing] = useState(false);
@@ -289,20 +289,33 @@ function Payment(props) {
         <div className="nav-bg"></div>
       </nav>
       <div className="site-container">
+        {history.location.pathname!="/signup" && (
         <div style={{paddingTop: '210px'}}>
           <div className="paymentButtonTextWrapper">
-           <div className='c-centered b-header'>
-            <div className='b-meta'>
-                <SmallText>Free Tournament Assessment</SmallText>
-              </div>
-              <div>
-                <h3 className='h3'>Get An Extensive Breakdown of Your Tournament Game For Free</h3>
-              </div>
-              <div style={{ marginBottom: 20 }}>
-                <div className="dk" style={{display:"flex",'justifyContent':'center'}}>After creating an account, we will give you access to the AI Assessment engine. It's an effective way of assessing your biggest leaks. After your assessment you can dive into the CL AI platform and gain access to a 7 day free trial.</div>
-              </div>
-              <div>
-           </div>
+            <div className='c-centered b-header'>
+              {props?.user?.payment?.customerID === undefined && 
+              (
+                <>
+                  <div className='b-meta'>
+                  <SmallText>Free Tournament Assessment</SmallText>
+                  </div>
+                  <div>
+                    <h3 className='h3'>Get An Extensive Breakdown of Your Tournament Game For Free</h3>
+                  </div>
+                  <div style={{ marginBottom: 20 }}>
+                    <div className="dk" style={{display:"flex",'justifyContent':'center'}}>After creating an account, we will give you access to the AI Assessment engine. It's an effective way of assessing your biggest leaks. After your assessment you can dive into the CL AI platform and gain access to a 7 day free trial.</div>
+                  </div>
+                </>
+                
+              )}
+              { 
+                props?.user?.payment &&
+                props.user.payment.subscription&&
+                props.user.payment.canceled !== true && 
+                moment(props.user.payment.subscription).diff(moment(), "days") < 0  && (
+                  <ErrorDisplay message={"Your credit card on file is being declined. Please provide updated card information to continue your subscription. Thank you for subscribing to CLAI"} show={true}/>
+                )
+              }
               {props.user.id === undefined ? (
                 <div className="settingsButtonWrapper">
                   <Elements stripe={promise}>
@@ -313,7 +326,6 @@ function Payment(props) {
                     />
                   </Elements>
                 </div>
-                
               ) : 
                 <div>
                   {/* getShit(["user", "payment", "subscription"]) */}
@@ -419,7 +431,8 @@ function Payment(props) {
             </div>
           </div>
         </div>
-        <main style={{ opacity: 1 }} className="b-section is--hero wf-section" style={{paddingTop: '10px'}}>
+        )}
+        <main style={{ opacity: 1 }} className="b-section is--hero wf-section" style={history.location.pathname!="/signup" ? {paddingTop: '10px'} : {}}>
           <div className="b-container is--centered">
             <div className="b-header c-centered">
               <div className="b-meta">
@@ -1432,18 +1445,30 @@ function Payment(props) {
 
         <div>
           <div className="paymentButtonTextWrapper">
-           <div className='c-centered b-header'>
-            <div className='b-meta'>
-                <SmallText>Free Tournament Assessment</SmallText>
-              </div>
-              <div>
-                <h3 className='h3'>Get An Extensive Breakdown of Your Tournament Game For Free</h3>
-              </div>
-              <div style={{ marginBottom: 20 }}>
-                <div className="dk" style={{display:"flex",'justifyContent':'center'}}>After creating an account, we will give you access to the AI Assessment engine. It's an effective way of assessing your biggest leaks. After your assessment you can dive into the CL AI platform and gain access to a 7 day free trial.</div>
-              </div>
-              <div>
-           </div>
+            <div className='c-centered b-header'>
+              {props?.user?.payment?.customerID === undefined && 
+              (
+                <>
+                  <div className='b-meta'>
+                  <SmallText>Free Tournament Assessment</SmallText>
+                  </div>
+                  <div>
+                    <h3 className='h3'>Get An Extensive Breakdown of Your Tournament Game For Free</h3>
+                  </div>
+                  <div style={{ marginBottom: 20 }}>
+                    <div className="dk" style={{display:"flex",'justifyContent':'center'}}>After creating an account, we will give you access to the AI Assessment engine. It's an effective way of assessing your biggest leaks. After your assessment you can dive into the CL AI platform and gain access to a 7 day free trial.</div>
+                  </div>
+                </>
+                
+              )}
+              { 
+                props?.user?.payment &&
+                props.user.payment.subscription&&
+                props.user.payment.canceled !== true && 
+                moment(props.user.payment.subscription).diff(moment(), "days") < 0  && (
+                  <ErrorDisplay message={"Your credit card on file is being declined. Please provide updated card information to continue your subscription. Thank you for subscribing to CLAI"} show={true} color="var(--primary)"/>
+                )
+              }
               {props.user.id === undefined ? (
                 <div className="settingsButtonWrapper">
                   <Elements stripe={promise}>
@@ -1454,7 +1479,6 @@ function Payment(props) {
                     />
                   </Elements>
                 </div>
-                
               ) : 
                 <div>
                   {/* getShit(["user", "payment", "subscription"]) */}

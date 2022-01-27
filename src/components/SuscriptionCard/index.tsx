@@ -30,7 +30,7 @@ const SuscriptionCard : React.FC<ISuscriptionCard> = ({
                     <div className="price-container">
                         <SmallText fontSize="14px" bold color={'rgb(232, 185, 113)'}>{title}</SmallText>
                         <SubtitleText fontSize="20px" bold>${price}</SubtitleText> 
-                        <SmallText fontSize="16px">7 DAY FREE TRIAL. Cancel at anytime</SmallText> 
+                        {!update && <SmallText fontSize="16px">7 DAY FREE TRIAL. Cancel at anytime</SmallText> }
                     </div>
                     <div className="suscription-card-list">
                         <ul>
