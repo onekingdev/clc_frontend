@@ -293,7 +293,8 @@ function Payment(props) {
         <div style={{paddingTop: '210px'}}>
           <div className="paymentButtonTextWrapper">
             <div className='c-centered b-header'>
-              {props?.user?.payment?.customerID === undefined && 
+              {console.log(props.user.assessment)}
+              {props?.user?.assessment !== false && 
               (
                 <>
                   <div className='b-meta'>
@@ -1446,7 +1447,7 @@ function Payment(props) {
         <div>
           <div className="paymentButtonTextWrapper">
             <div className='c-centered b-header'>
-              {props?.user?.payment?.customerID === undefined && 
+              {props?.user?.assessment !== 0  && 
               (
                 <>
                   <div className='b-meta'>
