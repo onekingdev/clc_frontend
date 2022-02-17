@@ -5,6 +5,7 @@
     height: 330px;
     text-align: left;
     padding: 40px;
+    overflow-y: auto !important;
 }
 
 .progressCardPercentageWrapper {

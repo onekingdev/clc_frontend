@@ -44,7 +44,7 @@ const PerformanceCard: React.FC<IPerformanceCard> = ({
             <div className="performanceCardRightWrapper">
                 <img src={computer} width="80%"/>
                 <div className="performanceCardButtonWrapper">
-                    <Button onClick={handleClick} width={300} height={55} text="Start Your Free Trail Today" glow/>
+                    <Button onClick={handleClick} width={300} height={55} text="Start Your Free Trial Today" glow/>
                 </div>
             </div>
         </div>

@@ -64,7 +64,7 @@ const SuscriptionCard : React.FC<ISuscriptionCard> = ({
                             </li>
                             <li className="card-list-item" style={{ opacity: benefitsActive ? 1 : 0.2}}>
                                 <i className="fas fa-check card-check"></i>
-                                <SmallText color="white" fontSize="16px">The Chip Leader 24/7 Community lead by Alex and Chance</SmallText>
+                                <SmallText color="white" fontSize="16px">The Chip Leader 24/7 Community led by Alex and Chance</SmallText>
                             </li>
                         </ul>
                         <div className="card-plan-button">

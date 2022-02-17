@@ -143,10 +143,10 @@ function Payment(props) {
                   <div class="dropdown">
                     <div className="ui-button-circle-icon__label-wr">Menu</div>
                     <div class="dropdown-content">
-                      <a href="/" className="b-nav__link w-inline-block">
+                      <a href="https://www.clcpoker.com" className="b-nav__link w-inline-block">
                         <div>home</div>
                       </a>
-                      <a href="/about" className="b-nav__link w-inline-block">
+                      <a href="https://www.clcpoker.com/about" className="b-nav__link w-inline-block">
                         <div>about</div>
                       </a>
                       {props.user.id == undefined && (
@@ -166,10 +166,10 @@ function Payment(props) {
                 </div>
                 <div className="b-nav__divider"></div>
                 <div className="b-nav__links">
-                  <a href="/" className="b-nav__link w-inline-block">
+                  <a href="https://www.clcpoker.com" className="b-nav__link w-inline-block font-20">
                     <div>home</div>
                   </a>
-                  <a href="/about" className="b-nav__link w-inline-block">
+                  <a href="https://www.clcpoker.com/about" className="b-nav__link w-inline-block font-20">
                     <div>about</div>
                   </a>
                   {/* <a
@@ -290,7 +290,7 @@ function Payment(props) {
       </nav>
       <div className="site-container">
         {history.location.pathname!="/signup" && (
-        <div style={{paddingTop: '210px'}}>
+        <div style={{paddingTop: '130px'}}>
           <div className="paymentButtonTextWrapper">
             <div className='c-centered b-header'>
               {console.log(props.user.assessment)}
@@ -318,15 +318,18 @@ function Payment(props) {
                 )
               }
               {props.user.id === undefined ? (
-                <div className="settingsButtonWrapper">
-                  <Elements stripe={promise}>
-                    <CheckoutForm
-                      setProcessing={(value) => setProcessing(value)}
-                      processing={processing}
-                      onSelectPlan={(value) => setShowRegisterModal(true)}
-                    />
-                  </Elements>
-                </div>
+                <>
+                  <span className="t-highlight font-30">Team CLC</span>
+                  <div className="settingsButtonWrapper">
+                    <Elements stripe={promise}>
+                      <CheckoutForm
+                        setProcessing={(value) => setProcessing(value)}
+                        processing={processing}
+                        onSelectPlan={(value) => setShowRegisterModal(true)}
+                      />
+                    </Elements>
+                  </div>
+                </>
               ) : 
                 <div>
                   {/* getShit(["user", "payment", "subscription"]) */}
@@ -402,27 +405,31 @@ function Payment(props) {
                             />
                           </div>
                         ) : (
-                          <div className="settingsButtonWrapper">
-                            <Elements stripe={promise}>
-                              <CheckoutForm
-                                setProcessing={(value) => setProcessing(value)}
-                                processing={processing}
-                                clientSecret={props.clientSecret}
-                                email={props.user.email}
-                                succeeded={succeeded}
-                                update={ props?.user?.payment?.customerID && moment(props?.user?.payment?.subscription).diff(moment(), "days") < 1 ? true : false}
-                                setSucceeded={(value) => {
-                                  setSucceeded(value);
-                                  setTimeout(
-                                    () => props.fetchUpdatedUserData(props.user.email),
-                                    500
-                                  );
-                                }}
-                                fetchPaymentSubscription={props.fetchPaymentSubscription}
-                                user={props.user}
-                              />
-                            </Elements>
-                          </div>
+                          <>
+                            <span className="t-highlight font-30">SIGN UP TODAY</span>
+                            <div className="settingsButtonWrapper">
+                              <Elements stripe={promise}>
+                                <CheckoutForm
+                                  setProcessing={(value) => setProcessing(value)}
+                                  processing={processing}
+                                  clientSecret={props.clientSecret}
+                                  email={props.user.email}
+                                  succeeded={succeeded}
+                                  update={ props?.user?.payment?.customerID && moment(props?.user?.payment?.subscription).diff(moment(), "days") < 1 ? true : false}
+                                  setSucceeded={(value) => {
+                                    setSucceeded(value);
+                                    setTimeout(
+                                      () => props.fetchUpdatedUserData(props.user.email),
+                                      500
+                                    );
+                                  }}
+                                  fetchPaymentSubscription={props.fetchPaymentSubscription}
+                                  user={props.user}
+                                />
+                              </Elements>
+                            </div>
+                          </>
+                          
                         )}
                       </>
                     )
@@ -572,8 +579,8 @@ function Payment(props) {
                   </div>
                   <blockquote>
                     We took the lessons we learned while making
-                    <span className="t-highlight"> $46,621,091 </span>and
-                    <span className="t-highlight"> winning 41 tournaments </span>{" "}
+                    <span className="t-highlight"> $48 million </span>and
+                    <span className="t-highlight"> winning hundreds of tournaments </span>{" "}
                     and combined them with world class Learn with Socrates AI technology to
                     produce the most powerful tournament training platform
                     available.
@@ -606,8 +613,8 @@ function Payment(props) {
                     </div>
                     <p className="paragraph">
                       Our coaches have collectively made over
-                      <span className="t-highlight"> $46,621,091</span> and have
-                      won a combined total of 41 live &amp; online tournaments.
+                      <span className="t-highlight"> $48 million</span> and have
+                      won a combined hundreds of tournaments.
                       <br />
                     </p>
                   </div>
@@ -638,8 +645,8 @@ function Payment(props) {
                       />
                     </div>
                     <p className="paragraph">
-                      CL AI creator Alex Foxen is the
-                      <span className="t-highlight"> number one GPI player in the world.</span>
+                      CL AI creator Chance Kornuth is the
+                      <span className="t-highlight"> number ONE GPI player in the world and Alex Foxen is a previous number One player.</span>
                       <br />
                     </p>
                   </div>
@@ -673,10 +680,9 @@ function Payment(props) {
                       />
                     </div>
                     <p className="paragraph">
-                      We have experienced all the highs and lows of poker and
-                      have built
+                    Real Scenarios - Experience real hand played by some of 
                       <span className="t-highlight">
-                        {" "}bankrolls from 0 to well over 10 million.{" "}
+                        {" "}the best players in poker today.{" "}
                       </span>
                       <br />
                     </p>
@@ -870,10 +876,10 @@ function Payment(props) {
           <div className="b-container is--centered">
             <div className="b-header c-centered">
               <div className="b-meta">
-                <div>TOP POKER PLAYER AND INVESTOR</div>
+                <div>AI Driven Poker Tournament Training</div>
               </div>
               <h3 className="h3">
-                Why CLAI is the single most effective tool for improving in
+                CLAI is the single most effective tool for improving in
                 tournament poker
               </h3>
               <p className="dk">
@@ -1249,7 +1255,7 @@ function Payment(props) {
                   className="text-wrapper is--centered"
                 >
                   <div className="div-block-32">
-                    <h4 className="h4">3,000+ Real Spots in Chance/Alex</h4>
+                    <h4 className="h4">Over 3,000 Real Spots Selected by Chance and Alex</h4>
                     <p className="dk is-small">
                       Most training programs are built on generated spots. CL AI
                       was built on an archive of real spots in a wide range of
@@ -1471,15 +1477,18 @@ function Payment(props) {
                 )
               }
               {props.user.id === undefined ? (
-                <div className="settingsButtonWrapper">
-                  <Elements stripe={promise}>
-                    <CheckoutForm
-                      setProcessing={(value) => setProcessing(value)}
-                      processing={processing}
-                      onSelectPlan={(value) => setShowRegisterModal(true)}
-                    />
-                  </Elements>
-                </div>
+                <>
+                  <span className="t-highlight font-30">SIGN UP TODAY</span>
+                  <div className="settingsButtonWrapper">
+                    <Elements stripe={promise}>
+                      <CheckoutForm
+                        setProcessing={(value) => setProcessing(value)}
+                        processing={processing}
+                        onSelectPlan={(value) => setShowRegisterModal(true)}
+                      />
+                    </Elements>
+                  </div>
+                </>
               ) : 
                 <div>
                   {/* getShit(["user", "payment", "subscription"]) */}
@@ -1555,6 +1564,8 @@ function Payment(props) {
                             />
                           </div>
                         ) : (
+                        <>
+                          <span className="t-highlight font-30">SIGN UP TODAY</span>
                           <div className="settingsButtonWrapper">
                             <Elements stripe={promise}>
                               <CheckoutForm
@@ -1576,6 +1587,7 @@ function Payment(props) {
                               />
                             </Elements>
                           </div>
+                        </>
                         )}
                       </>
                     )
@@ -1794,7 +1806,7 @@ function Payment(props) {
                     </div>
                     <div className="c-card-hide u-marg-t-lr">
                       <p className="dk is-small" style={{textAlign:"left"}}>
-                      Of course! We are constantly adding content and new features to the CL AI platform. Roughly 8-10 videos are added each month. 
+                      Of Course! We will be constantly adding new content and new features to the CL AI platform based on the recommendations of Chance and Alex as well as your feedback. 
                       </p>
                     </div>
                   </div>
@@ -1832,10 +1844,10 @@ function Payment(props) {
               className="footer__nav-col"
             >
               <div className="b-footer__links">
-                <a href="/" className="b-nav__link w-inline-block">
+                <a href="https://www.clcpoker.com" className="b-nav__link w-inline-block">
                   <div>Home</div>
                 </a>
-                <a href="/about" className="b-nav__link w-inline-block">
+                <a href="https://www.clcpoker.com/about" className="b-nav__link w-inline-block">
                   <div>about</div>
                 </a>
                 {/* <a

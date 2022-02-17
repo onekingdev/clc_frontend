@@ -2,7 +2,6 @@
     position: relative;
     display: inline-block;
   }
-  
 .dropdown-content {
     display: none;
     position: absolute;
@@ -18,7 +17,7 @@
 }
 
 .b-nav-clc-logo {
-    width: 30px !important;
+    width: 40px !important;
 }
 .paymentButtonTextWrapper {
     margin-top: 50px;
@@ -104,7 +103,17 @@
     margin-left: 16px;
     margin-right: 0px !important;
 }
-
+.b-nav__spacer {
+    height: 25px !important;
+}
+.videocomponent__playcontainer{
+    height: 100px !important;
+}
+.videocomponent__playborderinner{
+    background-color: #B3952C;
+    border-width: 0px !important;
+    border-radius: unset !important;
+}
 @keyframes cardHover{
     from{
         transform: scale(1);
