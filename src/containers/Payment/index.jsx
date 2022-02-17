@@ -645,8 +645,8 @@ function Payment(props) {
                       />
                     </div>
                     <p className="paragraph">
-                      CL AI creator Chance Kornuth is the
-                      <span className="t-highlight"> number ONE GPI player in the world and Alex Foxen is a previous number One player.</span>
+                      CL AI creator <span className="t-highlight">{" "}Chance Kornuth{" "}</span> is the number <span className="t-highlight">{" "}ONE</span> GPI player in the world and <span className="t-highlight">{" "}Alex Foxen{" "}</span> is a previous number 
+                      <span className="t-highlight">{" "}ONE{" "}</span> player.
                       <br />
                     </p>
                   </div>
