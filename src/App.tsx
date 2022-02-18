@@ -6,7 +6,7 @@ import { BrowserRouter } from "react-router-dom";
 import { Provider } from "react-redux";
 import store from "./redux/configureStore";
 import { PersistGate } from "redux-persist/integration/react";
-
+console.log("test")
 const App = () => {
   const [loading, setLoading] = useState(true);
   const [persist] = useState(store(() => setLoading(false)));
