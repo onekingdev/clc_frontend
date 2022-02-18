@@ -7,12 +7,15 @@ name: Deploy to Firebase Hosting on merge
     branches:
       - dev
 jobs:
-  check-bats-version:
-    if: '${{ github.event.pull_request.head.repo.full_name == github.repository }}'
+  build_and_preview:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - uses: actions/setup-node@v2
+      - run: yarn && yarn build
+      - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
-          node-version: '14'
-      - run: npm -v
+          repoToken: '${{ secrets.GITHUB_TOKEN }}'
+          firebaseServiceAccount: >-
+            ${{ secrets.DEVENVCLC_ACCOUNT
+            }}
+          projectId: devenvclc
