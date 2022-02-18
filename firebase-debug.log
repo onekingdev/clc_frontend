@@ -1,0 +1,85 @@
+[debug] [2022-02-18T02:02:02.553Z] ----------------------------------------------------------------------
+[debug] [2022-02-18T02:02:02.554Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\Mooni\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js init hosting:github
+[debug] [2022-02-18T02:02:02.555Z] CLI Version:   9.23.0
+[debug] [2022-02-18T02:02:02.555Z] Platform:      win32
+[debug] [2022-02-18T02:02:02.555Z] Node Version:  v14.17.3
+[debug] [2022-02-18T02:02:02.556Z] Time:          Fri Feb 18 2022 03:02:02 GMT+0100 (Central European Standard Time)
+[debug] [2022-02-18T02:02:02.556Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2022-02-18T02:02:02.605Z] Object ".remoteconfig" in "firebase.json" is missing required property: {"missingProperty":"template"}
+[warn] !  JSON error trying to load E:\Workspace\candy\CLC Project\clc_frontend\.firebaserc 
+[debug] [2022-02-18T02:02:02.831Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2022-02-18T02:02:02.831Z] > authorizing via signed-in user (armin@learnwithsocrates.com)
+[debug] [2022-02-18T02:02:02.832Z] Object ".remoteconfig" in "firebase.json" is missing required property: {"missingProperty":"template"}
+[info] 
+     ######## #### ########  ######## ########     ###     ######  ########
+     ##        ##  ##     ## ##       ##     ##  ##   ##  ##       ##
+     ######    ##  ########  ######   ########  #########  ######  ######
+     ##        ##  ##    ##  ##       ##     ## ##     ##       ## ##
+     ##       #### ##     ## ######## ########  ##     ##  ######  ########
+
+You're about to initialize a Firebase project in this directory:
+
+  E:\Workspace\candy\CLC Project\clc_frontend
+
+Before we get started, keep in mind:
+
+  * You are initializing within an existing Firebase project directory
+
+[info] 
+=== Project Setup
+[info] 
+[info] First, let's associate this project directory with a Firebase project.
+[info] You can create multiple project aliases by running firebase use --add, 
+[info] but for now we'll just set up a default project.
+[info] 
+[debug] [2022-02-18T02:02:04.940Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/devenvclc [none]
+[debug] [2022-02-18T02:02:06.094Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/devenvclc 200
+[debug] [2022-02-18T02:02:06.094Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/devenvclc {"projectId":"devenvclc","projectNumber":"16835516799","displayName":"DevEnvClc","name":"projects/devenvclc","resources":{"hostingSite":"devenvclc","storageBucket":"devenvclc.appspot.com","locationId":"us-central"},"state":"ACTIVE"}
+[info] i  Using project devenvclc (DevEnvClc) 
+[info] 
+=== Hosting:github Setup
+[info] 
+[info] i  Detected a .git folder at E:\Workspace\candy\CLC Project\clc_frontend 
+[info] i  Authorizing with GitHub to upload your service account to a GitHub repository's secrets store. 
+[info] 
+[info] Visit this URL on this device to log in:
+[info] https://github.com/login/oauth/authorize?client_id=89cf50f02ac6aaed3484&state=212784154&redirect_uri=http%3A%2F%2Flocalhost%3A9005&scope=read%3Auser%20repo%20public_repo
+[info] 
+[info] Waiting for authentication...
+[debug] [2022-02-18T02:02:27.957Z] >>> HTTP REQUEST POST https://github.com/login/oauth/access_token  
+ {"client_id":"89cf50f02ac6aaed3484","client_secret":"3330d14abc895d9a74d5f17cd7a00711fa2c5bf0","code":"ddaf85bbb5058e99d9ea","redirect_uri":"http://localhost:9005","state":"212784154"}
+[debug] [2022-02-18T02:02:29.190Z] <<< HTTP RESPONSE 200 {"server":"GitHub.com","date":"Fri, 18 Feb 2022 02:04:47 GMT","content-type":"application/json; charset=utf-8","transfer-encoding":"chunked","vary":"X-PJAX, X-PJAX-Container, Accept-Encoding, Accept, X-Requested-With","permissions-policy":"interest-cohort=()","etag":"W/\"3b32f006e01d2dccb13794a65ec848b2\"","cache-control":"max-age=0, private, must-revalidate","strict-transport-security":"max-age=31536000; includeSubdomains; preload","x-frame-options":"deny","x-content-type-options":"nosniff","x-xss-protection":"0","referrer-policy":"origin-when-cross-origin, strict-origin-when-cross-origin","expect-ct":"max-age=2592000, report-uri=\"https://api.github.com/_private/browser/errors\"","content-security-policy":"default-src 'none'; base-uri 'self'; block-all-mixed-content; child-src github.com/assets-cdn/worker/ gist.github.com/assets-cdn/worker/; connect-src 'self' uploads.github.com objects-origin.githubusercontent.com www.githubstatus.com collector.githubapp.com collector.github.com api.github.com github-cloud.s3.amazonaws.com github-production-repository-file-5c1aeb.s3.amazonaws.com github-production-upload-manifest-file-7fdce7.s3.amazonaws.com github-production-user-asset-6210df.s3.amazonaws.com cdn.optimizely.com logx.optimizely.com/v1/events translator.github.com wss://alive.github.com; font-src github.githubassets.com; form-action 'self' github.com gist.github.com objects-origin.githubusercontent.com; frame-ancestors 'none'; frame-src render.githubusercontent.com viewscreen.githubusercontent.com notebooks.githubusercontent.com; img-src 'self' data: github.githubassets.com identicons.github.com collector.githubapp.com collector.github.com github-cloud.s3.amazonaws.com secured-user-images.githubusercontent.com/ *.githubusercontent.com; manifest-src 'self'; media-src github.com user-images.githubusercontent.com/; script-src github.githubassets.com; style-src 'unsafe-inline' github.githubassets.com; worker-src github.com/assets-cdn/worker/ gist.github.com/assets-cdn/worker/","x-github-request-id":"5562:215D:8F91D:9F1C8:620EFEBF"}
+[debug] [2022-02-18T02:02:29.249Z] >>> [apiv2][query] GET https://api.github.com/user [none]
+[debug] [2022-02-18T02:02:30.445Z] <<< [apiv2][status] GET https://api.github.com/user 200
+[debug] [2022-02-18T02:02:30.445Z] <<< [apiv2][body] GET https://api.github.com/user {"login":"arminSocrates","id":95144607,"node_id":"U_kgDOBavKnw","avatar_url":"https://avatars.githubusercontent.com/u/95144607?v=4","gravatar_id":"","url":"https://api.github.com/users/arminSocrates","html_url":"https://github.com/arminSocrates","followers_url":"https://api.github.com/users/arminSocrates/followers","following_url":"https://api.github.com/users/arminSocrates/following{/other_user}","gists_url":"https://api.github.com/users/arminSocrates/gists{/gist_id}","starred_url":"https://api.github.com/users/arminSocrates/starred{/owner}{/repo}","subscriptions_url":"https://api.github.com/users/arminSocrates/subscriptions","organizations_url":"https://api.github.com/users/arminSocrates/orgs","repos_url":"https://api.github.com/users/arminSocrates/repos","events_url":"https://api.github.com/users/arminSocrates/events{/privacy}","received_events_url":"https://api.github.com/users/arminSocrates/received_events","type":"User","site_admin":false,"name":"Armin","company":"Learn With Socrates","blog":"","location":null,"email":null,"hireable":null,"bio":"I am a full stack developer for mobile, web and electronics device.","twitter_username":null,"public_repos":1,"public_gists":0,"followers":0,"following":0,"created_at":"2021-11-27T18:34:09Z","updated_at":"2022-02-15T12:06:14Z","private_gists":0,"total_private_repos":0,"owned_private_repos":0,"disk_usage":0,"collaborators":0,"two_factor_authentication":false,"plan":{"name":"free","space":976562499,"collaborators":0,"private_repos":10000}}
+[info] 
+[info] +  Success! Logged into GitHub as arminSocrates 
+[info] 
+[debug] [2022-02-18T02:02:44.154Z] >>> [apiv2][query] GET https://api.github.com/repos/N/actions/secrets/public-key type=owner
+[debug] [2022-02-18T02:02:45.700Z] <<< [apiv2][status] GET https://api.github.com/repos/N/actions/secrets/public-key 404
+[debug] [2022-02-18T02:02:45.701Z] <<< [apiv2][body] GET https://api.github.com/repos/N/actions/secrets/public-key {"message":"Not Found","documentation_url":"https://docs.github.com/rest"}
+[debug] [2022-02-18T02:02:58.497Z] >>> [apiv2][query] GET https://api.github.com/repos//actions/secrets/public-key type=owner
+[debug] [2022-02-18T02:02:59.548Z] <<< [apiv2][status] GET https://api.github.com/repos//actions/secrets/public-key 404
+[debug] [2022-02-18T02:02:59.548Z] <<< [apiv2][body] GET https://api.github.com/repos//actions/secrets/public-key {"message":"Not Found","documentation_url":"https://docs.github.com/rest"}
+[debug] [2022-02-18T02:03:00.494Z] >>> [apiv2][query] GET https://api.github.com/repos//actions/secrets/public-key type=owner
+[debug] [2022-02-18T02:03:02.727Z] >>> [apiv2][query] GET https://api.github.com/repos/ee/actions/secrets/public-key type=owner
+[debug] [2022-02-18T02:03:05.024Z] <<< [apiv2][status] GET https://api.github.com/repos//actions/secrets/public-key 404
+[debug] [2022-02-18T02:03:05.024Z] <<< [apiv2][body] GET https://api.github.com/repos//actions/secrets/public-key {"message":"Not Found","documentation_url":"https://docs.github.com/rest"}
+[debug] [2022-02-18T02:03:06.085Z] <<< [apiv2][status] GET https://api.github.com/repos/ee/actions/secrets/public-key 404
+[debug] [2022-02-18T02:03:06.086Z] <<< [apiv2][body] GET https://api.github.com/repos/ee/actions/secrets/public-key {"message":"Not Found","documentation_url":"https://docs.github.com/rest"}
+[debug] [2022-02-18T02:03:21.504Z] >>> [apiv2][query] GET https://api.github.com/repos/arminSocrates/clc_frontend/actions/secrets/public-key type=owner
+[debug] [2022-02-18T02:03:22.642Z] <<< [apiv2][status] GET https://api.github.com/repos/arminSocrates/clc_frontend/actions/secrets/public-key 404
+[debug] [2022-02-18T02:03:22.642Z] <<< [apiv2][body] GET https://api.github.com/repos/arminSocrates/clc_frontend/actions/secrets/public-key {"message":"Not Found","documentation_url":"https://docs.github.com/rest/reference/actions#get-a-repository-public-key"}
+[debug] [2022-02-18T02:03:44.564Z] >>> [apiv2][query] GET https://api.github.com/repos/user/reposotory/actions/secrets/public-key type=owner
+[debug] [2022-02-18T02:03:45.701Z] <<< [apiv2][status] GET https://api.github.com/repos/user/reposotory/actions/secrets/public-key 404
+[debug] [2022-02-18T02:03:45.701Z] <<< [apiv2][body] GET https://api.github.com/repos/user/reposotory/actions/secrets/public-key {"message":"Not Found","documentation_url":"https://docs.github.com/rest/reference/actions#get-a-repository-public-key"}
+[debug] [2022-02-18T02:03:51.236Z] >>> [apiv2][query] GET https://api.github.com/repos/user/repository/actions/secrets/public-key type=owner
+[debug] [2022-02-18T02:03:52.228Z] <<< [apiv2][status] GET https://api.github.com/repos/user/repository/actions/secrets/public-key 404
+[debug] [2022-02-18T02:03:52.228Z] <<< [apiv2][body] GET https://api.github.com/repos/user/repository/actions/secrets/public-key {"message":"Not Found","documentation_url":"https://docs.github.com/rest/reference/actions#get-a-repository-public-key"}
+[debug] [2022-02-18T02:04:08.202Z] >>> [apiv2][query] GET https://api.github.com/repos/Withsocrates/clc-frontend/actions/secrets/public-key type=owner
+[debug] [2022-02-18T02:04:09.331Z] <<< [apiv2][status] GET https://api.github.com/repos/Withsocrates/clc-frontend/actions/secrets/public-key 404
+[debug] [2022-02-18T02:04:09.331Z] <<< [apiv2][body] GET https://api.github.com/repos/Withsocrates/clc-frontend/actions/secrets/public-key {"message":"Not Found","documentation_url":"https://docs.github.com/rest/reference/actions#get-a-repository-public-key"}
+[debug] [2022-02-18T02:04:20.957Z] >>> [apiv2][query] GET https://api.github.com/repos/arminSocrates/clc_frontend/actions/secrets/public-key type=owner
+[debug] [2022-02-18T02:04:22.034Z] <<< [apiv2][status] GET https://api.github.com/repos/arminSocrates/clc_frontend/actions/secrets/public-key 404
+[debug] [2022-02-18T02:04:22.034Z] <<< [apiv2][body] GET https://api.github.com/repos/arminSocrates/clc_frontend/actions/secrets/public-key {"message":"Not Found","documentation_url":"https://docs.github.com/rest/reference/actions#get-a-repository-public-key"}
