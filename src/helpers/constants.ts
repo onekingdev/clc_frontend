@@ -8,7 +8,6 @@ export const apiCloudDevUrl = 'https://us-central1-devenvclc.cloudfunctions.net'
 export const apiLocalhostUrl = "http://localhost:3003/devenvclc/us-central1";
 export const apiGetUserByEmail = "getUserByEmail";
 export const apiCreateUser = "createUser";
-export const apiCheckDailyPassword = "checkDailyPassword"
 export const apiValidateCode = "validateCode";
 export const apiGetLibrary = "getLibrary";
 export const apiPathsEndpoint = "getPaths";

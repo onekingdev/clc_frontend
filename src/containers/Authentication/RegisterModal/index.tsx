@@ -231,7 +231,7 @@ const RegisterModal: React.FC<IRegisterModal> = ({
         <div style={{ marginTop: 20 }}>
           <TextInput
             value={
-              code !== undefined && code !== "signup"
+              code !== undefined
                 ? code.toUpperCase()
                 : activationCodeObj.activationCode
             }

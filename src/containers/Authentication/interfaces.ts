@@ -6,7 +6,6 @@ export interface IUser {
     password?: string,
     email?: string,
     payment?: {
-        customerID: string,
         id: string,
         amount: number,
         created: number,

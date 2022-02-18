@@ -75,15 +75,6 @@ function Assessment(props: any) {
           glow
           text="START ASSESSMENT"
         />
-        <div style={{paddingLeft: '60px'}}>
-          <Button
-            onClick={() => setTimeout(() => history.push('payment'), 500)}
-            width={200}
-            height={47}
-            glow
-            text="SKIP"
-          />
-        </div>
       </div>
     </ScreenTemplate>
   );

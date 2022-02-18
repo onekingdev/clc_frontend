@@ -33,10 +33,10 @@ function Navigation(props: any) {
 
   return (
     <Switch>
+      {console.log("in router")}
       <Route exact path="/" component={Login} />
       <Route exact path="/code=:code" component={Login} />
-      <Route exact path="/signup" component={Payment} />
-      <Route exact path="/payment" component={Payment} />
+      <PrivateRoute exact path="/payment" component={Payment} />
       <IntercomProvider
         appId={INTERCOM_APP_ID}
         autoBoot
@@ -56,9 +56,9 @@ function Navigation(props: any) {
                 <PrivateRoute exact path="/assessment" component={Game} />
                 <PrivateRoute exact path="/results" component={Results} />
               </div>
-            ) : props.user.payment && props.user.payment.customerID &&
+            ) : props.user.payment &&
               moment(props.user.payment.subscription).diff(moment(), "days") >
-                -parseInt(process.env.REACT_APP_PAY_CHECK_CACHE_PERIOD ? process.env.REACT_APP_PAY_CHECK_CACHE_PERIOD : '0') ? (
+                0 ? (
               <div>
                 <Redirect to="/home" />
                 <PrivateRoute exact path="/assessment-screen" component={Assessment} />
@@ -72,11 +72,13 @@ function Navigation(props: any) {
                 <PrivateRoute exact path="/share" component={Game} />
                 <PrivateRoute exact path="/version" component={Version} />
                 <PrivateRoute exact path="/settings" component={Settings} />
+                <PrivateRoute exact path="/payment" component={Payment} />
                 <PrivateRoute exact path="/results" component={Results} />
               </div>
             ) : (
               <div>
                 <PrivateRoute exact path="/results" component={Results} />
+                <PrivateRoute exact path="/payment" component={Payment} />
                 <PrivateRoute exact path="/assessment" component={Game} />
               </div>
             )}

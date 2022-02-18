@@ -137,7 +137,7 @@ function Home(props: any) {
           <div>
             <div className="homeTextWrapper">
               <SmallText color="#FFF">
-              Additional <SmallText bold>Resources</SmallText>
+                CONTENT <SmallText bold>SPOTLIGHT</SmallText>
               </SmallText>
             </div>
             <MediaCard
@@ -157,7 +157,7 @@ function Home(props: any) {
           <div>
             <div className="homeTextWrapper">
               <SmallText color="#FFF">
-                LEARN <SmallText bold>ABOUT CLAI</SmallText>
+                LEARN <SmallText bold>ABOUT CLCAI</SmallText>
               </SmallText>
             </div>
             <MediaCard

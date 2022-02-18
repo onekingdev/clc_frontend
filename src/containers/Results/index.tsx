@@ -49,8 +49,8 @@ function Results(props: any) {
       <div className="assessmentResultsPerformanceCardWrapper">
         <PerformanceCard
           topText="Chip Leader AI"
-          title="“Start Your Free Trial Today”"
-          bodyText="Sign up now for a 7 day free trial to unlock the full power of the CL AI platform. You may cancel at any time and your credit card will not be charged until the trial is completed.  Unlock our AI driven learning engine, video content, events, GTO charts, and more to transform your game."
+          title="“The Most Powerful Tournament Training Available”"
+          bodyText="An AI driven platform designed to react to YOUR game and teach you what you need to work on the most. It features personal input from Chance Kornuth and Alex Foxen who spent thousands of hours writing explanations to over 3,000 specific spots. As you answer questions the AI learns exactly what you need to work on and adapts to you personally."
           questions="4 / 5"
           percentage="78"
         />

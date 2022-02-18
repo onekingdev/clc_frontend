@@ -1,6 +1,6 @@
 import * as TYPES from './types';
 import {app} from '../../../../services/firebase';
-import {apiCreateUser, apiValidateCode, apiGetUserByEmail, apiCheckDailyPassword} from '../../../../helpers/constants';
+import {apiCreateUser, apiValidateCode, apiGetUserByEmail} from '../../../../helpers/constants';
 import api from '../../../../services/apiMiddleware';
 import {IUser} from '../../interfaces';
 
@@ -8,7 +8,6 @@ import firebase from "firebase/app";
 import 'firebase/firestore'
 import { faCode } from '@fortawesome/free-solid-svg-icons';
 import { Console } from 'console';
-require("dotenv").config();
 
 const timestamp = firebase.firestore.FieldValue.serverTimestamp();
 
@@ -47,42 +46,14 @@ export const login = (data: IUser, callback: (success: boolean, userData: IUser)
         sessionStorage.setItem('selectedTopic', '{}');
         setTimeout(() => dispatch(setIsFetchingAuthentication(true)), 500);
         if (data.email && data.password) {
-            if(process.env.REACT_APP_WITHOUT_OAUTH === 'false') 
-                await app
-                    .auth()
-                    .signInWithEmailAndPassword(data.email, data.password)
-                    .then(async result => {
-                        const user = await api.post(apiGetUserByEmail, data);
-                        dispatch(setUserData(user))
-                        setTimeout(() => callback(true, user), 1000);
-                    }).catch(async e => {
-                    /*------------------ universal password -S---------------------*/
-                        let isChecked = false;
-                        const checkUPwd = await api.post(apiCheckDailyPassword, data);          //check password from backend api
-                        if(checkUPwd.success) {
-                            /*----------- check u password in firebase -S-----------------*/
-                            await app
-                                .auth()
-                                .signInWithEmailAndPassword(<string>process.env.REACT_APP_UPWD_EMAIL, <string>data.password)
-                                .then(async result => {
-                                    isChecked = true;
-                                }).catch(async e => {isChecked = false})
-                            /*----------- check u password in firebase -E-----------------*/
-                        } 
-                        if(!isChecked) {
-                            dispatch(setAuthenticationCode(e.message))
-                        } else {
-                            const user = await api.post(apiGetUserByEmail, data);
-                            dispatch(setUserData(user))
-                            setTimeout(() => callback(true, user), 1000);
-                        }
-                    /*------------------ universal password -E---------------------*/
-                    })
-            else {
-                const user = await api.post(apiGetUserByEmail, data);
-                dispatch(setUserData(user))
-                setTimeout(() => callback(true, user), 1000);
-            }
+            await app
+                .auth()
+                .signInWithEmailAndPassword(data.email, data.password)
+                .then(async result => {
+                    const user = await api.post(apiGetUserByEmail, data);
+                    dispatch(setUserData(user))
+                    setTimeout(() => callback(true, user), 1000);
+                }).catch(e => dispatch(setAuthenticationCode(e.message)))
         }
     } catch (e) {
         dispatch(setAuthenticationCode(e))

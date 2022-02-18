@@ -31,7 +31,7 @@ const promise = loadStripe(
 );
 function Payment(props) {
   const history = useHistory();
-  console.log(history)
+
   const [succeeded, setSucceeded] = useState(false);
   const [showIframe, setShowIframe] = useState(false);
   const [processing, setProcessing] = useState(false);
@@ -40,6 +40,61 @@ function Payment(props) {
   const [showRegisterModal, setShowRegisterModal] = useState(false);
   const [reactivateMsg, setReactivateMsg] = useState("Your payment subscription has ended. Please reactivate your account.")
   const {trackEvent} = useIntercom();
+
+  // const userDidPay = () => {
+
+  //   console.log('aKJSNDCKJNSDKJCNSDKJNC')
+  //   console.log((moment(getShit(["user", "payment", "subscription"], props)).diff(
+  //     moment(),
+  //     "days"
+  //   ) > 0))
+
+  //   return moment(getShit(["user", "payment", "subscription"], props)).diff(
+  //     moment(30),
+  //     "days"
+  //   ) 
+  // }
+
+  // useEffect(() => {
+  //   // props.fetchPaymentIntent([{ id: "prod_ItM3Rl00ARmZwI" }]);
+  //   setTimeout(() => setShowIframe(true), 2000);
+    
+  //   userDidPay()
+
+  //   console.log('asdcasdcasdcasdcasdc')
+
+  //   console.log(userDidPay())
+
+  // }, []);
+
+  
+
+  // useEffect(() => {
+  //   if (props.user.assessment) {
+  //     history.push('/assessment-screen')
+  //   }
+  // }, [props.user]);
+
+  // useEffect(() => {
+  //   console.log(
+  //     moment(getShit(["user", "payment", "subscription"], props)).diff(
+  //       moment(),
+  //       "days"
+  //     ) > 0
+  //   );
+  //   console.log(
+  //     moment(getShit(["user", "payment", "subscription"], props)).diff(moment())
+  //   );
+
+  //   if (
+  //     moment(getShit(["user", "payment", "subscription"], props)).diff(
+  //       moment(),
+  //       "days"
+  //     ) > 0
+  //   ) {
+  //     setShowStartBtn(true);
+  //   }
+  // }, [props.user]);
 
   const getShit = (arr) => {
     // props.user.payment.subscription
@@ -59,22 +114,16 @@ function Payment(props) {
         rel="stylesheet"
         type="text/css"
       />
-      {/* <link
-        href="https://assets.website-files.com/5f57d25e2a09e77e0cd3d7dc/css/chip-leader-coaching.e37b87188.css"
-        rel="stylesheet"
-        type="text/css"
-      /> */}
       <div className="global">
         <div className="html w-embed">
           <Style>{`
-            .c-stroke-wrapper{
-              width: calc(100% - 100px);
+          .c-stroke-wrapper{
+            width: calc(100% - 100px);
             }
     
             .c-card-bg{
               background: radial-gradient(99.31% 94.34% at 49.88% -2.58%, rgba(232, 186, 115, 0.15) 0%, rgba(232, 186, 115, 0) 72.18%), #15171A;
-              border-radius: 16px;
-            }
+              border-radius: 16px;}
     
             /* Blending modes */
             .mbm-normal{mix-blend-mode: normal;}
@@ -97,7 +146,7 @@ function Payment(props) {
             /* On screens that are 991px wide or less, */
             @media screen and (max-width: 991px) {
             .c-stroke-wrapper{
-              width: calc(100% - 60px);
+            width: calc(100% - 60px);
             }
     
             /* On screens that are 767px wide or less, */
@@ -105,7 +154,6 @@ function Payment(props) {
             .c-stroke-wrapper{
             width: calc(100% - 30px);
             }
-            
         `}</Style>
         </div>
       </div>
@@ -140,36 +188,14 @@ function Payment(props) {
                       </div>
                     </div>
                   </div>
-                  <div class="dropdown">
-                    <div className="ui-button-circle-icon__label-wr">Menu</div>
-                    <div class="dropdown-content">
-                      <a href="https://www.clcpoker.com" className="b-nav__link w-inline-block">
-                        <div>home</div>
-                      </a>
-                      <a href="https://www.clcpoker.com/about" className="b-nav__link w-inline-block">
-                        <div>about</div>
-                      </a>
-                      {props.user.id == undefined && (
-                        <>
-                        <div className="b-nav__link w-inline-block" onClick={() => history.push("/")}>
-                          LOG IN
-                        </div>
-                        <div className="b-nav__link w-inline-block" onClick={() => history.push("/code=signup")}>{"SIGN UP"}</div>
-                        </>
-                      )}
-                      {props.user.id !== undefined && (
-                          <div className="b-nav__link-copy w-inline-block" onClick={() => history.push("/results")}>{"Results"}</div>
-                      )}
-                    </div>
-                  </div>
-                  {/* <div className="ui-button-circle-icon__label-wr">Menu</div> */}
+                  <div className="ui-button-circle-icon__label-wr">Menu</div>
                 </div>
                 <div className="b-nav__divider"></div>
                 <div className="b-nav__links">
-                  <a href="https://www.clcpoker.com" className="b-nav__link w-inline-block font-20">
+                  <a href="/" className="b-nav__link w-inline-block">
                     <div>home</div>
                   </a>
-                  <a href="https://www.clcpoker.com/about" className="b-nav__link w-inline-block font-20">
+                  <a href="/about" className="b-nav__link w-inline-block">
                     <div>about</div>
                   </a>
                   {/* <a
@@ -192,27 +218,24 @@ function Payment(props) {
                 </a>
               </div>
               <div className="b-nav__right">
-                  {props.user.id == undefined && (
-                    <>
-                    <div className="login-button" onClick={() => history.push("/")}>
-                      LOG IN
-                      <div class="html-embed">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 16 16">
-                          <path fill="currentColor" d="M8.176 0C5.397-.007 2.952 1.46 1.554 3.678c-.062.099.007.229.122.229h1.281c.088 0 .17-.04.224-.108.128-.158.265-.31.409-.456a6.442 6.442 0 012.053-1.412 6.315 6.315 0 012.513-.517c.873 0 1.719.173 2.513.517.77.331 1.46.808 2.054 1.412a6.583 6.583 0 011.385 2.093c.337.811.507 1.673.507 2.564s-.172 1.753-.507 2.564a6.55 6.55 0 01-3.439 3.505 6.315 6.315 0 01-2.513.517 6.314 6.314 0 01-2.513-.517 6.44 6.44 0 01-2.053-1.412 7.29 7.29 0 01-.409-.456.288.288 0 00-.224-.108h-1.28a.148.148 0 00-.123.229C2.95 14.534 5.384 16 8.156 16c4.305 0 7.8-3.537 7.844-7.918C16.043 3.63 12.543.012 8.176 0zM5.868 10.084V8.67H.146A.148.148 0 010 8.52V7.48c0-.083.066-.15.146-.15h5.722V5.916c0-.124.142-.195.237-.117L8.69 7.883A.149.149 0 018.747 8a.151.151 0 01-.056.117l-2.586 2.084c-.095.076-.237.007-.237-.117z"></path>
-                        </svg>
-                      </div>
-                    </div>
-                    <div className="b-nav__link-copy w-inline-block" onClick={() => history.push("/code=signup")}>{"SIGN UP FOR YOUR FREE TRIAL"}</div>
-                    </>
-                  )}
-                  {props.user.id !== undefined && (
-                      <div className="b-nav__link-copy w-inline-block" onClick={() => history.push("/results")}>{"Results"}</div>
-                  )}
+                  <div className="b-nav__link-copy w-inline-block" onClick={() => history.push("/results")}>{props.user.id ? "Results" : "Sign Up Now"}</div>
               </div>
             </div>
             <div className="b-nav__spacer"></div>
           </div>
           <div
+            //     style="
+            //   -webkit-transform: translate3d(-60px, -60px, 0) scale3d(1, 1, 1)
+            //     rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);
+            //   -moz-transform: translate3d(-60px, -60px, 0) scale3d(1, 1, 1)
+            //     rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);
+            //   -ms-transform: translate3d(-60px, -60px, 0) scale3d(1, 1, 1)
+            //     rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);
+            //   transform: translate3d(-60px, -60px, 0) scale3d(1, 1, 1) rotateX(0)
+            //     rotateY(0) rotateZ(0) skew(0, 0);
+            //   display: none;
+            //   opacity: 0;
+            // "
             className="b-menu-parent-slide"
           >
             <div className="navigation__wr">
@@ -289,158 +312,7 @@ function Payment(props) {
         <div className="nav-bg"></div>
       </nav>
       <div className="site-container">
-        {history.location.pathname!="/signup" && (
-        <div style={{paddingTop: '130px'}}>
-          <div className="paymentButtonTextWrapper">
-            <div className='c-centered b-header'>
-              {console.log(props.user.assessment)}
-              {props?.user?.assessment !== false && 
-              (
-                <>
-                  <div className='b-meta'>
-                  <SmallText>Free Tournament Assessment</SmallText>
-                  </div>
-                  <div>
-                    <h3 className='h3'>Get An Extensive Breakdown of Your Tournament Game For Free</h3>
-                  </div>
-                  <div style={{ marginBottom: 20 }}>
-                    <div className="dk" style={{display:"flex",'justifyContent':'center'}}>After creating an account, we will give you access to the AI Assessment engine. It's an effective way of assessing your biggest leaks. After your assessment you can dive into the CL AI platform and gain access to a 7 day free trial.</div>
-                  </div>
-                </>
-                
-              )}
-              { 
-                props?.user?.payment &&
-                props.user.payment.subscription&&
-                props.user.payment.canceled !== true && 
-                moment(props.user.payment.subscription).diff(moment(), "days") < 0  && (
-                  <ErrorDisplay message={"Your credit card on file is being declined. Please provide updated card information to continue your subscription. Thank you for subscribing to CLAI"} show={true}/>
-                )
-              }
-              {props.user.id === undefined ? (
-                <>
-                  <span className="t-highlight font-30">Team CLC</span>
-                  <div className="settingsButtonWrapper">
-                    <Elements stripe={promise}>
-                      <CheckoutForm
-                        setProcessing={(value) => setProcessing(value)}
-                        processing={processing}
-                        onSelectPlan={(value) => setShowRegisterModal(true)}
-                      />
-                    </Elements>
-                  </div>
-                </>
-              ) : 
-                <div>
-                  {/* getShit(["user", "payment", "subscription"]) */}
-                  {
-                    props.user &&
-                    props.user.payment &&
-                    props.user.payment.canceled &&
-                    moment(props.user.payment.subscription).diff(moment(), "days") < 1 ?
-                    (
-                      <Elements stripe={promise}>
-                      {succeeded ? (<ErrorDisplay message={reactivateMsg} show={reactivateMsg} color="var(--primary)"/>) : (<ErrorDisplay message={reactivateMsg} show={reactivateMsg} />)}
-                      <div className="paymentButtonWrapper">
-                        <Button
-                          onClick={async () => {
-                            setProcessing(true);
-                            let stripe = promise;
-                            const res = await props.fetchPaymentSubscription(props.user.email, props.user.payment.paymentMethod, props.user.payment.subscriptionType, true).catch(console.log);
-                            if (res.status === 'error') {
-                              setReactivateMsg(`Stripe configuration changed. Please contanct admin`);
-                            } 
-                            else if(res.status == "invalid_creditcard") {
-                                setReactivateMsg(`Invalid Credit Card or Network Connection Error`);
-                                setProcessing(false);
-                            }
-                            else if (res.status === 'requires_action') {
-                                stripe.confirmCardPayment(res.client_secret).then((result) => {
-                                    if (result.error) {
-                                      setReactivateMsg(`Payment failed ${result.error}`);
-                                        setProcessing(false);
-                                    } else {
-                                        setSucceeded(true)
-                                        setProcessing(false);
-                                        setReactivateMsg("Successfully reactivated.")
-                                        setTimeout(
-                                          () => props.fetchUpdatedUserData(props.user.email),
-                                          500
-                                        );
-                                    }
-                                });
-                            } else {
-                                setSucceeded(true)
-                                setProcessing(false);
-                                setReactivateMsg("Successfully reactivated.")
-                                setTimeout(
-                                  () => props.fetchUpdatedUserData(props.user.email),
-                                  500
-                                );
-                                trackEvent(`${props.user.payment.subscriptionType} plan purchased`)
-                            }
-                          }}
-                          
-                          width={300}
-                          height={44}
-                          text="Reactivate"
-                          glow
-                          loading={processing}
-                          disabled={processing || succeeded}
-                        />
-                      </div>
-                      </Elements>
-                    ) : (
-                      <>
-                        {(getShit(["user", "payment", "subscription"]) || moment(props?.user?.payment?.subscription).diff(moment(), "days") > 0) ? (
-                          <div className="paymentButtonWrapper">
-                            <Button
-                              onClick={() => {
-                                setTimeout(() => history.push("home"), 500);
-                              }}
-                              width={300}
-                              height={44}
-                              text="Start"
-                              glow
-                            />
-                          </div>
-                        ) : (
-                          <>
-                            <span className="t-highlight font-30">SIGN UP TODAY</span>
-                            <div className="settingsButtonWrapper">
-                              <Elements stripe={promise}>
-                                <CheckoutForm
-                                  setProcessing={(value) => setProcessing(value)}
-                                  processing={processing}
-                                  clientSecret={props.clientSecret}
-                                  email={props.user.email}
-                                  succeeded={succeeded}
-                                  update={ props?.user?.payment?.customerID && moment(props?.user?.payment?.subscription).diff(moment(), "days") < 1 ? true : false}
-                                  setSucceeded={(value) => {
-                                    setSucceeded(value);
-                                    setTimeout(
-                                      () => props.fetchUpdatedUserData(props.user.email),
-                                      500
-                                    );
-                                  }}
-                                  fetchPaymentSubscription={props.fetchPaymentSubscription}
-                                  user={props.user}
-                                />
-                              </Elements>
-                            </div>
-                          </>
-                          
-                        )}
-                      </>
-                    )
-                  } 
-                </div>
-              }
-            </div>
-          </div>
-        </div>
-        )}
-        <main style={{ opacity: 1 }} className="b-section is--hero wf-section" style={history.location.pathname!="/signup" ? {paddingTop: '10px'} : {}}>
+        <main style={{ opacity: 1 }} className="b-section is--hero wf-section">
           <div className="b-container is--centered">
             <div className="b-header c-centered">
               <div className="b-meta">
@@ -579,9 +451,11 @@ function Payment(props) {
                   </div>
                   <blockquote>
                     We took the lessons we learned while making
-                    <span className="t-highlight"> $48 million </span>and
-                    <span className="t-highlight"> winning hundreds of tournaments </span>{" "}
-                    and combined them with world class Learn with Socrates AI technology to
+                    <span className="t-highlight">$46,621,091 </span>and
+                    <span className="t-highlight">
+                      winning 41 tournaments
+                    </span>{" "}
+                    and combined them with world className AI technology to
                     produce the most powerful tournament training platform
                     available.
                   </blockquote>
@@ -613,8 +487,8 @@ function Payment(props) {
                     </div>
                     <p className="paragraph">
                       Our coaches have collectively made over
-                      <span className="t-highlight"> $48 million</span> and have
-                      won a combined hundreds of tournaments.
+                      <span className="t-highlight">$46,621,091</span> and have
+                      won a combined total of 41 live &amp; online tournaments.
                       <br />
                     </p>
                   </div>
@@ -631,7 +505,9 @@ function Payment(props) {
                       We have won practically every tournament event in poker.
                       <br />
                       Including the
-                      <span className="t-highlight"> WSOP Main, WPT, Aussie Millions.</span>
+                      <span className="t-highlight">
+                        WSOP Main, WPT, Aussie Millions.
+                      </span>
                       <br />
                     </p>
                   </div>
@@ -645,8 +521,10 @@ function Payment(props) {
                       />
                     </div>
                     <p className="paragraph">
-                      CL AI creator <span className="t-highlight">{" "}Chance Kornuth{" "}</span> is the number <span className="t-highlight">{" "}ONE</span> GPI player in the world and <span className="t-highlight">{" "}Alex Foxen{" "}</span> is a previous number 
-                      <span className="t-highlight">{" "}ONE{" "}</span> player.
+                      CL AI creator Alex Foxen is the
+                      <span className="t-highlight">
+                        number one GPI player in the world.
+                      </span>
                       <br />
                     </p>
                   </div>
@@ -662,10 +540,10 @@ function Payment(props) {
                     <p className="paragraph">
                       We ran one of the largest tournament staking operations
                       and successfully taught
-                      <span className="t-highlight"> 120 players</span> our
+                      <span className="t-highlight">120 players</span> our
                       methods and that resulted in
                       <span className="t-highlight">
-                        {" "}$12,000,000+ in wins.{" "}
+                        $12,000,000+ in wins.{" "}
                       </span>
                       <br />
                     </p>
@@ -680,9 +558,10 @@ function Payment(props) {
                       />
                     </div>
                     <p className="paragraph">
-                    Real Scenarios - Experience real hand played by some of 
+                      We have experienced all the highs and lows of poker and
+                      have built
                       <span className="t-highlight">
-                        {" "}the best players in poker today.{" "}
+                        bankrolls from 0 to well over 10 million.{" "}
                       </span>
                       <br />
                     </p>
@@ -704,7 +583,7 @@ function Payment(props) {
                     <p className="paragraph">
                       Powered by Socrates, an
                       <span className="t-highlight">
-                      {" "}industry leading AI learning platform
+                        industry leading AI learning platform
                       </span>
                       <br />
                     </p>
@@ -722,7 +601,7 @@ function Payment(props) {
                       <span className="t-highlight">
                         Personalized experience,
                       </span>
-                      {" "}adjusting based on your strengths and areas in need of
+                      adjusting based on your strengths and areas in need of
                       reinforcement
                       <br />
                     </p>
@@ -739,7 +618,7 @@ function Payment(props) {
                     <p className="paragraph">
                       Guides users through a
                       <span className="t-highlight">
-                      {" "}customized learning journey
+                        customized learning journey
                       </span>
                       <br />
                     </p>
@@ -876,10 +755,10 @@ function Payment(props) {
           <div className="b-container is--centered">
             <div className="b-header c-centered">
               <div className="b-meta">
-                <div>AI Driven Poker Tournament Training</div>
+                <div>TOP POKER PLAYER AND INVESTOR</div>
               </div>
               <h3 className="h3">
-                CLAI is the single most effective tool for improving in
+                Why CLAI is the single most effective tool for improving in
                 tournament poker
               </h3>
               <p className="dk">
@@ -958,7 +837,7 @@ function Payment(props) {
                     </svg>
                   </div>
                   <h6 className="h5">
-                    The average player doesn’t know what world class players
+                    The average player doesn’t know what world className players
                     are doing differently.
                   </h6>
                   <p className="dk is-small">
@@ -967,7 +846,7 @@ function Payment(props) {
                     enables you to see the gaps in your own process in addition
                     to learning from the best in the game. It will also make you
                     a tougher opponent as you will start to understand exactly
-                    how world-class players are thinking about poker.
+                    how world-className players are thinking about poker.
                   </p>
                 </div>
                 <div className="c-card-wrapper">
@@ -1255,7 +1134,7 @@ function Payment(props) {
                   className="text-wrapper is--centered"
                 >
                   <div className="div-block-32">
-                    <h4 className="h4">Over 3,000 Real Spots Selected by Chance and Alex</h4>
+                    <h4 className="h4">3,000+ Real Spots in Chance/Alex</h4>
                     <p className="dk is-small">
                       Most training programs are built on generated spots. CL AI
                       was built on an archive of real spots in a wide range of
@@ -1451,44 +1330,30 @@ function Payment(props) {
         {/* pricing begins */}
 
         <div>
+          {/* {showIframe ? (
+        <Thing />
+      ) : (
+        <div className="paymentLoaderWrapper">
+          <PulseLoader loading color="#FFF" />
+        </div>
+      )} */}
           <div className="paymentButtonTextWrapper">
-            <div className='c-centered b-header'>
-              {props?.user?.assessment !== 0  && 
-              (
-                <>
-                  <div className='b-meta'>
-                  <SmallText>Free Tournament Assessment</SmallText>
-                  </div>
-                  <div>
-                    <h3 className='h3'>Get An Extensive Breakdown of Your Tournament Game For Free</h3>
-                  </div>
-                  <div style={{ marginBottom: 20 }}>
-                    <div className="dk" style={{display:"flex",'justifyContent':'center'}}>After creating an account, we will give you access to the AI Assessment engine. It's an effective way of assessing your biggest leaks. After your assessment you can dive into the CL AI platform and gain access to a 7 day free trial.</div>
-                  </div>
-                </>
-                
-              )}
-              { 
-                props?.user?.payment &&
-                props.user.payment.subscription&&
-                props.user.payment.canceled !== true && 
-                moment(props.user.payment.subscription).diff(moment(), "days") < 0  && (
-                  <ErrorDisplay message={"Your credit card on file is being declined. Please provide updated card information to continue your subscription. Thank you for subscribing to CLAI"} show={true} color="var(--primary)"/>
-                )
-              }
-              {props.user.id === undefined ? (
-                <>
-                  <span className="t-highlight font-30">SIGN UP TODAY</span>
-                  <div className="settingsButtonWrapper">
-                    <Elements stripe={promise}>
-                      <CheckoutForm
-                        setProcessing={(value) => setProcessing(value)}
-                        processing={processing}
-                        onSelectPlan={(value) => setShowRegisterModal(true)}
-                      />
-                    </Elements>
-                  </div>
-                </>
+            {/*<Banner topText="IT'S TIME TO" title="Become a Better Poker Player with Chip Leader AI"/>*/}
+           <div className='c-centered b-header'>
+            <div className='b-meta'>
+                <SmallText>PRICING</SmallText>
+              </div>
+              <div>
+                <h3 className='h3'>The Most Extensive Program at an Affordable Rate</h3>
+              </div>
+              <div style={{ marginBottom: 20 }}>
+                <div className="dk" style={{display:"flex",'justifyContent':'center'}}>We have a wide range of pricing options. Cancel at any time. CL AI is only a month to month commitment.</div>
+              </div>
+              <div>
+           </div>
+              {Object.keys(props.user).length === 0 ? (
+                <RegisterModal
+                />
               ) : 
                 <div>
                   {/* getShit(["user", "payment", "subscription"]) */}
@@ -1551,7 +1416,7 @@ function Payment(props) {
                       </Elements>
                     ) : (
                       <>
-                        {(getShit(["user", "payment", "subscription"]) || moment(props?.user?.payment?.subscription).diff(moment(), "days") > 0) ? (
+                        {(getShit(["user", "payment", "subscription"]) || moment(props.user.payment.subscription).diff(moment(), "days") > 0) ? (
                           <div className="paymentButtonWrapper">
                             <Button
                               onClick={() => {
@@ -1564,8 +1429,6 @@ function Payment(props) {
                             />
                           </div>
                         ) : (
-                        <>
-                          <span className="t-highlight font-30">SIGN UP TODAY</span>
                           <div className="settingsButtonWrapper">
                             <Elements stripe={promise}>
                               <CheckoutForm
@@ -1574,7 +1437,7 @@ function Payment(props) {
                                 clientSecret={props.clientSecret}
                                 email={props.user.email}
                                 succeeded={succeeded}
-                                update={ props?.user?.payment?.customerID && moment(props?.user?.payment?.subscription).diff(moment(), "days") < 1 ? true : false}
+                                update={ props.user.payment.customerID && moment(props.user.payment.subscription).diff(moment(), "days") < 1 ? true : false}
                                 setSucceeded={(value) => {
                                   setSucceeded(value);
                                   setTimeout(
@@ -1587,7 +1450,6 @@ function Payment(props) {
                               />
                             </Elements>
                           </div>
-                        </>
                         )}
                       </>
                     )
@@ -1595,6 +1457,7 @@ function Payment(props) {
                 </div>
               }
             </div>
+            
           </div>
         </div>
 
@@ -1806,7 +1669,7 @@ function Payment(props) {
                     </div>
                     <div className="c-card-hide u-marg-t-lr">
                       <p className="dk is-small" style={{textAlign:"left"}}>
-                      Of Course! We will be constantly adding new content and new features to the CL AI platform based on the recommendations of Chance and Alex as well as your feedback. 
+                      Of course! We are constantly adding content and new features to the CL AI platform. Roughly 8-10 videos are added each month. 
                       </p>
                     </div>
                   </div>
@@ -1844,10 +1707,10 @@ function Payment(props) {
               className="footer__nav-col"
             >
               <div className="b-footer__links">
-                <a href="https://www.clcpoker.com" className="b-nav__link w-inline-block">
+                <a href="/" className="b-nav__link w-inline-block">
                   <div>Home</div>
                 </a>
-                <a href="https://www.clcpoker.com/about" className="b-nav__link w-inline-block">
+                <a href="/about" className="b-nav__link w-inline-block">
                   <div>about</div>
                 </a>
                 {/* <a
@@ -1940,8 +1803,6 @@ function Payment(props) {
             top: 0;
             border: 0;
           }
-          
-          
         `}</Style>
             </head>
             <body>
@@ -1964,7 +1825,7 @@ function Payment(props) {
           <div>Close</div>
         </div>
       </div>
-      {showRegisterModal && props.user.id === undefined &&(
+      {showRegisterModal  && (
         <Modal
           visible={showRegisterModal}
           width="420px"

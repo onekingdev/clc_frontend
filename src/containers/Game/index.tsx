@@ -205,7 +205,6 @@ function Game(props: any) {
       );
       setPause(true);
       setHandIndex(index);
-
     }
   };
 
@@ -478,6 +477,7 @@ function Game(props: any) {
 
   const share = () => {
     if (questions.array[questionIndex].topicData) {
+      console.log(questions.array[questionIndex].question.questionID);
     } else {
       const topic = JSON.parse(
         sessionStorage.getItem("selectedTopic") as string
@@ -678,7 +678,6 @@ function Game(props: any) {
                                     )
                                   ].amount
                             }
-                            questionHistory={questions.array[questionIndex].hands.slice(0,handIndex)}
                             displayAmount={
                               parseInt(item.number) ===
                               questions.array[questionIndex].hands[
