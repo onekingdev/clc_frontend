@@ -26,10 +26,10 @@ const promise = () => (next: any) => (action: any) =>
 const enhancer = compose(
     // applyMiddleware(thunk, promise, logger),
     applyMiddleware(thunk, promise),
-    devTools({
-        name: 'Chip Leader AI',
-        realtime: true,
-    }),
+    // devTools({
+    //     name: 'Chip Leader AI',
+    //     realtime: true,
+    // }),
 );
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

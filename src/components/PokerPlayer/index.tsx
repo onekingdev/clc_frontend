@@ -89,6 +89,7 @@ interface IPokerPlayer {
   changeMoney: boolean;
   callMoney: number;
   changeAmount: boolean;
+  questionHistory: [];
 }
 
 const PokerPlayer: React.FC<IPokerPlayer> = ({
@@ -104,6 +105,7 @@ const PokerPlayer: React.FC<IPokerPlayer> = ({
   dealer,
   action,
   amount,
+  questionHistory,
   displayAmount,
   pot,
   bb,
@@ -229,8 +231,27 @@ const PokerPlayer: React.FC<IPokerPlayer> = ({
   };
 
   useEffect(() => {
+    console.log("update")
     if (changeAmount) {
-      setCurrentChips(mp - amount);
+      if(questionHistory.length == 0) {
+        setCurrentChips(mp - amount);
+        return;
+      }
+
+      // console.log(questionHistory);
+      console.log("=================start=================")
+      console.log("player:",player, questionHistory)
+      let amountHSum = 0;
+      for(let i=0; i < questionHistory.length; i++) {
+        if(questionHistory[i]['player'] == player) {
+          console.log("same",questionHistory[i]['amount'])
+          amountHSum += questionHistory[i]['amount'];
+        }
+      }
+      console.log("sum",amountHSum);
+      setCurrentChips(mp - amountHSum);
+      // console.log("last Amount : ", lastAmount)
+      // setCurrentChips(currentChips + lastAmount);
     } else {
       setCurrentChips(currentChips - amount);
     }

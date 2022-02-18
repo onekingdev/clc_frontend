@@ -30,7 +30,7 @@ const SuscriptionCard : React.FC<ISuscriptionCard> = ({
                     <div className="price-container">
                         <SmallText fontSize="14px" bold color={'rgb(232, 185, 113)'}>{title}</SmallText>
                         <SubtitleText fontSize="20px" bold>${price}</SubtitleText> 
-                        <SmallText fontSize="16px">7 DAY FREE TRIAL. Cancel at anytime</SmallText> 
+                        {!update && <SmallText fontSize="16px">7 DAY FREE TRIAL. Cancel at anytime</SmallText> }
                     </div>
                     <div className="suscription-card-list">
                         <ul>
@@ -64,7 +64,7 @@ const SuscriptionCard : React.FC<ISuscriptionCard> = ({
                             </li>
                             <li className="card-list-item" style={{ opacity: benefitsActive ? 1 : 0.2}}>
                                 <i className="fas fa-check card-check"></i>
-                                <SmallText color="white" fontSize="16px">The Chip Leader 24/7 Community lead by Alex and Chance</SmallText>
+                                <SmallText color="white" fontSize="16px">The Chip Leader 24/7 Community led by Alex and Chance</SmallText>
                             </li>
                         </ul>
                         <div className="card-plan-button">

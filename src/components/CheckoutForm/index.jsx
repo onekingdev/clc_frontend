@@ -26,7 +26,8 @@ export default function CheckoutForm({
     fetchPaymentSubscription = null,
     updatePaymentDetails = null,
     update,
-    user
+    user,
+    onSelectPlan = null,
 }) {
     const [msg, setMsg] = useState(null);
     const selector = useSelector(store => store.authState)
@@ -146,6 +147,10 @@ export default function CheckoutForm({
 
     };
     const handleSelectPlan = value => {
+        if(onSelectPlan !== null) {
+            onSelectPlan(value);
+            return;
+        }
         setSubscriptionType(value)
         setIsSelected(true)
         trackEvent(`${value} plan selected`)
@@ -192,11 +197,13 @@ export default function CheckoutForm({
                 </div>
                 {isSelected ?
                     <form id="payment-form">
-
                         <ToastContainer />
-                        <div className="sub-card-title">
-                            <SmallText fontSize="20px">{subscriptionType}</SmallText>
-                        </div>
+                        {!user.payment.customerID && (
+                            <div className="sub-card-title">
+                                {/* <SmallText fontSize="20px">{subscriptionType}</SmallText> */}
+                                <SmallText fontSize="20px">{"Your credit card won't be charged for 7 days, you can cancel at anytime "}</SmallText>
+                            </div>
+                        )}
                         <CardElement id="card-element" options={cardStyle} onChange={handleChange} />
                         <br />
                         <div className="checkoutFormButtonWrapper">

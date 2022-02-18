@@ -10,13 +10,15 @@ import {store} from "../redux/configureStore";
 import * as AUTH_ACTIONS from "../containers/Authentication/store/actions";
 
 const getApi = () => {
+  console.log(process.env.REACT_APP_GCLOUD_PROJECT)
   if (process.env.NODE_ENV === "development") {
     // return apiCloudDevUrl;
     return apiLocalhostUrl;
   }
-  // return apiCloudHostUrl;
-  return apiCloudDevUrl;
-
+  if(process.env.REACT_APP_GCLOUD_PROJECT == "devenvclc")  
+    return apiCloudDevUrl;
+  else
+    return apiCloudHostUrl;
 };
 
 const api = {

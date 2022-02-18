@@ -43,7 +43,12 @@ iframe {
 body::-webkit-scrollbar {
     display: none;
 }
-
+.font-20 {
+    font-size: 20px !important;
+}
+.font-30 {
+    font-size: 30px !important;
+}
 @-moz-document url-prefix() {
     html,body, div {
         scrollbar-width: none;

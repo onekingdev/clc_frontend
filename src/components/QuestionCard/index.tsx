@@ -172,9 +172,11 @@ const QuestionCard: React.FC<IQuestionCard> = ({
       )}
       {!rerender && status !== 0 ? (
         <div className="questionCardFooterWrapper">
-          {pathname !== "/assessment" && status === 1 ? (
+          {/* {pathname !== "/assessment" && status === 1 ? ( */}
+          {pathname !== "/assessment" && status !== 0 ? (
+
             <div className="questionCardFooterHeaderWrapper">
-              <div
+              { status === 1 ? <div
                 className="questionCardIconWrapper"
                 style={{ backgroundColor: "#759A47", marginRight: 12 }}
               >
@@ -185,6 +187,18 @@ const QuestionCard: React.FC<IQuestionCard> = ({
                   transform={{ rotate: 0 }}
                 />
               </div>
+              : <div
+                className="questionCardIconWrapper"
+                style={{ backgroundColor: "#ab0410", marginRight: 12 }}
+              >
+                <FontAwesomeIcon
+                  color="#FFF"
+                  size="1x"
+                  icon={Icon["faTimes"]}
+                  transform={{ rotate: 0 }}
+                />
+              </div> }
+
               <SubtitleText bold>Reason</SubtitleText>
             </div>
           ) : pathname !== "/assessment" ? (
