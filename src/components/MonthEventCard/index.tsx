@@ -33,7 +33,7 @@ const MonthEventCard: React.FC<IMonthEventCard> = ({
                     <SmallText color="#FFF">{body}</SmallText>
                 </div>
             </div>
-            <Button onClick={onClick} width={113} height={47} glow text="Register"/>
+            <Button onClick={onClick} width={113} height={47} glow text="Click Here"/>
         </div>
     );
 }

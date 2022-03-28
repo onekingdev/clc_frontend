@@ -143,11 +143,14 @@ function Home(props: any) {
             <MediaCard
               link
               image="https://firebasestorage.googleapis.com/v0/b/chipleadercoaching-webapp.appspot.com/o/image4.png?alt=media&token=9b6d0aff-a401-42d1-8f07-43bb46764e1d"
-              title={props.contentSpotlight.title}
-              description={props.contentSpotlight.body}
+              // title={props.contentSpotlight.title}
+              title="Solver Generated GTO Charts"
+              // description={props.contentSpotlight.body}
+              description=""
               onClick={() =>
                 setTimeout(
-                  () => window.open(props.contentSpotlight.link, "_blank"),
+                  // () => window.open(props.contentSpotlight.link, "_blank"),
+                  () => window.open('https://www.clcpoker.com/charts', "_blank"),
                   500
                 )
               }
