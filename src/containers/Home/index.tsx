@@ -154,7 +154,8 @@ function Home(props: any) {
                   500
                 )
               }
-              loading={!props.contentSpotlight.title}
+              // loading={!props.contentSpotlight.title}
+              loading={false}
             />
           </div>
           <div>
