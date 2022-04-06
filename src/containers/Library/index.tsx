@@ -13,7 +13,7 @@ import MediaCard from '../../components/MediaCard';
 import * as ACTIONS from './store/actions';
 import {embedVideo} from "../../helpers/formatter";
 import {DotLoader, PulseLoader} from "react-spinners";
-
+import BigScreen from 'bigscreen'
 function Library(props: any) {
     const [showModal, setShowModal] = useState({show: false, url: ''});
     const [width, setWidth] = useState(window.innerWidth);
@@ -85,7 +85,16 @@ function Library(props: any) {
                     </div>
                  ): null}
             <Modal visible={showModal.show} width="50%" height="50%" effect="fadeInUp" onClickAway={() => setShowModal({show: false, url: ''})}>
-                <iframe width="100%" height="100%" style={{backgroundColor: '#000'}} src={embedVideo(showModal.url)}/>
+                <button style={{position: "absolute", width: "100px", left: "50px", top:"10px"}} onClick={
+                    () => {
+                        const element:any = document.getElementById('videoPlayer');
+                        if (BigScreen.enabled) {
+                            BigScreen.request(element, ()=>{}, ()=>{}, ()=>{});
+                            // You could also use .toggle(element, onEnter, onExit, onError)
+                        }
+                    }
+                }>Full screen</button>
+                <iframe width="100%" height="100%" style={{backgroundColor: '#000'}} src={embedVideo(showModal.url)} id="videoPlayer"/>
             </Modal>
         </ScreenTemplate>
     );
