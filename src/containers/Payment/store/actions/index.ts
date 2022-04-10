@@ -31,13 +31,13 @@ export const fetchPaymentIntent = (items: {id: string}[]) => async(
     }
 }
 
-export const fetchPaymentSubscription = (email: string, paymentMethod: any, subscriptionType: any, reactivate: boolean) => async(
+export const fetchPaymentSubscription = (email: string, paymentMethod: any, subscriptionType: any, rewardfulId: string, reactivate: boolean) => async(
     dispatch: (data: any) => void,
     getState: any,
 ) => {
     try {
-       
-        return await api.post(apiPaymentSubscription, {email, paymentMethod,subscriptionType, reactivate});
+        console.log("fetch payment subscription", rewardfulId)
+        return await api.post(apiPaymentSubscription, {email, paymentMethod,subscriptionType, rewardfulId, reactivate});
     } catch (e) {
 
     } finally {
@@ -116,7 +116,7 @@ export const updatePaymentDetails = (paymentMethod: any) => async(
 ) => {
     try {
         const user = getState().authState.user;
-        return await api.post(apiUpdatePaymentDetails, {id: user.id, newPaymentMethod: paymentMethod});
+        return await api.post(apiUpdatePaymentDetails, {id: user.id, newPaymentMethod: paymentMethod, rewardfulId: user.rewardfulId});
     } catch (e) {
         alert('Error')
     } finally {

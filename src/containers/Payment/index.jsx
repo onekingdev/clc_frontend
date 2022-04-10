@@ -40,6 +40,8 @@ function Payment(props) {
   const [showRegisterModal, setShowRegisterModal] = useState(false);
   const [reactivateMsg, setReactivateMsg] = useState("Your payment subscription has ended. Please reactivate your account.")
   const {trackEvent} = useIntercom();
+  const rewardfulId = useSelector(state=> state.authState.user.rewardfulId)
+
 
   const getShit = (arr) => {
     // props.user.payment.subscription
@@ -346,7 +348,7 @@ function Payment(props) {
                           onClick={async () => {
                             setProcessing(true);
                             let stripe = promise;
-                            const res = await props.fetchPaymentSubscription(props.user.email, props.user.payment.paymentMethod, props.user.payment.subscriptionType, true).catch(console.log);
+                            const res = await props.fetchPaymentSubscription(props.user.email, props.user.payment.paymentMethod, props.user.payment.subscriptionType, rewardfulId, true).catch(console.log);
                             if (res.status === 'error') {
                               setReactivateMsg(`Stripe configuration changed. Please contanct admin`);
                             } 
@@ -1505,7 +1507,7 @@ function Payment(props) {
                           onClick={async () => {
                             setProcessing(true);
                             let stripe = promise;
-                            const res = await props.fetchPaymentSubscription(props.user.email, props.user.payment.paymentMethod, props.user.payment.subscriptionType, true).catch(console.log);
+                            const res = await props.fetchPaymentSubscription(props.user.email, props.user.payment.paymentMethod, props.user.payment.subscriptionType, rewardfulId, true).catch(console.log);
                             if (res.status === 'error') {
                               setReactivateMsg(`Stripe configuration changed. Please contanct admin`);
                             } 
@@ -1997,10 +1999,11 @@ const bindActions = (dispatch) => {
       email,
       paymentMethod,
       subscriptionType,
-      reactivate
+      rewardfulId,
+      reactivate,
     ) =>
       dispatch(
-        ACTIONS.fetchPaymentSubscription(email, paymentMethod, subscriptionType, reactivate)
+        ACTIONS.fetchPaymentSubscription(email, paymentMethod, subscriptionType, rewardfulId, reactivate)
       ),
   };
 };
