@@ -5,6 +5,7 @@ export interface IUser {
     userName?: string,
     password?: string,
     email?: string,
+    referEmail?: string,
     payment?: {
         customerID: string,
         id: string,

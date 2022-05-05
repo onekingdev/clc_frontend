@@ -85,6 +85,10 @@ const RegisterModal: React.FC<IRegisterModal> = ({
     error: false,
   });
   const [emailObj, setEmailObj] = useState({ email: "", error: false });
+  const [referEmail, setReferEmail] = useState({
+    referEmail: "",
+    error: false,
+  });
   const [showErrorMsg, setShowErrorMsg] = useState("");
 
   useEffect(() => {
@@ -152,6 +156,7 @@ const RegisterModal: React.FC<IRegisterModal> = ({
         userName: usernameObj.username,
         password: passwordObj.password,
         email: emailObj.email,
+        referEmail: referEmail.referEmail
       };
 
       register(request, (success,registeredUser) => {
@@ -245,6 +250,26 @@ const RegisterModal: React.FC<IRegisterModal> = ({
               });
             }}
             error={activationCodeObj.error}
+          />
+        </div>
+
+        <div style={{ marginTop: 5 }}>
+          <TextInput
+            value={
+              code !== undefined && code !== "signup"
+                ? code.toUpperCase()
+                : referEmail.referEmail
+            }
+            placeholder="Refer email"
+            onChange={(event) => {
+              setShowErrorMsg("");
+
+              setReferEmail({
+                referEmail: event.target.value,
+                error: false,
+              });
+            }}
+            error={referEmail.error}
           />
         </div>
         <div style={{ marginTop: 20 }}>
