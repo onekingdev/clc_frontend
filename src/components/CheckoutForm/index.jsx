@@ -30,7 +30,6 @@ export default function CheckoutForm({
     onSelectPlan = null,
 }) {
     const [msg, setMsg] = useState(null);
-    const rewardfulId = useSelector(state=> state.authState.user.rewardfulId)
     const selector = useSelector(store => store.authState)
     const [disabled, setDisabled] = useState(true);
     const [subscriptionType, setSubscriptionType] = useState("");
@@ -106,7 +105,7 @@ export default function CheckoutForm({
                 setMsg(`Payment failed ${result.error.message}`);
                 setProcessing(false);
             } else {
-                const res = await fetchPaymentSubscription(email, result.paymentMethod, subscriptionType, rewardfulId).catch(console.log);
+                const res = await fetchPaymentSubscription(email, result.paymentMethod, subscriptionType).catch(console.log);
                 if (res.status === 'error') {
                     setMsg(`Stripe configuration changed. Please contanct admin`);
                 } 
