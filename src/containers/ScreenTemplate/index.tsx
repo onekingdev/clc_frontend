@@ -18,6 +18,7 @@ import {bugTrackerScript} from "../../helpers/constants";
 import QuestionProgress from "../../components/QuestionsProgress";
 import Loader from "../../components/Loader";
 import {detectBrowser} from "../../helpers/validations";
+import { userInfo } from 'os';
 
 function ScreenTemplate(props: any) {
     const history = useHistory();
@@ -141,6 +142,9 @@ function ScreenTemplate(props: any) {
                         }
                         right={
                             <div className="headerItemWrapper">
+                                {props.user?.payment?.price && props.user?.payment?.price > 100 && <div className="headerSlackInvitation" onClick={()=> window.location.href="https://join.slack.com/t/chipleaderpremium/shared_invite/zt-r77vfd47-iF4Y575aNHhhw3ObHSX8lA"}>
+                                    <h5>Go To Slack Chunnel</h5>
+                                </div>}
                                 <div className="headerChipTicketWrapper">
                                     <div className="headerChipWrapper">
                                         <ChipItem icon="chip" quantity={(props.chips)} size="small"/>

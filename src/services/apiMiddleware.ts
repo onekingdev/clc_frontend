@@ -8,8 +8,8 @@ import {
 } from "../helpers/constants";
 import {store} from "../redux/configureStore";
 import * as AUTH_ACTIONS from "../containers/Authentication/store/actions";
-
 const getApi = () => {
+  console.log(process.env.NODE_ENV, process.env.REACT_APP_GCLOUD_PROJECT)
   console.log(process.env.REACT_APP_GCLOUD_PROJECT)
   if (process.env.NODE_ENV === "development") {
     // return apiCloudDevUrl;

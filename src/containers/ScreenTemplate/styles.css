@@ -17,3 +17,8 @@
     margin-left: 10%;
     margin-right: 10%;
 }
+.headerSlackInvitation{
+    color: white;
+    cursor: pointer;
+    padding-right: 10px;
+}

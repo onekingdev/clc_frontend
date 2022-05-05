@@ -12,6 +12,7 @@ export interface IUser {
         amount: number,
         created: number,
         subscription: string,
+        price?: number,
         paymentMethod: {
             id: string,
             brand: string,
