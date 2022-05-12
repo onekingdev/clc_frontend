@@ -32,6 +32,7 @@ export const apiGetSpotlight = "getSpotlight";
 export const apiDropGlossary = "dropGlossary";
 export const apiDropEvents = "dropEvents";
 export const apiGetQuestionsProgressbar = "getQuestionsProgressbar";
+export const apiFixAssessment = "fixAssessment";
 export const apiFinishAssessment = "finishAssessment";
 export const apiUpdateUser = "updateUser";
 export const apiUpdateMasteredLessons = "updateMasteredLessons";

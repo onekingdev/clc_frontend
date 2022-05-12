@@ -3,6 +3,7 @@ import api from "../../../../services/apiMiddleware";
 import {
   apiGetQuestionsProgressbar,
   apiFinishAssessment,
+  apiFixAssessment,
 } from "../../../../helpers/constants";
 import { app } from "../../../../services/firebase";
 import { setUserData } from "../../../Authentication/store/actions";
@@ -62,6 +63,13 @@ export const setProgressIndex = (data: number) => {
     payload: data,
   };
 };
+
+export const fixAssessment = () => async (dispatch: (data: any) => void, getState: any) => {
+  const user_id = getState().authState.user.id;
+  let result = await api.post(apiFixAssessment, {id: user_id });
+  dispatch(setUserData(result));
+
+}
 
 export const saveAssessment =
   (

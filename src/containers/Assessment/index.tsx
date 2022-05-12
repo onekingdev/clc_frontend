@@ -69,7 +69,9 @@ function Assessment(props: any) {
       </div>
       <div className="assessmentContainer">
         <Button
-          onClick={() => setTimeout(() => history.push('assessment'), 500)}
+          onClick={() => setTimeout(() => {
+            history.push('assessment')
+          }, 500 )}
           width={200}
           height={47}
           glow
@@ -77,7 +79,10 @@ function Assessment(props: any) {
         />
         <div style={{paddingLeft: '60px'}}>
           <Button
-            onClick={() => setTimeout(() => history.push('payment'), 500)}
+            onClick={() => setTimeout(() => {
+              history.push('payment');
+              props.fixAssessment()
+            }, 500)}
             width={200}
             height={47}
             glow
@@ -103,6 +108,7 @@ const bindActions = (dispatch: any) => {
   return {
     fetchQuestionProgressbar: (type: string, myTopics: any) =>
       dispatch(RESULT_ACTIONS.fetchQuestionProgressbar(type, myTopics)),
+    fixAssessment: () => dispatch(RESULT_ACTIONS.fixAssessment()),
   };
 };
 
