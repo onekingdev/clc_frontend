@@ -254,13 +254,15 @@ const RegisterModal: React.FC<IRegisterModal> = ({
         </div>
 
         <div style={{ marginTop: 5 }}>
+          <div style={{color: "white"}}>If you were referred by an existing customer, please enter their email address</div>
+
           <TextInput
             value={
               code !== undefined && code !== "signup"
                 ? code.toUpperCase()
                 : referEmail.referEmail
             }
-            placeholder="Refer email"
+            placeholder="Referral Email"
             onChange={(event) => {
               setShowErrorMsg("");
 
