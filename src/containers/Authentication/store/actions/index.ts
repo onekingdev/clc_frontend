@@ -39,6 +39,12 @@ export const setUserData = (data: IUser) => {
     };
 };
 
+export const setRewardfulId = (data:any) => {
+    return {
+        type: TYPES.SET_REWARDFUL_ID,
+        payload: data,
+    };
+}
 export const login = (data: IUser, callback: (success: boolean, userData: IUser) => void) => async(
     dispatch: (data: any) => void,
     getState: any,

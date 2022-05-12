@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 // @ts-ignore
-import { connect } from "react-redux";
+import { connect, useSelector } from "react-redux";
 import "./styles.css";
 import * as ACTIONS from "../Settings/store/actions";
 import * as AUTH_ACTIONS from "../Authentication/store/actions";
@@ -630,10 +630,11 @@ const bindActions = (dispatch: any) => {
       email: any,
       paymentMethod: any,
       subscriptionType: any,
+      rewardfulId: any,
       reactivate: any
     ) =>
       dispatch(
-        PAYMENT_ACTIONS.fetchPaymentSubscription(email, paymentMethod, subscriptionType, reactivate)
+        PAYMENT_ACTIONS.fetchPaymentSubscription(email, paymentMethod, subscriptionType, rewardfulId, reactivate)
       ),
   };
 };
