@@ -442,7 +442,7 @@ function Payment(props) {
           </div>
         </div>
         )}
-        <main style={{ opacity: 1, paddingTop:history.location.pathname!="/signup" ? '10px':'auto' }} className="b-section is--hero wf-section" >
+        <main style={{ opacity: 1 }} className="b-section is--hero wf-section" style={history.location.pathname!="/signup" ? {paddingTop: '10px'} : {}}>
           <div className="b-container is--centered">
             <div className="b-header c-centered">
               <div className="b-meta">
@@ -1742,7 +1742,7 @@ function Payment(props) {
                   <div className="c-card-inner">
                 
                     <div className="div-block-31">
-                      <h6 className="h5">What is the cancellation policy?</h6>
+                      <h6 className="h5">Can I cancel at any time?</h6>
                       
                       <div className="circle-yellow is--smaller">
                         <div className="c-arrow-up w-embed">
@@ -1766,16 +1766,7 @@ function Payment(props) {
                     </div>
                     <div className="c-card-hide u-marg-t-lr">
                       <p className="dk is-small" style={{textAlign:"left"}}>
-                        <ol>
-                          <li>Cancelation may be at anytime using any of the following methods:
-                            <ul>
-                              <li>In the software, you may cancel your subscription on the account settings page.</li>
-                              <li>Email us at anytime at info@withsocrates.com to request cancellation.</li>
-                              <li>Use our free chat service, available 24/7 to request a cancellation. The free chat service is accessible from any page in our software.</li>
-                            </ul>
-                          </li>
-                          <li>When cancelling, we will refund you for any unused portion of your subscription.</li>
-                        </ol>
+                      Yes. CL AI is a monthly subscription. Once you pay you have access to the content for a month starting from your initial payment date. You can cancel anytime by contacting us inside the application. 
                       </p>
                     </div>
                   </div>
