@@ -29,11 +29,11 @@
     justify-content: center;
 }
 
-.StripeCheckout {
+/* .StripeCheckout { */
     /*background-color: var(--primary) !important;
     width: 300px;
     height: 64px;*/
-}
+/* } */
 .dropdown {
   position: relative;
   display: inline-block;
@@ -61,7 +61,8 @@
 }
 .is--accordion{
   
-        height: 96px;
+        /* height: 96px; */
+        overflow: hidden;
         animation-name: cardReverse;
         animation-duration: 1s;
 
@@ -136,16 +137,16 @@
     display: none;
 }
 .c-card-checkbox:checked ~ .is--accordion{
-    animation: cardDown 0.5s;
-    height: 240px;
+    /* animation: cardDown 0.5s; */
+    max-height: 500px;
 }
 .c-card-checkbox:checked ~ .is--accordion .is--smaller{
     animation: circleUp 1s;
     transform: rotateZ(180deg);
 }
 .c-card-checkbox ~ .is--accordion{
-    animation: cardUp 0.5s;
-    height: 96px;
+    transition: max-height .5s;
+    max-height: 96px;
 }
 .c-card-checkbox ~ .is--accordion .is--smaller{
     animation: circleDown 0.5s;
