@@ -166,12 +166,19 @@ const RegisterModal: React.FC<IRegisterModal> = ({
                 trackEvent('Sign up for trial')
               }
           if (registeredUser.assessment || false) {
-            history.push("assessment-screen");
+            
+            // history.push("assessment-screen");
+            // history.push(`finishSignup`, { to : "assessment-screen" })
+            localStorage.setItem('redirect_to', "assessment-screen");
             trackEvent('Sign up for assessment')
+            document.location.href = "/finishSignup";
             
           } else {
-            history.push("payment");
+            // history.push("payment");
+            // history.push(`finishSignup`, { to : "payment" })
+            localStorage.setItem('redirect_to', "payment");
             trackEvent('Sign up for payment')
+            document.location.href = "/finishSignup";
           }
         }
       });

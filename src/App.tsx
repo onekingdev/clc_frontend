@@ -9,12 +9,13 @@ import { PersistGate } from "redux-persist/integration/react";
 import TagManager from 'react-gtm-module'
 const tagManagerArgs = {
   gtmId: 'GTM-WWR69FZ'
+
 }
 TagManager.initialize(tagManagerArgs)
+
 const App = () => {
   const [loading, setLoading] = useState(true);
   const [persist] = useState(store(() => setLoading(false)));
-
   return (
     <Provider store={persist.store}>
       <PersistGate loading={loading} persistor={persist.persistor}>
