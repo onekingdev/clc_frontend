@@ -10,8 +10,9 @@ function FinishSignup(props: any) {
   // adjust dimensions
   useEffect(() => {
     console.log("hello")
-    const redirect_to = localStorage.getItem('redirect_to')
-    history.push(redirect_to);
+    const redirect_to: any = localStorage.getItem('redirect_to')
+    // history.push(redirect_to);
+    document.location.href = redirect_to;
     // setTimeout(function() { history.push(redirect_to); }, 5000);
     
   }, []);
