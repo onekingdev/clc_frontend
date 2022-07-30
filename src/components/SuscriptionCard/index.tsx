@@ -10,7 +10,7 @@ interface ISuscriptionCard {
     benefitsActive?: boolean,
     value?: string,
     update?: boolean,
-    handleGetMemberType: (value:string | undefined) => void,
+    handleGetMemberType: (value:string | undefined, interval: 'month' | 'year') => void,
     
 }
 
@@ -69,14 +69,24 @@ const SuscriptionCard : React.FC<ISuscriptionCard> = ({
                         </ul>
                         <div className="card-plan-button">
                             <Button
-                                onClick={() => {handleGetMemberType(value)}}
-                                width={240}
-                                height={52}
+                                onClick={() => {handleGetMemberType(value, 'month')}}
+                                width={150}
+                                height={42}
                                 glow
                                 circular={false}
-                                text={update ? 'Update now' : 'Start Now (FREE 7 DAY TRIAL)'}
+                                text={update ? 'Update now' : 'Monthly'}
                                 fontSize="12px"
-                                />
+                            />
+                            <Button
+                                onClick={() => {handleGetMemberType(value, 'year')}}
+                                width={150}
+                                height={42}
+                                glow
+                                circular={false}
+                                text={update ? 'Update now' : 'Save 20% with annual'}
+                                fontSize="12px"
+                                bgGray={true}
+                            />
                         </div>
                     </div>
                 </div>

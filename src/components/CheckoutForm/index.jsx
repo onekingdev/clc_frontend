@@ -34,6 +34,7 @@ export default function CheckoutForm({
     const selector = useSelector(store => store.authState)
     const [disabled, setDisabled] = useState(true);
     const [subscriptionType, setSubscriptionType] = useState("");
+    const [subscriptionInterval, setSubscriptionInterval] = useState("month");
     const [isSelected, setIsSelected] = useState(false);
     const stripe = useStripe();
     const elements = useElements();
@@ -109,7 +110,7 @@ export default function CheckoutForm({
                 const res = await fetchPaymentSubscription(email, result.paymentMethod, subscriptionType, rewardfulId).catch(console.log);
                 if (res.status === 'error') {
                     setMsg(`Stripe configuration changed. Please contanct admin`);
-                } 
+                }
                 else if(res.status == "invalid_creditcard") {
                     setMsg(`Invalid Credit Card or Network Connection Error`);
                     setProcessing(false);
@@ -147,12 +148,13 @@ export default function CheckoutForm({
         // }
 
     };
-    const handleSelectPlan = value => {
+    const handleSelectPlan = (value, interval) => {
         if(onSelectPlan !== null) {
             onSelectPlan(value);
             return;
         }
         setSubscriptionType(value)
+        setSubscriptionInterval(interval)
         setIsSelected(true)
         trackEvent(`${value} plan selected`)
     }

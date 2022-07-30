@@ -55,6 +55,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
+    "dev": "react-scripts start",
     "build-github": "CI=false && react-scripts build",
     "build": "react-scripts build",
     "test": "react-scripts test",
