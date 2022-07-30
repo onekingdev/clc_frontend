@@ -379,7 +379,8 @@ function Game(props: any) {
         },
         () => {
           props.clearResultsData();
-          history.push("results");
+          // history.push("results");
+          window.location.href = "/finishassessment"
           trackEvent('finish assessment')
         }
       );

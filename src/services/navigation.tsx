@@ -15,6 +15,7 @@ import Version from "../containers/Version";
 import Home from "../containers/Home";
 import Settings from "../containers/Settings";
 import FinishSignup from "../containers/Authentication/finishSignup"
+import FinishAssessment from "../containers/Assessment/finishAsssessment"
 import moment from "moment";
 import { IntercomProvider} from "react-use-intercom";
 export const PrivateRoute = ({requireAuth=true, ...rest}) => {
@@ -39,6 +40,8 @@ function Navigation(props: any) {
       <Route exact path="/signup" component={Payment} />
       <Route exact path ='/finishSignup' component={FinishSignup} />
       <Route exact path="/payment" component={Payment} />
+      <PrivateRoute exact path="/finishassessment" component={FinishAssessment} />
+
       <IntercomProvider
         appId={INTERCOM_APP_ID}
         autoBoot
