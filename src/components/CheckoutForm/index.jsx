@@ -13,6 +13,7 @@ import SuscriptionCard from "../SuscriptionCard";
 import SmallText from "../SmallText";
 import { useSelector } from "react-redux";
 import { useIntercom } from "react-use-intercom";
+import Modal from 'react-awesome-modal';
 
 toast.configure();
 
@@ -67,10 +68,13 @@ export default function CheckoutForm({
         // and display any errors as the customer types their card details
         setDisabled(event.empty);
         setMsg(event.error ? event.error.message : "");
-
     };
+    const [showConfirmChangePlan, setShowConfirmChangePlan] = useState(false);
+    const handleChangePlan = () => {
+        setShowConfirmChangePlan(true);
+    }
     const handleSubmit = async e => {
-        console.log(subscriptionType, subscriptionInterval);
+        setShowConfirmChangePlan(false);
         //e.preventDefault();
         setProcessing(true);
 
@@ -114,7 +118,6 @@ export default function CheckoutForm({
                 setProcessing(false);
             } else {
                 const res = await fetchPaymentSubscription(email, result.paymentMethod, subscriptionType, subscriptionInterval, rewardfulId).catch(console.log);
-                console.log(res)
                 if (res.status === 'error') {
                     setMsg(`Stripe configuration changed. Please contanct admin`);
                 }
@@ -135,6 +138,7 @@ export default function CheckoutForm({
                 } else {
                     setSucceeded(true)
                     trackEvent(`${subscriptionType} plan purchased`)
+                    setIsSelected(false)
                 }
             }
         }
@@ -242,7 +246,7 @@ export default function CheckoutForm({
                                 loading={processing}
                                 disabled={processing || disabled || succeeded}
                                 id="submit"
-                                onClick={handleSubmit}
+                                onClick={handleChangePlan}
                                 width={300}
                                 height={44}
                                 glow
@@ -256,6 +260,25 @@ export default function CheckoutForm({
                     null
                 }
             </div>
+            <Modal
+                visible={showConfirmChangePlan}
+                width="540px"
+                height="320px"
+                effect="fadeInUp"
+                onClickAway={() => setShowConfirmChangePlan(false)}
+            >
+                <div className="confirm-modal">
+                    <div className="text-content">
+                        <span>You are switching from</span> <b>{user.payment.subscriptionType} {user.payment.subscriptionInterval}ly</b> <span>to</span> <b>{subscriptionType} {subscriptionInterval}ly</b><span>, your current subscription will end today and your new plan will start effective immediately</span>
+                    </div>
+                    <Button
+                        onClick={handleSubmit}
+                        width={150}
+                        height={40}
+                        glow
+                        text="Confirm" />
+                </div>
+            </Modal>
         </>
     );
 }
