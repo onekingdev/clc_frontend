@@ -296,7 +296,7 @@ function Settings(props: any) {
 
     return number;
   };
-
+  console.log("=-=-=", props.user);
   return (
     <ScreenTemplate>
       <div className="settingsContainer">
@@ -416,46 +416,53 @@ function Settings(props: any) {
               props.user.payment &&
               props.user.payment.canceled ? (
                 <>
-                <div className="settingsButtonWrapper">
-                  <Button
-                    loading={props.isFetchingAuthentication}
-                    width={300}
-                    height={44}
-                    text="Reactivate"
-                    glow
-                    onClick={async () => {
-                      setSuccessMsg("");
-                      const {success, data, message} = await props.reActiveSubscription()
-                      if(success) setSuccessMsg("You have successfully reactivated.");
-                    }}
-                  />
-                </div>
-                
-                <ErrorDisplay
-                  message={`Your subscription ends in ${moment(
-                    props.user.payment.subscription
-                  ).diff(moment(), "days")} days`}
-                  show
-                />
-                <div className="settingsButtonWrapper">
-                  <Elements stripe={promise}>
-                    <CheckoutForm
-                      setProcessing={(value: boolean) => setProcessing(value)}
-                      processing={processing}
-                      email={props.user.email}
-                      succeeded={succeeded}
-                      setSucceeded={(value: boolean) => {
-                        setTimeout(() => {
-                          props.fetchUpdatedUserData(props.user.email);
-                          setSucceeded(value);
-                        }, 1000);
+                  {/* <div className="settingsButtonWrapper">
+                    <Button
+                      loading={props.isFetchingAuthentication}
+                      width={300}
+                      height={44}
+                      text="Reactivate"
+                      glow
+                      onClick={async () => {
+                        setSuccessMsg("");
+                        const {success, data, message} = await props.reActiveSubscription()
+                        if(success) setSuccessMsg("You have successfully reactivated.");
                       }}
-                      update={true}
-                      fetchPaymentSubscription={props.fetchPaymentSubscription}
-                      user={props.user}
                     />
-                  </Elements>
-                </div>
+                  </div> */}
+                  <div className="settingsButtonWrapper">
+                    <Elements stripe={promise}>
+                      <CheckoutForm
+                        setProcessing={(value: boolean) => setProcessing(value)}
+                        processing={processing}
+                        email={props.user.email}
+                        succeeded={succeeded}
+                        setSucceeded={(value: boolean) => {
+                          setTimeout(() => {
+                            props.fetchUpdatedUserData(props.user.email);
+                            setSucceeded(value);
+                          }, 1000);
+                        }}
+                        update={false}
+                        fetchPaymentSubscription={props.fetchPaymentSubscription}
+                        user={props.user}
+                        showPickingStatus={true}
+                        reactivateLoading={props.isFetchingAuthentication}
+                        reactiveHandler={async () => {
+                          alert("A");
+                          setSuccessMsg("");
+                          const {success, data, message} = await props.reActiveSubscription()
+                          if(success) setSuccessMsg("You have successfully reactivated.");
+                        }}
+                      />
+                    </Elements>
+                  </div>
+                  <ErrorDisplay
+                    message={`Your subscription ends in ${moment(
+                      props.user.payment.subscription
+                    ).diff(moment(), "days")} days`}
+                    show
+                  />
                 </>
               ) : props.isFetchingAuthentication ? (
                 <div className="settingsButtonWrapper">
@@ -497,6 +504,38 @@ function Settings(props: any) {
                     </div>
                   </div>
                   
+                  <div className="settingsButtonWrapper">
+                    <Elements stripe={promise}>
+                      <CheckoutForm
+                        setProcessing={(value: boolean) => setProcessing(value)}
+                        processing={processing}
+                        email={props.user.email}
+                        succeeded={succeeded}
+                        setSucceeded={(value: boolean) => {
+                          setTimeout(() => {
+                            props.fetchUpdatedUserData(props.user.email);
+                            setSucceeded(value);
+                          }, 1000);
+                        }}
+                        update={false}
+                        fetchPaymentSubscription={props.fetchPaymentSubscription}
+                        user={props.user}
+                        showPickingStatus={true}
+                        hideButtons={false}
+                        showReactivateButton={
+                          props.user &&
+                          props.user.payment &&
+                          props.user.payment.canceled
+                        }
+                        reactivateLoading={props.isFetchingAuthentication}
+                        reactiveHandler={async () => {
+                          setSuccessMsg("");
+                          const {success, data, message} = await props.reActiveSubscription()
+                          if(success) setSuccessMsg("You have successfully reactivated.");
+                        }}
+                      />
+                    </Elements>
+                  </div>
                   
                   {cancelSub ? (
                     <div className="settingsButtonWrapper">
@@ -522,14 +561,18 @@ function Settings(props: any) {
                       />
                     </div>
                   ) : (
-                    <div className="settingsButtonWrapper">
-                      <Button
-                        onClick={handleCancel}
-                        width={300}
-                        height={44}
-                        text="Cancel Subscription"
-                      />
-                    </div>
+                    props.user &&
+                    props.user.payment &&
+                    !props.user.payment.canceled ? (<>
+                      <div className="settingsButtonWrapper">
+                        <Button
+                          onClick={handleCancel}
+                          width={300}
+                          height={44}
+                          text="Cancel Subscription"
+                        />
+                      </div>
+                    </>) : null
                   )}
                   
                 </div>
@@ -630,11 +673,12 @@ const bindActions = (dispatch: any) => {
       email: any,
       paymentMethod: any,
       subscriptionType: any,
+      subscriptionInterval: string,
       rewardfulId: any,
       reactivate: any
     ) =>
       dispatch(
-        PAYMENT_ACTIONS.fetchPaymentSubscription(email, paymentMethod, subscriptionType, rewardfulId, reactivate)
+        PAYMENT_ACTIONS.fetchPaymentSubscription(email, paymentMethod, subscriptionType, subscriptionInterval, rewardfulId, reactivate)
       ),
   };
 };

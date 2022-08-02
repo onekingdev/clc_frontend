@@ -28,6 +28,11 @@ export default function CheckoutForm({
     update,
     user,
     onSelectPlan = null,
+    showPickingStatus,
+    hideButtons = false,
+    showReactivateButton = false,
+    reactivateLoading = false,
+    reactiveHandler = () => {}
 }) {
     const [msg, setMsg] = useState(null);
     const rewardfulId = useSelector(state=> state.authState.user.rewardfulId)
@@ -65,6 +70,7 @@ export default function CheckoutForm({
 
     };
     const handleSubmit = async e => {
+        console.log(subscriptionType, subscriptionInterval);
         //e.preventDefault();
         setProcessing(true);
 
@@ -107,7 +113,8 @@ export default function CheckoutForm({
                 setMsg(`Payment failed ${result.error.message}`);
                 setProcessing(false);
             } else {
-                const res = await fetchPaymentSubscription(email, result.paymentMethod, subscriptionType, rewardfulId).catch(console.log);
+                const res = await fetchPaymentSubscription(email, result.paymentMethod, subscriptionType, subscriptionInterval, rewardfulId).catch(console.log);
+                console.log(res)
                 if (res.status === 'error') {
                     setMsg(`Stripe configuration changed. Please contanct admin`);
                 }
@@ -162,7 +169,7 @@ export default function CheckoutForm({
     return (
         <>
             <div className="payment-container">
-                <div >
+                <div style={{ opacity: isSelected ? 0.6 : 1 }}>
                     {selector.user.type === 'admin' ? 
                         <div className="subscriptions_container_one">
                             <SuscriptionCard
@@ -173,6 +180,13 @@ export default function CheckoutForm({
                                 glow
                                 handleGetMemberType={handleSelectPlan}
                                 update={update}
+                                pickedPlan={user.payment.subscriptionType === 'CL TEST'}
+                                pickedInterval={user.payment.subscriptionInterval}
+                                showPickingStatus={showPickingStatus}
+                                hideButtons={hideButtons}
+                                showReactivateButton={showReactivateButton}
+                                reactivateLoading={reactivateLoading}
+                                reactiveHandler={reactiveHandler}
                             />
                         </div>
                         :
@@ -185,6 +199,13 @@ export default function CheckoutForm({
                                 glow
                                 handleGetMemberType={handleSelectPlan}
                                 update={update}
+                                pickedPlan={user.payment.subscriptionType === 'CL AI'}
+                                pickedInterval={user.payment.subscriptionInterval}
+                                showPickingStatus={showPickingStatus}
+                                hideButtons={hideButtons}
+                                showReactivateButton={showReactivateButton}
+                                reactivateLoading={reactivateLoading}
+                                reactiveHandler={reactiveHandler}
                             />
                             <SuscriptionCard
                                 title="CL AI+"
@@ -194,6 +215,13 @@ export default function CheckoutForm({
                                 value="CL AI+"
                                 handleGetMemberType={handleSelectPlan}
                                 update={update}
+                                pickedPlan={user.payment.subscriptionType === 'CL AI+'}
+                                pickedInterval={user.payment.subscriptionInterval}
+                                showPickingStatus={showPickingStatus}
+                                hideButtons={hideButtons}
+                                showReactivateButton={showReactivateButton}
+                                reactivateLoading={reactivateLoading}
+                                reactiveHandler={reactiveHandler}
                             />
                         </div>
                     }

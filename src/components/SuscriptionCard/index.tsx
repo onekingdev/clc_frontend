@@ -11,7 +11,13 @@ interface ISuscriptionCard {
     value?: string,
     update?: boolean,
     handleGetMemberType: (value:string | undefined, interval: 'month' | 'year') => void,
-    
+    pickedPlan: boolean;
+    pickedInterval: string;
+    showPickingStatus: boolean;
+    hideButtons: boolean;
+    showReactivateButton: boolean;
+    reactivateLoading: boolean;
+    reactiveHandler: () => {};
 }
 
 const SuscriptionCard : React.FC<ISuscriptionCard> = ({
@@ -20,14 +26,22 @@ const SuscriptionCard : React.FC<ISuscriptionCard> = ({
     benefitsActive,
     value,
     update,
-    handleGetMemberType
-    }) =>  {
+    handleGetMemberType,
+    pickedPlan,
+    pickedInterval,
+    showPickingStatus,
+    hideButtons,
+    showReactivateButton,
+    reactivateLoading,
+    reactiveHandler,
+}) =>  {
     
     return(
         <>
             <div className="suscription-cards-container">
                 <div className="suscription-card">
                     <div className="price-container">
+                        {showPickingStatus ? pickedPlan ? (<div className="picking-status picked-plan">Your Current Plan</div>) : (<div className="picking-status unpicked-plan">Change Your Plan</div>) : null}
                         <SmallText fontSize="14px" bold color={'rgb(232, 185, 113)'}>{title}</SmallText>
                         <SubtitleText fontSize="20px" bold>${price}</SubtitleText> 
                         {!update && <SmallText fontSize="16px">7 DAY FREE TRIAL. Cancel at anytime</SmallText> }
@@ -67,27 +81,52 @@ const SuscriptionCard : React.FC<ISuscriptionCard> = ({
                                 <SmallText color="white" fontSize="16px">The Chip Leader 24/7 Community led by Alex and Chance</SmallText>
                             </li>
                         </ul>
-                        <div className="card-plan-button">
-                            <Button
-                                onClick={() => {handleGetMemberType(value, 'month')}}
-                                width={150}
-                                height={42}
-                                glow
-                                circular={false}
-                                text={update ? 'Update now' : 'Monthly'}
-                                fontSize="12px"
-                            />
-                            <Button
-                                onClick={() => {handleGetMemberType(value, 'year')}}
-                                width={150}
-                                height={42}
-                                glow
-                                circular={false}
-                                text={update ? 'Update now' : 'Save 20% with annual'}
-                                fontSize="12px"
-                                bgGray={true}
-                            />
-                        </div>
+                        {hideButtons ? null : <div className="card-plan-button">
+                            {
+                                pickedInterval === 'month' && pickedPlan && showReactivateButton ? (
+                                    <Button
+                                        loading={reactivateLoading}
+                                        width={150}
+                                        height={42}
+                                        text="Reactivate"
+                                        glow
+                                        onClick={reactiveHandler}
+                                    />
+                                ) : (
+                                    <Button
+                                        onClick={() => {handleGetMemberType(value, 'month')}}
+                                        width={150}
+                                        height={42}
+                                        glow={pickedInterval === 'month' && pickedPlan}
+                                        circular={false}
+                                        text={update ? 'Update now' : 'Monthly'}
+                                        fontSize="12px"
+                                    />
+                                )
+                            }
+                            {
+                                pickedInterval === 'year' && pickedPlan && showReactivateButton ? (
+                                    <Button
+                                        loading={reactivateLoading}
+                                        width={150}
+                                        height={42}
+                                        text="Reactivate"
+                                        glow
+                                        onClick={reactiveHandler}
+                                    />
+                                ) : (
+                                    <Button
+                                        onClick={() => { handleGetMemberType(value, 'year') }}
+                                        width={150}
+                                        height={42}
+                                        glow={pickedInterval === 'year' && pickedPlan}
+                                        circular={false}
+                                        text={update ? 'Update now' : 'Save 20% with annual'}
+                                        fontSize="12px"
+                                    />
+                                )
+                            }
+                        </div>}
                     </div>
                 </div>
             </div>

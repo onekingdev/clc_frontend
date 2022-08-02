@@ -427,11 +427,11 @@ function Payment(props) {
                                   }}
                                   fetchPaymentSubscription={props.fetchPaymentSubscription}
                                   user={props.user}
+                                  showPickingStatus={false}
                                 />
                               </Elements>
                             </div>
-                          </>
-                          
+                          </>      
                         )}
                       </>
                     )
@@ -2009,11 +2009,12 @@ const bindActions = (dispatch) => {
       email,
       paymentMethod,
       subscriptionType,
+      subscriptionInterval,
       rewardfulId,
       reactivate,
     ) =>
       dispatch(
-        ACTIONS.fetchPaymentSubscription(email, paymentMethod, subscriptionType, rewardfulId, reactivate)
+        ACTIONS.fetchPaymentSubscription(email, paymentMethod, subscriptionType, subscriptionInterval, rewardfulId, reactivate)
       ),
   };
 };
