@@ -13,7 +13,7 @@ jobs:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v3
         with:
-          node-version: 14.17.5
+          node-version: 14.18.0
       - run: npm ci && npm run build-github
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
