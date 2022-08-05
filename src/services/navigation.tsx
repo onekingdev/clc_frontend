@@ -18,6 +18,9 @@ import FinishSignup from "../containers/Authentication/finishSignup"
 import FinishAssessment from "../containers/Assessment/finishAsssessment"
 import moment from "moment";
 import { IntercomProvider} from "react-use-intercom";
+//@ts-ignore
+import Profitwell from "profitwell-component";
+
 export const PrivateRoute = ({requireAuth=true, ...rest}) => {
   const user = useSelector((store:any) => store.authState.user)
   const isAuthenticated = !!user.id;
@@ -34,62 +37,67 @@ function Navigation(props: any) {
   const INTERCOM_APP_ID = "stkorlo9";
 
   return (
-    <Switch>
-      <Route exact path="/" component={Login} />
-      <Route exact path="/code=:code" component={Login} />
-      <Route exact path="/signup" component={Payment} />
-      <Route exact path ='/finishSignup' component={FinishSignup} />
-      <Route exact path="/payment" component={Payment} />
-      <PrivateRoute exact path="/finishassessment" component={FinishAssessment} />
+    <>
+      <Switch>
+        <Route exact path="/" component={Login} />
+        <Route exact path="/code=:code" component={Login} />
+        <Route exact path="/signup" component={Payment} />
+        <Route exact path ='/finishSignup' component={FinishSignup} />
+        <Route exact path="/payment" component={Payment} />
+        <PrivateRoute exact path="/finishassessment" component={FinishAssessment} />
 
-      <IntercomProvider
-        appId={INTERCOM_APP_ID}
-        autoBoot
-        autoBootProps={{
-          name: selector.userName,
-          email: selector.email,
-          userId: selector.stringID,
-          customAttributes: { custom_attribute_key: "Hi There!" },
-        }}
-      >
-        {props.user.id ? (
-          <div>
-            {props.user.assessment ? (
-              <div>
-                <Redirect to="/assessment-screen" />
-                <PrivateRoute exact path="/assessment-screen" component={Assessment} />
-                <PrivateRoute exact path="/assessment" component={Game} />
-                <PrivateRoute exact path="/results" component={Results} />
-              </div>
-            ) : props.user.payment && props.user.payment.customerID &&
-              moment(props.user.payment.subscription).diff(moment(), "days") >
-                -parseInt(process.env.REACT_APP_PAY_CHECK_CACHE_PERIOD ? process.env.REACT_APP_PAY_CHECK_CACHE_PERIOD : '0') ? (
-              <div>
-                <Redirect to="/home" />
-                <PrivateRoute exact path="/assessment-screen" component={Assessment} />
-                <PrivateRoute exact path="/assessment" component={Game} />
-                <PrivateRoute exact path="/home" component={Home} />
-                <PrivateRoute exact path="/paths" component={Paths} />
-                <PrivateRoute exact path="/library" component={Library} />
-                <PrivateRoute exact path="/performance" component={Performance} />
-                <PrivateRoute exact path="/game" component={Game} />
-                <PrivateRoute exact path="/ai" component={Game} />
-                <PrivateRoute exact path="/share" component={Game} />
-                <PrivateRoute exact path="/version" component={Version} />
-                <PrivateRoute exact path="/settings" component={Settings} />
-                <PrivateRoute exact path="/results" component={Results} />
-              </div>
-            ) : (
-              <div>
-                <PrivateRoute exact path="/results" component={Results} />
-                <PrivateRoute exact path="/assessment" component={Game} />
-              </div>
-            )}
-          </div>
-        ) :  <Redirect to="/" />}
-       </IntercomProvider>
-    </Switch>
-  
+        <IntercomProvider
+          appId={INTERCOM_APP_ID}
+          autoBoot
+          autoBootProps={{
+            name: selector.userName,
+            email: selector.email,
+            userId: selector.stringID,
+            customAttributes: { custom_attribute_key: "Hi There!" },
+          }}
+        >
+          {props.user.id ? (
+            <div>
+              {props.user.assessment ? (
+                <div>
+                  <Redirect to="/assessment-screen" />
+                  <PrivateRoute exact path="/assessment-screen" component={Assessment} />
+                  <PrivateRoute exact path="/assessment" component={Game} />
+                  <PrivateRoute exact path="/results" component={Results} />
+                </div>
+              ) : props.user.payment && props.user.payment.customerID &&
+                moment(props.user.payment.subscription).diff(moment(), "days") >
+                  -parseInt(process.env.REACT_APP_PAY_CHECK_CACHE_PERIOD ? process.env.REACT_APP_PAY_CHECK_CACHE_PERIOD : '0') ? (
+                <div>
+                  <Redirect to="/home" />
+                  <PrivateRoute exact path="/assessment-screen" component={Assessment} />
+                  <PrivateRoute exact path="/assessment" component={Game} />
+                  <PrivateRoute exact path="/home" component={Home} />
+                  <PrivateRoute exact path="/paths" component={Paths} />
+                  <PrivateRoute exact path="/library" component={Library} />
+                  <PrivateRoute exact path="/performance" component={Performance} />
+                  <PrivateRoute exact path="/game" component={Game} />
+                  <PrivateRoute exact path="/ai" component={Game} />
+                  <PrivateRoute exact path="/share" component={Game} />
+                  <PrivateRoute exact path="/version" component={Version} />
+                  <PrivateRoute exact path="/settings" component={Settings} />
+                  <PrivateRoute exact path="/results" component={Results} />
+                </div>
+              ) : (
+                <div>
+                  <PrivateRoute exact path="/results" component={Results} />
+                  <PrivateRoute exact path="/assessment" component={Game} />
+                </div>
+              )}
+            </div>
+          ) :  <Redirect to="/" />}
+        </IntercomProvider>
+      </Switch>
+      {
+        process.env.NODE_ENV === 'production' &&
+        <Profitwell authToken="29eab7abf3f5cb67acf0611ce687ab47" email={selector.email} />
+      }
+    </>
   );
 }
 

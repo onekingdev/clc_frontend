@@ -24,6 +24,7 @@
     "html-react-parser": "^1.2.3",
     "iframe-resizer-react": "^1.1.0",
     "moment": "^2.29.1",
+    "profitwell-component": "^0.1.2",
     "react": "^17.0.1",
     "react-awesome-modal": "^2.0.5",
     "react-awesome-reveal": "^3.4.0",
