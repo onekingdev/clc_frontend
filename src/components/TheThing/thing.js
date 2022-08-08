@@ -233,8 +233,8 @@
 //                 >
 //                   <path
 //                     stroke="#E8BA73"
-//                     stroke-linecap="round"
-//                     stroke-linejoin="round"
+//                     strokeLinecap="round"
+//                     strokeLinejoin="round"
 //                     d="M9 7v5M17 9.067C17 4.612 13.418 1 9 1S1 4.612 1 9.067v5.866C1 19.388 4.582 23 9 23s8-3.612 8-8.067V9.067z"
 //                   />
 //                 </svg>
@@ -287,15 +287,15 @@
 //                         title="kjsndkjsdkcjn"
 //                         src="//fast.wistia.net/embed/iframe/1t6j327wvg?videoFoam=true"
 //                         allowtransparency="true"
-//                         frameborder="0"
+//                         frameBorder="0"
 //                         scrolling="no"
 //                         className="wistia_embed"
 //                         name="wistia_embed"
-//                         allowfullscreen
-//                         mozallowfullscreen
-//                         webkitallowfullscreen
-//                         oallowfullscreen
-//                         msallowfullscreen
+//                         allowFullScreen
+//                         mozallowFullScreen
+//                         webkitallowFullScreen
+//                         oallowFullScreen
+//                         msallowFullScreen
 //                         width="100%"
 //                         height="100%"
 //                       ></iframe>
@@ -668,16 +668,16 @@
 //                     >
 //                       <path
 //                         stroke="#E8BA73"
-//                         stroke-linecap="square"
-//                         stroke-miterlimit="10"
-//                         stroke-width="2"
+//                         strokeLinecap="square"
+//                         strokeMiterlimit="10"
+//                         strokeWidth="2"
 //                         d="M16 16.667v6.666h6.667"
 //                       />
 //                       <path
 //                         stroke="#E8BA73"
-//                         stroke-linecap="square"
-//                         stroke-miterlimit="10"
-//                         stroke-width="2"
+//                         strokeLinecap="square"
+//                         strokeMiterlimit="10"
+//                         strokeWidth="2"
 //                         d="M16 38.333c8.284 0 15-6.715 15-15 0-8.284-6.716-15-15-15-8.284 0-15 6.716-15 15 0 8.285 6.716 15 15 15zM11 1.667h10M16 1.667v1.666"
 //                       />
 //                     </svg>
@@ -710,16 +710,16 @@
 //                     >
 //                       <path
 //                         stroke="#E8BA73"
-//                         stroke-linecap="square"
-//                         stroke-miterlimit="10"
-//                         stroke-width="2"
+//                         strokeLinecap="square"
+//                         strokeMiterlimit="10"
+//                         strokeWidth="2"
 //                         d="M16 16.667v6.666h6.667"
 //                       />
 //                       <path
 //                         stroke="#E8BA73"
-//                         stroke-linecap="square"
-//                         stroke-miterlimit="10"
-//                         stroke-width="2"
+//                         strokeLinecap="square"
+//                         strokeMiterlimit="10"
+//                         strokeWidth="2"
 //                         d="M16 38.333c8.284 0 15-6.715 15-15 0-8.284-6.716-15-15-15-8.284 0-15 6.716-15 15 0 8.285 6.716 15 15 15zM11 1.667h10M16 1.667v1.666"
 //                       />
 //                     </svg>
@@ -753,16 +753,16 @@
 //                     >
 //                       <path
 //                         stroke="#E8BA73"
-//                         stroke-linecap="square"
-//                         stroke-miterlimit="10"
-//                         stroke-width="2"
+//                         strokeLinecap="square"
+//                         strokeMiterlimit="10"
+//                         strokeWidth="2"
 //                         d="M16 16.667v6.666h6.667"
 //                       />
 //                       <path
 //                         stroke="#E8BA73"
-//                         stroke-linecap="square"
-//                         stroke-miterlimit="10"
-//                         stroke-width="2"
+//                         strokeLinecap="square"
+//                         strokeMiterlimit="10"
+//                         strokeWidth="2"
 //                         d="M16 38.333c8.284 0 15-6.715 15-15 0-8.284-6.716-15-15-15-8.284 0-15 6.716-15 15 0 8.285 6.716 15 15 15zM11 1.667h10M16 1.667v1.666"
 //                       />
 //                     </svg>
@@ -794,16 +794,16 @@
 //                     >
 //                       <path
 //                         stroke="#E8BA73"
-//                         stroke-linecap="square"
-//                         stroke-miterlimit="10"
-//                         stroke-width="2"
+//                         strokeLinecap="square"
+//                         strokeMiterlimit="10"
+//                         strokeWidth="2"
 //                         d="M16 16.667v6.666h6.667"
 //                       />
 //                       <path
 //                         stroke="#E8BA73"
-//                         stroke-linecap="square"
-//                         stroke-miterlimit="10"
-//                         stroke-width="2"
+//                         strokeLinecap="square"
+//                         strokeMiterlimit="10"
+//                         strokeWidth="2"
 //                         d="M16 38.333c8.284 0 15-6.715 15-15 0-8.284-6.716-15-15-15-8.284 0-15 6.716-15 15 0 8.285 6.716 15 15 15zM11 1.667h10M16 1.667v1.666"
 //                       />
 //                     </svg>
@@ -835,16 +835,16 @@
 //                     >
 //                       <path
 //                         stroke="#E8BA73"
-//                         stroke-linecap="square"
-//                         stroke-miterlimit="10"
-//                         stroke-width="2"
+//                         strokeLinecap="square"
+//                         strokeMiterlimit="10"
+//                         strokeWidth="2"
 //                         d="M16 16.667v6.666h6.667"
 //                       />
 //                       <path
 //                         stroke="#E8BA73"
-//                         stroke-linecap="square"
-//                         stroke-miterlimit="10"
-//                         stroke-width="2"
+//                         strokeLinecap="square"
+//                         strokeMiterlimit="10"
+//                         strokeWidth="2"
 //                         d="M16 38.333c8.284 0 15-6.715 15-15 0-8.284-6.716-15-15-15-8.284 0-15 6.716-15 15 0 8.285 6.716 15 15 15zM11 1.667h10M16 1.667v1.666"
 //                       />
 //                     </svg>
@@ -938,15 +938,15 @@
 //                       <iframe
 //                         src="//fast.wistia.net/embed/iframe/1t6j327wvg?videoFoam=true"
 //                         allowtransparency="true"
-//                         frameborder="0"
+//                         frameBorder="0"
 //                         scrolling="no"
 //                         className="wistia_embed"
 //                         name="wistia_embed"
-//                         allowfullscreen
-//                         mozallowfullscreen
-//                         webkitallowfullscreen
-//                         oallowfullscreen
-//                         msallowfullscreen
+//                         allowFullScreen
+//                         mozallowFullScreen
+//                         webkitallowFullScreen
+//                         oallowFullScreen
+//                         msallowFullScreen
 //                         width="100%"
 //                         height="100%"
 //                       ></iframe>
@@ -1300,9 +1300,9 @@
 //                           >
 //                             <path
 //                               stroke="#fff"
-//                               stroke-linecap="round"
-//                               stroke-linejoin="round"
-//                               stroke-width="2"
+//                               strokeLinecap="round"
+//                               strokeLinejoin="round"
+//                               strokeWidth="2"
 //                               d="M12.6 1.9L7 7.5 1.4 1.9"
 //                             />
 //                           </svg>
@@ -1341,9 +1341,9 @@
 //                           >
 //                             <path
 //                               stroke="#fff"
-//                               stroke-linecap="round"
-//                               stroke-linejoin="round"
-//                               stroke-width="2"
+//                               strokeLinecap="round"
+//                               strokeLinejoin="round"
+//                               strokeWidth="2"
 //                               d="M12.6 1.9L7 7.5 1.4 1.9"
 //                             />
 //                           </svg>
@@ -1382,9 +1382,9 @@
 //                           >
 //                             <path
 //                               stroke="#fff"
-//                               stroke-linecap="round"
-//                               stroke-linejoin="round"
-//                               stroke-width="2"
+//                               strokeLinecap="round"
+//                               strokeLinejoin="round"
+//                               strokeWidth="2"
 //                               d="M12.6 1.9L7 7.5 1.4 1.9"
 //                             />
 //                           </svg>
@@ -1423,9 +1423,9 @@
 //                           >
 //                             <path
 //                               stroke="#fff"
-//                               stroke-linecap="round"
-//                               stroke-linejoin="round"
-//                               stroke-width="2"
+//                               strokeLinecap="round"
+//                               strokeLinejoin="round"
+//                               strokeWidth="2"
 //                               d="M12.6 1.9L7 7.5 1.4 1.9"
 //                             />
 //                           </svg>
@@ -1464,9 +1464,9 @@
 //                           >
 //                             <path
 //                               stroke="#fff"
-//                               stroke-linecap="round"
-//                               stroke-linejoin="round"
-//                               stroke-width="2"
+//                               strokeLinecap="round"
+//                               strokeLinejoin="round"
+//                               strokeWidth="2"
 //                               d="M12.6 1.9L7 7.5 1.4 1.9"
 //                             />
 //                           </svg>
@@ -1505,9 +1505,9 @@
 //                           >
 //                             <path
 //                               stroke="#fff"
-//                               stroke-linecap="round"
-//                               stroke-linejoin="round"
-//                               stroke-width="2"
+//                               strokeLinecap="round"
+//                               strokeLinejoin="round"
+//                               strokeWidth="2"
 //                               d="M12.6 1.9L7 7.5 1.4 1.9"
 //                             />
 //                           </svg>
@@ -1660,7 +1660,7 @@
 //                 id="typeform-full"
 //                 width="100%"
 //                 height="100%"
-//                 frameborder="0"
+//                 frameBorder="0"
 //                 allow="camera; microphone; autoplay; encrypted-media;"
 //                 src="https://form.typeform.com/to/YSXZUxBx"
 //               ></iframe>

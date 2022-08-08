@@ -196,6 +196,22 @@ export default function CheckoutForm({
                         :
                         <div className="suscriptions-container">
                             <SuscriptionCard
+                                title="CL AI Lite"
+                                price={59}
+                                benefitsActive={false}
+                                value="CL AI Lite"
+                                glow
+                                handleGetMemberType={handleSelectPlan}
+                                update={update}
+                                pickedPlan={user.payment.subscriptionType === 'CL AI'}
+                                pickedInterval={user.payment.subscriptionInterval}
+                                showPickingStatus={showPickingStatus}
+                                hideButtons={hideButtons}
+                                showReactivateButton={showReactivateButton}
+                                reactivateLoading={reactivateLoading}
+                                reactiveHandler={reactiveHandler}
+                            />
+                            <SuscriptionCard
                                 title="CL AI"
                                 price={59}
                                 benefitsActive={false}
