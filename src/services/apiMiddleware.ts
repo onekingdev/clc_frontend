@@ -8,6 +8,7 @@ import {
 } from "../helpers/constants";
 import {store} from "../redux/configureStore";
 import * as AUTH_ACTIONS from "../containers/Authentication/store/actions";
+console.log(process.env.NODE_ENV)
 const getApi = () => {
   switch (process.env.NODE_ENV as 'local' | 'development' | 'production') {
     case 'local':

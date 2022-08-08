@@ -31,7 +31,6 @@ const promise = loadStripe(
 );
 function Payment(props) {
   const history = useHistory();
-  console.log(history)
   const [succeeded, setSucceeded] = useState(false);
   const [showIframe, setShowIframe] = useState(false);
   const [processing, setProcessing] = useState(false);
