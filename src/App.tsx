@@ -13,8 +13,6 @@ const tagManagerArgs = {
 }
 TagManager.initialize(tagManagerArgs)
 
-console.log(process.env.NODE_ENV)
-
 const App = () => {
   const [loading, setLoading] = useState(true);
   const [persist] = useState(store(() => setLoading(false)));

@@ -20,8 +20,6 @@ jobs:
         run: |
           mv .env.dev .env
       - run: npm i && npm run build-github
-      - name: target the project in firebase
-        run: firebase use devenvclc
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: '${{ secrets.GITHUB_TOKEN }}'
