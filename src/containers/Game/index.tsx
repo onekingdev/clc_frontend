@@ -561,7 +561,7 @@ function Game(props: any) {
     >
       {questions.array.length === 0 ? null : (
         <div className="gameWrapper">
-          {questions?.array?.[questionIndex]?.imgUrl ? (
+          {!questions?.array?.[questionIndex]?.imgUrl ? (
             <div>
               <div className="gamePokerTableContainer">
                 {!showModal &&
