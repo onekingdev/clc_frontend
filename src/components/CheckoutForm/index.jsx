@@ -33,7 +33,8 @@ export default function CheckoutForm({
     hideButtons = false,
     showReactivateButton = false,
     reactivateLoading = false,
-    reactiveHandler = () => {}
+    reactiveHandler = () => { },
+    showConfirmModal = false,
 }) {
     const [msg, setMsg] = useState(null);
     const rewardfulId = useSelector(state=> state.authState.user.rewardfulId)
@@ -71,7 +72,12 @@ export default function CheckoutForm({
     };
     const [showConfirmChangePlan, setShowConfirmChangePlan] = useState(false);
     const handleChangePlan = () => {
-        setShowConfirmChangePlan(true);
+        setSucceeded(false);
+        if (showConfirmModal) {
+            setShowConfirmChangePlan(true);
+        } else {
+            handleSubmit();
+        }
     }
     const handleSubmit = async e => {
         setShowConfirmChangePlan(false);
@@ -195,7 +201,7 @@ export default function CheckoutForm({
                         </div>
                         :
                         <div className="suscriptions-container">
-                            <SuscriptionCard
+                            {/* <SuscriptionCard
                                 title="CL AI Lite"
                                 price={59}
                                 benefitsActive={false}
@@ -210,7 +216,7 @@ export default function CheckoutForm({
                                 showReactivateButton={showReactivateButton}
                                 reactivateLoading={reactivateLoading}
                                 reactiveHandler={reactiveHandler}
-                            />
+                            /> */}
                             <SuscriptionCard
                                 title="CL AI"
                                 price={59}
@@ -276,7 +282,7 @@ export default function CheckoutForm({
                     null
                 }
             </div>
-            <Modal
+            {showConfirmModal && <Modal
                 visible={showConfirmChangePlan}
                 width="540px"
                 height="320px"
@@ -294,7 +300,7 @@ export default function CheckoutForm({
                         glow
                         text="Confirm" />
                 </div>
-            </Modal>
+            </Modal>}
         </>
     );
 }

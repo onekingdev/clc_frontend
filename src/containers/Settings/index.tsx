@@ -416,20 +416,6 @@ function Settings(props: any) {
               props.user.payment &&
               props.user.payment.canceled ? (
                 <>
-                  {/* <div className="settingsButtonWrapper">
-                    <Button
-                      loading={props.isFetchingAuthentication}
-                      width={300}
-                      height={44}
-                      text="Reactivate"
-                      glow
-                      onClick={async () => {
-                        setSuccessMsg("");
-                        const {success, data, message} = await props.reActiveSubscription()
-                        if(success) setSuccessMsg("You have successfully reactivated.");
-                      }}
-                    />
-                  </div> */}
                   <div className="settingsButtonWrapper">
                     <Elements stripe={promise}>
                       <CheckoutForm
@@ -454,6 +440,7 @@ function Settings(props: any) {
                           const {success, data, message} = await props.reActiveSubscription()
                           if(success) setSuccessMsg("You have successfully reactivated.");
                         }}
+                        showConfirmModal={true}
                       />
                     </Elements>
                   </div>
@@ -533,6 +520,7 @@ function Settings(props: any) {
                           const {success, data, message} = await props.reActiveSubscription()
                           if(success) setSuccessMsg("You have successfully reactivated.");
                         }}
+                        showConfirmModal={true}
                       />
                     </Elements>
                   </div>
