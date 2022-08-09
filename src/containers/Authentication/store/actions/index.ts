@@ -8,7 +8,7 @@ import firebase from "firebase/app";
 import 'firebase/firestore'
 import { faCode } from '@fortawesome/free-solid-svg-icons';
 import { Console } from 'console';
-require("dotenv").config();
+// require("dotenv").config();
 
 const timestamp = firebase.firestore.FieldValue.serverTimestamp();
 

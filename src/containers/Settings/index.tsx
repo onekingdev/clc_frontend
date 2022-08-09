@@ -42,7 +42,7 @@ import { getStripeKey } from "../../services/stripe";
 import { useIntercom } from "react-use-intercom";
 
 const promise = loadStripe(
-  getStripeKey.stripe_publishable_key(process.env.NODE_ENV)
+  getStripeKey.stripe_publishable_key(process.env.REACT_APP_NODE_ENV)
 );
 const host = new URL(window.location.href).host;
 

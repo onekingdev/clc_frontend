@@ -27,7 +27,7 @@ import { useIntercom } from "react-use-intercom";
 // import { Thing } from "../../components/TheThing/thing";
 
 const promise = loadStripe(
-  getStripeKey.stripe_publishable_key(process.env.NODE_ENV)
+  getStripeKey.stripe_publishable_key(process.env.REACT_APP_NODE_ENV)
 );
 function Payment(props) {
   const history = useHistory();

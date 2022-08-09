@@ -1,7 +1,7 @@
 import firebase from 'firebase/app';
 import 'firebase/auth';
 let app: firebase.app.App = (() => {
-    switch (process.env.NODE_ENV as 'local' | 'development' | 'production') {
+    switch (process.env.REACT_APP_NODE_ENV as 'local' | 'development' | 'production') {
         case 'production':
             return firebase.initializeApp( {
                     apiKey: "AIzaSyDjDLYRdraVPdvJDV6GjpWfaiRM0XJHrys",

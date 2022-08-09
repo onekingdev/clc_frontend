@@ -1,4 +1,4 @@
-name: Deploy to Firebase Hosting For Development
+name: Build and Deploy to firebase(DEV)
 
 'on':
   pull_request:
@@ -8,20 +8,49 @@ name: Deploy to Firebase Hosting For Development
     branches:
       - dev
 jobs:
-  build_and_preview:
-    if: '${{ github.event.pull_request.head.repo.full_name == github.repository }}'
+  # build_and_preview:
+  #   if: '${{ github.event.pull_request.head.repo.full_name == github.repository }}'
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - uses: actions/checkout@v2
+  #     - uses: actions/setup-node@v3
+  #       with:
+  #         node-version: 14.18.0
+  #     - name: create .env
+  #       run: |
+  #         mv .env.dev .env
+  #     - run: npm i && npm run build-github
+  #     - uses: FirebaseExtended/action-hosting-deploy@v0
+  #       with:
+  #         repoToken: '${{ secrets.GITHUB_TOKEN }}'
+  #         firebaseServiceAccount: ${{ secrets.DEVENVCLC_ACCOUNT }}
+  #         projectId: devenvclc
+  build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v3
+      - name: Checkout Repo
+        uses: actions/checkout@master
+      - name: Install dependencies & Build
+        run: npm i && npm run build-github
+      - name: Archive Production Artifact
+        uses: actions/upload-artifact@master
         with:
-          node-version: 14.18.0
-      - name: create .env
-        run: |
-          mv .env.dev .env
-      - run: npm i && npm run build-github
-      - uses: FirebaseExtended/action-hosting-deploy@v0
+          name: build
+          path: build
+  deploy:
+    needs: build
+    runson: ubuntu-latest
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@master
+      - name: Download Artifact
+        uses: actions/download-artifact@master
         with:
-          repoToken: '${{ secrets.GITHUB_TOKEN }}'
-          firebaseServiceAccount: ${{ secrets.DEVENVCLC_ACCOUNT }}
-          projectId: devenvclc
+          name: build
+      - name: Deploy to firebase
+        uses: w9jds/firebase-action@master
+        with:
+          args: deploy --only hosting
+        env:
+          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
+      

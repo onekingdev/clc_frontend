@@ -1,7 +1,7 @@
-require("dotenv").config();
+// require("dotenv").config();
 
 export const getStripeKey = {
-  stripe_publishable_key: (env: string) => {
+  stripe_publishable_key: (env?: string) => {
     switch (env) {
       case 'local':
       case 'development':
