@@ -44,7 +44,7 @@ const SuscriptionCard : React.FC<ISuscriptionCard> = ({
             <div className="suscription-cards-container">
                 <div className="suscription-card">
                     <div className="price-container">
-                        {showPickingStatus ? pickedPlan ? (<div className="picking-status picked-plan">Your Current Plan(until {moment(endTime).format("YYYY/MM/DD")})</div>) : (<div className="picking-status unpicked-plan">Change Your Plan</div>) : null}
+                        {showPickingStatus ? pickedPlan ? (<div className="picking-status picked-plan">Your Current Plan(Next renewal date {moment(endTime).format("YYYY/MM/DD")})</div>) : (<div className="picking-status unpicked-plan">Change Your Plan</div>) : null}
                         <SmallText fontSize="14px" bold color={'rgb(232, 185, 113)'}>{title}</SmallText>
                         <SubtitleText fontSize="20px" bold>${price}</SubtitleText> 
                         {!update && <SmallText fontSize="16px">7 DAY FREE TRIAL. Cancel at anytime</SmallText> }

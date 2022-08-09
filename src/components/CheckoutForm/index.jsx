@@ -292,6 +292,20 @@ export default function CheckoutForm({
                 effect="fadeInUp"
                 onClickAway={() => setShowConfirmChangePlan(false)}
             >
+                <div style={{ position: 'absolute', right: '1rem', top: '1rem'}}>
+                    <Button
+                        onClick={() => {
+                            setShowConfirmChangePlan(false);
+                            setIsSelected(false);
+                        }}
+                        text="X"
+                        width={40}
+                        height={40}
+                        closeMenuButton={false}
+                        closeMenuButtonRight={false}
+                        glow
+                    />
+                </div>
                 <div className="confirm-modal">
                     <div className="text-content">
                         <span>You are switching from</span> <b>{user.payment.subscriptionType} {user.payment.subscriptionInterval}ly</b> <span>to</span> <b>{subscriptionType} {subscriptionInterval}ly</b> plan.
