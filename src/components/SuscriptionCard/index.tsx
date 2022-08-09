@@ -3,15 +3,17 @@ import Button from "../Button";
 import SmallText from "../SmallText";
 import SubtitleText from "../SubtitleText";
 import "./styles.css"
+import moment from "moment";
 
 interface ISuscriptionCard {
-    title?: string,
-    price?: number,
-    benefitsActive?: boolean,
-    value?: string,
-    update?: boolean,
-    handleGetMemberType: (value:string | undefined, interval: 'month' | 'year') => void,
+    title?: string;
+    price?: number;
+    benefitsActive?: boolean;
+    value?: string;
+    update?: boolean;
+    handleGetMemberType: (value: string | undefined, interval: 'month' | 'year') => void;
     pickedPlan: boolean;
+    endTime: string;
     pickedInterval: string;
     showPickingStatus: boolean;
     hideButtons: boolean;
@@ -28,6 +30,7 @@ const SuscriptionCard : React.FC<ISuscriptionCard> = ({
     update,
     handleGetMemberType,
     pickedPlan,
+    endTime,
     pickedInterval,
     showPickingStatus,
     hideButtons,
@@ -41,7 +44,7 @@ const SuscriptionCard : React.FC<ISuscriptionCard> = ({
             <div className="suscription-cards-container">
                 <div className="suscription-card">
                     <div className="price-container">
-                        {showPickingStatus ? pickedPlan ? (<div className="picking-status picked-plan">Your Current Plan({`${pickedInterval}ly`})</div>) : (<div className="picking-status unpicked-plan">Change Your Plan</div>) : null}
+                        {showPickingStatus ? pickedPlan ? (<div className="picking-status picked-plan">Your Current Plan(until {moment(endTime).format("YYYY/MM/DD")})</div>) : (<div className="picking-status unpicked-plan">Change Your Plan</div>) : null}
                         <SmallText fontSize="14px" bold color={'rgb(232, 185, 113)'}>{title}</SmallText>
                         <SubtitleText fontSize="20px" bold>${price}</SubtitleText> 
                         {!update && <SmallText fontSize="16px">7 DAY FREE TRIAL. Cancel at anytime</SmallText> }

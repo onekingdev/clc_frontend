@@ -95,7 +95,9 @@ function Navigation(props: any) {
       </Switch>
       {
         process.env.REACT_APP_NODE_ENV === 'production' &&
-        <Profitwell authToken="29eab7abf3f5cb67acf0611ce687ab47" email={selector.email} />
+        <>
+          <Profitwell authToken="29eab7abf3f5cb67acf0611ce687ab47" email={selector.email} />
+        </>
       }
     </>
   );

@@ -191,6 +191,7 @@ export default function CheckoutForm({
                                 handleGetMemberType={handleSelectPlan}
                                 update={update}
                                 pickedPlan={user.payment.subscriptionType === 'CL TEST'}
+                                endTime={user.payment.subscription}
                                 pickedInterval={user.payment.subscriptionInterval}
                                 showPickingStatus={showPickingStatus}
                                 hideButtons={hideButtons}
@@ -226,6 +227,7 @@ export default function CheckoutForm({
                                 handleGetMemberType={handleSelectPlan}
                                 update={update}
                                 pickedPlan={user.payment.subscriptionType === 'CL AI'}
+                                endTime={user.payment.subscription}
                                 pickedInterval={user.payment.subscriptionInterval}
                                 showPickingStatus={showPickingStatus}
                                 hideButtons={hideButtons}
@@ -242,6 +244,7 @@ export default function CheckoutForm({
                                 handleGetMemberType={handleSelectPlan}
                                 update={update}
                                 pickedPlan={user.payment.subscriptionType === 'CL AI+'}
+                                endTime={user.payment.subscription}
                                 pickedInterval={user.payment.subscriptionInterval}
                                 showPickingStatus={showPickingStatus}
                                 hideButtons={hideButtons}
@@ -291,7 +294,11 @@ export default function CheckoutForm({
             >
                 <div className="confirm-modal">
                     <div className="text-content">
-                        <span>You are switching from</span> <b>{user.payment.subscriptionType} {user.payment.subscriptionInterval}ly</b> <span>to</span> <b>{subscriptionType} {subscriptionInterval}ly</b><span>, your current subscription will end today and your new plan will start effective immediately</span>
+                        <span>You are switching from</span> <b>{user.payment.subscriptionType} {user.payment.subscriptionInterval}ly</b> <span>to</span> <b>{subscriptionType} {subscriptionInterval}ly</b> plan.
+                        {user.payment.subscriptionInterval === 'year' && subscriptionInterval === 'month' ? 
+                            <span>This will go into effect at the end of your annual plan period</span> :
+                            <span>Your current subscription will end today and your new plan will start effective immediately</span>
+                        }
                     </div>
                     <Button
                         onClick={handleSubmit}

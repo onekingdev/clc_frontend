@@ -312,7 +312,7 @@ function Payment(props) {
               )}
               { 
                 props?.user?.payment &&
-                props.user.payment.subscription&&
+                props.user.payment.subscription &&
                 props.user.payment.canceled !== true && 
                 moment(props.user.payment.subscription).diff(moment(), "days") < 0  && (
                   <ErrorDisplay message={"Your credit card on file is being declined. Please provide updated card information to continue your subscription. Thank you for subscribing to CLAI"} show={true}/>
