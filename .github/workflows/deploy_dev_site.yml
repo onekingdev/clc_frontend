@@ -28,8 +28,13 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout Repo
-        uses: actions/checkout@master
+      - uses: actions/checkout@master
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 14.18.0
+      - name: create .env
+        run: |
+          mv .env.dev .env
       - name: Install dependencies & Build
         run: npm i && npm run build-github
       - name: Archive Production Artifact
