@@ -56,11 +56,17 @@ export const cancelSubscription = () => async(
         dispatch(AUTH_TYPES.setIsFetchingAuthentication(true))
         const {success, data, message} = await api.post(apiCancelSubscription, {id: user.id});
         
-        if (success && data.cancel_at_period_end){
-            user.payment['canceled'] = true;
-            user.payment['subscription'] = new Date(data.current_period_end * 1000);
+        if (success) {
+            if (data.scheduled) {
+                user.payment['canceled'] = true;
+            } else if (data.cancel_at_period_end) {
+                user.payment['canceled'] = true;
+                user.payment['subscription'] = new Date(data.current_period_end * 1000);
+            } else {
+                alert(message);
+            }
         } else {
-            alert(message)
+            alert(message);
         }
         dispatch(AUTH_TYPES.setUserData(user));
         dispatch(AUTH_TYPES.setIsFetchingAuthentication(false))

@@ -296,7 +296,6 @@ function Settings(props: any) {
 
     return number;
   };
-  console.log("=-=-=", props.user);
   return (
     <ScreenTemplate>
       <div className="settingsContainer">

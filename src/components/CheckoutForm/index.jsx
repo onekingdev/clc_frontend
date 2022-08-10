@@ -145,6 +145,8 @@ export default function CheckoutForm({
                     setSucceeded(true)
                     trackEvent(`${subscriptionType} plan purchased`)
                     setIsSelected(false)
+                    setSubscriptionType('')
+                    setSubscriptionInterval('')
                 }
             }
         }
@@ -172,6 +174,7 @@ export default function CheckoutForm({
         }
         setSubscriptionType(value)
         setSubscriptionInterval(interval)
+        setSucceeded(false)
         setIsSelected(true)
         trackEvent(`${value} plan selected`)
     }
@@ -323,8 +326,7 @@ export default function CheckoutForm({
                                 (user.payment.subscriptionType === 'CL AI+' && user.payment.subscriptionInterval === 'month' && subscriptionType === 'CL AI' && subscriptionInterval === 'year') || // 9 in google
                                 (user.payment.subscriptionType === 'CL AI+' && user.payment.subscriptionInterval === 'year' && subscriptionType === 'CL AI+' && subscriptionInterval === 'month') || // 10 in google
                                 (user.payment.subscriptionType === 'CL AI+' && user.payment.subscriptionInterval === 'year' && subscriptionType === 'CL AI' && subscriptionInterval === 'month') || // 11 in google
-                                (user.payment.subscriptionType === 'CL AI+' && user.payment.subscriptionInterval === 'year' && subscriptionType === 'CL AI' && subscriptionInterval === 'year') || // 12 in google
-                                true
+                                (user.payment.subscriptionType === 'CL AI+' && user.payment.subscriptionInterval === 'year' && subscriptionType === 'CL AI' && subscriptionInterval === 'year') // 12 in google=
                             ) ? 
                             <span>This will go into effect at the end of your annual plan period</span> :
                             <span>Your current subscription will end today and your new plan will start effective immediately</span>
