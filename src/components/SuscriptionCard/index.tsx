@@ -15,6 +15,8 @@ interface ISuscriptionCard {
     pickedPlan: boolean;
     endTime: string;
     pickedInterval: string;
+    pickingPlan: boolean;
+    pickingInterval: string;
     showPickingStatus: boolean;
     hideButtons: boolean;
     showReactivateButton: boolean;
@@ -32,6 +34,8 @@ const SuscriptionCard : React.FC<ISuscriptionCard> = ({
     pickedPlan,
     endTime,
     pickedInterval,
+    pickingPlan,
+    pickingInterval,
     showPickingStatus,
     hideButtons,
     showReactivateButton,
@@ -101,6 +105,7 @@ const SuscriptionCard : React.FC<ISuscriptionCard> = ({
                                         width={150}
                                         height={42}
                                         glow={pickedInterval === 'month' && pickedPlan}
+                                        bgGreen={pickingInterval === 'month' && pickingPlan}
                                         circular={false}
                                         text={update ? 'Update now' : 'Monthly'}
                                         fontSize="12px"
@@ -123,6 +128,7 @@ const SuscriptionCard : React.FC<ISuscriptionCard> = ({
                                         width={150}
                                         height={42}
                                         glow={pickedInterval === 'year' && pickedPlan}
+                                        bgGreen={pickingInterval === 'year' && pickingPlan}
                                         circular={false}
                                         text={update ? 'Update now' : 'Save 20% with annual'}
                                         fontSize="12px"

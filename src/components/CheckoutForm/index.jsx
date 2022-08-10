@@ -229,6 +229,8 @@ export default function CheckoutForm({
                                 pickedPlan={user.payment.subscriptionType === 'CL AI'}
                                 endTime={user.payment.subscription}
                                 pickedInterval={user.payment.subscriptionInterval}
+                                pickingPlan={subscriptionType === 'CL AI'}
+                                pickingInterval={subscriptionInterval}
                                 showPickingStatus={showPickingStatus}
                                 hideButtons={hideButtons}
                                 showReactivateButton={showReactivateButton}
@@ -246,6 +248,8 @@ export default function CheckoutForm({
                                 pickedPlan={user.payment.subscriptionType === 'CL AI+'}
                                 endTime={user.payment.subscription}
                                 pickedInterval={user.payment.subscriptionInterval}
+                                pickingPlan={subscriptionType === 'CL AI+'}
+                                pickingInterval={subscriptionInterval}
                                 showPickingStatus={showPickingStatus}
                                 hideButtons={hideButtons}
                                 showReactivateButton={showReactivateButton}
@@ -297,6 +301,8 @@ export default function CheckoutForm({
                         onClick={() => {
                             setShowConfirmChangePlan(false);
                             setIsSelected(false);
+                            setSubscriptionType('');
+                            setSubscriptionInterval('');
                         }}
                         text="X"
                         width={40}
@@ -309,7 +315,17 @@ export default function CheckoutForm({
                 <div className="confirm-modal">
                     <div className="text-content">
                         <span>You are switching from</span> <b>{user.payment.subscriptionType} {user.payment.subscriptionInterval}ly</b> <span>to</span> <b>{subscriptionType} {subscriptionInterval}ly</b> plan.
-                        {user.payment.subscriptionInterval === 'year' && subscriptionInterval === 'month' ? 
+                        {
+                            (
+                                (user.payment.subscriptionType === 'CL AI' && user.payment.subscriptionInterval === 'year' && subscriptionType === 'CL AI' && subscriptionInterval === 'month') || // 5 in google
+                                (user.payment.subscriptionType === 'CL AI' && user.payment.subscriptionInterval === 'year' && subscriptionType === 'CL AI+' && subscriptionInterval === 'month') || // 6 in google
+                                (user.payment.subscriptionType === 'CL AI+' && user.payment.subscriptionInterval === 'month' && subscriptionType === 'CL AI' && subscriptionInterval === 'month') || // 8 in google
+                                (user.payment.subscriptionType === 'CL AI+' && user.payment.subscriptionInterval === 'month' && subscriptionType === 'CL AI' && subscriptionInterval === 'year') || // 9 in google
+                                (user.payment.subscriptionType === 'CL AI+' && user.payment.subscriptionInterval === 'year' && subscriptionType === 'CL AI+' && subscriptionInterval === 'month') || // 10 in google
+                                (user.payment.subscriptionType === 'CL AI+' && user.payment.subscriptionInterval === 'year' && subscriptionType === 'CL AI' && subscriptionInterval === 'month') || // 11 in google
+                                (user.payment.subscriptionType === 'CL AI+' && user.payment.subscriptionInterval === 'year' && subscriptionType === 'CL AI' && subscriptionInterval === 'year') || // 12 in google
+                                true
+                            ) ? 
                             <span>This will go into effect at the end of your annual plan period</span> :
                             <span>Your current subscription will end today and your new plan will start effective immediately</span>
                         }
