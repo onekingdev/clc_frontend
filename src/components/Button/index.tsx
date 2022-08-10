@@ -27,6 +27,7 @@ interface IButton {
     disabled?: boolean,
     fontSize?: string,
     bgGreen?: boolean,
+    bgGray?: boolean,
 }
 
 const Button: React.FC<IButton> = ({
@@ -49,7 +50,8 @@ const Button: React.FC<IButton> = ({
     loading,
     disabled,
     fontSize,
-    bgGreen
+    bgGreen,
+    bgGray
                                    }) =>  {
     const [count, setCount] = useState(0);
 
@@ -109,7 +111,7 @@ const Button: React.FC<IButton> = ({
 
     return (
         <div
-            className={ bgGreen ? 'greenBackground' : disabled ? 'buttonDisabledContainer' : glow ? 'ripple buttonGlowingContainer' : 'ripple buttonContainer'}
+            className={ bgGray ? 'grayBackground' : bgGreen ? 'greenBackground' : disabled ? 'buttonDisabledContainer' : glow ? 'ripple buttonGlowingContainer' : 'ripple buttonContainer'}
             style={selected ? {
                     borderTopLeftRadius: circular ? 100 : closeMenuButton ? 0 : 8,
                     borderTopRightRadius: circular ? 100 : closeMenuButtonRight ? 0 : 8,

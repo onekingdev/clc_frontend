@@ -27,11 +27,10 @@ import { useIntercom } from "react-use-intercom";
 // import { Thing } from "../../components/TheThing/thing";
 
 const promise = loadStripe(
-  getStripeKey.stripe_publishable_key(process.env.NODE_ENV)
+  getStripeKey.stripe_publishable_key(process.env.REACT_APP_NODE_ENV)
 );
 function Payment(props) {
   const history = useHistory();
-  console.log(history)
   const [succeeded, setSucceeded] = useState(false);
   const [showIframe, setShowIframe] = useState(false);
   const [processing, setProcessing] = useState(false);
@@ -142,9 +141,9 @@ function Payment(props) {
                       </div>
                     </div>
                   </div>
-                  <div class="dropdown">
+                  <div className="dropdown">
                     <div className="ui-button-circle-icon__label-wr">Menu</div>
-                    <div class="dropdown-content">
+                    <div className="dropdown-content">
                       <a href="https://www.clcpoker.com" className="b-nav__link w-inline-block">
                         <div>home</div>
                       </a>
@@ -198,7 +197,7 @@ function Payment(props) {
                     <>
                     <div className="login-button" onClick={() => history.push("/")}>
                       LOG IN
-                      <div class="html-embed">
+                      <div className="html-embed">
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 16 16">
                           <path fill="currentColor" d="M8.176 0C5.397-.007 2.952 1.46 1.554 3.678c-.062.099.007.229.122.229h1.281c.088 0 .17-.04.224-.108.128-.158.265-.31.409-.456a6.442 6.442 0 012.053-1.412 6.315 6.315 0 012.513-.517c.873 0 1.719.173 2.513.517.77.331 1.46.808 2.054 1.412a6.583 6.583 0 011.385 2.093c.337.811.507 1.673.507 2.564s-.172 1.753-.507 2.564a6.55 6.55 0 01-3.439 3.505 6.315 6.315 0 01-2.513.517 6.314 6.314 0 01-2.513-.517 6.44 6.44 0 01-2.053-1.412 7.29 7.29 0 01-.409-.456.288.288 0 00-.224-.108h-1.28a.148.148 0 00-.123.229C2.95 14.534 5.384 16 8.156 16c4.305 0 7.8-3.537 7.844-7.918C16.043 3.63 12.543.012 8.176 0zM5.868 10.084V8.67H.146A.148.148 0 010 8.52V7.48c0-.083.066-.15.146-.15h5.722V5.916c0-.124.142-.195.237-.117L8.69 7.883A.149.149 0 018.747 8a.151.151 0 01-.056.117l-2.586 2.084c-.095.076-.237.007-.237-.117z"></path>
                         </svg>
@@ -313,7 +312,7 @@ function Payment(props) {
               )}
               { 
                 props?.user?.payment &&
-                props.user.payment.subscription&&
+                props.user.payment.subscription &&
                 props.user.payment.canceled !== true && 
                 moment(props.user.payment.subscription).diff(moment(), "days") < 0  && (
                   <ErrorDisplay message={"Your credit card on file is being declined. Please provide updated card information to continue your subscription. Thank you for subscribing to CLAI"} show={true}/>
@@ -343,54 +342,74 @@ function Payment(props) {
                     (
                       <Elements stripe={promise}>
                       {succeeded ? (<ErrorDisplay message={reactivateMsg} show={reactivateMsg} color="var(--primary)"/>) : (<ErrorDisplay message={reactivateMsg} show={reactivateMsg} />)}
-                      <div className="paymentButtonWrapper">
-                        <Button
-                          onClick={async () => {
-                            setProcessing(true);
-                            let stripe = promise;
-                            const res = await props.fetchPaymentSubscription(props.user.email, props.user.payment.paymentMethod, props.user.payment.subscriptionType, rewardfulId, true).catch(console.log);
-                            if (res.status === 'error') {
-                              setReactivateMsg(`Stripe configuration changed. Please contanct admin`);
-                            } 
-                            else if(res.status == "invalid_creditcard") {
-                                setReactivateMsg(`Invalid Credit Card or Network Connection Error`);
-                                setProcessing(false);
-                            }
-                            else if (res.status === 'requires_action') {
-                                stripe.confirmCardPayment(res.client_secret).then((result) => {
-                                    if (result.error) {
-                                      setReactivateMsg(`Payment failed ${result.error}`);
-                                        setProcessing(false);
-                                    } else {
-                                        setSucceeded(true)
-                                        setProcessing(false);
-                                        setReactivateMsg("Successfully reactivated.")
-                                        setTimeout(
-                                          () => props.fetchUpdatedUserData(props.user.email),
-                                          500
-                                        );
-                                    }
-                                });
-                            } else {
-                                setSucceeded(true)
-                                setProcessing(false);
-                                setReactivateMsg("Successfully reactivated.")
-                                setTimeout(
-                                  () => props.fetchUpdatedUserData(props.user.email),
-                                  500
-                                );
-                                trackEvent(`${props.user.payment.subscriptionType} plan purchased`)
-                            }
+                        <div className="paymentButtonWrapper">
+                          <Button
+                            onClick={async () => {
+                              setProcessing(true);
+                              let stripe = promise;
+                              console.log(props.user.payment);
+                              const res = await props.fetchPaymentSubscription(props.user.email, props.user.payment.paymentMethod, props.user.payment.subscriptionType, props.user.payment.subscriptionInterval, rewardfulId, true).catch(console.log);
+                              if (res.status === 'error') {
+                                setReactivateMsg(`Stripe configuration changed. Please contanct admin`);
+                              } 
+                              else if(res.status == "invalid_creditcard") {
+                                  setReactivateMsg(`Invalid Credit Card or Network Connection Error`);
+                                  setProcessing(false);
+                              }
+                              else if (res.status === 'requires_action') {
+                                  stripe.confirmCardPayment(res.client_secret).then((result) => {
+                                      if (result.error) {
+                                        setReactivateMsg(`Payment failed ${result.error}`);
+                                          setProcessing(false);
+                                      } else {
+                                          setSucceeded(true)
+                                          setProcessing(false);
+                                          setReactivateMsg("Successfully reactivated.")
+                                          setTimeout(
+                                            () => props.fetchUpdatedUserData(props.user.email),
+                                            500
+                                          );
+                                      }
+                                  });
+                              } else {
+                                  setSucceeded(true)
+                                  setProcessing(false);
+                                  setReactivateMsg("Successfully reactivated.")
+                                  setTimeout(
+                                    () => props.fetchUpdatedUserData(props.user.email),
+                                    500
+                                  );
+                                  trackEvent(`${props.user.payment.subscriptionType} plan purchased`)
+                              }
+                            }}
+                            
+                            width={300}
+                            height={44}
+                            text="Reactivate"
+                            glow
+                            loading={processing}
+                            disabled={processing || succeeded}
+                          />
+                        </div>
+                        <CheckoutForm
+                          setProcessing={(value) => setProcessing(value)}
+                          processing={processing}
+                          clientSecret={props.clientSecret}
+                          email={props.user.email}
+                          succeeded={succeeded}
+                          update={ props?.user?.payment?.customerID && moment(props?.user?.payment?.subscription).diff(moment(), "days") < 1 ? true : false}
+                          setSucceeded={(value) => {
+                            setSucceeded(value);
+                            setTimeout(
+                              () => props.fetchUpdatedUserData(props.user.email),
+                              500
+                            );
                           }}
-                          
-                          width={300}
-                          height={44}
-                          text="Reactivate"
-                          glow
-                          loading={processing}
-                          disabled={processing || succeeded}
+                          fetchPaymentSubscription={props.fetchPaymentSubscription}
+                          user={props.user}
+                          showPickingStatus={true}
+                          hideButtons={true}
                         />
-                      </div>
                       </Elements>
                     ) : (
                       <>
@@ -427,11 +446,11 @@ function Payment(props) {
                                   }}
                                   fetchPaymentSubscription={props.fetchPaymentSubscription}
                                   user={props.user}
+                                  showPickingStatus={false}
                                 />
                               </Elements>
                             </div>
-                          </>
-                          
+                          </>      
                         )}
                       </>
                     )
@@ -471,8 +490,8 @@ function Payment(props) {
                 >
                   <path
                     stroke="#E8BA73"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
                     d="M9 7v5M17 9.067C17 4.612 13.418 1 9 1S1 4.612 1 9.067v5.866C1 19.388 4.582 23 9 23s8-3.612 8-8.067V9.067z"
                   />
                 </svg>
@@ -526,15 +545,15 @@ function Payment(props) {
                         title="kjsndkjsdkcjn"
                         src="//fast.wistia.net/embed/iframe/1t6j327wvg?videoFoam=true"
                         allowtransparency="true"
-                        frameborder="0"
+                        frameBorder="0"
                         scrolling="no"
                         className="wistia_embed"
                         name="wistia_embed"
-                        allowfullscreen
-                        mozallowfullscreen
-                        webkitallowfullscreen
-                        oallowfullscreen
-                        msallowfullscreen
+                        allowFullScreen
+                        mozallowFullScreen
+                        webkitallowFullScreen="true"
+                        oallowFullScreen="true"
+                        msallowFullScreen="true"
                         width="100%"
                         height="100%"
                       ></iframe>
@@ -903,16 +922,16 @@ function Payment(props) {
                     >
                       <path
                         stroke="#E8BA73"
-                        stroke-linecap="square"
-                        stroke-miterlimit="10"
-                        stroke-width="2"
+                        strokeLinecap="square"
+                        strokeMiterlimit="10"
+                        strokeWidth="2"
                         d="M16 16.667v6.666h6.667"
                       />
                       <path
                         stroke="#E8BA73"
-                        stroke-linecap="square"
-                        stroke-miterlimit="10"
-                        stroke-width="2"
+                        strokeLinecap="square"
+                        strokeMiterlimit="10"
+                        strokeWidth="2"
                         d="M16 38.333c8.284 0 15-6.715 15-15 0-8.284-6.716-15-15-15-8.284 0-15 6.716-15 15 0 8.285 6.716 15 15 15zM11 1.667h10M16 1.667v1.666"
                       />
                     </svg>
@@ -945,16 +964,16 @@ function Payment(props) {
                     >
                       <path
                         stroke="#E8BA73"
-                        stroke-linecap="square"
-                        stroke-miterlimit="10"
-                        stroke-width="2"
+                        strokeLinecap="square"
+                        strokeMiterlimit="10"
+                        strokeWidth="2"
                         d="M16 16.667v6.666h6.667"
                       />
                       <path
                         stroke="#E8BA73"
-                        stroke-linecap="square"
-                        stroke-miterlimit="10"
-                        stroke-width="2"
+                        strokeLinecap="square"
+                        strokeMiterlimit="10"
+                        strokeWidth="2"
                         d="M16 38.333c8.284 0 15-6.715 15-15 0-8.284-6.716-15-15-15-8.284 0-15 6.716-15 15 0 8.285 6.716 15 15 15zM11 1.667h10M16 1.667v1.666"
                       />
                     </svg>
@@ -988,16 +1007,16 @@ function Payment(props) {
                     >
                       <path
                         stroke="#E8BA73"
-                        stroke-linecap="square"
-                        stroke-miterlimit="10"
-                        stroke-width="2"
+                        strokeLinecap="square"
+                        strokeMiterlimit="10"
+                        strokeWidth="2"
                         d="M16 16.667v6.666h6.667"
                       />
                       <path
                         stroke="#E8BA73"
-                        stroke-linecap="square"
-                        stroke-miterlimit="10"
-                        stroke-width="2"
+                        strokeLinecap="square"
+                        strokeMiterlimit="10"
+                        strokeWidth="2"
                         d="M16 38.333c8.284 0 15-6.715 15-15 0-8.284-6.716-15-15-15-8.284 0-15 6.716-15 15 0 8.285 6.716 15 15 15zM11 1.667h10M16 1.667v1.666"
                       />
                     </svg>
@@ -1029,16 +1048,16 @@ function Payment(props) {
                     >
                       <path
                         stroke="#E8BA73"
-                        stroke-linecap="square"
-                        stroke-miterlimit="10"
-                        stroke-width="2"
+                        strokeLinecap="square"
+                        strokeMiterlimit="10"
+                        strokeWidth="2"
                         d="M16 16.667v6.666h6.667"
                       />
                       <path
                         stroke="#E8BA73"
-                        stroke-linecap="square"
-                        stroke-miterlimit="10"
-                        stroke-width="2"
+                        strokeLinecap="square"
+                        strokeMiterlimit="10"
+                        strokeWidth="2"
                         d="M16 38.333c8.284 0 15-6.715 15-15 0-8.284-6.716-15-15-15-8.284 0-15 6.716-15 15 0 8.285 6.716 15 15 15zM11 1.667h10M16 1.667v1.666"
                       />
                     </svg>
@@ -1070,16 +1089,16 @@ function Payment(props) {
                     >
                       <path
                         stroke="#E8BA73"
-                        stroke-linecap="square"
-                        stroke-miterlimit="10"
-                        stroke-width="2"
+                        strokeLinecap="square"
+                        strokeMiterlimit="10"
+                        strokeWidth="2"
                         d="M16 16.667v6.666h6.667"
                       />
                       <path
                         stroke="#E8BA73"
-                        stroke-linecap="square"
-                        stroke-miterlimit="10"
-                        stroke-width="2"
+                        strokeLinecap="square"
+                        strokeMiterlimit="10"
+                        strokeWidth="2"
                         d="M16 38.333c8.284 0 15-6.715 15-15 0-8.284-6.716-15-15-15-8.284 0-15 6.716-15 15 0 8.285 6.716 15 15 15zM11 1.667h10M16 1.667v1.666"
                       />
                     </svg>
@@ -1173,15 +1192,15 @@ function Payment(props) {
                       <iframe
                         src="//fast.wistia.net/embed/iframe/1t6j327wvg?videoFoam=true"
                         allowtransparency="true"
-                        frameborder="0"
+                        frameBorder="0"
                         scrolling="no"
                         className="wistia_embed"
                         name="wistia_embed"
-                        allowfullscreen
-                        mozallowfullscreen
-                        webkitallowfullscreen
-                        oallowfullscreen
-                        msallowfullscreen
+                        allowFullScreen
+                        mozallowFullScreen
+                        webkitallowFullScreen="true"
+                        oallowFullScreen="true"
+                        msallowFullScreen="true"
                         width="100%"
                         height="100%"
                       ></iframe>
@@ -1501,55 +1520,54 @@ function Payment(props) {
                     moment(props.user.payment.subscription).diff(moment(), "days") < 1 ?
                     (
                       <Elements stripe={promise}>
-                      {succeeded ? (<ErrorDisplay message={reactivateMsg} show={reactivateMsg} color="var(--primary)"/>) : (<ErrorDisplay message={reactivateMsg} show={reactivateMsg} />)}
-                      <div className="paymentButtonWrapper">
-                        <Button
-                          onClick={async () => {
-                            setProcessing(true);
-                            let stripe = promise;
-                            const res = await props.fetchPaymentSubscription(props.user.email, props.user.payment.paymentMethod, props.user.payment.subscriptionType, rewardfulId, true).catch(console.log);
-                            if (res.status === 'error') {
-                              setReactivateMsg(`Stripe configuration changed. Please contanct admin`);
-                            } 
-                            else if(res.status == "invalid_creditcard") {
-                                setReactivateMsg(`Invalid Credit Card or Network Connection Error`);
-                                setProcessing(false);
-                            }
-                            else if (res.status === 'requires_action') {
-                                stripe.confirmCardPayment(res.client_secret).then((result) => {
-                                    if (result.error) {
-                                      setReactivateMsg(`Payment failed ${result.error}`);
-                                        setProcessing(false);
-                                    } else {
-                                        setSucceeded(true)
-                                        setProcessing(false);
-                                        setReactivateMsg("Successfully reactivated.")
-                                        setTimeout(
-                                          () => props.fetchUpdatedUserData(props.user.email),
-                                          500
-                                        );
-                                    }
-                                });
-                            } else {
-                                setSucceeded(true)
-                                setProcessing(false);
-                                setReactivateMsg("Successfully reactivated.")
-                                setTimeout(
-                                  () => props.fetchUpdatedUserData(props.user.email),
-                                  500
-                                );
-                                trackEvent(`${props.user.payment.subscriptionType} plan purchased`)
-                            }
-                          }}
-                          
-                          width={300}
-                          height={44}
-                          text="Reactivate"
-                          glow
-                          loading={processing}
-                          disabled={processing || succeeded}
-                        />
-                      </div>
+                        {succeeded ? (<ErrorDisplay message={reactivateMsg} show={reactivateMsg} color="var(--primary)"/>) : (<ErrorDisplay message={reactivateMsg} show={reactivateMsg} />)}
+                        <div className="paymentButtonWrapper">
+                          <Button
+                            onClick={async () => {
+                              setProcessing(true);
+                              let stripe = promise;
+                              const res = await props.fetchPaymentSubscription(props.user.email, props.user.payment.paymentMethod, props.user.payment.subscriptionType, rewardfulId, true).catch(console.log);
+                              if (res.status === 'error') {
+                                setReactivateMsg(`Stripe configuration changed. Please contanct admin`);
+                              } 
+                              else if(res.status == "invalid_creditcard") {
+                                  setReactivateMsg(`Invalid Credit Card or Network Connection Error`);
+                                  setProcessing(false);
+                              }
+                              else if (res.status === 'requires_action') {
+                                  stripe.confirmCardPayment(res.client_secret).then((result) => {
+                                      if (result.error) {
+                                        setReactivateMsg(`Payment failed ${result.error}`);
+                                          setProcessing(false);
+                                      } else {
+                                          setSucceeded(true)
+                                          setProcessing(false);
+                                          setReactivateMsg("Successfully reactivated.")
+                                          setTimeout(
+                                            () => props.fetchUpdatedUserData(props.user.email),
+                                            500
+                                          );
+                                      }
+                                  });
+                              } else {
+                                  setSucceeded(true)
+                                  setProcessing(false);
+                                  setReactivateMsg("Successfully reactivated.")
+                                  setTimeout(
+                                    () => props.fetchUpdatedUserData(props.user.email),
+                                    500
+                                  );
+                                  trackEvent(`${props.user.payment.subscriptionType} plan purchased`)
+                              }
+                            }}
+                            width={300}
+                            height={44}
+                            text="Reactivate"
+                            glow
+                            loading={processing}
+                            disabled={processing || succeeded}
+                          />
+                        </div>
                       </Elements>
                     ) : (
                       <>
@@ -1629,9 +1647,9 @@ function Payment(props) {
                           >
                             <path
                               stroke="#fff"
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              stroke-width="2"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth="2"
                               d="M12.6 1.9L7 7.5 1.4 1.9"
                             />
                           </svg>
@@ -1671,9 +1689,9 @@ function Payment(props) {
                           >
                             <path
                               stroke="#fff"
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              stroke-width="2"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth="2"
                               d="M12.6 1.9L7 7.5 1.4 1.9"
                             />
                           </svg>
@@ -1713,9 +1731,9 @@ function Payment(props) {
                           >
                             <path
                               stroke="#fff"
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              stroke-width="2"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth="2"
                               d="M12.6 1.9L7 7.5 1.4 1.9"
                             />
                           </svg>
@@ -1755,9 +1773,9 @@ function Payment(props) {
                           >
                             <path
                               stroke="#fff"
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              stroke-width="2"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth="2"
                               d="M12.6 1.9L7 7.5 1.4 1.9"
                             />
                           </svg>
@@ -1807,9 +1825,9 @@ function Payment(props) {
                           >
                             <path
                               stroke="#fff"
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              stroke-width="2"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth="2"
                               d="M12.6 1.9L7 7.5 1.4 1.9"
                             />
                           </svg>
@@ -1961,7 +1979,7 @@ function Payment(props) {
                 id="typeform-full"
                 width="100%"
                 height="100%"
-                frameborder="0"
+                frameBorder="0"
                 allow="camera; microphone; autoplay; encrypted-media;"
                 src="https://form.typeform.com/to/YSXZUxBx"
               ></iframe>
@@ -2009,11 +2027,12 @@ const bindActions = (dispatch) => {
       email,
       paymentMethod,
       subscriptionType,
+      subscriptionInterval,
       rewardfulId,
       reactivate,
     ) =>
       dispatch(
-        ACTIONS.fetchPaymentSubscription(email, paymentMethod, subscriptionType, rewardfulId, reactivate)
+        ACTIONS.fetchPaymentSubscription(email, paymentMethod, subscriptionType, subscriptionInterval, rewardfulId, reactivate)
       ),
   };
 };

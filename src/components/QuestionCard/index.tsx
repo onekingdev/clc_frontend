@@ -88,6 +88,7 @@ const QuestionCard: React.FC<IQuestionCard> = ({
 
   useEffect(scrollToBottom);
 
+  console.log(randomized_options);
   return (
     <div className="questionCardContainer">
       {!rerender ? (
@@ -133,7 +134,6 @@ const QuestionCard: React.FC<IQuestionCard> = ({
       ) : null}
       {!rerender && randomized_options.length > 0 ? (
         randomized_options.map((item, index) => (
-
           <div key={index} style={{ marginBottom: 16 }}>
             {item.text ? (
               <Button
@@ -144,7 +144,7 @@ const QuestionCard: React.FC<IQuestionCard> = ({
                   setStatus(item.correct ? 1 : 2);
                   setExplanation(item.explanation);
                   setPressed({ index: index, pressed: true });
-               
+              
                 }}
                 width={343}
                 height={47}

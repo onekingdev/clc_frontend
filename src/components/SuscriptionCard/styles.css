@@ -21,6 +21,8 @@
     justify-content: center;
     align-items: center;
     grid-gap:20px;
+    position: relative;
+    overflow: hidden;
 }
 .suscription-card-list > ul{
     width: 70%;
@@ -51,4 +53,33 @@
     width: 100%;
     display: flex;
     justify-content: center;
+    gap: 15px;
+}
+
+.picking-status {
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    border: 2px solid rgba(232, 186, 115, 1);
+    height: 28px;
+    width: 100%;
+    font-size: 12px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: 700;
+    font-family: Inter;
+    box-sizing: border-box;
+}
+
+.picked-plan {
+    background-color: rgba(232, 186, 115, 1);
+    color: rgba(21, 23, 26, 1);
+}
+
+.unpicked-plan {
+    background-color: transparent;
+    color: rgba(255, 255, 255, 1);
 }

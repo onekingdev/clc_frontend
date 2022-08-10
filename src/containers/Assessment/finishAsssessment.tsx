@@ -3,7 +3,6 @@ import React, { useState, useEffect } from "react";
 import { useHistory, useParams } from "react-router-dom";
 
 function FinishAssessment(props: any) {
-  const { to } = useParams();
   const history = useHistory();
   
   // adjust dimensions
