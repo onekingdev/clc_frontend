@@ -39,9 +39,7 @@ const QuestionProgress: React.FC<IQuestionProgress> = ({
             {isLoading ? <PulseLoader loading={true} color="#FFF"/> :
                 <div className="questionsProgressContainer">
                     {result && result.map((r, i) =>
-                        <div
-                            key={i}
-                            className={
+                        <div className={
                             index === i ?
                                 'questionsProgressActiveSquare blink_me'
                                 : 'questionsProgressInactiveSquare'}

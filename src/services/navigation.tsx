@@ -94,10 +94,8 @@ function Navigation(props: any) {
         </IntercomProvider>
       </Switch>
       {
-        process.env.REACT_APP_NODE_ENV === 'production' &&
-        <>
-          <Profitwell authToken="29eab7abf3f5cb67acf0611ce687ab47" email={selector.email} />
-        </>
+        process.env.NODE_ENV === 'production' &&
+        <Profitwell authToken="29eab7abf3f5cb67acf0611ce687ab47" email={selector.email} />
       }
     </>
   );

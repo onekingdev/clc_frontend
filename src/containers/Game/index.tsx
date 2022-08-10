@@ -551,8 +551,6 @@ function Game(props: any) {
     return amount;
   };
 
-  console.log(questions?.array[questionIndex])
-
   return (
     <ScreenTemplate
       id="screenTemplate"
@@ -561,7 +559,7 @@ function Game(props: any) {
     >
       {questions.array.length === 0 ? null : (
         <div className="gameWrapper">
-          {!questions?.array?.[questionIndex]?.imgUrl ? (
+          {showTable ? (
             <div>
               <div className="gamePokerTableContainer">
                 {!showModal &&
@@ -787,14 +785,7 @@ function Game(props: any) {
                 </div>
               </div>
             </div>
-          ) : (
-              <div className="gameTextContentWrapper">
-                <div className="textContentWrapper">{questions?.array?.[questionIndex]?.textContent || "Demo text"}</div>
-                <div className="imgWrapper">
-                  <img src={questions?.array[questionIndex]?.imgUrl} alt="Question image" />
-                </div>
-              </div>
-          )}
+          ) : null}
           <div className="gameQuestionWrapper">
             <QuestionCard
               showQuestionNumber={pathname !== "/ai"}

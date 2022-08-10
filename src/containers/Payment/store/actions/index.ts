@@ -31,13 +31,13 @@ export const fetchPaymentIntent = (items: {id: string}[]) => async(
     }
 }
 
-export const fetchPaymentSubscription = (email: string, paymentMethod: any, subscriptionType: any, subscriptionInterval: any, rewardfulId: string, reactivate: boolean) => async(
+export const fetchPaymentSubscription = (email: string, paymentMethod: any, subscriptionType: any, rewardfulId: string, reactivate: boolean) => async(
     dispatch: (data: any) => void,
     getState: any,
 ) => {
     try {
         console.log("fetch payment subscription", rewardfulId)
-        return await api.post(apiPaymentSubscription, {email, paymentMethod, subscriptionType, subscriptionInterval, rewardfulId, reactivate});
+        return await api.post(apiPaymentSubscription, {email, paymentMethod,subscriptionType, rewardfulId, reactivate});
     } catch (e) {
 
     } finally {
@@ -56,17 +56,11 @@ export const cancelSubscription = () => async(
         dispatch(AUTH_TYPES.setIsFetchingAuthentication(true))
         const {success, data, message} = await api.post(apiCancelSubscription, {id: user.id});
         
-        if (success) {
-            if (data.scheduled) {
-                user.payment['canceled'] = true;
-            } else if (data.cancel_at_period_end) {
-                user.payment['canceled'] = true;
-                user.payment['subscription'] = new Date(data.current_period_end * 1000);
-            } else {
-                alert(message);
-            }
+        if (success && data.cancel_at_period_end){
+            user.payment['canceled'] = true;
+            user.payment['subscription'] = new Date(data.current_period_end * 1000);
         } else {
-            alert(message);
+            alert(message)
         }
         dispatch(AUTH_TYPES.setUserData(user));
         dispatch(AUTH_TYPES.setIsFetchingAuthentication(false))

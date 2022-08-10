@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Navigation from "./services/navigation";
 // @ts-ignore
-import { BrowserRouter, Route } from "react-router-dom";
+import { BrowserRouter } from "react-router-dom";
 // @ts-ignore
 import { Provider } from "react-redux";
 import store from "./redux/configureStore";
@@ -18,7 +18,7 @@ const App = () => {
   const [loading, setLoading] = useState(true);
   const [persist] = useState(store(() => setLoading(false)));
   useEffect(() => {
-    if (process.env.REACT_APP_NODE_ENV === 'development') {
+    if (process.env.REACT_APP_NODE_ENV === 'production') {
       ReactPixel.init('850498485335274', undefined, {
         autoConfig: true, // set pixel's autoConfig. More info: https://developers.facebook.com/docs/facebook-pixel/advanced/
         debug: false, // enable logs
@@ -26,7 +26,7 @@ const App = () => {
     }
   }, []);
   useEffect(() => {
-    if (process.env.REACT_APP_NODE_ENV === 'development') {
+    if (process.env.REACT_APP_NODE_ENV === 'production') {
       ReactPixel.pageView();
     }
   }, [window.location.pathname]);
@@ -37,6 +37,7 @@ const App = () => {
           <Navigation />
         </BrowserRouter>
       </PersistGate>
+
     </Provider>
   );
 };
