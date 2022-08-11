@@ -195,7 +195,7 @@ export const embedVideo = (url: string) => {
 };
 
 const spanWord = (word: string, definition: string) => {
-  return `<a class="tooltip">${word}
+  return `<a className="tooltip">${word}
                 <span>${definition}</span>
             </a>`;
 };

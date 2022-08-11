@@ -64,6 +64,7 @@ const RegisterModal: React.FC<IRegisterModal> = ({
   handleCreate,
   btnIsHidden,
 }) => {
+  //@ts-ignore
   const { code } = useParams();
   const selector = useSelector((store: any) => store.authState.user)
   const { trackEvent} = useIntercom();

@@ -13,7 +13,7 @@ import MediaCard from '../../components/MediaCard';
 import * as ACTIONS from './store/actions';
 import {embedVideo} from "../../helpers/formatter";
 import {DotLoader, PulseLoader} from "react-spinners";
-import BigScreen from 'bigscreen'
+import BigScreen from 'bigscreen';
 function Library(props: any) {
     const [showModal, setShowModal] = useState({show: false, url: ''});
     const [width, setWidth] = useState(window.innerWidth);

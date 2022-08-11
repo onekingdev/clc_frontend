@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 // @ts-ignore
 import { connect, useSelector } from "react-redux";
 // @ts-ignore
-import { Route, Redirect, useLocation, Switch } from "react-router-dom";
+import { Route, Redirect, useHistory, Switch } from "react-router-dom";
 import Login from "../containers/Authentication";
 import Paths from "../containers/Paths";
 import Library from "../containers/Library";
@@ -20,7 +20,6 @@ import moment from "moment";
 import { IntercomProvider} from "react-use-intercom";
 //@ts-ignore
 import Profitwell from "profitwell-component";
-import ReactPixel from 'react-facebook-pixel';
 
 export const PrivateRoute = ({requireAuth=true, ...rest}) => {
   const user = useSelector((store:any) => store.authState.user)
@@ -37,24 +36,6 @@ function Navigation(props: any) {
   const selector = useSelector((store:any) => store.authState.user)
   const INTERCOM_APP_ID = "stkorlo9";
 
-  const location = useLocation();
-  
-  useEffect(() => {
-    console.log("here", process.env.NODE_ENV)
-    if (process.env.NODE_ENV === 'production') {
-      ReactPixel.init('850498485335274', undefined, {
-        autoConfig: true, // set pixel's autoConfig. More info: https://developers.facebook.com/docs/facebook-pixel/advanced/
-        debug: false, // enable logs
-      });
-      console.log("React pixel inited")
-    }
-  }, []);
-  useEffect(() => {
-    if (process.env.NODE_ENV === 'production') {
-      ReactPixel.pageView();
-      console.log("React Pixel viewed")
-    }
-  }, [location.pathname]);
   return (
     <>
       <Switch>
@@ -113,8 +94,10 @@ function Navigation(props: any) {
         </IntercomProvider>
       </Switch>
       {
-        process.env.NODE_ENV === 'production' &&
-        <Profitwell authToken="29eab7abf3f5cb67acf0611ce687ab47" email={selector.email} />
+        process.env.REACT_APP_NODE_ENV === 'production' &&
+        <>
+          <Profitwell authToken="29eab7abf3f5cb67acf0611ce687ab47" email={selector.email} />
+        </>
       }
     </>
   );

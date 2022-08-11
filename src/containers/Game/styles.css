@@ -131,6 +131,30 @@
   left: 321px;
 }
 
+.gameTextContentWrapper {
+  width: 660px;
+  height: 450px;
+  border-radius: 16px;
+  background: radial-gradient(99.31% 94.34% at 49.88% -2.58%, rgba(232, 186, 115, 0.15) 0%, rgba(232, 186, 115, 0) 72.18%), #15171A;
+  padding: 45px;
+  overflow-y: auto;
+  scroll-behavior: smooth;
+}
+
+.gameTextContentWrapper .textContentWrapper {
+  color: white;
+  text-align: left;
+}
+
+.gameTextContentWrapper .imgWrapper {
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 2rem;
+  width: 350px;
+  height: 350px;
+  background-color: gray;
+}
+
 .gameQuestionWrapper {
   margin-top: 20px;
   margin-left: 60px;

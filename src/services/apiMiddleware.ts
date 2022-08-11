@@ -8,17 +8,18 @@ import {
 } from "../helpers/constants";
 import {store} from "../redux/configureStore";
 import * as AUTH_ACTIONS from "../containers/Authentication/store/actions";
+console.log(process.env.REACT_APP_NODE_ENV)
 const getApi = () => {
-  console.log(process.env.NODE_ENV, process.env.REACT_APP_GCLOUD_PROJECT)
-  console.log(process.env.REACT_APP_GCLOUD_PROJECT)
-  if (process.env.NODE_ENV === "development") {
-    // return apiCloudDevUrl;
-    return apiLocalhostUrl;
+  switch (process.env.REACT_APP_NODE_ENV as 'local' | 'development' | 'production') {
+    case 'local':
+      return apiLocalhostUrl;
+    case 'development':
+      return apiCloudDevUrl;
+    case 'production':
+      return apiCloudHostUrl;
+    default:
+      return apiCloudDevUrl;
   }
-  if(process.env.REACT_APP_GCLOUD_PROJECT == "devenvclc")  
-    return apiCloudDevUrl;
-  else
-    return apiCloudHostUrl;
 };
 
 const api = {
