@@ -1,0 +1,28 @@
+name: Build and Deploy to firebase(DEV)
+
+'on':
+  pull_request:
+    branches:
+      - master
+  push:
+    branches:
+      - master
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@master
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 14.18.0
+      - name: create .env
+        run: |
+          mv .env.prod .env
+      - name: Install dependencies & Build
+        run: npm i && npm run build-github
+      - name: Deploy to firebase
+        uses: w9jds/firebase-action@master
+        with:
+          args: deploy --only hosting
+        env:
+          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}      
