@@ -8,7 +8,7 @@ import firebase from "firebase/app";
 import 'firebase/firestore'
 import { faCode } from '@fortawesome/free-solid-svg-icons';
 import { Console } from 'console';
-// require("dotenv").config();
+require("dotenv").config();
 
 const timestamp = firebase.firestore.FieldValue.serverTimestamp();
 
@@ -53,7 +53,7 @@ export const login = (data: IUser, callback: (success: boolean, userData: IUser)
         sessionStorage.setItem('selectedTopic', '{}');
         setTimeout(() => dispatch(setIsFetchingAuthentication(true)), 500);
         if (data.email && data.password) {
-                if(process.env.REACT_APP_WITHOUT_OAUTH === 'false') 
+            if(process.env.REACT_APP_WITHOUT_OAUTH === 'false') 
                 await app
                     .auth()
                     .signInWithEmailAndPassword(data.email, data.password)
@@ -113,7 +113,6 @@ export const register = (data: IUser, callback: (success: boolean, registeredUse
                 .auth()
                 .createUserWithEmailAndPassword(data.email, data.password)
                 .then(async result => {
-                    console.log(result)
                     data['stringID'] = result.user?.uid;
                     const user = await api.post(apiCreateUser, data);
                     await app

@@ -29,7 +29,6 @@ import loopImg from "../../assets/images/chip-leader-loop.gif";
 import moment from "moment";
 
 function Login(props: any) {
-  //@ts-ignore
   const { code } = useParams();
   const history = useHistory();
   const [width, setWidth] = useState(window.innerWidth);

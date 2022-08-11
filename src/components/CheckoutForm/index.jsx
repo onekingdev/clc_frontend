@@ -13,8 +13,6 @@ import SuscriptionCard from "../SuscriptionCard";
 import SmallText from "../SmallText";
 import { useSelector } from "react-redux";
 import { useIntercom } from "react-use-intercom";
-import Modal from 'react-awesome-modal';
-import moment from 'moment';
 
 toast.configure();
 
@@ -30,19 +28,12 @@ export default function CheckoutForm({
     update,
     user,
     onSelectPlan = null,
-    showPickingStatus,
-    hideButtons = false,
-    showReactivateButton = false,
-    reactivateLoading = false,
-    reactiveHandler = () => { },
-    showConfirmModal = false,
 }) {
     const [msg, setMsg] = useState(null);
     const rewardfulId = useSelector(state=> state.authState.user.rewardfulId)
     const selector = useSelector(store => store.authState)
     const [disabled, setDisabled] = useState(true);
     const [subscriptionType, setSubscriptionType] = useState("");
-    const [subscriptionInterval, setSubscriptionInterval] = useState("month");
     const [isSelected, setIsSelected] = useState(false);
     const stripe = useStripe();
     const elements = useElements();
@@ -70,18 +61,9 @@ export default function CheckoutForm({
         // and display any errors as the customer types their card details
         setDisabled(event.empty);
         setMsg(event.error ? event.error.message : "");
+
     };
-    const [showConfirmChangePlan, setShowConfirmChangePlan] = useState(false);
-    const handleChangePlan = () => {
-        setSucceeded(false);
-        if (showConfirmModal) {
-            setShowConfirmChangePlan(true);
-        } else {
-            handleSubmit();
-        }
-    }
     const handleSubmit = async e => {
-        setShowConfirmChangePlan(false);
         //e.preventDefault();
         setProcessing(true);
 
@@ -124,10 +106,10 @@ export default function CheckoutForm({
                 setMsg(`Payment failed ${result.error.message}`);
                 setProcessing(false);
             } else {
-                const res = await fetchPaymentSubscription(email, result.paymentMethod, subscriptionType, subscriptionInterval, rewardfulId).catch(console.log);
+                const res = await fetchPaymentSubscription(email, result.paymentMethod, subscriptionType, rewardfulId).catch(console.log);
                 if (res.status === 'error') {
                     setMsg(`Stripe configuration changed. Please contanct admin`);
-                }
+                } 
                 else if(res.status == "invalid_creditcard") {
                     setMsg(`Invalid Credit Card or Network Connection Error`);
                     setProcessing(false);
@@ -145,9 +127,6 @@ export default function CheckoutForm({
                 } else {
                     setSucceeded(true)
                     trackEvent(`${subscriptionType} plan purchased`)
-                    setIsSelected(false)
-                    setSubscriptionType('')
-                    setSubscriptionInterval('')
                 }
             }
         }
@@ -168,21 +147,20 @@ export default function CheckoutForm({
         // }
 
     };
-    const handleSelectPlan = (value, interval) => {
+    const handleSelectPlan = value => {
         if(onSelectPlan !== null) {
             onSelectPlan(value);
             return;
         }
         setSubscriptionType(value)
-        setSubscriptionInterval(interval)
-        setSucceeded(false)
         setIsSelected(true)
         trackEvent(`${value} plan selected`)
     }
+
     return (
         <>
             <div className="payment-container">
-                <div style={{ opacity: isSelected ? 0.6 : 1 }}>
+                <div >
                     {selector.user.type === 'admin' ? 
                         <div className="subscriptions_container_one">
                             <SuscriptionCard
@@ -193,34 +171,10 @@ export default function CheckoutForm({
                                 glow
                                 handleGetMemberType={handleSelectPlan}
                                 update={update}
-                                pickedPlan={user.payment.subscriptionType === 'CL TEST'}
-                                endTime={user.payment.subscription}
-                                pickedInterval={user.payment.subscriptionInterval}
-                                showPickingStatus={showPickingStatus}
-                                hideButtons={hideButtons}
-                                showReactivateButton={showReactivateButton}
-                                reactivateLoading={reactivateLoading}
-                                reactiveHandler={reactiveHandler}
                             />
                         </div>
                         :
                         <div className="suscriptions-container">
-                            {/* <SuscriptionCard
-                                title="CL AI Lite"
-                                price={59}
-                                benefitsActive={false}
-                                value="CL AI Lite"
-                                glow
-                                handleGetMemberType={handleSelectPlan}
-                                update={update}
-                                pickedPlan={user.payment.subscriptionType === 'CL AI'}
-                                pickedInterval={user.payment.subscriptionInterval}
-                                showPickingStatus={showPickingStatus}
-                                hideButtons={hideButtons}
-                                showReactivateButton={showReactivateButton}
-                                reactivateLoading={reactivateLoading}
-                                reactiveHandler={reactiveHandler}
-                            /> */}
                             <SuscriptionCard
                                 title="CL AI"
                                 price={59}
@@ -229,22 +183,6 @@ export default function CheckoutForm({
                                 glow
                                 handleGetMemberType={handleSelectPlan}
                                 update={update}
-                                pickedPlan={
-                                    !(user?.payment &&
-                                    user.payment.subscription &&
-                                    user.payment.canceled !== true && 
-                                    moment(user.payment.subscription).diff(moment(), "days") < 0) &&
-                                    user.payment.subscriptionType === 'CL AI'
-                                }
-                                endTime={user.payment.subscription}
-                                pickedInterval={user.payment.subscriptionInterval}
-                                pickingPlan={subscriptionType === 'CL AI'}
-                                pickingInterval={subscriptionInterval}
-                                showPickingStatus={showPickingStatus}
-                                hideButtons={hideButtons}
-                                showReactivateButton={showReactivateButton}
-                                reactivateLoading={reactivateLoading}
-                                reactiveHandler={reactiveHandler}
                             />
                             <SuscriptionCard
                                 title="CL AI+"
@@ -254,22 +192,6 @@ export default function CheckoutForm({
                                 value="CL AI+"
                                 handleGetMemberType={handleSelectPlan}
                                 update={update}
-                                pickedPlan={
-                                    !(user?.payment &&
-                                    user.payment.subscription &&
-                                    user.payment.canceled !== true && 
-                                    moment(user.payment.subscription).diff(moment(), "days") < 0) &&
-                                    user.payment.subscriptionType === 'CL AI+'
-                                }
-                                endTime={user.payment.subscription}
-                                pickedInterval={user.payment.subscriptionInterval}
-                                pickingPlan={subscriptionType === 'CL AI+'}
-                                pickingInterval={subscriptionInterval}
-                                showPickingStatus={showPickingStatus}
-                                hideButtons={hideButtons}
-                                showReactivateButton={showReactivateButton}
-                                reactivateLoading={reactivateLoading}
-                                reactiveHandler={reactiveHandler}
                             />
                         </div>
                     }
@@ -290,7 +212,7 @@ export default function CheckoutForm({
                                 loading={processing}
                                 disabled={processing || disabled || succeeded}
                                 id="submit"
-                                onClick={handleChangePlan}
+                                onClick={handleSubmit}
                                 width={300}
                                 height={44}
                                 glow
@@ -304,54 +226,6 @@ export default function CheckoutForm({
                     null
                 }
             </div>
-            {showConfirmModal && <Modal
-                visible={showConfirmChangePlan}
-                width="540px"
-                height="320px"
-                effect="fadeInUp"
-                onClickAway={() => setShowConfirmChangePlan(false)}
-            >
-                <div style={{ position: 'absolute', right: '1rem', top: '1rem'}}>
-                    <Button
-                        onClick={() => {
-                            setShowConfirmChangePlan(false);
-                            setIsSelected(false);
-                            setSubscriptionType('');
-                            setSubscriptionInterval('');
-                        }}
-                        text="X"
-                        width={40}
-                        height={40}
-                        closeMenuButton={false}
-                        closeMenuButtonRight={false}
-                        glow
-                    />
-                </div>
-                <div className="confirm-modal">
-                    <div className="text-content">
-                        <span>You are switching from</span> <b>{user.payment.subscriptionType} {user.payment.subscriptionInterval}ly</b> <span>to</span> <b>{subscriptionType} {subscriptionInterval}ly</b> plan. 
-                        {
-                            (
-                                (user.payment.subscriptionType === 'CL AI' && user.payment.subscriptionInterval === 'year' && subscriptionType === 'CL AI' && subscriptionInterval === 'month') || // 5 in google
-                                (user.payment.subscriptionType === 'CL AI' && user.payment.subscriptionInterval === 'year' && subscriptionType === 'CL AI+' && subscriptionInterval === 'month') || // 6 in google
-                                (user.payment.subscriptionType === 'CL AI+' && user.payment.subscriptionInterval === 'month' && subscriptionType === 'CL AI' && subscriptionInterval === 'month') || // 8 in google
-                                (user.payment.subscriptionType === 'CL AI+' && user.payment.subscriptionInterval === 'month' && subscriptionType === 'CL AI' && subscriptionInterval === 'year') || // 9 in google
-                                (user.payment.subscriptionType === 'CL AI+' && user.payment.subscriptionInterval === 'year' && subscriptionType === 'CL AI+' && subscriptionInterval === 'month') || // 10 in google
-                                (user.payment.subscriptionType === 'CL AI+' && user.payment.subscriptionInterval === 'year' && subscriptionType === 'CL AI' && subscriptionInterval === 'month') || // 11 in google
-                                (user.payment.subscriptionType === 'CL AI+' && user.payment.subscriptionInterval === 'year' && subscriptionType === 'CL AI' && subscriptionInterval === 'year') // 12 in google=
-                            ) ? 
-                            <span>This will go into effect at the end of your {user.payment.subscriptionInterval === 'month' ? 'month' : (user.payment.subscriptionInterval === 'year' ? 'annual' : 'month')} plan period.</span> :
-                            <span>Your current subscription will end today and your new plan will start effective immediately.</span>
-                        }
-                    </div>
-                    <Button
-                        onClick={handleSubmit}
-                        width={150}
-                        height={40}
-                        glow
-                        text="Confirm" />
-                </div>
-            </Modal>}
         </>
     );
 }

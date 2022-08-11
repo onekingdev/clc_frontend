@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import { useHistory, useParams } from "react-router-dom";
 
 function FinishSignup(props: any) {
+  const { to } = useParams();
   const history = useHistory();
   const [width, setWidth] = useState(window.innerWidth);
   

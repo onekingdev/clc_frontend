@@ -11,16 +11,13 @@
     "@testing-library/jest-dom": "^5.11.4",
     "@testing-library/react": "^11.1.0",
     "@testing-library/user-event": "^12.1.10",
-    "@types/bigscreen": "^2.0.31",
     "@types/jest": "^26.0.15",
     "@types/node": "^12.0.0",
     "@types/react": "^17.0.20",
     "@types/react-dom": "^16.9.8",
     "@types/react-gtm-module": "^2.0.1",
-    "@types/react-redux": "^7.1.22",
     "axios": "^0.21.0",
     "bigscreen": "^2.0.5",
-    "cross-env": "^7.0.3",
     "d3-ease": "^2.0.0",
     "dotenv": "^9.0.1",
     "firebase": "^7.19.1",
@@ -59,7 +56,6 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "dev": "react-scripts start",
     "build-github": "CI=false && react-scripts build",
     "build": "react-scripts build",
     "test": "react-scripts test",
@@ -85,5 +81,8 @@
     ]
   },
   "proxy": "http://localhost:3003",
-  "devDependencies": {}
+  "devDependencies": {
+    "@types/bigscreen": "^2.0.31",
+    "@types/react-redux": "^7.1.22"
+  }
 }
