@@ -14,6 +14,7 @@ import SmallText from "../SmallText";
 import { useSelector } from "react-redux";
 import { useIntercom } from "react-use-intercom";
 import Modal from 'react-awesome-modal';
+import moment from 'moment';
 
 toast.configure();
 
@@ -178,7 +179,6 @@ export default function CheckoutForm({
         setIsSelected(true)
         trackEvent(`${value} plan selected`)
     }
-
     return (
         <>
             <div className="payment-container">
@@ -229,7 +229,13 @@ export default function CheckoutForm({
                                 glow
                                 handleGetMemberType={handleSelectPlan}
                                 update={update}
-                                pickedPlan={user.payment.subscriptionType === 'CL AI'}
+                                pickedPlan={
+                                    !(user?.payment &&
+                                    user.payment.subscription &&
+                                    user.payment.canceled !== true && 
+                                    moment(user.payment.subscription).diff(moment(), "days") < 0) &&
+                                    user.payment.subscriptionType === 'CL AI'
+                                }
                                 endTime={user.payment.subscription}
                                 pickedInterval={user.payment.subscriptionInterval}
                                 pickingPlan={subscriptionType === 'CL AI'}
@@ -248,7 +254,13 @@ export default function CheckoutForm({
                                 value="CL AI+"
                                 handleGetMemberType={handleSelectPlan}
                                 update={update}
-                                pickedPlan={user.payment.subscriptionType === 'CL AI+'}
+                                pickedPlan={
+                                    !(user?.payment &&
+                                    user.payment.subscription &&
+                                    user.payment.canceled !== true && 
+                                    moment(user.payment.subscription).diff(moment(), "days") < 0) &&
+                                    user.payment.subscriptionType === 'CL AI+'
+                                }
                                 endTime={user.payment.subscription}
                                 pickedInterval={user.payment.subscriptionInterval}
                                 pickingPlan={subscriptionType === 'CL AI+'}

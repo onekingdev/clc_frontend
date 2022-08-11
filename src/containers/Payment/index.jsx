@@ -22,8 +22,8 @@ import { Style } from "react-style-tag";
 import RegisterModal from "../Authentication/RegisterModal";
 import Modal from "react-awesome-modal";
 import { useIntercom } from "react-use-intercom";
+// import * as PAYMENT_ACTIONS from "../Payment/store/actions";
 
-// import { env } from "node:process";
 // import { Thing } from "../../components/TheThing/thing";
 
 const promise = loadStripe(
@@ -315,7 +315,7 @@ function Payment(props) {
                 props.user.payment.subscription &&
                 props.user.payment.canceled !== true && 
                 moment(props.user.payment.subscription).diff(moment(), "days") < 0  && (
-                  <ErrorDisplay message={"Your credit card on file is being declined. Please provide updated card information to continue your subscription. Thank you for subscribing to CLAI"} show={true}/>
+                  <ErrorDisplay message={"Your subscription has expired. Please renew your subscription, choosing from the following plans"} show={true}/>
                 )
               }
               {props.user.id === undefined ? (
@@ -436,7 +436,8 @@ function Payment(props) {
                                   clientSecret={props.clientSecret}
                                   email={props.user.email}
                                   succeeded={succeeded}
-                                  update={ props?.user?.payment?.customerID && moment(props?.user?.payment?.subscription).diff(moment(), "days") < 1 ? true : false}
+                                  // update={ props?.user?.payment?.customerID && moment(props?.user?.payment?.subscription).diff(moment(), "days") < 1 ? true : false}
+                                  update={false}
                                   setSucceeded={(value) => {
                                     setSucceeded(value);
                                     setTimeout(
@@ -447,6 +448,18 @@ function Payment(props) {
                                   fetchPaymentSubscription={props.fetchPaymentSubscription}
                                   user={props.user}
                                   showPickingStatus={false}
+                                  hideButtons={false}
+                                  // showReactivateButton={
+                                  //   props.user &&
+                                  //   props.user.payment
+                                  // }
+                                  // reactivateLoading={props.isFetchingAuthentication}
+                                  // reactiveHandler={async () => {
+                                  //   // setSuccessMsg("");
+                                  //   const {success, data, message} = await props.reActiveSubscription()
+                                  //   // if(success) setSuccessMsg("You have successfully reactivated.");
+                                  // }}
+                                  showConfirmModal={false}
                                 />
                               </Elements>
                             </div>
@@ -2034,6 +2047,7 @@ const bindActions = (dispatch) => {
       dispatch(
         ACTIONS.fetchPaymentSubscription(email, paymentMethod, subscriptionType, subscriptionInterval, rewardfulId, reactivate)
       ),
+    // reActiveSubscription: () => dispatch(PAYMENT_ACTIONS.reActiveSubscription()),
   };
 };
 
