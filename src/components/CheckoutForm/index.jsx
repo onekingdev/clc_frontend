@@ -340,7 +340,7 @@ export default function CheckoutForm({
                                 (user.payment.subscriptionType === 'CL AI+' && user.payment.subscriptionInterval === 'year' && subscriptionType === 'CL AI' && subscriptionInterval === 'month') || // 11 in google
                                 (user.payment.subscriptionType === 'CL AI+' && user.payment.subscriptionInterval === 'year' && subscriptionType === 'CL AI' && subscriptionInterval === 'year') // 12 in google=
                             ) ? 
-                            <span>This will go into effect at the end of your annual plan period.</span> :
+                            <span>This will go into effect at the end of your {user.payment.subscriptionInterval === 'month' ? 'month' : (user.payment.subscriptionInterval === 'year' ? 'annual' : 'month')} plan period.</span> :
                             <span>Your current subscription will end today and your new plan will start effective immediately.</span>
                         }
                     </div>
