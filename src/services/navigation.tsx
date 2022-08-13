@@ -40,8 +40,7 @@ function Navigation(props: any) {
   const location = useLocation();
   
   useEffect(() => {
-    console.log("here", process.env.NODE_ENV)
-    if (process.env.NODE_ENV === 'production') {
+    if (process.env.REACT_APP_NODE_ENV === 'production') {
       ReactPixel.init('850498485335274', undefined, {
         autoConfig: true, // set pixel's autoConfig. More info: https://developers.facebook.com/docs/facebook-pixel/advanced/
         debug: false, // enable logs
@@ -50,7 +49,7 @@ function Navigation(props: any) {
     }
   }, []);
   useEffect(() => {
-    if (process.env.NODE_ENV === 'production') {
+    if (process.env.REACT_APP_NODE_ENV === 'production') {
       ReactPixel.pageView();
       console.log("React Pixel viewed")
     }
