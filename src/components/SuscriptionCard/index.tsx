@@ -130,7 +130,7 @@ const SuscriptionCard : React.FC<ISuscriptionCard> = ({
                                         glow={pickedInterval === 'year' && pickedPlan}
                                         bgGreen={pickingInterval === 'year' && pickingPlan}
                                         circular={false}
-                                        text={update ? 'Update now' : 'Save 20% with annual'}
+                                        text={update ? 'Update now' : '2 Months Free with Annual'}
                                         fontSize="12px"
                                     />
                                 )
