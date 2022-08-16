@@ -194,13 +194,13 @@ export default function CheckoutForm({
                                 handleGetMemberType={handleSelectPlan}
                                 update={update}
                                 pickedPlan={
+                                    user &&
+                                    user.payment &&
+                                    user.payment.subscriptionType === 'CL TEST' &&
                                     !(
-                                        user &&
-                                        user.payment &&
                                         user.payment.subscription &&
                                         user.payment.canceled !== true && 
-                                        moment(user.payment.subscription).diff(moment(), "days") < 0 &&
-                                        user.payment.subscriptionType === 'CL AI'
+                                        moment(user.payment.subscription).diff(moment(), "days") < 0
                                     )
                                 }
                                 endTime={user && user.payment && user.payment.subscription ? user.payment.subscription : ""}
@@ -239,13 +239,13 @@ export default function CheckoutForm({
                                 handleGetMemberType={handleSelectPlan}
                                 update={update}
                                 pickedPlan={
+                                    user &&
+                                    user.payment &&
+                                    user.payment.subscriptionType === 'CL AI' &&
                                     !(
-                                        user &&
-                                        user.payment &&
                                         user.payment.subscription &&
                                         user.payment.canceled !== true && 
-                                        moment(user.payment.subscription).diff(moment(), "days") < 0 &&
-                                        user.payment.subscriptionType === 'CL AI'
+                                        moment(user.payment.subscription).diff(moment(), "days") < 0
                                     )
                                 }
                                 endTime={user && user.payment && user.payment.subscription ? user.payment.subscription : ""}
@@ -267,13 +267,13 @@ export default function CheckoutForm({
                                 handleGetMemberType={handleSelectPlan}
                                 update={update}
                                 pickedPlan={
+                                    user &&
+                                    user.payment &&
+                                    user.payment.subscriptionType === 'CL AI+' &&
                                     !(
-                                        user &&
-                                        user.payment &&
                                         user.payment.subscription &&
                                         user.payment.canceled !== true &&
-                                        moment(user.payment.subscription).diff(moment(), "days") < 0 &&
-                                        user.payment.subscriptionType === 'CL AI+'
+                                        moment(user.payment.subscription).diff(moment(), "days") < 0
                                     )
                                 }
                                 endTime={user && user.payment && user.payment.subscription ? user.payment.subscription : ""}
