@@ -327,6 +327,7 @@ function Payment(props) {
                         setProcessing={(value) => setProcessing(value)}
                         processing={processing}
                         onSelectPlan={(value) => setShowRegisterModal(true)}
+                        user={props.user}
                       />
                     </Elements>
                   </div>
@@ -428,41 +429,43 @@ function Payment(props) {
                         ) : (
                           <>
                             <span className="t-highlight font-30">SIGN UP TODAY</span>
-                            <div className="settingsButtonWrapper">
-                              <Elements stripe={promise}>
-                                <CheckoutForm
-                                  setProcessing={(value) => setProcessing(value)}
-                                  processing={processing}
-                                  clientSecret={props.clientSecret}
-                                  email={props.user.email}
-                                  succeeded={succeeded}
-                                  // update={ props?.user?.payment?.customerID && moment(props?.user?.payment?.subscription).diff(moment(), "days") < 1 ? true : false}
-                                  update={false}
-                                  setSucceeded={(value) => {
-                                    setSucceeded(value);
-                                    setTimeout(
-                                      () => props.fetchUpdatedUserData(props.user.email),
-                                      500
-                                    );
-                                  }}
-                                  fetchPaymentSubscription={props.fetchPaymentSubscription}
-                                  user={props.user}
-                                  showPickingStatus={false}
-                                  hideButtons={false}
-                                  // showReactivateButton={
-                                  //   props.user &&
-                                  //   props.user.payment
-                                  // }
-                                  // reactivateLoading={props.isFetchingAuthentication}
-                                  // reactiveHandler={async () => {
-                                  //   // setSuccessMsg("");
-                                  //   const {success, data, message} = await props.reActiveSubscription()
-                                  //   // if(success) setSuccessMsg("You have successfully reactivated.");
-                                  // }}
-                                  showConfirmModal={false}
-                                />
-                              </Elements>
-                            </div>
+                            {
+                              props.user && props.user.payment ?
+                              (<div className="settingsButtonWrapper">
+                                <Elements stripe={promise}>
+                                  <CheckoutForm
+                                    setProcessing={(value) => setProcessing(value)}
+                                    processing={processing}
+                                    clientSecret={props.clientSecret}
+                                    email={props.user.email}
+                                    succeeded={succeeded}
+                                    // update={ props?.user?.payment?.customerID && moment(props?.user?.payment?.subscription).diff(moment(), "days") < 1 ? true : false}
+                                    update={false}
+                                    setSucceeded={(value) => {
+                                      setSucceeded(value);
+                                      setTimeout(
+                                        () => props.fetchUpdatedUserData(props.user.email),
+                                        500
+                                      );
+                                    }}
+                                    fetchPaymentSubscription={props.fetchPaymentSubscription}
+                                    user={props.user}
+                                    showPickingStatus={false}
+                                    hideButtons={false}
+                                    // showReactivateButton={
+                                    //   props.user &&
+                                    //   props.user.payment
+                                    // }
+                                    // reactivateLoading={props.isFetchingAuthentication}
+                                    // reactiveHandler={async () => {
+                                    //   // setSuccessMsg("");
+                                    //   const {success, data, message} = await props.reActiveSubscription()
+                                    //   // if(success) setSuccessMsg("You have successfully reactivated.");
+                                    // }}
+                                    showConfirmModal={false}
+                                  />
+                                </Elements>
+                              </div>) : null}
                           </>      
                         )}
                       </>
@@ -1599,27 +1602,32 @@ function Payment(props) {
                         ) : (
                         <>
                           <span className="t-highlight font-30">SIGN UP TODAY</span>
-                          <div className="settingsButtonWrapper">
-                            <Elements stripe={promise}>
-                              <CheckoutForm
-                                setProcessing={(value) => setProcessing(value)}
-                                processing={processing}
-                                clientSecret={props.clientSecret}
-                                email={props.user.email}
-                                succeeded={succeeded}
-                                update={ props?.user?.payment?.customerID && moment(props?.user?.payment?.subscription).diff(moment(), "days") < 1 ? true : false}
-                                setSucceeded={(value) => {
-                                  setSucceeded(value);
-                                  setTimeout(
-                                    () => props.fetchUpdatedUserData(props.user.email),
-                                    500
-                                  );
-                                }}
-                                fetchPaymentSubscription={props.fetchPaymentSubscription}
-                                user={props.user}
-                              />
-                            </Elements>
-                          </div>
+                          {
+                            props.user && props.user.payment ?
+                            (
+                              <div className="settingsButtonWrapper">
+                                <Elements stripe={promise}>
+                                  <CheckoutForm
+                                    setProcessing={(value) => setProcessing(value)}
+                                    processing={processing}
+                                    clientSecret={props.clientSecret}
+                                    email={props.user.email}
+                                    succeeded={succeeded}
+                                    update={ props?.user?.payment?.customerID && moment(props?.user?.payment?.subscription).diff(moment(), "days") < 1 ? true : false}
+                                    setSucceeded={(value) => {
+                                      setSucceeded(value);
+                                      setTimeout(
+                                        () => props.fetchUpdatedUserData(props.user.email),
+                                        500
+                                      );
+                                    }}
+                                    fetchPaymentSubscription={props.fetchPaymentSubscription}
+                                    user={props.user}
+                                  />
+                                </Elements>
+                              </div>
+                            ) : null
+                          }
                         </>
                         )}
                       </>

@@ -193,9 +193,18 @@ export default function CheckoutForm({
                                 glow
                                 handleGetMemberType={handleSelectPlan}
                                 update={update}
-                                pickedPlan={user.payment.subscriptionType === 'CL TEST'}
-                                endTime={user.payment.subscription}
-                                pickedInterval={user.payment.subscriptionInterval}
+                                pickedPlan={
+                                    !(
+                                        user &&
+                                        user.payment &&
+                                        user.payment.subscription &&
+                                        user.payment.canceled !== true && 
+                                        moment(user.payment.subscription).diff(moment(), "days") < 0 &&
+                                        user.payment.subscriptionType === 'CL AI'
+                                    )
+                                }
+                                endTime={user && user.payment && user.payment.subscription ? user.payment.subscription : ""}
+                                pickedInterval={user && user.payment && user.payment.subscriptionInterval ? user.payment.subscriptionInterval: "month"}
                                 showPickingStatus={showPickingStatus}
                                 hideButtons={hideButtons}
                                 showReactivateButton={showReactivateButton}
@@ -230,14 +239,17 @@ export default function CheckoutForm({
                                 handleGetMemberType={handleSelectPlan}
                                 update={update}
                                 pickedPlan={
-                                    !(user?.payment &&
-                                    user.payment.subscription &&
-                                    user.payment.canceled !== true && 
-                                    moment(user.payment.subscription).diff(moment(), "days") < 0) &&
-                                    user.payment.subscriptionType === 'CL AI'
+                                    !(
+                                        user &&
+                                        user.payment &&
+                                        user.payment.subscription &&
+                                        user.payment.canceled !== true && 
+                                        moment(user.payment.subscription).diff(moment(), "days") < 0 &&
+                                        user.payment.subscriptionType === 'CL AI'
+                                    )
                                 }
-                                endTime={user.payment.subscription}
-                                pickedInterval={user.payment.subscriptionInterval}
+                                endTime={user && user.payment && user.payment.subscription ? user.payment.subscription : ""}
+                                pickedInterval={user && user.payment && user.payment.subscriptionInterval ? user.payment.subscriptionInterval: "month"}
                                 pickingPlan={subscriptionType === 'CL AI'}
                                 pickingInterval={subscriptionInterval}
                                 showPickingStatus={showPickingStatus}
@@ -255,14 +267,17 @@ export default function CheckoutForm({
                                 handleGetMemberType={handleSelectPlan}
                                 update={update}
                                 pickedPlan={
-                                    !(user?.payment &&
-                                    user.payment.subscription &&
-                                    user.payment.canceled !== true && 
-                                    moment(user.payment.subscription).diff(moment(), "days") < 0) &&
-                                    user.payment.subscriptionType === 'CL AI+'
+                                    !(
+                                        user &&
+                                        user.payment &&
+                                        user.payment.subscription &&
+                                        user.payment.canceled !== true &&
+                                        moment(user.payment.subscription).diff(moment(), "days") < 0 &&
+                                        user.payment.subscriptionType === 'CL AI+'
+                                    )
                                 }
-                                endTime={user.payment.subscription}
-                                pickedInterval={user.payment.subscriptionInterval}
+                                endTime={user && user.payment && user.payment.subscription ? user.payment.subscription : ""}
+                                pickedInterval={user && user.payment && user.payment.subscriptionInterval ? user.payment.subscriptionInterval: "month"}
                                 pickingPlan={subscriptionType === 'CL AI+'}
                                 pickingInterval={subscriptionInterval}
                                 showPickingStatus={showPickingStatus}
