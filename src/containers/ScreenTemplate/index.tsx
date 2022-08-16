@@ -20,6 +20,7 @@ import Loader from "../../components/Loader";
 import {detectBrowser} from "../../helpers/validations";
 import moment from "moment";
 import SlackLogo from '../../assets/images/slack-logo-split.png';
+import ReactTooltip from "react-tooltip";
 
 function ScreenTemplate(props: any) {
     const history = useHistory();
@@ -144,7 +145,11 @@ function ScreenTemplate(props: any) {
                         right={
                             <div className="headerItemWrapper">
                                 {/* {(props.user?.payment?.price && props.user?.payment?.price > 100) || (props.user?.payment?.amount && props.user?.payment?.amount > 10000) && */}
-                                <div className="headerSlackInvitation" onClick={() => {
+                                <div
+                                    data-for="main"
+                                    data-tip="Available with upgrade to CLAI+ plan"
+                                    data-iscapture="true"
+                                    className="headerSlackInvitation" onClick={() => {
                                     if (props?.user?.payment?.subscriptionType === "CL AI+" && moment(props?.user?.payment?.subscription).diff(moment(), "days") > 0) {
                                         window.open("https://join.slack.com/t/chipleaderpremium/shared_invite/zt-r77vfd47-iF4Y575aNHhhw3ObHSX8lA", "_blank");
                                     }
@@ -161,6 +166,13 @@ function ScreenTemplate(props: any) {
                                     />
                                     <h5>CLAI+ Slack Channel</h5>
                                 </div>
+                                {
+                                    props?.user?.payment?.subscriptionType !== "CL AI+" ? (
+                                        <ReactTooltip
+                                            id="main"
+                                        />
+                                    ) : null
+                                }
                                 <div className="headerChipTicketWrapper">
                                     <div className="headerChipWrapper">
                                         <ChipItem icon="chip" quantity={(props.chips)} size="small"/>
