@@ -409,7 +409,7 @@ function Payment(props) {
                           fetchPaymentSubscription={props.fetchPaymentSubscription}
                           user={props.user}
                           showPickingStatus={true}
-                          hideButtons={true}
+                          hideButtons={false}
                         />
                       </Elements>
                     ) : (
@@ -1623,6 +1623,8 @@ function Payment(props) {
                                     }}
                                     fetchPaymentSubscription={props.fetchPaymentSubscription}
                                     user={props.user}
+                                    hideButtons={false}
+                                    showConfirmModal={false}
                                   />
                                 </Elements>
                               </div>

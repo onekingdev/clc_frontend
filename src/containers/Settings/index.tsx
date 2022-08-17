@@ -434,7 +434,6 @@ function Settings(props: any) {
                         showPickingStatus={true}
                         reactivateLoading={props.isFetchingAuthentication}
                         reactiveHandler={async () => {
-                          alert("A");
                           setSuccessMsg("");
                           const {success, data, message} = await props.reActiveSubscription()
                           if(success) setSuccessMsg("You have successfully reactivated.");
