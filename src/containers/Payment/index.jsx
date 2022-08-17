@@ -398,7 +398,7 @@ function Payment(props) {
                           clientSecret={props.clientSecret}
                           email={props.user.email}
                           succeeded={succeeded}
-                          update={ props?.user?.payment?.customerID && moment(props?.user?.payment?.subscription).diff(moment(), "days") < 1 ? true : false}
+                          update={props?.user?.payment?.customerID && moment(props?.user?.payment?.subscription).diff(moment(), "days") < 1 ? true : false}
                           setSucceeded={(value) => {
                             setSucceeded(value);
                             setTimeout(
@@ -410,6 +410,46 @@ function Payment(props) {
                           user={props.user}
                           showPickingStatus={true}
                           hideButtons={false}
+                          showReactivateButton={true}
+                          reactivateLoading={processing}
+                          reactiveHandler={async () => {
+                            setProcessing(true);
+                            let stripe = promise;
+                            console.log(props.user.payment);
+                            const res = await props.fetchPaymentSubscription(props.user.email, props.user.payment.paymentMethod, props.user.payment.subscriptionType, props.user.payment.subscriptionInterval, rewardfulId, true).catch(console.log);
+                            if (res.status === 'error') {
+                              setReactivateMsg(`Stripe configuration changed. Please contanct admin`);
+                            } 
+                            else if(res.status == "invalid_creditcard") {
+                                setReactivateMsg(`Invalid Credit Card or Network Connection Error`);
+                                setProcessing(false);
+                            }
+                            else if (res.status === 'requires_action') {
+                                stripe.confirmCardPayment(res.client_secret).then((result) => {
+                                    if (result.error) {
+                                      setReactivateMsg(`Payment failed ${result.error}`);
+                                        setProcessing(false);
+                                    } else {
+                                        setSucceeded(true)
+                                        setProcessing(false);
+                                        setReactivateMsg("Successfully reactivated.")
+                                        setTimeout(
+                                          () => props.fetchUpdatedUserData(props.user.email),
+                                          500
+                                        );
+                                    }
+                                });
+                            } else {
+                                setSucceeded(true)
+                                setProcessing(false);
+                                setReactivateMsg("Successfully reactivated.")
+                                setTimeout(
+                                  () => props.fetchUpdatedUserData(props.user.email),
+                                  500
+                                );
+                                trackEvent(`${props.user.payment.subscriptionType} plan purchased`)
+                            }
+                          }}
                         />
                       </Elements>
                     ) : (
