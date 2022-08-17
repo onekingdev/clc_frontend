@@ -193,8 +193,8 @@ function Home(props: any) {
             </div>
           </div>
           {props.events.length > 0 ? (
-            props.events.map((event: any) => (
-              <div className="homeMonthEventCardWrapper">
+            props.events.map((event: any, id: number) => (
+              <div key={id} className="homeMonthEventCardWrapper">
                 <MonthEventCard
                   width={width - 120 < 350 ? 350 : width - 190}
                   title={event.title}
