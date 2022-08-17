@@ -328,7 +328,7 @@ function Payment(props) {
                         processing={processing}
                         onSelectPlan={(value) => setShowRegisterModal(true)}
                         user={props.user}
-                      />
+                      /> 
                     </Elements>
                   </div>
                 </>
@@ -450,7 +450,7 @@ function Payment(props) {
                                 trackEvent(`${props.user.payment.subscriptionType} plan purchased`)
                             }
                           }}
-                          showConfirmModal={true}
+                          showConfirmModal={false}
                         />
                       </Elements>
                     ) : (
@@ -503,7 +503,7 @@ function Payment(props) {
                                     //   const {success, data, message} = await props.reActiveSubscription()
                                     //   // if(success) setSuccessMsg("You have successfully reactivated.");
                                     // }}
-                                    showConfirmModal={true}
+                                    showConfirmModal={false}
                                   />
                                 </Elements>
                               </div>) : null}
