@@ -22,6 +22,7 @@ interface ISuscriptionCard {
     showReactivateButton: boolean;
     reactivateLoading: boolean;
     reactiveHandler: () => {};
+    processing: boolean;
 }
 
 const SuscriptionCard : React.FC<ISuscriptionCard> = ({
@@ -41,6 +42,7 @@ const SuscriptionCard : React.FC<ISuscriptionCard> = ({
     showReactivateButton,
     reactivateLoading,
     reactiveHandler,
+    processing,
 }) =>  {
     
     return(
@@ -101,6 +103,7 @@ const SuscriptionCard : React.FC<ISuscriptionCard> = ({
                                     />
                                 ) : (
                                     <Button
+                                        loading={processing}
                                         onClick={() => {handleGetMemberType(value, 'month')}}
                                         width={150}
                                         height={42}
@@ -124,6 +127,7 @@ const SuscriptionCard : React.FC<ISuscriptionCard> = ({
                                     />
                                 ) : (
                                     <Button
+                                        loading={processing}
                                         onClick={() => { handleGetMemberType(value, 'year') }}
                                         width={150}
                                         height={42}

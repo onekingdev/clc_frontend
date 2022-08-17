@@ -450,6 +450,7 @@ function Payment(props) {
                                 trackEvent(`${props.user.payment.subscriptionType} plan purchased`)
                             }
                           }}
+                          showConfirmModal={true}
                         />
                       </Elements>
                     ) : (
@@ -502,7 +503,7 @@ function Payment(props) {
                                     //   const {success, data, message} = await props.reActiveSubscription()
                                     //   // if(success) setSuccessMsg("You have successfully reactivated.");
                                     // }}
-                                    showConfirmModal={false}
+                                    showConfirmModal={true}
                                   />
                                 </Elements>
                               </div>) : null}

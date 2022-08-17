@@ -210,6 +210,7 @@ export default function CheckoutForm({
                                 showReactivateButton={showReactivateButton}
                                 reactivateLoading={reactivateLoading}
                                 reactiveHandler={reactiveHandler}
+                                processing={processing}
                             />
                         </div>
                         :
@@ -257,6 +258,7 @@ export default function CheckoutForm({
                                 showReactivateButton={showReactivateButton}
                                 reactivateLoading={reactivateLoading}
                                 reactiveHandler={reactiveHandler}
+                                processing={processing}
                             />
                             <SuscriptionCard
                                 title="CL AI+"
@@ -285,6 +287,7 @@ export default function CheckoutForm({
                                 showReactivateButton={showReactivateButton}
                                 reactivateLoading={reactivateLoading}
                                 reactiveHandler={reactiveHandler}
+                                processing={processing}
                             />
                         </div>
                     }
