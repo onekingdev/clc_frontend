@@ -1,7 +1,7 @@
 import * as TYPES from './types';
 import {ILibraryList} from '../../interfaces';
 import api from '../../../../services/apiMiddleware';
-import {apiGetLibrary} from '../../../../helpers/constants';
+import {apiGetLibrary, apiWatchVideoLibrary} from '../../../../helpers/constants';
 
 export const clearLibraryData = () => {
     return {
@@ -45,3 +45,17 @@ export const fetchLibraryList = () => async(
     }
 }
 
+export const openVideoHandler = (id: number, userId: number) => async (
+    dispatch: (data: any) => void,
+    getDate: any
+) => {
+    try {
+        console.log(id, userId)
+        const result = await api.post(apiWatchVideoLibrary, { id: id, userId: userId });
+        console.log(result)
+    } catch (e: any) {
+        console.log("OpenVidoeHandler: ", e.message);
+    } finally {
+        // nothing
+    }
+}

@@ -11,6 +11,7 @@ export const apiCreateUser = "createUser";
 export const apiCheckDailyPassword = "checkDailyPassword"
 export const apiValidateCode = "validateCode";
 export const apiGetLibrary = "getLibrary";
+export const apiWatchVideoLibrary = "watchVideoLibrary";
 export const apiPathsEndpoint = "getPaths";
 export const apiSaveEarnings = "saveEarnings";
 export const apiGetQuestions = "getQuestions";

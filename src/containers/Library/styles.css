@@ -1,7 +1,15 @@
+.sortGrapWrapper {
+    display: flex;
+    gap: 16px;
+}
+
 .libraryTextWrapper {
     text-align: left;
     margin-left: 60px;
     margin-top: 33px;
+    display: flex;
+    align-items: center;
+    gap: 32px;
 }
 
 .libraryImageWrapper {

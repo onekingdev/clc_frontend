@@ -40,7 +40,7 @@ const Slider: React.FC<ISlider> = ({
 
         for (let i: number = 0; i < dotNum; i++) {
             dots.push(
-                <div className="sliderDots"
+                <div key={i} className="sliderDots"
                      onClick={() => setSelectedIndex(i)}
                      style={{
                          marginRight: '2px',

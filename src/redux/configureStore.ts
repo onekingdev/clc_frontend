@@ -14,7 +14,7 @@ const persistConfig = {
   whitelist: ["authState"], // which reducer want to store
 };
 
-const logger = createLogger();
+const logger = process.env.REACT_APP_NODE_ENV === "development" ? createLogger() : () => {};
 
 const promise = () => (next: any) => (action: any) =>
   typeof action.then === "function"
@@ -24,11 +24,11 @@ const promise = () => (next: any) => (action: any) =>
     : next(action);
 
 const enhancer = compose(
-    applyMiddleware(thunk, promise, logger),
-    // applyMiddleware(thunk, promise),
+    // applyMiddleware(thunk, promise, logger),
+    applyMiddleware(thunk, promise),
     // devTools({
     //     name: 'Chip Leader AI',
-    //     realtime: true,
+    //     realtime: true,    
     // }),
 );
 
