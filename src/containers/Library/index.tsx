@@ -58,7 +58,7 @@ function Library(props: any) {
                         // sortByNewest={sortByNewest}
                         // onChangeSortbyNewestHandler={onChangeSortbyNewestHandler}
                         isFetchingLibraryData={props.isFetchingLibraryData}
-                        openVideoHandler={(videoId) => props.openVideoHandler(videoId, props.user.id)}
+                        openVideoHandler={(videoId) => props.openVideoHandler(videoId, props.user.id, key)}
                         // width={width}
                     />
                     // <div className={Object.keys(content).length - 1 === index ? 'bottomPadding' : ''}>
@@ -106,7 +106,7 @@ const mapStateToProps = (state: any) => {
 const bindActions = (dispatch: any) => {
     return {
         fetchLibraryList: () => dispatch(ACTIONS.fetchLibraryList()),
-        openVideoHandler: (id: number, userId: number) => dispatch(ACTIONS.openVideoHandler(id, userId)),
+        openVideoHandler: (id: number, userId: number, key: string) => dispatch(ACTIONS.openVideoHandler(id, userId, key)),
     };
 };
 

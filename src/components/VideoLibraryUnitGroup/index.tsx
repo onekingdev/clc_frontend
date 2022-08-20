@@ -29,15 +29,10 @@ const VideoLibraryUnitGroup: React.FC<{
   const updateDimensions = () => {
       setWidth(window.innerWidth);
   }
-  const sortByWatchOption = ["Watched", "Unwatched"];
   const sortByNewestOption = ["Newest", "Oldest"];
 
-  const [sortByWatch, setSortByWatch] = useState("Watched");
   const [sortByNewest, setSortByNewest] = useState("Newest");
 
-  const onChangeSortbyWatchedHandler = (ev: any) => {
-      setSortByWatch(ev.target.value);
-  }
   const onChangeSortbyNewestHandler = (ev: any) => {
       setSortByNewest(ev.target.value);
   }
@@ -55,7 +50,8 @@ const VideoLibraryUnitGroup: React.FC<{
       });
       setViewItems(temp);
     }
-  }, [content[key], sortByWatch, sortByNewest]);
+  }, [content[key], sortByNewest]);
+  const [searchWord, setSearchHandler] = useState<string>("")
   return (
     <>
       <div className={Object.keys(content).length - 1 === index ? 'bottomPadding' : ''}>
@@ -66,16 +62,15 @@ const VideoLibraryUnitGroup: React.FC<{
                   {key.split(' ')[1] ? key.split(' ')[1].toUpperCase() : null}
               </SmallText>
               <div className="sortGrapWrapper">
-                  <select name="sortByWatch" id="" value={sortByWatch} onChange={onChangeSortbyWatchedHandler}>
-                      {sortByWatchOption.map((option, id) => (
-                          <option value={option} key={id}>{ option }</option>
-                      ))}
-                  </select>
                   <select name="sortByWatch" id="" value={sortByNewest} onChange={onChangeSortbyNewestHandler}>
                       {sortByNewestOption.map((option, id) => (
                           <option value={option} key={id}>{ option }</option>
                       ))}
                   </select>
+              </div>
+              <div className="sortGrapWrapper">
+                <input value={} style={{ height: "35px", borderRadius: "8px" }} />
+                <button onClick={searchHandler}>Search</button>
               </div>
           </div>
           <Slider
@@ -92,6 +87,7 @@ const VideoLibraryUnitGroup: React.FC<{
                     setShowModal({ show: true, url: item.url })
                     openVideoHandler(item.id);
                   }, 500)}
+                  watched={item.libraryWatchingStatus as boolean}
                 />
               ))}
               show={width < 650 ? 1 : width < 950 ? 2 : width < 1300 ? 3 : width < 1650 ? 4 : width < 2000 ? 5 : 6}

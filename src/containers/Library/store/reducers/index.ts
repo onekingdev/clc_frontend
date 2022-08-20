@@ -16,6 +16,18 @@ const reducer = (state = INITIAL_STATE, action: {type: string, payload: any}) =>
             return {...state, isFetchingLibraryData: action.payload};
         case TYPE.CLEAR_LIBRARY_DATA:
             return INITIAL_STATE;
+        case TYPE.SET_LIBRARY_WATCHING_STATUS:
+            return {
+                ...state,
+                libraryLists: {
+                    ...state.libraryLists,
+                    // @ts-ignore
+                    [action.payload.key as string]: state.libraryLists[action.payload.key].map((library: any) => library.id === action.payload.id ? ({
+                        ...library,
+                        libraryWatchingStatus: true
+                    }) : library)
+                }
+            }
         default:
             return state;
     }

@@ -27,3 +27,12 @@
     align-items: center;
     margin-bottom: 24px;
 }
+
+.watch-part {
+    position: absolute;
+    right: 24px;
+    bottom: 24px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}

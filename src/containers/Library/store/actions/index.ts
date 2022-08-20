@@ -23,6 +23,13 @@ export const setIsFetchingLibraryData = (data: boolean) => {
     }
 }
 
+export const setLibraryWatchinStatus = (payload: any) => {
+    return {
+        type: TYPES.SET_LIBRARY_WATCHING_STATUS,
+        payload: payload,
+    }
+}
+
 export const setLibraryList = (data: ILibraryList) => {
     return {
         type: TYPES.SET_LIBRARY_LIST,
@@ -45,13 +52,16 @@ export const fetchLibraryList = () => async(
     }
 }
 
-export const openVideoHandler = (id: number, userId: number) => async (
+export const openVideoHandler = (id: number, userId: number, key: string) => async (
     dispatch: (data: any) => void,
     getDate: any
 ) => {
     try {
         console.log(id, userId)
         const result = await api.post(apiWatchVideoLibrary, { id: id, userId: userId });
+        if (result.status === 201) {
+            dispatch(setLibraryWatchinStatus({id: id, key: key}))
+        }
         console.log(result)
     } catch (e: any) {
         console.log("OpenVidoeHandler: ", e.message);
