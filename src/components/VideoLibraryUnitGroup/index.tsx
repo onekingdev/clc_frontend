@@ -51,7 +51,13 @@ const VideoLibraryUnitGroup: React.FC<{
       setViewItems(temp);
     }
   }, [content[key], sortByNewest]);
-  const [searchWord, setSearchHandler] = useState<string>("")
+  const [searchWord, setSearchHandler] = useState<string>("");
+  const [filterWord, setFilterWord] = useState<string>("");
+  const filterHandler = () => {
+    if (filterWord !== searchWord) {
+      setFilterWord(searchWord);
+    }
+  };
   return (
     <>
       <div className={Object.keys(content).length - 1 === index ? 'bottomPadding' : ''}>
@@ -69,15 +75,15 @@ const VideoLibraryUnitGroup: React.FC<{
                   </select>
               </div>
               <div className="sortGrapWrapper">
-                <input value={} style={{ height: "35px", borderRadius: "8px" }} />
-                <button onClick={searchHandler}>Search</button>
+                <input value={searchWord} onChange={(e) => {setSearchHandler(e.target.value)}} style={{ height: "35px", borderRadius: "8px" }} />
+                <button onClick={filterHandler}>Search</button>
               </div>
           </div>
           <Slider
               loading={isFetchingLibraryData}
               marginClass="librarySliderCenterLoaderMargin"
               //@ts-ignore
-              content={viewItems.map((item: any) => (
+              content={viewItems.filter(item => filterWord === "" || item.title.toLowerCase().includes(filterWord.toLowerCase())).map((item: any) => (
                 <MediaCard
                   image={item.image}
                   duration={item.duration}

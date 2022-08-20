@@ -80,6 +80,9 @@ const MediaCard: React.FC<IMediaCard> = ({
     return (
         <div
             className="ripple mediaCardContainer"
+            style={{
+                height: watched === undefined ? 281 : 300
+            }}
             onClick={onClick}
             onMouseOver={() => setShowPlay(true)}
             onMouseLeave={() => setShowPlay(false)}>
