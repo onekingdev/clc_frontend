@@ -5,7 +5,9 @@ import SmallText from "../SmallText";
 import Modal from 'react-awesome-modal';
 import MediaCard from '../../components/MediaCard';
 import BigScreen from 'bigscreen';
-import {embedVideo} from "../../helpers/formatter";
+import { embedVideo } from "../../helpers/formatter";
+import './styles.css';
+import Select from "../Select";
 
 const VideoLibraryUnitGroup: React.FC<{
   content: any;
@@ -85,11 +87,22 @@ const VideoLibraryUnitGroup: React.FC<{
                   {key.split(' ')[1] ? key.split(' ')[1].toUpperCase() : null}
               </SmallText>
               <div className="sortGrapWrapper">
-                  <select name="sortByWatch" id="" value={sortByWatch} onChange={onChangeSortbyWatchHandler}>
-                      {sortByWatchOption.map((option, id) => (
-                          <option value={option} key={id}>{ option }</option>
-                      ))}
-                  </select>
+                {/* <Select
+                  options={[{
+                    text: "Watched",
+                    code: "Watched"
+                  }, {
+                    text: "Unwatched",
+                    code: "Unwatched"
+                  },]}
+                  activeOption={sortByWatch}
+                  changeHandler={onChangeSortbyWatchHandler}
+                /> */}
+                <select name="sortByWatch" id="" value={sortByWatch} onChange={onChangeSortbyWatchHandler}>
+                    {sortByWatchOption.map((option, id) => (
+                        <option value={option} key={id}>{ option }</option>
+                    ))}
+                </select>
               </div>
               <div className="sortGrapWrapper">
                   <select name="sortByNewest" id="" value={sortByNewest} onChange={onChangeSortbyNewestHandler}>
@@ -100,7 +113,7 @@ const VideoLibraryUnitGroup: React.FC<{
               </div>
               <div className="sortGrapWrapper">
                 <input value={searchWord} onChange={(e) => {setSearchHandler(e.target.value)}} style={{ height: "35px", borderRadius: "8px" }} />
-                <button onClick={filterHandler}>Search</button>
+                <button className="search-btn" onClick={filterHandler}>Search</button>
               </div>
           </div>
           <Slider
