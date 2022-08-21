@@ -36,21 +36,38 @@ const VideoLibraryUnitGroup: React.FC<{
   const onChangeSortbyNewestHandler = (ev: any) => {
       setSortByNewest(ev.target.value);
   }
+  const sortByWatchOption = ["Watched", "Unwatched"];
+
+  const [sortByWatch, setSortByWatch] = useState("Watched");
+
+  const onChangeSortbyWatchHandler = (ev: any) => {
+      setSortByWatch(ev.target.value);
+  }
   const [showModal, setShowModal] = useState({ show: false, url: '' });
   const [viewItems, setViewItems] = useState([]);
   useEffect(() => {
     if (content[key].length > 0) {
       let temp = content[key].map((item: any) => item)
-      temp.sort((item1: { createdAt: string }, item2: { createdAt: string }) => {
-        if (sortByNewest === "Newest") {
-          return (new Date(item1.createdAt).getTime() - new Date(item2.createdAt).getTime());
+      temp.sort((item1: { createdAt: string; libraryWatchingStatus: boolean; }, item2: { createdAt: string; libraryWatchingStatus: boolean; }) => {
+        const watching1 = item1.libraryWatchingStatus;
+        const watching2 = item2.libraryWatchingStatus;
+        if (watching1 === watching2) {
+          if (sortByNewest === "Newest") {
+            return (new Date(item1.createdAt).getTime() - new Date(item2.createdAt).getTime());
+          } else {
+            return (new Date(item2.createdAt).getTime() - new Date(item1.createdAt).getTime());
+          }
         } else {
-          return (new Date(item2.createdAt).getTime() - new Date(item1.createdAt).getTime());
+          if (sortByWatch === "Watched") {
+            return (watching1 ? 1 : 0) - (watching2 ? 1 : 0)
+          } else {
+            return (watching2 ? 1 : 0) - (watching1 ? 1 : 0)
+          }
         }
       });
       setViewItems(temp);
     }
-  }, [content[key], sortByNewest]);
+  }, [content[key], sortByNewest, sortByWatch]);
   const [searchWord, setSearchHandler] = useState<string>("");
   const [filterWord, setFilterWord] = useState<string>("");
   const filterHandler = () => {
@@ -68,7 +85,14 @@ const VideoLibraryUnitGroup: React.FC<{
                   {key.split(' ')[1] ? key.split(' ')[1].toUpperCase() : null}
               </SmallText>
               <div className="sortGrapWrapper">
-                  <select name="sortByWatch" id="" value={sortByNewest} onChange={onChangeSortbyNewestHandler}>
+                  <select name="sortByWatch" id="" value={sortByWatch} onChange={onChangeSortbyWatchHandler}>
+                      {sortByWatchOption.map((option, id) => (
+                          <option value={option} key={id}>{ option }</option>
+                      ))}
+                  </select>
+              </div>
+              <div className="sortGrapWrapper">
+                  <select name="sortByNewest" id="" value={sortByNewest} onChange={onChangeSortbyNewestHandler}>
                       {sortByNewestOption.map((option, id) => (
                           <option value={option} key={id}>{ option }</option>
                       ))}
