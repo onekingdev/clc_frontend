@@ -89,51 +89,64 @@ function Library(props: any) {
                 <button className="search-btn" onClick={filterHandler}>Search</button>
                 </div>
             </div>
-            {!!Object.keys(content).length ?
-                Object.keys(content).map((key: string, index) => 
+            {!!Object.keys(content).length ? (
+                <>
                     <VideoLibraryUnitGroup
-                        key={index}
                         content={content}
-                        _key={key}
-                        _index={index}
+                        _key={"Welcome"}
+                        _index={1}
                         // sortByWatch={sortByWatch}
                         // onChangeSortbyWatchedHandler={onChangeSortbyWatchedHandler}
                         // sortByNewest={sortByNewest}
                         // onChangeSortbyNewestHandler={onChangeSortbyNewestHandler}
                         isFetchingLibraryData={props.isFetchingLibraryData}
-                        openVideoHandler={(videoId) => props.openVideoHandler(videoId, props.user.id, key)}
+                        openVideoHandler={(videoId) => props.openVideoHandler(videoId, props.user.id, "Welcome")}
                         // width={width}
                     />
-                    // <div className={Object.keys(content).length - 1 === index ? 'bottomPadding' : ''}>
-                    //     <div className="libraryTextWrapper">
-                    //         <SmallText color="#FFF">
-                    //             <SmallText bold>{key.split(' ')[0].toUpperCase()}</SmallText>
-                    //             {' '}
-                    //             {key.split(' ')[1] ? key.split(' ')[1].toUpperCase() : null}
-                    //         </SmallText>
-                    //         <div className="sortGrapWrapper">
-                    //             <select name="sortByWatch" id="" value={sortByWatch} onChange={onChangeSortbyWatchedHandler}>
-                    //                 {sortByWatchOption.map((option, id) => (
-                    //                     <option value={option} key={id}>{ option }</option>
-                    //                 ))}
-                    //             </select>
-                    //             <select name="sortByWatch" id="" value={sortByNewest} onChange={onChangeSortbyNewestHandler}>
-                    //                 {sortByNewestOption.map((option, id) => (
-                    //                     <option value={option} key={id}>{ option }</option>
-                    //                 ))}
-                    //             </select>
-                    //         </div>
-                    //     </div>
-                    //     <Slider
-                    //         loading={props.isFetchingLibraryData}
-                    //         marginClass="librarySliderCenterLoaderMargin"
-                    //         //@ts-ignore
-                    //         content={content[key]}
-                    //         show={width < 650 ? 1 : width < 950 ? 2 : width < 1300 ? 3 : width < 1650 ? 4 : width < 2000 ? 5 : 6}
-                    //     />
-                    // </div>
-                )
-                : null}
+                    {Object.keys(content).map((key: string, index) => 
+                        key !== "Welcome" && <VideoLibraryUnitGroup
+                            key={index}
+                            content={content}
+                            _key={key}
+                            _index={index}
+                            // sortByWatch={sortByWatch}
+                            // onChangeSortbyWatchedHandler={onChangeSortbyWatchedHandler}
+                            // sortByNewest={sortByNewest}
+                            // onChangeSortbyNewestHandler={onChangeSortbyNewestHandler}
+                            isFetchingLibraryData={props.isFetchingLibraryData}
+                            openVideoHandler={(videoId) => props.openVideoHandler(videoId, props.user.id, key)}
+                            // width={width}
+                        />
+                        // <div className={Object.keys(content).length - 1 === index ? 'bottomPadding' : ''}>
+                        //     <div className="libraryTextWrapper">
+                        //         <SmallText color="#FFF">
+                        //             <SmallText bold>{key.split(' ')[0].toUpperCase()}</SmallText>
+                        //             {' '}
+                        //             {key.split(' ')[1] ? key.split(' ')[1].toUpperCase() : null}
+                        //         </SmallText>
+                        //         <div className="sortGrapWrapper">
+                        //             <select name="sortByWatch" id="" value={sortByWatch} onChange={onChangeSortbyWatchedHandler}>
+                        //                 {sortByWatchOption.map((option, id) => (
+                        //                     <option value={option} key={id}>{ option }</option>
+                        //                 ))}
+                        //             </select>
+                        //             <select name="sortByWatch" id="" value={sortByNewest} onChange={onChangeSortbyNewestHandler}>
+                        //                 {sortByNewestOption.map((option, id) => (
+                        //                     <option value={option} key={id}>{ option }</option>
+                        //                 ))}
+                        //             </select>
+                        //         </div>
+                        //     </div>
+                        //     <Slider
+                        //         loading={props.isFetchingLibraryData}
+                        //         marginClass="librarySliderCenterLoaderMargin"
+                        //         //@ts-ignore
+                        //         content={content[key]}
+                        //         show={width < 650 ? 1 : width < 950 ? 2 : width < 1300 ? 3 : width < 1650 ? 4 : width < 2000 ? 5 : 6}
+                        //     />
+                        // </div>
+                    )}
+                </>) : null}
         </ScreenTemplate>
     );
 }
