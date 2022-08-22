@@ -34,6 +34,26 @@ function Library(props: any) {
         }
     }, [props.libraryLists])
 
+    const sortByNewestOption = ["Newest", "Oldest"];
+    const [sortByNewest, setSortByNewest] = useState("Newest");
+    const onChangeSortbyNewestHandler = (ev: any) => {
+        setSortByNewest(ev.target.value);
+    }
+    const sortByWatchOption = ["Watched", "Unwatched"];
+
+    const [sortByWatch, setSortByWatch] = useState("Unwatched");
+
+    const onChangeSortbyWatchHandler = (ev: any) => {
+        setSortByWatch(ev.target.value);
+    }
+    const [searchWord, setSearchHandler] = useState<string>("");
+    const [filterWord, setFilterWord] = useState<string>("");
+    const filterHandler = () => {
+        props.fetchLibraryList(sortByNewest, sortByWatch)
+        // if (filterWord !== searchWord) {
+        //     setFilterWord(searchWord);
+        // }
+    };
 
     return (
         <ScreenTemplate>
@@ -46,6 +66,29 @@ function Library(props: any) {
                     <PulseLoader color="#FFF" loading={true}/>
                 </div>
             : null}
+            <div className="filterWrapper">
+                <div className="sortGrapWrapper">
+                    <select name="sortByWatch" id="" value={sortByWatch} onChange={onChangeSortbyWatchHandler}>
+                        {sortByWatchOption.map((option, id) => (
+                            <option value={option} key={id}>{ option }</option>
+                        ))}
+                    </select>
+                </div>
+                {
+                    sortByWatch === "Unwatched" && 
+                    <div className="sortGrapWrapper">
+                        <select name="sortByNewest" id="" value={sortByNewest} onChange={onChangeSortbyNewestHandler}>
+                            {sortByNewestOption.map((option, id) => (
+                                <option value={option} key={id}>{ option }</option>
+                            ))}
+                        </select>
+                    </div>
+                }
+                <div className="sortGrapWrapper">
+                {/* <input value={searchWord} onChange={(e) => {setSearchHandler(e.target.value)}} style={{ height: "35px", borderRadius: "8px" }} /> */}
+                <button className="search-btn" onClick={filterHandler}>Search</button>
+                </div>
+            </div>
             {!!Object.keys(content).length ?
                 Object.keys(content).map((key: string, index) => 
                     <VideoLibraryUnitGroup
@@ -105,7 +148,7 @@ const mapStateToProps = (state: any) => {
 
 const bindActions = (dispatch: any) => {
     return {
-        fetchLibraryList: () => dispatch(ACTIONS.fetchLibraryList()),
+        fetchLibraryList: (sortByNewest?: string, sortByWatch?: string) => dispatch(ACTIONS.fetchLibraryList(sortByNewest, sortByWatch)),
         openVideoHandler: (id: number, userId: number, key: string) => dispatch(ACTIONS.openVideoHandler(id, userId, key)),
     };
 };

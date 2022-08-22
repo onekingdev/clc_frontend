@@ -23,3 +23,11 @@
     margin-top: 160px;
     margin-bottom: 159px;
 }
+
+.filterWrapper {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding-left: 6rem;
+    padding-right: 6rem;
+}

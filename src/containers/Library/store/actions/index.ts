@@ -37,13 +37,13 @@ export const setLibraryList = (data: ILibraryList) => {
     };
 }
 
-export const fetchLibraryList = () => async(
+export const fetchLibraryList = (sortByNewest?: string, sortByWatch?: string) => async(
     dispatch: (data: any) => void,
     getState: any,
 ) => {
     try {
         dispatch(setIsFetchingLibraryData(true));
-        const list = await api.get(apiGetLibrary);
+        const list = await api.get(apiGetLibrary + `?sortByNewest=${sortByNewest}&sortByWatch=${sortByWatch}`);
         dispatch(setLibraryList(list));
     } catch (e) {
         setLibraryCode(e);
