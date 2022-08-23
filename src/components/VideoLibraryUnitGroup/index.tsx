@@ -7,7 +7,7 @@ import MediaCard from '../../components/MediaCard';
 import BigScreen from 'bigscreen';
 import { embedVideo } from "../../helpers/formatter";
 import './styles.css';
-import Select from "../Select";
+import Select from "../DropDown";
 
 const VideoLibraryUnitGroup: React.FC<{
   content: any;

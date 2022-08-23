@@ -9,8 +9,13 @@ import SmallText from '../../components/SmallText';
 import libraryBg from '../../assets/images/libraryBg.png';
 import * as ACTIONS from './store/actions';
 import {DotLoader, PulseLoader} from "react-spinners";
-import 'react-dropdown/style.css';
 import VideoLibraryUnitGroup from '../../components/VideoLibraryUnitGroup';
+import Box from '@mui/material/Box';
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import Select, { SelectChangeEvent } from '@mui/material/Select';
+import { TextField } from '@mui/material';
 
 function Library(props: any) {
     const [content, setContent] = useState({});
@@ -27,7 +32,9 @@ function Library(props: any) {
             Object.keys(props.libraryLists).forEach((key) => {
                 obj[key] = [];
                 props.libraryLists[key].sort((video1: any, video2: any) => video1.createdAt - video2.createdAt).forEach((item: any) => {
-                    obj[key].push(item)
+                    if (item.title.toLowerCase().includes(searchWord.toLowerCase())) {
+                        obj[key].push(item)
+                    }
                 })
             })
             setContent(obj);
@@ -35,13 +42,13 @@ function Library(props: any) {
     }, [props.libraryLists])
 
     const sortByNewestOption = ["Newest", "Oldest"];
-    const [sortByNewest, setSortByNewest] = useState("Newest");
+    const [sortByNewest, setSortByNewest] = useState("");
     const onChangeSortbyNewestHandler = (ev: any) => {
         setSortByNewest(ev.target.value);
     }
     const sortByWatchOption = ["Watched", "Unwatched"];
 
-    const [sortByWatch, setSortByWatch] = useState("Unwatched");
+    const [sortByWatch, setSortByWatch] = useState("");
 
     const onChangeSortbyWatchHandler = (ev: any) => {
         setSortByWatch(ev.target.value);
@@ -55,6 +62,11 @@ function Library(props: any) {
         // }
     };
 
+    const [age, setAge] = React.useState('');
+    const handleChange = (event: SelectChangeEvent) => {
+        setAge(event.target.value as string);
+    };
+    
     return (
         <ScreenTemplate>
             <Banner topText="Lesson library" title="Video Library"/>
@@ -68,24 +80,60 @@ function Library(props: any) {
             : null}
             <div className="filterWrapper">
                 <div className="sortGrapWrapper">
-                    <select name="sortByWatch" id="" value={sortByWatch} onChange={onChangeSortbyWatchHandler}>
+                    <Box sx={{ minWidth: 180 }}>
+                        <FormControl fullWidth className="filter-container">
+                            <InputLabel className="filter-label" id="demo-videos-select-label">Videos</InputLabel>
+                            <Select
+                                className="filter-select"
+                                labelId="demo-videos-select-label"
+                                id="demo-videos-select"
+                                value={sortByWatch}
+                                label="Videos"
+                                onChange={onChangeSortbyWatchHandler}
+                            >
+                            {
+                                sortByWatchOption.map((option, id) => (
+                                    <MenuItem key={id} value={option}>{option}</MenuItem>
+                                ))
+                            }
+                            </Select>
+                        </FormControl>
+                    </Box>
+                    {/* <select name="sortByWatch" id="" value={sortByWatch} onChange={onChangeSortbyWatchHandler}>
                         {sortByWatchOption.map((option, id) => (
                             <option value={option} key={id}>{ option }</option>
                         ))}
-                    </select>
+                    </select> */}
                 </div>
-                {
-                    sortByWatch === "Unwatched" && 
-                    <div className="sortGrapWrapper">
-                        <select name="sortByNewest" id="" value={sortByNewest} onChange={onChangeSortbyNewestHandler}>
-                            {sortByNewestOption.map((option, id) => (
-                                <option value={option} key={id}>{ option }</option>
-                            ))}
-                        </select>
-                    </div>
-                }
                 <div className="sortGrapWrapper">
-                {/* <input value={searchWord} onChange={(e) => {setSearchHandler(e.target.value)}} style={{ height: "35px", borderRadius: "8px" }} /> */}
+                    <Box sx={{ minWidth: 180 }}>
+                        <FormControl fullWidth className="filter-container">
+                            <InputLabel className="filter-label" id="demo-videos-select-label">Sort by date</InputLabel>
+                            <Select
+                                className="filter-select"
+                                labelId="demo-videos-select-label"
+                                id="demo-videos-select"
+                                value={sortByNewest}
+                                label="Videos"
+                                onChange={onChangeSortbyNewestHandler}
+                            >
+                            {
+                                sortByNewestOption.map((option, id) => (
+                                    <MenuItem key={id} value={option}>{option}</MenuItem>
+                                ))
+                            }
+                            </Select>
+                        </FormControl>
+                    </Box>
+                    {/* <select name="sortByNewest" id="" value={sortByNewest} onChange={onChangeSortbyNewestHandler}>
+                        {sortByNewestOption.map((option, id) => (
+                            <option value={option} key={id}>{ option }</option>
+                        ))}
+                    </select> */}
+                </div>
+                <div className="sortGrapWrapper">
+                <TextField className="filter-search" id="outlined-basic" label="Search word" variant="outlined" value={searchWord} onChange={(e) => {setSearchHandler(e.target.value)}} />
+                {/* <input value={searchWord} onChange={(e) => {setSearchHandler(e.target.value)}} style={{ height: "40px", borderRadius: "8px" }} /> */}
                 <button className="search-btn" onClick={filterHandler}>Search</button>
                 </div>
             </div>

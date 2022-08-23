@@ -30,4 +30,37 @@
     gap: 1rem;
     padding-left: 6rem;
     padding-right: 6rem;
+    /* background: white; */
+}
+
+.filter-container {
+    border: 1px solid #E8BA73 !important;
+    border-radius: 4px;
+}
+
+#demo-videos-select {
+    text-align: left;
+}
+
+.filter-label {
+    color: #E8BA73 !important;
+    background: black !important;
+}
+
+.filter-select > div {
+    color: white;
+}
+
+
+.filter-search {
+    border: 1px solid #E8BA73 !important;
+    border-radius: 4px;
+}
+
+.filter-search > label {
+    color: #E8BA73 !important;
+}
+
+.filter-search input {
+    color: #E8BA73 !important;
 }
