@@ -81,7 +81,7 @@ function Library(props: any) {
             <div className="filterWrapper">
                 <div className="sortGrapWrapper">
                     <Box sx={{ minWidth: 180 }}>
-                        <FormControl fullWidth className="filter-container">
+                        <FormControl size="small" fullWidth className="filter-container">
                             <InputLabel className="filter-label" id="demo-videos-select-label">Videos</InputLabel>
                             <Select
                                 className="filter-select"
@@ -107,10 +107,9 @@ function Library(props: any) {
                 </div>
                 <div className="sortGrapWrapper">
                     <Box sx={{ minWidth: 180 }}>
-                        <FormControl fullWidth className="filter-container">
+                        <FormControl size="small" fullWidth className="filter-container">
                             <InputLabel className="filter-label" id="demo-videos-select-label">Sort by date</InputLabel>
                             <Select
-                                
                                 className="filter-select"
                                 labelId="demo-videos-select-label"
                                 id="demo-videos-select"
@@ -133,9 +132,9 @@ function Library(props: any) {
                     </select> */}
                 </div>
                 <div className="sortGrapWrapper">
-                <TextField className="filter-search" id="outlined-basic" label="Search by name" variant="outlined" value={searchWord} onChange={(e) => {setSearchHandler(e.target.value)}} />
-                {/* <input value={searchWord} onChange={(e) => {setSearchHandler(e.target.value)}} style={{ height: "40px", borderRadius: "8px" }} /> */}
-                <button className="search-btn" onClick={filterHandler}>Search</button>
+                    <TextField size="small" className="filter-search" id="outlined-basic" label="Search by name" variant="outlined" value={searchWord} onChange={(e) => { setSearchHandler(e.target.value) }} />
+                    {/* <input value={searchWord} onChange={(e) => {setSearchHandler(e.target.value)}} style={{ height: "40px", borderRadius: "8px" }} /> */}
+                    <button className="search-btn" onClick={filterHandler}>Search</button>
                 </div>
             </div>
             {!!Object.keys(content).length ? (
