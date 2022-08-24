@@ -17,6 +17,7 @@ interface IMediaCard {
     link?: boolean,
     loading?: boolean,
     watched?: boolean,
+    clickCheckBox: (_value: boolean) => void,
 }
 
 const MediaCard: React.FC<IMediaCard> = ({
@@ -27,7 +28,8 @@ const MediaCard: React.FC<IMediaCard> = ({
     onClick,
     link,
     loading,
-    watched
+    watched,
+    clickCheckBox
 }) =>  {
     const [showPlay, setShowPlay] = useState(false);
     const [count, setCount] = useState(0);
@@ -117,22 +119,24 @@ const MediaCard: React.FC<IMediaCard> = ({
                 {renderRippleSpan()}
             </div>
             {watched !== undefined ? 
-            <div className="watch-part">
-                {watched ? (<>
+                <div className="watch-part" onClick={(e) => {
+                    e.stopPropagation()
+                    clickCheckBox(!watched)
+                }} >
                     <span style={{ "color": "white" }}>Watched</span> 
-                    <svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <rect x="1" y="1" width="23" height="23" rx="4" fill="#E8BA73"/>
-                        <path d="M7.77041 14.1025C7.32995 13.4008 6.4041 13.1891 5.70247 13.6296C5.00084 14.07 4.78912 14.9959 5.22959 15.6975L7.77041 14.1025ZM8.75997 18.5L7.48955 19.2975C7.74685 19.7074 8.18607 19.9679 8.6691 19.9972C9.15214 20.0266 9.61964 19.821 9.92461 19.4453L8.75997 18.5ZM19.6646 7.44531C20.1867 6.80209 20.0885 5.85743 19.4453 5.33536C18.8021 4.81328 17.8574 4.91148 17.3354 5.55469L19.6646 7.44531ZM5.22959 15.6975L7.48955 19.2975L10.0304 17.7025L7.77041 14.1025L5.22959 15.6975ZM9.92461 19.4453L19.6646 7.44531L17.3354 5.55469L7.59532 17.5547L9.92461 19.4453Z" fill="#698A42"/>
-                        <rect x="1" y="1" width="23" height="23" rx="4" stroke="#E8BA73" stroke-width="2"/>
-                    </svg>
-                </>) : (<>
-                    <span style={{ "color": "white" }}>Watch</span> 
-                    <svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <rect x="1" y="1" width="23" height="23" rx="4" fill="#15171A"/>
-                        <rect x="1" y="1" width="23" height="23" rx="4" stroke="#E8BA73" stroke-width="2"/>
-                    </svg>
-                </>)}
-            </div> : null}
+                    {watched ? (<>
+                        <svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <rect x="1" y="1" width="23" height="23" rx="4" fill="#E8BA73"/>
+                            <path d="M7.77041 14.1025C7.32995 13.4008 6.4041 13.1891 5.70247 13.6296C5.00084 14.07 4.78912 14.9959 5.22959 15.6975L7.77041 14.1025ZM8.75997 18.5L7.48955 19.2975C7.74685 19.7074 8.18607 19.9679 8.6691 19.9972C9.15214 20.0266 9.61964 19.821 9.92461 19.4453L8.75997 18.5ZM19.6646 7.44531C20.1867 6.80209 20.0885 5.85743 19.4453 5.33536C18.8021 4.81328 17.8574 4.91148 17.3354 5.55469L19.6646 7.44531ZM5.22959 15.6975L7.48955 19.2975L10.0304 17.7025L7.77041 14.1025L5.22959 15.6975ZM9.92461 19.4453L19.6646 7.44531L17.3354 5.55469L7.59532 17.5547L9.92461 19.4453Z" fill="#698A42"/>
+                            <rect x="1" y="1" width="23" height="23" rx="4" stroke="#E8BA73" stroke-width="2"/>
+                        </svg>
+                    </>) : (<>
+                        <svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <rect x="1" y="1" width="23" height="23" rx="4" fill="#15171A"/>
+                            <rect x="1" y="1" width="23" height="23" rx="4" stroke="#E8BA73" stroke-width="2"/>
+                        </svg>
+                    </>)}
+                </div> : null}
         </div>
     );
 }

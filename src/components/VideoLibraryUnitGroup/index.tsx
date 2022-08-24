@@ -18,7 +18,7 @@ const VideoLibraryUnitGroup: React.FC<{
   // sortByNewest: string;
   // onChangeSortbyNewestHandler: (ev: any) => void;
   isFetchingLibraryData: boolean;
-  openVideoHandler: (id: number) => void;
+  openVideoHandler: (id: number, _watched: boolean) => void;
   // width: number;
 }> = ({ content, _key: key, _index: index, isFetchingLibraryData, openVideoHandler }) => {
   const [width, setWidth] = useState(window.innerWidth);
@@ -80,8 +80,8 @@ const VideoLibraryUnitGroup: React.FC<{
                     description={item.description}
                     onClick={() => setTimeout(() => {
                       setShowModal({ show: true, url: item.url })
-                      openVideoHandler(item.id);
                     }, 500)}
+                    clickCheckBox={(_newWatched) => openVideoHandler(item.id, _newWatched)}
                     watched={item.libraryWatchingStatus as boolean}
                   />
                 ))}

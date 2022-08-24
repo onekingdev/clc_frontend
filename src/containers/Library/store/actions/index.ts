@@ -52,14 +52,14 @@ export const fetchLibraryList = (sortByNewest?: string, sortByWatch?: string, us
     }
 }
 
-export const openVideoHandler = (id: number, userId: number, key: string) => async (
+export const openVideoHandler = (id: number, userId: number, key: string, watched: boolean) => async (
     dispatch: (data: any) => void,
     getDate: any
 ) => {
     try {
-        const result = await api.post(apiWatchVideoLibrary, { id: id, userId: userId });
-        if (result.status === 201) {
-            dispatch(setLibraryWatchinStatus({id: id, key: key}))
+        const result = await api.post(apiWatchVideoLibrary, { id: id, userId: userId, watched: watched });
+        if (result.status === 201 || result.status === 200) {
+            dispatch(setLibraryWatchinStatus({id: id, key: key, watched: watched}))
         }
     } catch (e: any) {
         console.log("OpenVidoeHandler: ", e.message);

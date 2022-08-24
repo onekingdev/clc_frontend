@@ -91,7 +91,7 @@ function Library(props: any) {
                         // sortByNewest={sortByNewest}
                         // onChangeSortbyNewestHandler={onChangeSortbyNewestHandler}
                         isFetchingLibraryData={props.isFetchingLibraryData}
-                        openVideoHandler={(videoId) => props.openVideoHandler(videoId, props.user.id, "Welcome")}
+                        openVideoHandler={(videoId, watched) => props.openVideoHandler(videoId, props.user.id, "Welcome", watched)}
                         // width={width}
                     />
                     <div className="filterWrapper">
@@ -164,7 +164,7 @@ function Library(props: any) {
                             // sortByNewest={sortByNewest}
                             // onChangeSortbyNewestHandler={onChangeSortbyNewestHandler}
                             isFetchingLibraryData={props.isFetchingLibraryData}
-                            openVideoHandler={(videoId) => props.openVideoHandler(videoId, props.user.id, key)}
+                            openVideoHandler={(videoId, watched) => props.openVideoHandler(videoId, props.user.id, key, watched)}
                             // width={width}
                         />
                         // <div className={Object.keys(content).length - 1 === index ? 'bottomPadding' : ''}>
@@ -212,7 +212,7 @@ const mapStateToProps = (state: any) => {
 const bindActions = (dispatch: any) => {
     return {
         fetchLibraryList: (sortByNewest?: string, sortByWatch?: string, userId?: string) => dispatch(ACTIONS.fetchLibraryList(sortByNewest, sortByWatch, userId)),
-        openVideoHandler: (id: number, userId: number, key: string) => dispatch(ACTIONS.openVideoHandler(id, userId, key)),
+        openVideoHandler: (id: number, userId: number, key: string, watched: boolean) => dispatch(ACTIONS.openVideoHandler(id, userId, key, watched)),
     };
 };
 

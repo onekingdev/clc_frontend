@@ -24,7 +24,7 @@ const reducer = (state = INITIAL_STATE, action: {type: string, payload: any}) =>
                     // @ts-ignore
                     [action.payload.key as string]: state.libraryLists[action.payload.key].map((library: any) => library.id === action.payload.id ? ({
                         ...library,
-                        libraryWatchingStatus: true
+                        libraryWatchingStatus: action.payload.watched
                     }) : library)
                 }
             }
