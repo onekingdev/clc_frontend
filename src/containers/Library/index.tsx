@@ -66,7 +66,7 @@ function Library(props: any) {
     const handleChange = (event: SelectChangeEvent) => {
         setAge(event.target.value as string);
     };
-    
+
     return (
         <ScreenTemplate>
             <Banner topText="Lesson library" title="Video Library"/>
@@ -78,65 +78,6 @@ function Library(props: any) {
                     <PulseLoader color="#FFF" loading={true}/>
                 </div>
             : null}
-            <div className="filterWrapper">
-                <div className="sortGrapWrapper">
-                    <Box sx={{ minWidth: 180 }}>
-                        <FormControl size="small" fullWidth className="filter-container">
-                            <InputLabel className="filter-label" id="demo-videos-select-label">Videos</InputLabel>
-                            <Select
-                                className="filter-select"
-                                labelId="demo-videos-select-label"
-                                id="demo-videos-select"
-                                value={sortByWatch}
-                                label="Videos"
-                                onChange={onChangeSortbyWatchHandler}
-                            >
-                            {
-                                sortByWatchOption.map((option, id) => (
-                                    <MenuItem key={id} value={option}>{option}</MenuItem>
-                                ))
-                            }
-                            </Select>
-                        </FormControl>
-                    </Box>
-                    {/* <select name="sortByWatch" id="" value={sortByWatch} onChange={onChangeSortbyWatchHandler}>
-                        {sortByWatchOption.map((option, id) => (
-                            <option value={option} key={id}>{ option }</option>
-                        ))}
-                    </select> */}
-                </div>
-                <div className="sortGrapWrapper">
-                    <Box sx={{ minWidth: 180 }}>
-                        <FormControl size="small" fullWidth className="filter-container">
-                            <InputLabel className="filter-label" id="demo-videos-select-label">Sort by date</InputLabel>
-                            <Select
-                                className="filter-select"
-                                labelId="demo-videos-select-label"
-                                id="demo-videos-select"
-                                value={sortByNewest}
-                                label="Videos"
-                                onChange={onChangeSortbyNewestHandler}
-                            >
-                            {
-                                sortByNewestOption.map((option, id) => (
-                                    <MenuItem key={id} value={option}>{option}</MenuItem>
-                                ))
-                            }
-                            </Select>
-                        </FormControl>
-                    </Box>
-                    {/* <select name="sortByNewest" id="" value={sortByNewest} onChange={onChangeSortbyNewestHandler}>
-                        {sortByNewestOption.map((option, id) => (
-                            <option value={option} key={id}>{ option }</option>
-                        ))}
-                    </select> */}
-                </div>
-                <div className="sortGrapWrapper">
-                    <TextField size="small" className="filter-search" id="outlined-basic" label="Search by name" variant="outlined" value={searchWord} onChange={(e) => { setSearchHandler(e.target.value) }} />
-                    {/* <input value={searchWord} onChange={(e) => {setSearchHandler(e.target.value)}} style={{ height: "40px", borderRadius: "8px" }} /> */}
-                    <button className="search-btn" onClick={filterHandler}>Search</button>
-                </div>
-            </div>
             {!!Object.keys(content).length ? (
                 <>
                     <VideoLibraryUnitGroup
@@ -151,6 +92,65 @@ function Library(props: any) {
                         openVideoHandler={(videoId) => props.openVideoHandler(videoId, props.user.id, "Welcome")}
                         // width={width}
                     />
+                    <div className="filterWrapper">
+                        <div className="sortGrapWrapper">
+                            <Box sx={{ minWidth: 100 }}>
+                                <FormControl size="small" fullWidth className="filter-container">
+                                    <InputLabel className="filter-label" id="demo-videos-select-label">Videos</InputLabel>
+                                    <Select
+                                        className="filter-select"
+                                        labelId="demo-videos-select-label"
+                                        id="demo-videos-select"
+                                        value={sortByWatch}
+                                        label="Videos"
+                                        onChange={onChangeSortbyWatchHandler}
+                                    >
+                                    {
+                                        sortByWatchOption.map((option, id) => (
+                                            <MenuItem key={id} value={option}>{option}</MenuItem>
+                                        ))
+                                    }
+                                    </Select>
+                                </FormControl>
+                            </Box>
+                            {/* <select name="sortByWatch" id="" value={sortByWatch} onChange={onChangeSortbyWatchHandler}>
+                                {sortByWatchOption.map((option, id) => (
+                                    <option value={option} key={id}>{ option }</option>
+                                ))}
+                            </select> */}
+                        </div>
+                        <div className="sortGrapWrapper">
+                            <Box sx={{ minWidth: 100 }}>
+                                <FormControl size="small" fullWidth className="filter-container">
+                                    <InputLabel className="filter-label" id="demo-videos-select-label">Sort by date</InputLabel>
+                                    <Select
+                                        className="filter-select"
+                                        labelId="demo-videos-select-label"
+                                        id="demo-videos-select"
+                                        value={sortByNewest}
+                                        label="Videos"
+                                        onChange={onChangeSortbyNewestHandler}
+                                    >
+                                    {
+                                        sortByNewestOption.map((option, id) => (
+                                            <MenuItem key={id} value={option}>{option}</MenuItem>
+                                        ))
+                                    }
+                                    </Select>
+                                </FormControl>
+                            </Box>
+                            {/* <select name="sortByNewest" id="" value={sortByNewest} onChange={onChangeSortbyNewestHandler}>
+                                {sortByNewestOption.map((option, id) => (
+                                    <option value={option} key={id}>{ option }</option>
+                                ))}
+                            </select> */}
+                        </div>
+                        <div className="sortGrapWrapper">
+                            <TextField size="small" className="filter-search" id="outlined-basic" label="Search by name" variant="outlined" value={searchWord} onChange={(e) => { setSearchHandler(e.target.value) }} />
+                            {/* <input value={searchWord} onChange={(e) => {setSearchHandler(e.target.value)}} style={{ height: "40px", borderRadius: "8px" }} /> */}
+                            <button className="search-btn" onClick={filterHandler}>Search</button>
+                        </div>
+                    </div>
                     {Object.keys(content).map((key: string, index) => 
                         key !== "Welcome" && <VideoLibraryUnitGroup
                             key={index}

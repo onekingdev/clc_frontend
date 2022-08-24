@@ -35,6 +35,7 @@
 
 .filter-container {
     border-radius: 4px;
+    width: 130px !important;
 }
 
 .filter-container fieldset {
@@ -52,6 +53,7 @@
 .filter-label {
     color: white !important;
     background: black !important;
+    font-size: 11px;
 }
 
 .filter-select > div {
@@ -79,6 +81,7 @@ select {
 .filter-search {
     /* border: 1px solid #E8BA73 !important; */
     border-radius: 4px;
+    width: 150px !important;
 }
 
 .filter-search fieldset {
