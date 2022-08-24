@@ -37,13 +37,13 @@ export const setLibraryList = (data: ILibraryList) => {
     };
 }
 
-export const fetchLibraryList = (sortByNewest?: string, sortByWatch?: string) => async(
+export const fetchLibraryList = (sortByNewest?: string, sortByWatch?: string, userId?: string) => async(
     dispatch: (data: any) => void,
     getState: any,
 ) => {
     try {
         dispatch(setIsFetchingLibraryData(true));
-        const list = await api.get(apiGetLibrary + `?sortByNewest=${sortByNewest}&sortByWatch=${sortByWatch}`);
+        const list = await api.get(apiGetLibrary + `?sortByNewest=${sortByNewest}&sortByWatch=${sortByWatch}&userId=${userId}`);
         dispatch(setLibraryList(list));
     } catch (e) {
         setLibraryCode(e);
@@ -57,12 +57,10 @@ export const openVideoHandler = (id: number, userId: number, key: string) => asy
     getDate: any
 ) => {
     try {
-        console.log(id, userId)
         const result = await api.post(apiWatchVideoLibrary, { id: id, userId: userId });
         if (result.status === 201) {
             dispatch(setLibraryWatchinStatus({id: id, key: key}))
         }
-        console.log(result)
     } catch (e: any) {
         console.log("OpenVidoeHandler: ", e.message);
     } finally {

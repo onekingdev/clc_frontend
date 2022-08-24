@@ -21,8 +21,10 @@ function Library(props: any) {
     const [content, setContent] = useState({});
 
     useEffect(() => {
-        props.fetchLibraryList();
-    }, []);
+        if (props.user.id) {
+            props.fetchLibraryList(undefined, undefined, props.user.id);
+        }
+    }, [props.user.id]);
 
     useEffect(() => {
         let obj: any = {};
@@ -56,7 +58,7 @@ function Library(props: any) {
     const [searchWord, setSearchHandler] = useState<string>("");
     const [filterWord, setFilterWord] = useState<string>("");
     const filterHandler = () => {
-        props.fetchLibraryList(sortByNewest, sortByWatch)
+        props.fetchLibraryList(sortByNewest, sortByWatch, props.user.id)
         // if (filterWord !== searchWord) {
         //     setFilterWord(searchWord);
         // }
@@ -209,7 +211,7 @@ const mapStateToProps = (state: any) => {
 
 const bindActions = (dispatch: any) => {
     return {
-        fetchLibraryList: (sortByNewest?: string, sortByWatch?: string) => dispatch(ACTIONS.fetchLibraryList(sortByNewest, sortByWatch)),
+        fetchLibraryList: (sortByNewest?: string, sortByWatch?: string, userId?: string) => dispatch(ACTIONS.fetchLibraryList(sortByNewest, sortByWatch, userId)),
         openVideoHandler: (id: number, userId: number, key: string) => dispatch(ACTIONS.openVideoHandler(id, userId, key)),
     };
 };
