@@ -103,7 +103,7 @@ const SuscriptionCard : React.FC<ISuscriptionCard> = ({
                                     />
                                 ) : (
                                     <Button
-                                        loading={processing}
+                                        // loading={processing}
                                         onClick={() => {handleGetMemberType(value, 'month')}}
                                         width={150}
                                         height={42}
@@ -127,7 +127,7 @@ const SuscriptionCard : React.FC<ISuscriptionCard> = ({
                                     />
                                 ) : (
                                     <Button
-                                        loading={processing}
+                                        // loading={processing}
                                         onClick={() => { handleGetMemberType(value, 'year') }}
                                         width={150}
                                         height={42}
