@@ -30,6 +30,13 @@ export const setLibraryWatchinStatus = (payload: any) => {
     }
 }
 
+export const setLibraryWatchingStatusLoading = (payload: any) => {
+    return {
+        type: TYPES.SET_LIBRARY_WATCHING_STATUS_LOADING,
+        payload: payload,
+    }
+}
+
 export const setLibraryList = (data: ILibraryList) => {
     return {
         type: TYPES.SET_LIBRARY_LIST,
@@ -57,6 +64,7 @@ export const openVideoHandler = (id: number, userId: number, key: string, watche
     getDate: any
 ) => {
     try {
+        dispatch(setLibraryWatchingStatusLoading({id: id, key: key}))
         const result = await api.post(apiWatchVideoLibrary, { id: id, userId: userId, watched: watched });
         if (result.status === 201 || result.status === 200) {
             dispatch(setLibraryWatchinStatus({id: id, key: key, watched: watched}))

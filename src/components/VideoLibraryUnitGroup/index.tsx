@@ -83,6 +83,7 @@ const VideoLibraryUnitGroup: React.FC<{
                     }, 500)}
                     clickCheckBox={(_newWatched) => openVideoHandler(item.id, _newWatched)}
                     watched={item.libraryWatchingStatus as boolean}
+                    watch_loading={item.loading as boolean}
                   />
                 ))}
                 show={width < 650 ? 1 : width < 950 ? 2 : width < 1300 ? 3 : width < 1650 ? 4 : width < 2000 ? 5 : 6}

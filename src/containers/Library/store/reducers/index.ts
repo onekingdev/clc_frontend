@@ -24,7 +24,20 @@ const reducer = (state = INITIAL_STATE, action: {type: string, payload: any}) =>
                     // @ts-ignore
                     [action.payload.key as string]: state.libraryLists[action.payload.key].map((library: any) => library.id === action.payload.id ? ({
                         ...library,
+                        loading: false,
                         libraryWatchingStatus: action.payload.watched
+                    }) : library)
+                }
+            }
+        case TYPE.SET_LIBRARY_WATCHING_STATUS_LOADING:
+            return {
+                ...state,
+                libraryLists: {
+                    ...state.libraryLists,
+                    // @ts-ignore
+                    [action.payload.key as string]: state.libraryLists[action.payload.key].map((library: any) => library.id === action.payload.id ? ({
+                        ...library,
+                        loading: true,
                     }) : library)
                 }
             }

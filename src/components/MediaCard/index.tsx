@@ -17,7 +17,8 @@ interface IMediaCard {
     link?: boolean,
     loading?: boolean,
     watched?: boolean,
-    clickCheckBox: (_value: boolean) => void,
+    clickCheckBox?: (_value: boolean) => void,
+    watch_loading?: boolean,
 }
 
 const MediaCard: React.FC<IMediaCard> = ({
@@ -29,7 +30,8 @@ const MediaCard: React.FC<IMediaCard> = ({
     link,
     loading,
     watched,
-    clickCheckBox
+    clickCheckBox,
+    watch_loading,
 }) =>  {
     const [showPlay, setShowPlay] = useState(false);
     const [count, setCount] = useState(0);
@@ -121,9 +123,12 @@ const MediaCard: React.FC<IMediaCard> = ({
             {watched !== undefined ? 
                 <div className="watch-part" onClick={(e) => {
                     e.stopPropagation()
-                    clickCheckBox(!watched)
+                    if (watch_loading) return
+                    if (clickCheckBox !== undefined) {
+                        clickCheckBox(!watched)
+                    }
                 }} >
-                    <span style={{ "color": "white" }}>Watched</span> 
+                    {watch_loading ? <span style={{ "color": "white" }}>Loading</span> : <span style={{ "color": "white" }}>Watched</span>}
                     {watched ? (<>
                         <svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <rect x="1" y="1" width="23" height="23" rx="4" fill="#E8BA73"/>
